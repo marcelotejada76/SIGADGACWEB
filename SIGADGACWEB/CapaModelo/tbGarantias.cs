@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CapaModelo
 {
-   public class tbGarantias
+    public class tbGarantias
     {
         public string Ruc { get; set; }
         public string NumeroGarantia { get; set; }
@@ -25,6 +25,13 @@ namespace CapaModelo
         public decimal Valor_Garantia { get; set; }
         public string Observaciones { get; set; }
 
-        
+        public string Usuario_Creacion { get; set; }
+        public string Fecha_Creacion { get; set; }
+        public string Hora_Creacion { get; set; }
+
+        public string Usuario_Modificacion { get; set; }
+        public string Fecha_Modificacion { get; set; }
+        public string Hora_Modificacion { get; set; }
+
     }
 }

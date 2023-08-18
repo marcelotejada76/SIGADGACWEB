@@ -49,30 +49,23 @@
 
 <div class="container-fluid">
 
-
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-9">
+                    <h3 class="fw-bolder m-0 text-gray-800">
+                       Detalle Garantías
+                    </h3>
+                </div>
+                <div class="col-md-12">
+                    <a class="btn btn-success" href="ListadoGarantias">Listado Garantias</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="card-body border-top p-9">
-            @*<div class="row">
-                <div class="col-sm-4">
-                   
-                    <div class="col-xl-1">
-                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Ruc</label></div>
-                    </div>
-                    <div class="col-xl-9 fv-row">
-                        <input class="form-control form-control-solid" value="@Model.Ruc" readonly="readonly" />
-                    </div>
-                </div>
-                <div class="col-sm-8">
-
-                    <div class="col-xl-9">
-                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Numero Garantia</label></div>
-                    </div>
-                    <div class="col-xl-9 fv-row">
-                        <input class="form-control form-control-solid" value="@Model.NumeroGarantia" readonly="readonly" />
-                    </div>
-                </div>
-            </div>*@
 
             <div class="row mb-8">
                 <div class="col-sm-3">
@@ -100,42 +93,168 @@
                 </div>
             </div>
 
-
-
-
-            @*<div class="row">
-            <div class="col-sm-3">
-                <div class="form-group">
-                    <label for="IdClase">Clase</label>
-                    @Html.DropDownList("IdClase", ViewData["ListaClase"] as SelectList, "Seleccionar", htmlAttributes: new { @class = "form-control select2", @required = "required", @readonly = "readonly", @disabled = "disabled" })
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Expedición</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Fecha_Expedicion" readonly="readonly" />
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="IdCiudadOrigen">Origen</label>
-                    @Html.DropDownList("IdCiudadOrigen", ViewData["ListaCiudad"] as SelectList, "Seleccionar", htmlAttributes: new { @class = "form-control select2", @required = "required", @readonly = "readonly", @disabled = "disabled" })
-
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Administrador Contrato</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Administrador_Contrato" readonly="readonly" />
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="IdCiudadDestino">Destino</label>
-                    @Html.DropDownList("IdCiudadDestino", ViewData["ListaCiudad"] as SelectList, "Seleccionar", htmlAttributes: new { @class = "form-control select2", @required = "required", @readonly = "readonly", @disabled = "disabled" })
-
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Tipo Garantía</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Tipo_Garantia" readonly="readonly" />
                 </div>
             </div>
-        </div>*@
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Concepto Garantia</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Concepto_Garantia" readonly="readonly" />
+                </div>
+            </div>
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Ruc Cia. Seguros</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Ruc_Cia_Seguros" readonly="readonly" />
+                </div>
+            </div>
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Razon Social Cia. Seguros</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Razon_Social_Aseguradora" readonly="readonly" />
+                </div>
+            </div>
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Vigencia Desde</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Vigencia_Desde" readonly="readonly" />
+                </div>
+            </div>
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Vigencia Hasta</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Vigencia_Hasta" readonly="readonly" />
+                </div>
+            </div>
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label> Dias a Caducar</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Dias_a_Caducar" readonly="readonly" />
+                </div>
+            </div>
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Seguro de</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Seguro_de" readonly="readonly" />
+                </div>
+            </div>
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Estado</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Estado" readonly="readonly" />
+                </div>
+            </div>
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Valor Garantía</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Valor_Garantia" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="row mb-8">
+                <div class="col-sm-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Observaciones</label></div>
+                </div>
+                <div class="col-sm-8 fv-row">
+                    <input class="form-control form-control-solid" value="@Model.Observaciones" readonly="readonly" />
+                </div>
+            </div>
 
         </div>
-        @*<div class="col-sm-4">
-                <div class="form-group">
-                    <div class="fs-6 fw-bold mt-2 mb-3">
-                        <label asp-for="FechaHoraModificacion">Fecha Modificación </label>
-                        <input asp-for="FechaHoraModificacion" class="form-control" readonly="readonly" />
-                    </div>
-                </div>
-            </div>*@
+
     </div>
+
+    <hr />
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <div class="fs-6 fw-bold mt-2 mb-3">
+                    <label>Usuario Creación </label>
+                    <input class="form-control" value="@Model.Usuario_Creacion" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <div class="fs-6 fw-bold mt-2 mb-3">
+                    <label>Fecha Creación </label>
+                    <input class="form-control" value="@Model.Fecha_Creacion" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <div class="fs-6 fw-bold mt-2 mb-3">
+                    <label>Hora Creación </label>
+                    <input class="form-control" value="@Model.Hora_Creacion" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <div class="fs-6 fw-bold mt-2 mb-3">
+                    <label>Usuario Modificación </label>
+                    <input class="form-control" value="@Model.Usuario_Modificacion" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <div class="fs-6 fw-bold mt-2 mb-3">
+                    <label>Fecha Modificación </label>
+                    <input class="form-control" value="@Model.Fecha_Modificacion" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <div class="fs-6 fw-bold mt-2 mb-3">
+                    <label>Hora Modificación </label>
+                    <input class="form-control" value="@Model.Hora_Modificacion" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
 
 </div>
 

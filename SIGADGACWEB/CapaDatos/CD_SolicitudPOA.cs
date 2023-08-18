@@ -36,8 +36,8 @@ namespace CapaDatos
             try
             {
                 sbSol.Append("SELECT ifnull(rtrim(ltrim(SOLAN1)), '') as AnioSolicitud, ifnull(SOLNU3, 0) as NumeroSolicitud, ifnull(rtrim(ltrim(SOLFE6)), '') as FechaSolicitud, ifnull(rtrim(ltrim(SOLTIP)), '') as TipoSolicitud, ifnull(rtrim(ltrim(SOLES6)), '') AS EstadoSolicitud, ");
-                sbSol.Append(" ifnull(rtrim(ltrim(SOLFE9)), '') as FechaRevision,  ifnull(rtrim(ltrim(SOLES7)), '') as EstadoAutorizacion, ifnull(rtrim(ltrim(SOLF01)), '') as FechaAprobacion, ifnull(SOLNU6, 0) as NumeroModificacion ");
-                sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
+                sbSol.Append(" ifnull(rtrim(ltrim(SOLFE9)), '') as FechaRevision,  ifnull(rtrim(ltrim(SOLES7)), '') as EstadoAutorizacion, ifnull(rtrim(ltrim(SOLF01)), '') as FechaAprobacion, ifnull(SOLNU6, 0) as NumeroModificacion, ifnull(rtrim(ltrim(SOLCO4)), '') as CodigoUnidadEjecucion ,  ifnull(rtrim(ltrim(SOLCO5)), '') as CodigoDireccionPYGE ");
+                sbSol.Append("FROM SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 iDB2Command cmd;
 
@@ -50,14 +50,16 @@ namespace CapaDatos
                     {
                         tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
                         oSolicitud.AnioSolicitud = dr["AnioSolicitud"].ToString();
-                        oSolicitud.NumeroSolicitud = decimal.Parse(dr["NumeroSolicitud"].ToString());
+                        oSolicitud.NumeroSolicitud = Int32.Parse(dr["NumeroSolicitud"].ToString());
                         oSolicitud.FechaSolicitud = dr["FechaSolicitud"].ToString();
                         oSolicitud.TipoSolicitud = dr["TipoSolicitud"].ToString();
                         oSolicitud.EstadoSolicitud = dr["EstadoSolicitud"].ToString();
                         oSolicitud.FechaRevision = dr["FechaRevision"].ToString();
                         oSolicitud.EstadoAutorizacion = dr["EstadoAutorizacion"].ToString();
                         oSolicitud.FechaAprobacion = dr["FechaAprobacion"].ToString();
-                        oSolicitud.NumeroModificacion = decimal.Parse(dr["NumeroModificacion"].ToString());
+                        oSolicitud.NumeroModificacion = Int32.Parse(dr["NumeroModificacion"].ToString());
+                        oSolicitud.CodigoUnidadEjecucion = dr["CodigoUnidadEjecucion"].ToString();
+                        oSolicitud.CodigoDireccionPYGE = dr["CodigoDireccionPYGE"].ToString();
                         listarSolicitud.Add(oSolicitud);
                     }
                 }

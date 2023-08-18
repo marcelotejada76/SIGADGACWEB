@@ -43,11 +43,13 @@ namespace CapaDatos
                     "     when FGASEG = '2' then 'BUEN USO DE ANTICIPO'     when FGASEG = '3' then 'RESPONSABILIDAD CIVIL'" +
                     "     when FGASEG = '4' then 'RESPONSABILIDAD CIVIL SEGURIDAD' END AS  SEGURO_DE, case when FGAEST = '1' then 'VIGENTE'" +
                     "     when FGAEST = '2' then 'VENCIDA'     when FGAEST = '3' then 'EJECUTADA'     when FGAEST = '4' then 'FINALIZADA'END AS ESTADO," +
-                    "FGAVAL  AS VALOR_GARANTIA,CONCAT(FGAOBS, CONCAT(FGAOB1, CONCAT(FGAOB2, FGAOB3))) AS OBSERVACIONES " +
+                    "FGAVAL  AS VALOR_GARANTIA,CONCAT(FGAOBS, CONCAT(FGAOB1, CONCAT(FGAOB2, FGAOB3))) AS OBSERVACIONES,FGAUSE AS USUARIOCR,FGADAT AS FECHACR,FGAHOR AS HORACR," +
+                    "FGAUS1 AS USUARIOMD,FGADA1 AS FECHAMD,FGAHO1 AS HORAMD  " +
                     "FROM DGACDATPRO.FGAARC INNER JOIN DGACDATPRO.FCOARC ON FGARU1=FCORUC");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 iDB2Command cmd;
+                
 
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
                 {
@@ -76,6 +78,13 @@ namespace CapaDatos
                         oSolicitud.Estado = dr["ESTADO"].ToString();
                         oSolicitud.Valor_Garantia = decimal.Parse(dr["VALOR_GARANTIA"].ToString());
                         oSolicitud.Observaciones = dr["OBSERVACIONES"].ToString();
+                        oSolicitud.Usuario_Creacion = dr["USUARIOCR"].ToString();
+                        oSolicitud.Fecha_Creacion = dr["FECHACR"].ToString();
+                        oSolicitud.Hora_Creacion = dr["HORACR"].ToString();
+                        oSolicitud.Usuario_Modificacion = dr["USUARIOMD"].ToString();
+                        oSolicitud.Fecha_Modificacion = dr["FECHAMD"].ToString();
+                        oSolicitud.Hora_Modificacion = dr["HORAMD"].ToString();
+
                         listarSolicitud.Add(oSolicitud);
                     }
                 }
@@ -104,7 +113,8 @@ namespace CapaDatos
                     "     when FGASEG = '2' then 'BUEN USO DE ANTICIPO'     when FGASEG = '3' then 'RESPONSABILIDAD CIVIL'" +
                     "     when FGASEG = '4' then 'RESPONSABILIDAD CIVIL SEGURIDAD' END AS  SEGURO_DE, case when FGAEST = '1' then 'VIGENTE'" +
                     "     when FGAEST = '2' then 'VENCIDA'     when FGAEST = '3' then 'EJECUTADA'     when FGAEST = '4' then 'FINALIZADA'END AS ESTADO," +
-                    "FGAVAL  AS VALOR_GARANTIA,CONCAT(FGAOBS, CONCAT(FGAOB1, CONCAT(FGAOB2, FGAOB3))) AS OBSERVACIONES " +
+                    "FGAVAL  AS VALOR_GARANTIA,CONCAT(FGAOBS, CONCAT(FGAOB1, CONCAT(FGAOB2, FGAOB3))) AS OBSERVACIONES, FGAUSE AS USUARIOCR,FGADAT AS FECHACR,FGAHOR AS HORACR," +
+                    "FGAUS1 AS USUARIOMD,FGADA1 AS FECHAMD,FGAHO1 AS HORAMD  " + 
                     "FROM DGACDATPRO.FGAARC INNER JOIN DGACDATPRO.FCOARC ON FGARU1=FCORUC where FGARUC='"+Ruc+"'");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
@@ -137,7 +147,13 @@ namespace CapaDatos
                         oSolicitud.Estado = dr["ESTADO"].ToString();
                         oSolicitud.Valor_Garantia = decimal.Parse(dr["VALOR_GARANTIA"].ToString());
                         oSolicitud.Observaciones = dr["OBSERVACIONES"].ToString();
-                       // listarSolicitud.Add(oSolicitud);
+                        oSolicitud.Usuario_Creacion = dr["USUARIOCR"].ToString();
+                        oSolicitud.Fecha_Creacion = dr["FECHACR"].ToString();
+                        oSolicitud.Hora_Creacion = dr["HORACR"].ToString();
+                        oSolicitud.Usuario_Modificacion = dr["USUARIOMD"].ToString();
+                        oSolicitud.Fecha_Modificacion = dr["FECHAMD"].ToString();
+                        oSolicitud.Hora_Modificacion = dr["HORAMD"].ToString();
+                        // listarSolicitud.Add(oSolicitud);
                     }
                 }
 

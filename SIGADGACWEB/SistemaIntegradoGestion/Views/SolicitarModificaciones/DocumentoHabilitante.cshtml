@@ -1,50 +1,28 @@
-﻿
+﻿@model IEnumerable<SistemaIntegradoGestion.Models.ModelArchivo>
 @{
     ViewBag.Title = "DocumentoHabilitante";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    /*Here We will add some css for style our treeview*/
-    .collapse {
-        width: 15px;
-        background-image: url('../Images/ui-icons_454545_256x240.png');
-        background-repeat: no-repeat;
-        background-position: -36px -17px;
-        display: inline-block;
-        cursor: pointer;
-    }
-
-    .expand {
-        width: 15px;
-        background-image: url('../Images/ui-icons_454545_256x240.png');
-        background-repeat: no-repeat;
-        background-position: -50px -17px;
-        display: inline-block;
-        cursor: pointer;
-    }
-
-    .treeview ul {
-        font: 14px Arial, Sans-Serif;
-        margin: 0px;
-        padding-left: 20px;
-        list-style: none;
-    }
-
-    .treeview > li > a {
-        font-weight: bold;
-    }
-
-    .treeview li {
-    }
-
-        .treeview li a {
-            padding: 4px;
-            font-size: 12px;
-            display: inline-block;
-            text-decoration: none;
-            width: auto;
-        }
-</style>
+<link href="~/Content/TreeView/jquery.treeview.css" rel="stylesheet" />
+<link href="~/Content/TreeView/screen.css" rel="stylesheet" />
+@*<script src="~/Content/TreeView/jquery.cookie.js"></script>*@
+<script src="~/Content/TreeView/jquery.treeview.js"></script>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Cargar Documentos Habilitantes</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="">@TempData["TituloActionResul"].ToString() </a></li>
+                    <li class="breadcrumb-item active">DocumentoHabilitante</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
 
 <div class="container-fluid">
     <div class="row">
@@ -52,51 +30,82 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-body p-0">
-                        <h2>Simple Treeview from Database Data</h2>
-                        <div style="border:solid 1px black; padding:10px; background-color:#FAFAFA">
-                            <div class="treeview">
-                                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                                            <p>
-                                                Dashboard
-                                                <i class="right fas fa-angle-left"></i>
-                                            </p>
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item">
-                                                <a href="../../index.html" class="nav-link">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    <p>Dashboard v1</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="../../index2.html" class="nav-link">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    <p>Dashboard v2</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="../../index3.html" class="nav-link">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    <p>Dashboard v3</p>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                        @using (Html.BeginForm("DocumentoHabilitante", "SolicitarModificaciones", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+                        {
+                            <input type="hidden" id="Directory" name="Directory" value="@ViewBag.DireccionDirectory" />
+                            <ul id="browser" class="nav nav-pills flex-column filetree treeview-famfamfam">
+                                <li class="nav-item active">
+                                    <span class="folder">@ViewBag.DireccionDirectory</span>
+                                </li>
+                                <li class="nav-item">
+                                    <div class="form-group row">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="documentFile" name="documentFile">
+                                            <label class="custom-file-label" for="documentFile">No se ha seleccionado ningún archivo.</label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item active">
+                                    <button type="button" id="btnEnviar" class="btn btn-outline-primary float-right">Grabar anexo</button>
+                                </li>
+                            </ul>
+                        }
 
+
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-9">
             <div class="card">
                 <div class="card-body">
+                    <table id="tbExploradorArchivos" class="table table-bordered table-hover table-sm" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Fecha de modificación</th>
+                                <th>Tipo</th>
+                                <th>Tamaño</th>
+                                <th colspan="2"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NombreArchivo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaModificacion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tipo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tamano)
+                                </td>
+                                <td>
+                                    <a id="eliminar" href="@Url.Action("DocumentoHabilitante", "SolicitarModificaciones")">
+                                        <i>
+                                            <img src="~/Content/imganes/eliminar1.png" style="width:25px" />
+                                        </i>
+                                        Eliminar
+                                    </a>
+                                </td>
+                                <td>
+                                    <a id="descargar" href="@Url.Action("DocumentoHabilitante", "SolicitarModificaciones")">
+                                        <i>
+                                            <img src="~/Content/imganes/dowload1.png" style="width:25px" />
+                                        </i>
+                                        Descargar
+                                    </a>
+                                </td>
 
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -106,9 +115,13 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            
+            $('#btnEnviar').click(function () {
+                $("#registerForm").submit();
+            });
         })
-
+        $(function () {
+            bsCustomFileInput.init();
+        });
     </script>
 }
 

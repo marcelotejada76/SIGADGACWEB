@@ -147,6 +147,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelArchivo.cs" />
     <Compile Include="Models\ModelLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reporte\ReportViewer.aspx.cs">
@@ -335,8 +336,11 @@
     <Content Include="Content\imganes\consultar-documento.png" />
     <Content Include="Content\imganes\dctCancelado.png" />
     <Content Include="Content\imganes\documento aceptar.png" />
+    <Content Include="Content\imganes\dowload.png" />
+    <Content Include="Content\imganes\dowload1.png" />
     <Content Include="Content\imganes\editar-documento.png" />
     <Content Include="Content\imganes\eliminar.png" />
+    <Content Include="Content\imganes\eliminar1.png" />
     <Content Include="Content\imganes\enviar.png" />
     <Content Include="Content\imganes\escudo-ecuador.jpg" />
     <Content Include="Content\imganes\espacio.png" />
@@ -2238,6 +2242,26 @@
     <Content Include="Content\Plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\Plugins\uplot\uPlot.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\TreeView\images\ajax-loader.gif" />
+    <Content Include="Content\TreeView\images\file.gif" />
+    <Content Include="Content\TreeView\images\folder-closed.gif" />
+    <Content Include="Content\TreeView\images\folder.gif" />
+    <Content Include="Content\TreeView\images\minus.gif" />
+    <Content Include="Content\TreeView\images\plus.gif" />
+    <Content Include="Content\TreeView\images\treeview-black-line.gif" />
+    <Content Include="Content\TreeView\images\treeview-black.gif" />
+    <Content Include="Content\TreeView\images\treeview-default-line.gif" />
+    <Content Include="Content\TreeView\images\treeview-default.gif" />
+    <Content Include="Content\TreeView\images\treeview-famfamfam-line.gif" />
+    <Content Include="Content\TreeView\images\treeview-famfamfam.gif" />
+    <Content Include="Content\TreeView\images\treeview-gray-line.gif" />
+    <Content Include="Content\TreeView\images\treeview-gray.gif" />
+    <Content Include="Content\TreeView\images\treeview-red-line.gif" />
+    <Content Include="Content\TreeView\images\treeview-red.gif" />
+    <Content Include="Content\TreeView\jquery.cookie.js" />
+    <Content Include="Content\TreeView\jquery.treeview.css" />
+    <Content Include="Content\TreeView\jquery.treeview.js" />
+    <Content Include="Content\TreeView\screen.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\bootstrap-grid.css.map" />

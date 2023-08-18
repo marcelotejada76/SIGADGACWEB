@@ -10,6 +10,8 @@ namespace SistemaIntegradoGestion.Controllers
 {
     public class GarantiasController : Controller
     {
+
+        //cambio git
         private static tbUsuario SesionUsuario;
         // GET: SolicitarModificaciones
         public ActionResult AfectacionPresupuestaria()

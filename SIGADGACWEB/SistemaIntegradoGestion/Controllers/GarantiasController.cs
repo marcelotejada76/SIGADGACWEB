@@ -10,9 +10,9 @@ namespace SistemaIntegradoGestion.Controllers
 {
     public class GarantiasController : Controller
     {
-      /// <summary>
-      /// cambio por github
-      /// </summary>
+        /// <summary>
+        /// cambio por github
+        /// </summary>
         private static tbUsuario SesionUsuario;
         // GET: SolicitarModificaciones
         public ActionResult AfectacionPresupuestaria()
@@ -22,6 +22,11 @@ namespace SistemaIntegradoGestion.Controllers
 
             return View();
         }
+
+        /// <summary>
+        /// Accion gf
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AsignacionRecursos()
         {
             if (Session["Usuario"] == null)
@@ -38,12 +43,12 @@ namespace SistemaIntegradoGestion.Controllers
             List<tbGarantias> listado = new List<tbGarantias>();
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
-           // string cAnio = oSistema.FechaSistema.Substring(0, 4);
+            // string cAnio = oSistema.FechaSistema.Substring(0, 4);
             listado = CD_Garantias.Instancia.DetalleGarantias();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
             return View(listado);
         }
 
-        public ActionResult DetalleGarantia( string Ruc)
+        public ActionResult DetalleGarantia(string Ruc)
         {
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");

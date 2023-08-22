@@ -9,7 +9,7 @@ namespace CapaModelo
    public class tbSolicitudPOA
     {
         public string AnioSolicitud { get; set; }
-        public decimal NumeroSolicitud { get; set; }
+        public Int32 NumeroSolicitud { get; set; }
         public string FechaSolicitud { get; set; }
         public string TipoSolicitud { get; set; }
         public string EstadoSolicitud { get; set; }
@@ -26,7 +26,7 @@ namespace CapaModelo
         public string ObservacionAutorizacion2 { get; set; }
         public decimal NumeroCUR { get; set; }
         public string FechaCUR { get; set; }
-        public decimal NumeroModificacion { get; set; }
+        public Int32 NumeroModificacion { get; set; }
         public string FechaAutualizaModificacion { get; set; }
         public string UsuarioCreaAnalista { get; set; }
         public string FechaCreaAnalista { get; set; }

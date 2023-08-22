@@ -34,6 +34,7 @@ namespace CapaModelo
         public string FechaModificacion { get; set; }
         public string HoraModificacion { get; set; }
         public string DispositivoModificacion { get; set; }
+        public string DescripcionSubSistema { get; set; }
         public tbRol oRol { get; set; }        
     }
 }

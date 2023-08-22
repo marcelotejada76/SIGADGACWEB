@@ -45,8 +45,8 @@ namespace CapaDatos
             sb.Append(" ifnull(rtrim(ltrim(USUIDE)), '') as IdentificacionTributaria, ifnull(rtrim(ltrim(USUNUM)), '') as NumeroRuc, ifnull(rtrim(ltrim(USUUSU)), '') as UsuarioCreacion, ifnull(rtrim(ltrim(USUFEC)), '') as FechaCreacion,");
             sb.Append(" ifnull(rtrim(ltrim(USUHOR)), '') as HoraCreacion , ifnull(rtrim(ltrim(USUDIS)), '') as DispositivoCreacion, ifnull(rtrim(ltrim(USUUS1)), '') as UsuarioModificacion, ifnull(rtrim(ltrim(USUFE1)), '') as FechaModificacion,");
             sb.Append(" ifnull(rtrim(ltrim(USUHO1)), '') as HoraModificacion, ifnull(rtrim(ltrim(USUDI1)), '') as DispositivoModificacion, ifnull(rtrim(ltrim(USUCO1)), '') as CodigoSubsistema, ifnull(rtrim(ltrim(USUCO2)), '') as CodigoGestion,");
-            sb.Append(" ifnull(rtrim(ltrim(USUCO3)), '') as CodigoModulo, ifnull(rtrim(ltrim(USUCO4)), '') as CodigoRol, ifnull(rtrim(ltrim(USUCO5)), '') as CodigoCiudad, ifnull(rtrim(ltrim(USUCO6)), '') as CodigoDependencia");
-            sb.Append(" FROM USUARC WHERE USUCOD = '"+ codigoUsuario.ToUpper() + "'");
+            sb.Append(" ifnull(rtrim(ltrim(USUCO3)), '') as CodigoModulo, ifnull(rtrim(ltrim(USUCO4)), '') as CodigoRol, ifnull(rtrim(ltrim(USUCO5)), '') as CodigoCiudad, ifnull(rtrim(ltrim(USUCO6)), '') as CodigoDependencia, ifnull(rtrim(ltrim(SUBDES)), '') AS DescripcionSubSistema");
+            sb.Append(" FROM USUARC LEFT JOIN SUBAR2 ON (USUCO1 = SUBCOD) WHERE USUCOD = '" + codigoUsuario.ToUpper() + "'");
             query = sb.ToString();
             iDB2Command cmd;
             try
@@ -86,7 +86,8 @@ namespace CapaDatos
                         oUsuario.CodigoRol = dr["CodigoRol"].ToString();
                         oUsuario.CodigoCiudad = dr["CodigoCiudad"].ToString();
                         oUsuario.CodigoDependencia = dr["CodigoDependencia"].ToString();
-                       // oUsuario.oMenu = CD_Menu.Instancia.GetMenuPorCodigo(oUsuario.CodigoUsuario);
+                        oUsuario.DescripcionSubSistema = dr["DescripcionSubSistema"].ToString();
+                        // oUsuario.oMenu = CD_Menu.Instancia.GetMenuPorCodigo(oUsuario.CodigoUsuario);
                     }
                     dr.Close();
                 }

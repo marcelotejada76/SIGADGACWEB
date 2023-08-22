@@ -140,6 +140,10 @@
     <script type="text/javascript">
 
         $.extend({ MisUrls: { url: {}, urls: function (a) { $.extend($.MisUrls.url, a); } } });
+
+
+        $.MisUrls.urls({ _EliminaArchivo: '@Url.Action("EliminarDocumento", "SolicitarModificaciones")' });
+        
         //lenguaje español datatable
         $.MisUrls.urls({ Url_datatable_spanish: '@Url.Content("~/Content/plugins/datatables/datatable_spanish.json")' });
 

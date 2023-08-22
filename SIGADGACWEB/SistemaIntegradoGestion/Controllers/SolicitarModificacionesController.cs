@@ -25,8 +25,10 @@ namespace SistemaIntegradoGestion.Controllers
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             string cAnio = oSistema.FechaSistema.Substring(0, 4);
             listado = CD_SolicitudPOA.Instancia.SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MOD");
-            TempData["ActionResul"] = "AfectacionPresupuestaria";
-            TempData["TituloActionResul"] = "Afectación presupuestaria";
+            Session["ActionResul"]  = "AfectacionPresupuestaria";
+            Session["TituloActionResul"] = "Afectación presupuestaria";
+            Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
+
             return View(listado);
         }
         public ActionResult AsignacionRecursos()
@@ -39,8 +41,9 @@ namespace SistemaIntegradoGestion.Controllers
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             string cAnio = oSistema.FechaSistema.Substring(0, 4);
             listado = CD_SolicitudPOA.Instancia.SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MAR");
-            TempData["ActionResul"] = "AsignacionRecursos";
-            TempData["TituloActionResul"] = "Asignación recursos";
+            Session["ActionResul"] = "AsignacionRecursos";
+            Session["TituloActionResul"] = "Asignación recursos";
+            Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
             return View(listado);
         }
         public ActionResult ReprogramarSoloPOA()
@@ -54,8 +57,10 @@ namespace SistemaIntegradoGestion.Controllers
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             string cAnio = oSistema.FechaSistema.Substring(0, 4);
             listado = CD_SolicitudPOA.Instancia.SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
-            TempData["ActionResul"] = "ReprogramarSoloPOA";
-            TempData["TituloActionResul"] = "Reprogramar solo POA";
+            ViewBag.DescripcionSubSistema  = SesionUsuario.DescripcionSubSistema;
+            Session["ActionResul"] = "ReprogramarSoloPOA";
+            Session["TituloActionResul"] = "Reprogramar solo POA";
+            Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
             return View(listado);
         }
 
@@ -68,8 +73,7 @@ namespace SistemaIntegradoGestion.Controllers
             string direccionDirectory = @"\" + cdireccion + @"\" + canio + @"\" + tipoSolicitud + @"\" + numSolicitud;
             listArchivo = GetObtenerTodosArchivos(direccionDirectory);
             ViewBag.DireccionDirectory = direccionDirectory;
-            
-
+            Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
             return View(listArchivo);
         }
 
@@ -78,8 +82,13 @@ namespace SistemaIntegradoGestion.Controllers
         {
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
+
             string nombreArchivo = "";
             ViewBag.DireccionDirectory = Directory;
+            //TempData["ActionResul"] = actionResul;
+            //TempData["TituloActionResul"] = tituloActionResul;  , string actionResul, string tituloActionResul)
+
+
             List<ModelArchivo> listArchivo = new List<ModelArchivo>();
             if (documentFile != null && documentFile.ContentLength > 0)
             {
@@ -142,6 +151,80 @@ namespace SistemaIntegradoGestion.Controllers
 
             }
             return listArchivo;
+        }
+
+
+        [HttpGet]
+        public JsonResult EliminarDocumento(string nombreArchivo, string direccion)
+        {
+            bool respuesta;
+            string fullPath = string.Empty;
+            if (Session["Usuario"] != null)
+            {
+                var ousuario = (tbUsuario)Session["Usuario"];
+                var osistema = CD_Sistema.Instancia.GetFechaHoraSistema();
+                fullPath = urlPoa + direccion + @"\" + nombreArchivo;
+                respuesta = EliminaArchivoServidor(fullPath);
+            }
+            else
+            {
+                respuesta = false;
+            }
+
+            return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
+        }
+
+        private bool EliminaArchivoServidor(string path)
+        {           
+            if (!System.IO.File.Exists(path)) return false;
+
+            try //Maybe error could happen like Access denied or Presses Already User used
+            {
+                System.IO.File.Delete(path);
+                return true;
+            }
+            catch (Exception e)
+            {
+                //Debug.WriteLine(e.Message);
+            }
+            return false;
+        }
+
+        public ActionResult DownloadFile(string nombreArchivo, string direccion)
+        {
+            
+            string fullName = urlPoa + direccion + @"\" + nombreArchivo;
+
+            byte[] fileBytes = GetFile(fullName);
+            return File(
+                fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fullName);
+        }
+
+        byte[] GetFile(string s)
+        {
+            System.IO.FileStream fs = System.IO.File.OpenRead(s);
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new System.IO.IOException(s);
+            return data;
+        }
+
+
+        public FileResult GetDowload(string url)
+        {
+            byte[] FileBytes = null;
+            try
+            {
+                string ReportURL = @"\\172.20.16.90\vuelos_charter\AdjuntosCharter\" + url;
+                FileBytes = System.IO.File.ReadAllBytes(ReportURL);
+                return File(FileBytes, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
         }
     }
 }

@@ -21,7 +21,10 @@ namespace SistemaIntegradoGestion.Controllers
             try
             {
                 ViewBag.NombreUsuario = SesionUsuario.NombresUsuario + " " + SesionUsuario.ApellidosUsuario;
-                ViewBag.RolUsuario = SesionUsuario.oRol.DescripcionRol;
+                
+                //    ViewBag.RolUsuario = SesionUsuario.oRol.DescripcionRol;
+                
+                
             }
             catch
             {

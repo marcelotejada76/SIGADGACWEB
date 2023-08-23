@@ -1,6 +1,7 @@
 ﻿using CapaDatos;
 using CapaModelo;
 using SistemaIntegradoGestion.Models;
+using SistemaIntegradoGestion.Utilitarios;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +14,7 @@ namespace SistemaIntegradoGestion.Controllers
    
     public class SolicitarModificacionesController : Controller
     {
-        const string urlPoa = @"\\172.20.16.90\Sigpoa";
+       
         private static tbUsuario SesionUsuario;
         // GET: SolicitarModificaciones
         public ActionResult AfectacionPresupuestaria()
@@ -92,7 +93,7 @@ namespace SistemaIntegradoGestion.Controllers
             List<ModelArchivo> listArchivo = new List<ModelArchivo>();
             if (documentFile != null && documentFile.ContentLength > 0)
             {
-                string  urlDocumentos = urlPoa + Directory;
+                string  urlDocumentos = Constantes.poaURL + Directory;
                 //Verifica si existe la carpeta creada si no lo crear
                 if (!System.IO.Directory.Exists(urlDocumentos))
                     System.IO.Directory.CreateDirectory(urlDocumentos);
@@ -117,7 +118,7 @@ namespace SistemaIntegradoGestion.Controllers
 
                 ViewBag.DireccionDirectory = direccionDirectory;
                
-                urlDocumentos = urlPoa + direccionDirectory;
+                urlDocumentos = Constantes.poaURL + direccionDirectory;
 
                 if (!System.IO.Directory.Exists(urlDocumentos))
                     System.IO.Directory.CreateDirectory(urlDocumentos);
@@ -163,7 +164,7 @@ namespace SistemaIntegradoGestion.Controllers
             {
                 var ousuario = (tbUsuario)Session["Usuario"];
                 var osistema = CD_Sistema.Instancia.GetFechaHoraSistema();
-                fullPath = urlPoa + direccion + @"\" + nombreArchivo;
+                fullPath = Constantes.poaURL + direccion + @"\" + nombreArchivo;
                 respuesta = EliminaArchivoServidor(fullPath);
             }
             else
@@ -193,7 +194,7 @@ namespace SistemaIntegradoGestion.Controllers
         public ActionResult DownloadFile(string nombreArchivo, string direccion)
         {
             
-            string fullName = urlPoa + direccion + @"\" + nombreArchivo;
+            string fullName = Constantes.poaURL + direccion + @"\" + nombreArchivo;
 
             byte[] fileBytes = GetFile(fullName);
             return File(
@@ -208,23 +209,6 @@ namespace SistemaIntegradoGestion.Controllers
             if (br != fs.Length)
                 throw new System.IO.IOException(s);
             return data;
-        }
-
-
-        public FileResult GetDowload(string url)
-        {
-            byte[] FileBytes = null;
-            try
-            {
-                string ReportURL = @"\\172.20.16.90\vuelos_charter\AdjuntosCharter\" + url;
-                FileBytes = System.IO.File.ReadAllBytes(ReportURL);
-                return File(FileBytes, "application/pdf");
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
         }
     }
 }

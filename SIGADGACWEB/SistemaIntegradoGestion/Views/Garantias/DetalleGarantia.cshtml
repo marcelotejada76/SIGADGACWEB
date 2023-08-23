@@ -122,7 +122,8 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Concepto Garantia</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Concepto_Garantia" readonly="readonly" />
+                    @Html.TextAreaFor(m => m.Concepto_Garantia, new { @class="form-control form-control-solid",@readonly= "readonly" , @rows = "3" })
+                    @*<textarea class="form-control form-control-solid" value="@Model.Concepto_Garantia" rows="3" readonly="readonly"> </textarea>*@
                 </div>
             </div>
             <div class="row mb-8">
@@ -195,7 +196,8 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Observaciones</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Observaciones" readonly="readonly" />
+                    @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control form-control-solid", @readonly = "readonly", @rows = "4" })
+                    @*<input class="form-control form-control-solid" value="@Model.Observaciones" readonly="readonly" />*@
                 </div>
             </div>
 

@@ -79,11 +79,11 @@
         </nav>
         <!-- /.navbar -->
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-secondary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
                 <img src="~/Content/imganes/logo2.jpg" alt="Dirección General Aviación Civil - Ecuador" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">DGAC</span>
+                <span class="brand-text font-weight-light form-control-sm">DGAC</span>
             </a>
 
             <!-- Sidebar -->
@@ -93,8 +93,8 @@
                 {
                     var userLogin = (CapaModelo.tbUsuario)Session["Usuario"];
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        <div class="info">
-                            <a href="#" class="d-block">@userLogin.CodigoUsuario</a>
+                        <div class="info form-control-sm" >
+                            <a class="d-block">@userLogin.CodigoUsuario</a>
                            
                         </div>
                     </div>

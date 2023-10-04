@@ -24,6 +24,8 @@ namespace SistemaIntegradoGestion.Reporte
                 rvSiteMapping.Width = Unit.Percentage(100);
                 rvSiteMapping.Height = Unit.Percentage(100);
                 rvSiteMapping.ShowBackButton = false;
+                rvSiteMapping.ZoomMode = ZoomMode.Percent;
+                rvSiteMapping.ZoomPercent = 100;
                 rvSiteMapping.ServerReport.Refresh();
             }
         }

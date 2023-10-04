@@ -140,9 +140,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManifiestoController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\GarantiasController.cs" />
     <Compile Include="Controllers\SolicitarModificacionesController.cs" />
+    <Compile Include="Controllers\TalentoHumanoController.cs" />
     <Compile Include="Filters\VerificarSession.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2392,6 +2394,8 @@
     <Content Include="Views\SolicitarModificaciones\DocumentoHabilitante.cshtml" />
     <Content Include="Views\Garantias\ListadoGarantias.cshtml" />
     <Content Include="Views\Garantias\DetalleGarantia.cshtml" />
+    <Content Include="Views\Manifiesto\Formulario.cshtml" />
+    <Content Include="Views\TalentoHumano\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

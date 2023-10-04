@@ -14,8 +14,13 @@
         <div>
              <asp:ScriptManager ID="ScriptManager1" runat="server">                
             </asp:ScriptManager>
-            <rsweb:ReportViewer id="rvSiteMapping" runat ="server" ShowPrintButton="false"  Width="99.9%" Height="100%" AsyncRendering="true" ZoomMode="Percent" 
-                KeepSessionAlive="true" SizeToReportContent="false" ></rsweb:ReportViewer>  
+            <rsweb:ReportViewer id="rvSiteMapping" runat ="server" BackColor="White"
+            Font-Names="Verdana" Font-Size="8pt" InteractiveDeviceInfos=" (Collection)"
+            ProcessingMode="Remote" ShowBackButton="False" ShowFindControls="False"
+            ShowPageNavigationControls="true" SizeToReportContent="True"
+            ToolBarItemBorderColor="White" ToolBarItemHoverBackColor="White"
+            WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="100%">
+            </rsweb:ReportViewer>  
         </div>
     </form>
 </body>

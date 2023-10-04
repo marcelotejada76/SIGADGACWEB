@@ -14,28 +14,42 @@
                             <th>Ruc</th>
                             <th>Número Garantia</th>
                             <th>Compañia Contratista</th>
-                          
-                            <th></th>
+                            <th>Dias a Caducar</th>
+
+                            <th class=" control-label control-lab"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => item.Ruc)</td>
-                            <td>@Html.DisplayFor(modelItem => item.NumeroGarantia)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Compania_Contratista)</td>
-                          
-                            <td>
-                                <a id="Consultar" href="@Url.Action("DetalleGarantia", "Garantias", new {Ruc=item.Ruc })">
-                                    <i>
-                                        <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
-                                        
-                                    </i>
-                                    Consulta
-                                </a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Ruc)</td>
+                                <td>@Html.DisplayFor(modelItem => item.NumeroGarantia)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Compania_Contratista)</td>
+                                <td>
+                                    @if (int.Parse(item.Dias_a_Caducar) <= 20)
+                                    {
+
+                                        <p class="text-danger" , style="font-size:22px;background-color: #bbb8a6">   @Html.DisplayFor(modelItem => item.Dias_a_Caducar)</p>
+
+                                    }
+                                    else
+                                    {
+
+                                        @Html.DisplayFor(modelItem => item.Dias_a_Caducar)
+                                    }
+                                </td>
+
+                                <td>
+                                    <a id="Consultar" href="@Url.Action("DetalleGarantia", "Garantias", new {Ruc=item.Ruc })">
+                                        <i>
+                                            <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                        </i>
+                                        Consulta
+                                    </a>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -139,9 +153,9 @@
                                         </li>
                                     </ul>
 
-                                </nav>                                
+                                </nav>
                             </div>
-                           
+
 
                         </div>
                     </form>
@@ -167,8 +181,9 @@
 
         });
 
-        function modalAdjunto() {            
+        function modalAdjunto() {
             $('#FormModal').modal('show');
         }
+
     </script>
 }

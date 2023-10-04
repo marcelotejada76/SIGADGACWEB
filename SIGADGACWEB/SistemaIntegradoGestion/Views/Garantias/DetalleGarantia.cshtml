@@ -163,8 +163,22 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label> Dias a Caducar</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Dias_a_Caducar" readonly="readonly" />
+                    @if (int.Parse(@Model.Dias_a_Caducar) <= 20)
+                    {
+                        <input style="font-size:23px; background-color: #bbb8a6"  class="form-control form-control-solid, text-danger"  value="@Model.Dias_a_Caducar" readonly="readonly" />
+                        
+                    }
+                    else
+                    {
+
+                        <input class="form-control form-control-solid" value="@Model.Dias_a_Caducar" readonly="readonly" />
+                    }
+                    
                 </div>
+
+               
+
+
             </div>
             <div class="row mb-8">
                 <div class="col-sm-3">

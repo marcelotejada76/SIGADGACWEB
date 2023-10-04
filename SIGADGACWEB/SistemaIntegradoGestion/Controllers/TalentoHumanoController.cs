@@ -11,7 +11,12 @@ namespace SistemaIntegradoGestion.Controllers
         // GET: TalentoHumano
         public ActionResult Index()
         {
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
             return View();
         }
+
+
     }
 }

@@ -1,0 +1,268 @@
+﻿@model IEnumerable<CapaModelo.tbFacturasP5>
+@{
+    ViewBag.Title = "ListadoFacturasP5";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    p {
+        color: blue;
+        text-align: center;
+    }
+</style>
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p>LISTADO DE FACTURAS</p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoFacturasP5", "FacturasP5", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row mb-8">
+            <div class="col-sm-2">
+                <div class="fs-3 fw-bold mt-2 mb-2"><label>CLIENTE</label></div>
+            </div>
+            <div class="col-sm-8 fv-row">
+
+                <input class="form-control form-control-solid" id="NombreCliente" name="NombreCliente" />
+            </div>
+            <div>
+                @*<a class="btn btn-success" href="ListadoFacturasP5">Buscar</a>*@
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+                
+
+            </div>
+        </div>
+
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nombre Cliente</th>
+                                <th>Cedula Ruc</th>
+                                <th>Factura</th>
+                                <th>Valor</th>
+                                <th>Fecha Creacion</th>
+
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.NOMBRECLIENTE)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CEDULA_RUC)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMEROFACTURA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.VALORFACTURA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHACREA)</td>
+
+                                    @*<td>
+                                            @if (int.Parse(item.Dias_a_Caducar) <= 20)
+                                            {
+
+                                                <p class="text-danger" , style="font-size:22px;background-color: #bbb8a6">   @Html.DisplayFor(modelItem => item.Dias_a_Caducar)</p>
+
+                                            }
+                                            else
+                                            {
+
+                                                @Html.DisplayFor(modelItem => item.Dias_a_Caducar)
+                                            }
+                                        </td>*@
+
+                                    <td>
+                                        <a id="Consultar" href="#" onclick="Consultar(@item.OIDFACTURA)">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>
+
+                                        @*<a id="Consultar" href="@Url.Action("DetalleFacturasP5", "FacturasP5", new { @item.OIDFACTURA })">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">FACTURA</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="row mb-8">
+                            <div class="col-sm-3">
+                                <div class="fs-6 fw-bold mt-2 mb-3"><label>Compañia</label></div>
+                            </div>
+                            <div class="col-sm-8 fv-row">
+                                <input class="form-control form-control-solid" id="NOMBRECLIENTE" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="row mb-8">
+                            <div class="col-sm-3">
+                                <div class="fs-6 fw-bold mt-2 mb-3"><label>Cedula Ruc</label></div>
+                            </div>
+                            <div class="col-sm-8 fv-row">
+                                <input class="form-control form-control-solid" id="CEDULA_RUC" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <div class="col-sm-3">
+                                <div class="fs-6 fw-bold mt-2 mb-3"><label>Estado</label></div>
+                            </div>
+                            <div class="col-sm-8 fv-row">
+                                <input class="form-control form-control-solid" id="ESTADO" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <div class="col-sm-3">
+                                <div class="fs-6 fw-bold mt-2 mb-3"><label>Codigo Recaudacion</label></div>
+                            </div>
+                            <div class="col-sm-8 fv-row">
+                                <input class="form-control form-control-solid" id="CODIGO" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <div class="col-sm-3">
+                                <div class="fs-6 fw-bold mt-2 mb-3"><label>Valor Factura</label></div>
+                            </div>
+                            <div class="col-sm-8 fv-row">
+                                <input class="form-control form-control-solid" id="VALORFACTURA" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <h4>
+
+                            <p>DETALLE FACTURA</p>
+                        </h4>
+
+
+                        <table id="tbDetalleFactura" class="table table-bordered table-hover table-sm" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>CODIGO CONTABLE</th>
+                                    <th>CONCEPTO</th>
+                                    <th>VALOR</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*@foreach (var ItemDetalle in Model.oDetalleFactura)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => ItemDetalle.CODIGOCONTABLE)</td>
+                                        <td>@Html.DisplayFor(modelItem => ItemDetalle.DESCRIPCION)</td>
+                                        <td>@Html.DisplayFor(modelItem => ItemDetalle.VALOR)</td>
+
+                                    </tr>
+                                }*@
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+        function OnButtonClick() {
+            var nombre = $('#NombreCliente').val();
+            var data = {
+                TextBox: TextBox.GetValue()
+            };
+            var PostData = data.TextBox;
+
+            window.location.href = "FacturasP5/ListadoFacturasP5/?NombreCliente=" + nombre;
+        }
+
+        function Consultar(Oid) {
+            $.ajax({
+                url: $.MisUrls.url._DetalleFacturaP5,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { OidFactura: Oid },
+                success: function (e) {
+                    $("#NOMBRECLIENTE").val(e.NOMBRECLIENTE);
+                    $("#CEDULA_RUC").val(e.CEDULA_RUC);
+                    $("#ESTADO").val(e.ESTADO);
+                    $("#CODIGO").val(e.CODIGO);
+                    $("#VALORFACTURA").val(e.VALORFACTURA);
+                    $("#tbDetalleFactura tbody").html("");
+                    $.each(e.oDetalleFactura, function (i, row) {
+                        
+                        $("<tr>").append(
+                            $("<td class='text-center'>").text(row["CODIGOCONTABLE"]),
+                            $("<td>").text(row["DESCRIPCION"]),
+                            $("<td>").text(row["VALOR"]))
+                           .appendTo("#tbDetalleFactura tbody");
+                    })
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+    </script>
+}

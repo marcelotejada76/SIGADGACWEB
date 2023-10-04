@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CD_DocumentoHabilitante.cs" />
+    <Compile Include="CD_FacturasDetalleP5.cs" />
+    <Compile Include="CD_FacturasP5.cs" />
     <Compile Include="CD_Menu.cs" />
     <Compile Include="CD_Rol.cs" />
     <Compile Include="CD_Sistema.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="CD_SubMenu.cs" />
     <Compile Include="CD_Usuario.cs" />
     <Compile Include="ConexionDB2.cs" />
+    <Compile Include="ConexionP550.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

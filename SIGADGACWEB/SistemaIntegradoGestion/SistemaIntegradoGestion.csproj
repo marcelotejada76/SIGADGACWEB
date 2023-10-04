@@ -138,6 +138,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\FacturasP5Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
@@ -2392,6 +2393,9 @@
     <Content Include="Views\SolicitarModificaciones\DocumentoHabilitante.cshtml" />
     <Content Include="Views\Garantias\ListadoGarantias.cshtml" />
     <Content Include="Views\Garantias\DetalleGarantia.cshtml" />
+    <Content Include="Views\ManiestoPax\Formulario.cshtml" />
+    <Content Include="Views\FacturasP5\ListadoFacturasP5.cshtml" />
+    <Content Include="Views\FacturasP5\DetalleFacturasP5.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

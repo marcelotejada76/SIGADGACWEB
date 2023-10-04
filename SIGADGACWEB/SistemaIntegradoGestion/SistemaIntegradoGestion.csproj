@@ -141,9 +141,11 @@
     <Compile Include="Controllers\FacturasP5Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManifiestoController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\GarantiasController.cs" />
     <Compile Include="Controllers\SolicitarModificacionesController.cs" />
+    <Compile Include="Controllers\TalentoHumanoController.cs" />
     <Compile Include="Filters\VerificarSession.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2396,6 +2398,8 @@
     <Content Include="Views\ManiestoPax\Formulario.cshtml" />
     <Content Include="Views\FacturasP5\ListadoFacturasP5.cshtml" />
     <Content Include="Views\FacturasP5\DetalleFacturasP5.cshtml" />
+    <Content Include="Views\TalentoHumano\Index.cshtml" />
+    <Content Include="Views\Manifiesto\Formulario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

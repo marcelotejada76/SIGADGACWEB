@@ -1,0 +1,237 @@
+﻿@model IEnumerable<CapaModelo.tbMatriculas>
+@{
+    ViewBag.Title = "ListadoMatriculaP5";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p class="text-blue">LISTADO DE MATRICULAS</p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoMatriculaP5", "Matriculas", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row mb-8">
+            <div class="col-sm-3">
+                <div class="fs-3 fw-bold mt-2 mb-2"><label>COMPAÑIA/MATRICULA</label></div>
+            </div>
+            <div class="col-sm-8 fv-row">
+
+                <input style="text-transform:uppercase" class="form-control form-control-solid" id="NombreCompania" name="NombreCompania" />
+            </div>
+            <div>
+                @*<a class="btn btn-success" href="ListadoFacturasP5">Buscar</a>*@
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>
+
+       
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Compañia</th>
+                                <th>Matricula</th>
+                                <th>Estado</th>
+                                <th>Uso</th>
+                                <th>Peso</th>
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.COMPAÑIA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.MATRICULA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ESTADO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.USO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PESOMAXESTRUCTURAL)</td>
+
+                                    <td>
+                                        <a id="Consultar" href="#" onclick="Consultar(@item.OID)">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> MATRICULA</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Compañia</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-solid" id="COMPAÑIA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Ruc</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-solid" id="RUC" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Matricula</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-solid" id="MATRICULA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Marca</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-solid" id="MARCA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Modelo</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-solid" id="MODELO" readonly="readonly" />
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Estado</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-solid" id="ESTADO" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Uso</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-solid" id="USO" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Crea</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-solid" id="FECHACREA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Usuario Crea</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-solid" id="USUARIOCREA" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Peso MTOW</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-solid" id="PESO" readonly="readonly" />
+                                </div>
+                              
+
+                            </div>
+                            <hr />
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+
+            });
+
+            function modalAdjunto() {
+                $('#FormModal').modal('show');
+            }
+
+            //function OnButtonClick() {
+            //    var Nombre = $('#NombreCompania').val();
+                
+            //    var data = {
+            //        TextBox: TextBox.GetValue()
+            //    };
+            //    var PostData = data.TextBox;
+
+            //    window.location.href = "Matriculas/ListadoMatriculasP5/?Compania=" + Nombre;
+            //}
+
+            function Consultar(Oid) {
+                var xr = Oid;
+              
+                $.ajax({
+                    url: $.MisUrls.url._DetalleMatriculaP5,
+                    type: "GET",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    data: { OidMatricula: Oid },
+                    success: function (e) {
+                        
+                        $("#COMPAÑIA").val(e.COMPAÑIA);
+                        $("#RUC").val(e.RUC);
+                        $("#MATRICULA").val(e.MATRICULA);
+                        $("#MARCA").val(e.MARCA);
+                        $("#MODELO").val(e.MODELO);
+                        $("#ESTADO").val(e.ESTADO);
+                        $("#USO").val(e.USO);
+                        $("#FECHACREA").val(e.FECHACREA);
+                        $("#USUARIOCREA").val(e.USUARIOCREA);
+                        $("#PESO").val(e.PESOMAXESTRUCTURAL);
+
+
+
+
+                    },
+                    error: function (errormessage) {
+                        Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                    }
+                });
+
+
+                $('#largeModal').modal('show');
+            }
+
+
+        </script>
+    }

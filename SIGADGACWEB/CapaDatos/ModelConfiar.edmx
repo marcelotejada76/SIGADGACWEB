@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="COMFIARModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Comprobante">
+          <Key>
+            <PropertyRef Name="TransaccionId" />
+            <PropertyRef Name="CuitId" />
+            <PropertyRef Name="PuntoDeVentaId" />
+            <PropertyRef Name="TipoComprobanteId" />
+            <PropertyRef Name="NroCbte" />
+          </Key>
+          <Property Name="TransaccionId" Type="int" Nullable="false" />
+          <Property Name="CuitId" Type="bigint" Nullable="false" />
+          <Property Name="PuntoDeVentaId" Type="int" Nullable="false" />
+          <Property Name="TipoComprobanteId" Type="int" Nullable="false" />
+          <Property Name="NroCbte" Type="int" Nullable="false" />
+          <Property Name="TipoDocCliente" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="NroDocCliente" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Imp_Total" Type="float" Nullable="false" />
+          <Property Name="FechaCbte" Type="datetime" Nullable="false" />
+          <Property Name="Cae" Type="varchar" MaxLength="120" />
+          <Property Name="FechaVto" Type="datetime" />
+          <Property Name="Resultado" Type="varchar" MaxLength="50" />
+          <Property Name="Motivo" Type="varchar" MaxLength="50" />
+          <Property Name="Error" Type="int" />
+          <Property Name="ErrorDesc" Type="varchar" MaxLength="550" />
+          <Property Name="RazonSocialCliente" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CodigoCliente" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RequestAFIPId" Type="bigint" />
+          <Property Name="MonedaId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RolEmisorId" Type="varchar" MaxLength="50" />
+          <Property Name="RolReceptorId" Type="varchar" MaxLength="50" />
+          <Property Name="FechaProceso" Type="datetime" />
+          <Property Name="TipoDeCambio" Type="float" />
+          <Property Name="CuitRolReceptorId" Type="bigint" />
+          <Property Name="IdentificacionReceptorComfiar" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TipoIdentificacionReceptorComfiar" Type="int" Nullable="false" />
+          <Property Name="EstadoEmision" Type="int" Nullable="false" />
+          <Property Name="UsuarioAnulacion" Type="varchar" MaxLength="50" />
+          <Property Name="FechaAnulacion" Type="datetime" />
+          <Property Name="MotivoAnulacion" Type="varchar(max)" />
+          <Property Name="Indice" Type="int" />
+          <Property Name="TipoCodigoAutorizacion" Type="varchar" MaxLength="4" />
+          <Property Name="TransaccionResumenAnulacion" Type="int" />
+          <Property Name="EstadoTransaccionResumen" Type="int" />
+          <Property Name="FechaAprobacion" Type="datetime" />
+          <Property Name="UsuarioAprobacion" Type="varchar" MaxLength="50" />
+          <Property Name="AprobacionParcial" Type="bit" />
+          <Property Name="FechaFirmado" Type="datetime" />
+          <Property Name="EstadoPublicacionId" Type="int" />
+          <Property Name="AceptacionRechazoProcesado" Type="bit" />
+          <Property Name="Xml" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="EstadoPublicacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Cod" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+          <Property Name="Motivo" Type="varchar" MaxLength="255" />
+          <Property Name="PathPDF" Type="varchar" MaxLength="255" />
+          <Property Name="ErrorPDF" Type="bit" Nullable="false" />
+          <Property Name="ErrorPDFMotivo" Type="varchar" MaxLength="255" />
+          <Property Name="TransaccionId" Type="int" />
+          <Property Name="CuitId" Type="bigint" />
+          <Property Name="PuntoDeVentaId" Type="int" />
+          <Property Name="TipoComprobanteId" Type="int" />
+          <Property Name="NroCbte" Type="int" />
+        </EntityType>
+        <EntityContainer Name="COMFIARModelStoreContainer">
+          <EntitySet Name="Comprobante" EntityType="Self.Comprobante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoPublicacion" EntityType="Self.EstadoPublicacion" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="COMFIARModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Comprobante">
+          <Key>
+            <PropertyRef Name="TransaccionId" />
+            <PropertyRef Name="CuitId" />
+            <PropertyRef Name="PuntoDeVentaId" />
+            <PropertyRef Name="TipoComprobanteId" />
+            <PropertyRef Name="NroCbte" />
+          </Key>
+          <Property Name="TransaccionId" Type="Int32" Nullable="false" />
+          <Property Name="CuitId" Type="Int64" Nullable="false" />
+          <Property Name="PuntoDeVentaId" Type="Int32" Nullable="false" />
+          <Property Name="TipoComprobanteId" Type="Int32" Nullable="false" />
+          <Property Name="NroCbte" Type="Int32" Nullable="false" />
+          <Property Name="TipoDocCliente" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NroDocCliente" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Imp_Total" Type="Double" Nullable="false" />
+          <Property Name="FechaCbte" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cae" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="FechaVto" Type="DateTime" Precision="3" />
+          <Property Name="Resultado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Motivo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Error" Type="Int32" />
+          <Property Name="ErrorDesc" Type="String" MaxLength="550" FixedLength="false" Unicode="false" />
+          <Property Name="RazonSocialCliente" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodigoCliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RequestAFIPId" Type="Int64" />
+          <Property Name="MonedaId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RolEmisorId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RolReceptorId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaProceso" Type="DateTime" Precision="3" />
+          <Property Name="TipoDeCambio" Type="Double" />
+          <Property Name="CuitRolReceptorId" Type="Int64" />
+          <Property Name="IdentificacionReceptorComfiar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoIdentificacionReceptorComfiar" Type="Int32" Nullable="false" />
+          <Property Name="EstadoEmision" Type="Int32" Nullable="false" />
+          <Property Name="UsuarioAnulacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaAnulacion" Type="DateTime" Precision="3" />
+          <Property Name="MotivoAnulacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Indice" Type="Int32" />
+          <Property Name="TipoCodigoAutorizacion" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="TransaccionResumenAnulacion" Type="Int32" />
+          <Property Name="EstadoTransaccionResumen" Type="Int32" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioAprobacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AprobacionParcial" Type="Boolean" />
+          <Property Name="FechaFirmado" Type="DateTime" Precision="3" />
+          <Property Name="EstadoPublicacionId" Type="Int32" />
+          <Property Name="AceptacionRechazoProcesado" Type="Boolean" />
+          <Property Name="Xml" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="EstadoPublicacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Cod" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Motivo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PathPDF" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ErrorPDF" Type="Boolean" Nullable="false" />
+          <Property Name="ErrorPDFMotivo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TransaccionId" Type="Int32" />
+          <Property Name="CuitId" Type="Int64" />
+          <Property Name="PuntoDeVentaId" Type="Int32" />
+          <Property Name="TipoComprobanteId" Type="Int32" />
+          <Property Name="NroCbte" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="COMFIAREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Comprobante" EntityType="Self.Comprobante" />
+          <EntitySet Name="EstadoPublicacion" EntityType="Self.EstadoPublicacion" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="COMFIARModelStoreContainer" CdmEntityContainer="COMFIAREntities">
+          <EntitySetMapping Name="Comprobante">
+            <EntityTypeMapping TypeName="COMFIARModel.Comprobante">
+              <MappingFragment StoreEntitySet="Comprobante">
+                <ScalarProperty Name="TransaccionId" ColumnName="TransaccionId" />
+                <ScalarProperty Name="CuitId" ColumnName="CuitId" />
+                <ScalarProperty Name="PuntoDeVentaId" ColumnName="PuntoDeVentaId" />
+                <ScalarProperty Name="TipoComprobanteId" ColumnName="TipoComprobanteId" />
+                <ScalarProperty Name="NroCbte" ColumnName="NroCbte" />
+                <ScalarProperty Name="TipoDocCliente" ColumnName="TipoDocCliente" />
+                <ScalarProperty Name="NroDocCliente" ColumnName="NroDocCliente" />
+                <ScalarProperty Name="Imp_Total" ColumnName="Imp_Total" />
+                <ScalarProperty Name="FechaCbte" ColumnName="FechaCbte" />
+                <ScalarProperty Name="Cae" ColumnName="Cae" />
+                <ScalarProperty Name="FechaVto" ColumnName="FechaVto" />
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="ErrorDesc" ColumnName="ErrorDesc" />
+                <ScalarProperty Name="RazonSocialCliente" ColumnName="RazonSocialCliente" />
+                <ScalarProperty Name="CodigoCliente" ColumnName="CodigoCliente" />
+                <ScalarProperty Name="RequestAFIPId" ColumnName="RequestAFIPId" />
+                <ScalarProperty Name="MonedaId" ColumnName="MonedaId" />
+                <ScalarProperty Name="RolEmisorId" ColumnName="RolEmisorId" />
+                <ScalarProperty Name="RolReceptorId" ColumnName="RolReceptorId" />
+                <ScalarProperty Name="FechaProceso" ColumnName="FechaProceso" />
+                <ScalarProperty Name="TipoDeCambio" ColumnName="TipoDeCambio" />
+                <ScalarProperty Name="CuitRolReceptorId" ColumnName="CuitRolReceptorId" />
+                <ScalarProperty Name="IdentificacionReceptorComfiar" ColumnName="IdentificacionReceptorComfiar" />
+                <ScalarProperty Name="TipoIdentificacionReceptorComfiar" ColumnName="TipoIdentificacionReceptorComfiar" />
+                <ScalarProperty Name="EstadoEmision" ColumnName="EstadoEmision" />
+                <ScalarProperty Name="UsuarioAnulacion" ColumnName="UsuarioAnulacion" />
+                <ScalarProperty Name="FechaAnulacion" ColumnName="FechaAnulacion" />
+                <ScalarProperty Name="MotivoAnulacion" ColumnName="MotivoAnulacion" />
+                <ScalarProperty Name="Indice" ColumnName="Indice" />
+                <ScalarProperty Name="TipoCodigoAutorizacion" ColumnName="TipoCodigoAutorizacion" />
+                <ScalarProperty Name="TransaccionResumenAnulacion" ColumnName="TransaccionResumenAnulacion" />
+                <ScalarProperty Name="EstadoTransaccionResumen" ColumnName="EstadoTransaccionResumen" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="UsuarioAprobacion" ColumnName="UsuarioAprobacion" />
+                <ScalarProperty Name="AprobacionParcial" ColumnName="AprobacionParcial" />
+                <ScalarProperty Name="FechaFirmado" ColumnName="FechaFirmado" />
+                <ScalarProperty Name="EstadoPublicacionId" ColumnName="EstadoPublicacionId" />
+                <ScalarProperty Name="AceptacionRechazoProcesado" ColumnName="AceptacionRechazoProcesado" />
+                <ScalarProperty Name="Xml" ColumnName="Xml" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoPublicacion">
+            <EntityTypeMapping TypeName="COMFIARModel.EstadoPublicacion">
+              <MappingFragment StoreEntitySet="EstadoPublicacion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Cod" ColumnName="Cod" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+                <ScalarProperty Name="PathPDF" ColumnName="PathPDF" />
+                <ScalarProperty Name="ErrorPDF" ColumnName="ErrorPDF" />
+                <ScalarProperty Name="ErrorPDFMotivo" ColumnName="ErrorPDFMotivo" />
+                <ScalarProperty Name="TransaccionId" ColumnName="TransaccionId" />
+                <ScalarProperty Name="CuitId" ColumnName="CuitId" />
+                <ScalarProperty Name="PuntoDeVentaId" ColumnName="PuntoDeVentaId" />
+                <ScalarProperty Name="TipoComprobanteId" ColumnName="TipoComprobanteId" />
+                <ScalarProperty Name="NroCbte" ColumnName="NroCbte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -139,6 +139,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\FacturasP5Controller.cs" />
+    <Compile Include="Controllers\MatriculasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManifiestoController.cs" />
@@ -2400,6 +2401,7 @@
     <Content Include="Views\FacturasP5\DetalleFacturasP5.cshtml" />
     <Content Include="Views\Manifiesto\Formulario.cshtml" />
     <Content Include="Views\TalentoHumano\Index.cshtml" />
+    <Content Include="Views\Matriculas\ListadoMatriculaP5.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

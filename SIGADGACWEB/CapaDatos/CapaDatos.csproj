@@ -34,12 +34,19 @@
     <Reference Include="CapaModelo">
       <HintPath>..\CapaModelo\bin\Debug\CapaModelo.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="IBM.Data.DB2.iSeries, Version=12.0.0.0, Culture=neutral, PublicKeyToken=9cdb2ebfb1f93a26, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>librerias\IBM.Data.DB2.iSeries.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +58,7 @@
     <Compile Include="CD_DocumentoHabilitante.cs" />
     <Compile Include="CD_FacturasDetalleP5.cs" />
     <Compile Include="CD_FacturasP5.cs" />
+    <Compile Include="CD_Matriculas.cs" />
     <Compile Include="CD_Menu.cs" />
     <Compile Include="CD_Rol.cs" />
     <Compile Include="CD_Sistema.cs" />
@@ -58,12 +66,57 @@
     <Compile Include="CD_SolicitudPOA.cs" />
     <Compile Include="CD_SubMenu.cs" />
     <Compile Include="CD_Usuario.cs" />
+    <Compile Include="Comprobante.cs">
+      <DependentUpon>ModelConfiar.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConexionDB2.cs" />
     <Compile Include="ConexionP550.cs" />
+    <Compile Include="ConexionServerConfiar.cs" />
+    <Compile Include="EstadoPublicacion.cs">
+      <DependentUpon>ModelConfiar.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelConfiar.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelConfiar.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelConfiar.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelConfiar.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelConfiar.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelConfiar.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <EntityDeploy Include="ModelConfiar.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelConfiar.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ModelConfiar.edmx.diagram">
+      <DependentUpon>ModelConfiar.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ModelConfiar.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModelConfiar.Context.cs</LastGenOutput>
+      <DependentUpon>ModelConfiar.edmx</DependentUpon>
+    </Content>
+    <Content Include="ModelConfiar.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelConfiar.edmx</DependentUpon>
+      <LastGenOutput>ModelConfiar.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

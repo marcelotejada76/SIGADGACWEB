@@ -26,5 +26,6 @@ namespace SistemaIntegradoGestion.Utilitarios
         }
 
         public const string poaURL = @"\\172.20.16.90\Sigpoa";
+        public const string ConfiarUrl = @"\\172.20.16.149\d$\";
     }
 }

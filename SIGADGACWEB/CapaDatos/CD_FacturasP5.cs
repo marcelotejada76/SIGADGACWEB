@@ -411,5 +411,84 @@ namespace CapaDatos
             }
             return listarSolicitud;
         }
+        //NUMERO DE FACTURA MAS CLIENTE
+        public List<tbFacturasP5> DetalleFacturaCliente(String Cliente)//(string canio, string cdireccion, string tipoSolicitud)
+        {
+            List<tbFacturasP5> listarSolicitud = new List<tbFacturasP5>();
+            StringBuilder sbSol = new StringBuilder();
+            string query = string.Empty;
+            try
+            {
+                sbSol.Append("SELECT OID, NOMBRECLIENTE, CEDULA_RUC,NUMEROFACTURA,FECHA,VALORFACTURA,ESTADO  " +
+                    "FROM FACTURA where NUMEROFACTURA =" + Cliente + " ");
+                //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
+                query = sbSol.ToString();
+                OdbcCommand cmd;
+
+
+                using (OdbcConnection oConexion = new OdbcConnection(ConexionP550.CadenaConexion))
+                {
+                    cmd = new OdbcCommand(query, oConexion);
+                    //cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+
+                    // iDB2DataReader dr = cmd.ExecuteReader();
+                    OdbcDataReader dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        // , ,,,,
+                        tbFacturasP5 oSolicitud = new tbFacturasP5();
+                        oSolicitud.OIDFACTURA = Int32.Parse(dr["OID"].ToString());
+                        oSolicitud.NOMBRECLIENTE = dr["NOMBRECLIENTE"].ToString();
+                        oSolicitud.CEDULA_RUC = dr["CEDULA_RUC"].ToString();
+                        string NumFac = dr["NUMEROFACTURA"].ToString();
+                        if (NumFac != "")
+                        {
+                            oSolicitud.NUMEROFACTURA = Int32.Parse(dr["NUMEROFACTURA"].ToString());
+                        }
+                        else
+                        {
+                            oSolicitud.NUMEROFACTURA = 0;
+                        }
+
+                        string FechaCrea = dr["FECHA"].ToString();
+                        string Fechaf = Convert.ToDateTime(FechaCrea).ToString("dd/MM/yyyy");
+                        oSolicitud.FECHACREA = Fechaf;
+
+                        //oSolicitud.FECHACREA = DateTime.Parse(dr["FECHA"].ToString());
+                        string valor = dr["VALORFACTURA"].ToString();
+                        if (valor != null)
+                        {
+                            oSolicitud.VALORFACTURA = decimal.Parse(dr["VALORFACTURA"].ToString());
+                            oSolicitud.VALORFACTURA = oSolicitud.VALORFACTURA / 100;
+                        }
+                        else
+                        {
+                            oSolicitud.VALORFACTURA = 0;
+                        }
+
+                        string estado = dr["ESTADO"].ToString();
+                        if (estado == "P")
+                        {
+                            oSolicitud.ESTADO = "PROCESADO";
+                        }
+                        if (estado == "S")
+                        {
+                            oSolicitud.ESTADO = "PRE-FACTURADO";
+                        }
+
+                        listarSolicitud.Add(oSolicitud);
+                    }
+                    dr.Close();
+                    oConexion.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                listarSolicitud = null;
+            }
+            return listarSolicitud;
+        }
     }
 }

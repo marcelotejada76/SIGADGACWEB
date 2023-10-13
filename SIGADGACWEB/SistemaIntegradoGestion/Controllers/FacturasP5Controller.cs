@@ -57,9 +57,12 @@ namespace SistemaIntegradoGestion.Controllers
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
-            NombreCliente.ToUpper();
+           NombreCliente= NombreCliente.ToUpper();
             var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturasP5Cliente(NombreCliente);
-            
+            if (FacturaP5Consulta.Count==0)
+            {
+                 FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturaCliente(NombreCliente);
+            }
             return View(FacturaP5Consulta);
         }
         public ActionResult DetalleFacturasP5(Int32 OidFactura)
@@ -110,6 +113,7 @@ namespace SistemaIntegradoGestion.Controllers
         //buscar por nombre cliente
         public ActionResult DetalleFacturasP5Cliente(string NombreCliente)
         {
+            NombreCliente = NombreCliente.ToUpper();
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
             var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturasP5Cliente(NombreCliente);

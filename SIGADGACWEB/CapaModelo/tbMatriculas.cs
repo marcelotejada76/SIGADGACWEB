@@ -16,9 +16,11 @@ namespace CapaModelo
         public string MODELO { get; set; }
         public string ESTADO { get; set; }
         public string USO { get; set; }
+        public string DESIGNADOR { get; set; }
         public string FECHACREA { get; set; }
         public string USUARIOCREA { get; set; }
-        
+        public string FECHAMODIFICA { get; set; }
+        public string USUARIOMODIFICA { get; set; }
         public decimal PESOMAXESTRUCTURAL { get; set; }
        
 

@@ -74,7 +74,7 @@ namespace CapaDatos
             }
             catch (Exception ex)
             {
-                throw ex;
+                //throw ex;
             }
             return listarSolicitud;
         }
@@ -122,9 +122,12 @@ namespace CapaDatos
                         oSolicitud.MODELO = dr["MODELO"].ToString();
                         oSolicitud.ESTADO = dr["ESTADO"].ToString();
                         oSolicitud.USO = dr["USO"].ToString();
-
+                        oSolicitud.DESIGNADOR = dr["DESIGNADOR"].ToString();
                         oSolicitud.FECHACREA = dr["FECHACREA"].ToString();
                         oSolicitud.USUARIOCREA = dr["USUARIOCREA"].ToString();
+
+                        oSolicitud.FECHAMODIFICA = dr["FECHAMODIFICA"].ToString();
+                        oSolicitud.USUARIOMODIFICA = dr["USUARIOMODIFICA"].ToString();
                         oSolicitud.PESOMAXESTRUCTURAL = decimal.Parse(dr["PESOMAXESTRUCTURAL"].ToString());
 
                        // listarSolicitud.Add(oSolicitud);

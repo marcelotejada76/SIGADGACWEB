@@ -53,16 +53,17 @@ namespace SistemaIntegradoGestion.Controllers
         [HttpPost]
         public ActionResult ListadoMatriculaP5(string NombreCompania)
         {
+            NombreCompania = NombreCompania.ToUpper();
 
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
             List<tbMatriculas> listado = new List<tbMatriculas>();
             //Compania.ToUpper();
-             listado = CD_Matriculas.Instancia.DetalleMatriculasP5Compania(NombreCompania.ToUpper());
+             listado = CD_Matriculas.Instancia.DetalleMatriculasP5Compania(NombreCompania);
             if (listado.Count==0)
             {
-                listado = CD_Matriculas.Instancia.DetallePorMatriculasP5(NombreCompania.ToUpper());
+                listado = CD_Matriculas.Instancia.DetallePorMatriculasP5(NombreCompania);
             }
             return View(listado);
         }

@@ -140,6 +140,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\FacturasP5Controller.cs" />
     <Compile Include="Controllers\CalculoFr3Controller.cs" />
+    <Compile Include="Controllers\BancoRuminahuiController.cs" />
+    <Compile Include="Controllers\MatriculasAdeudadasController.cs" />
     <Compile Include="Controllers\MatriculasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -2403,6 +2405,8 @@
     <Content Include="Views\TalentoHumano\Index.cshtml" />
     <Content Include="Views\Matriculas\ListadoMatriculaP5.cshtml" />
     <Content Include="Views\CalculoFr3\DatosFr3.cshtml" />
+    <Content Include="Views\MatriculasAdeudadas\ListadoMatriculasAdeudadas.cshtml" />
+    <Content Include="Views\BancoRuminahui\ListadoBancoRuminahui.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

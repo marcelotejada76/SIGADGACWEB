@@ -27,7 +27,7 @@ namespace CapaModelo
         public decimal DERECHOILUMINACION { get; set; }
         public decimal CHARTER { get; set; }
         public decimal TOTAL { get; set; }
-
+        public string PERIODO { get; set; }
 
 
     }

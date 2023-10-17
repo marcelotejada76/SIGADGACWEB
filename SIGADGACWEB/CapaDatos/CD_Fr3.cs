@@ -66,7 +66,8 @@ namespace CapaDatos
                 decimal v5 = 1;
                 decimal v6 = 1;
                 decimal v7 = 1;
-                
+                string Perio="";
+
                 cm.CommandText = cadena;
                 cm.CommandType = CommandType.StoredProcedure;
                 cm.Parameters.AddWithValue("@PR_ATO", Ato);
@@ -86,6 +87,7 @@ namespace CapaDatos
                 cm.Parameters.AddWithValue("@PR_VALPRO", v5).Direction = ParameterDirection.Output; 
                 cm.Parameters.AddWithValue("@PR_VALANT", v6).Direction = ParameterDirection.Output; 
                 cm.Parameters.AddWithValue("@PR_TOTAL", v7).Direction = ParameterDirection.Output;
+                cm.Parameters.AddWithValue("@PR_PERIO", Perio).Direction = ParameterDirection.Output;
                 //string valor = cm.Parameters[16].iDB2Value.ToString();
                 cm.CommandTimeout = 0;
                // cm.ExecuteNonQuery();
@@ -99,8 +101,9 @@ namespace CapaDatos
                 string VALPRO = cm.Parameters[14].iDB2Value.ToString();
                 string VALANT = cm.Parameters[15].iDB2Value.ToString();
                 string TOTAL = cm.Parameters[16].iDB2Value.ToString();
+                string NPERIODO = cm.Parameters[17].iDB2Value.ToString();
                 tbFr3 oSolicitud = new tbFr3();
-                
+                oSolicitud.PERIODO = NPERIODO;
                 oSolicitud.AEROPUERTO = Ato;
                 oSolicitud.MATRICULA = Matricula;
                 oSolicitud.ORIGEN = Origen;

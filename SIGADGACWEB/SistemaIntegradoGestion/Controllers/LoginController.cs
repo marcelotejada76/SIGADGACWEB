@@ -69,7 +69,7 @@ namespace SistemaIntegradoGestion.Controllers
             catch (Exception ex)
             {
                 login.Mensaje = ex.Message;
-                throw ex;
+                //throw ex;
             }
 
             return View(login);

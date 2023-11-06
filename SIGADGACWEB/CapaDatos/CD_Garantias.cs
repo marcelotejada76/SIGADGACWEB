@@ -87,6 +87,7 @@ namespace CapaDatos
 
                         listarSolicitud.Add(oSolicitud);
                     }
+                    oConexion.Close();
                 }
 
             }
@@ -160,7 +161,7 @@ namespace CapaDatos
             }
             catch (Exception ex)
             {
-                throw ex;
+              //  throw ex;
             }
             return oSolicitud;
         }

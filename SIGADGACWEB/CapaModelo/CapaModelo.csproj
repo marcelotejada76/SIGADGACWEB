@@ -46,7 +46,6 @@
     <Compile Include="tbCiudad.cs" />
     <Compile Include="tbCursoEmpleado.cs" />
     <Compile Include="tbDocumentoHabilitante.cs" />
-    <Compile Include="tbEntidadEducativa.cs" />
     <Compile Include="tbFacturasDetalleP5.cs" />
     <Compile Include="tbFacturasP5.cs" />
     <Compile Include="tbListaValor.cs" />

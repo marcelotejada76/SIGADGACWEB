@@ -1,5 +1,6 @@
 ﻿using CapaDatos;
 using CapaModelo;
+using SistemaIntegradoGestion.Utilitarios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace SistemaIntegradoGestion.Controllers
 
             return View();
         }
+
         public ActionResult ListadoFacturasP5()
         {
             if (Session["Usuario"] == null)
@@ -47,13 +49,20 @@ namespace SistemaIntegradoGestion.Controllers
             listado = CD_FacturasP5.Instancia.DetalleFacturasP5();
             return View(listado);
         }
+
         [HttpPost]
         public ActionResult ListadoFacturasP5(string NombreCliente)
         {
         
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
+
+           NombreCliente= NombreCliente.ToUpper();
             var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturasP5Cliente(NombreCliente);
+            if (FacturaP5Consulta.Count==0)
+            {
+                 FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturaCliente(NombreCliente);
+            }
             return View(FacturaP5Consulta);
         }
         public ActionResult DetalleFacturasP5(Int32 OidFactura)
@@ -61,11 +70,50 @@ namespace SistemaIntegradoGestion.Controllers
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
             var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturasRucP5(OidFactura);
+           
             return View(FacturaP5Consulta);
         }
+
+
+        //DATO CONFIAR
+        //public ActionResult DetalleFacturaP5Confiar(Int32 NumeroFactura)
+        //{
+        //    if (Session["Usuario"] == null)
+        //        return RedirectToAction("login", "Login");
+        //    var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturaP5Confiar(NumeroFactura);
+        //    return View(FacturaP5Consulta);
+        //}
+       // /descargapdf
+        public ActionResult DetalleFacturaP5Confiar(Int32 NumeroFactura)
+        {
+            var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturaP5Confiar(NumeroFactura);
+
+            string url = FacturaP5Consulta.RESULTADO;
+            int len = url.Length;
+            len = len - 3;
+            url = url.Substring(3,len);
+
+            string fullName = Constantes.ConfiarUrl + url;
+
+            byte[] fileBytes = GetFile(fullName);
+            return File(
+                fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fullName);
+        }
+
+        byte[] GetFile(string s)
+        {
+            System.IO.FileStream fs = System.IO.File.OpenRead(s);
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new System.IO.IOException(s);
+            return data;
+        }
+
         //buscar por nombre cliente
         public ActionResult DetalleFacturasP5Cliente(string NombreCliente)
         {
+            NombreCliente = NombreCliente.ToUpper();
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
             var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturasP5Cliente(NombreCliente);

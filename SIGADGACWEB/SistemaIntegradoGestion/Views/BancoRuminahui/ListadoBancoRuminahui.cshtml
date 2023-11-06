@@ -1,0 +1,222 @@
+﻿@model IEnumerable<CapaModelo.tbBancoRuminahui>
+@{
+    ViewBag.Title = "ListadoBancoRuminahui";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p class="text-blue">LISTADO DE DEPOSITOS BANCO RUMIÑAHUI</p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoBancoRuminahui", "BancoRuminahui", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row mb-8">
+            <div class="col-sm-3">
+                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>NUM.COMPROBANTE/FACTURA</label></div>
+            </div>
+            <div class="col-sm-8 fv-row">
+
+                <input style="text-transform:uppercase" class="form-control form-control-solid" id="Comprobante" name="Comprobante" />
+            </div>
+            <div>
+           
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>
+
+
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Fecha Proceso</th>
+                                <th>Numero Comprobante</th>
+                                <th>Codigo Comprobante</th>
+                                <th>Factura</th>
+                                <th>Monto</th>
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.FECHAPROCESO)</td>
+                                <td>@Html.DisplayFor(modelItem => item.NUMEROCOMPROBANTE)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CODIGOCOMPROBANTE)</td>
+                                <td>@Html.DisplayFor(modelItem => item.NUMEROFACTURA)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MONTO)</td>
+                                <td>
+                                    <a id="Consultar" href="#" onclick="Consultar(@item.FECHAPROCESO,'@item.NUMEROCOMPROBANTE' )">
+                                        <i>
+                                            <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                        </i>
+                                        Consulta
+                                    </a>
+
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> DEPOSITOS BANCO RUMIÑAHUI</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Proceso</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="FECHAPROCESO" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Numero Comprobante</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="NUMEROCOMPROBANTE" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Hora Transaccion</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="HORATRANSACCION" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="row justify-content-start">
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Oficina</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="OFICINA" readonly="readonly" />
+                                </div>
+                                <div class="col-8">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Concepto</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="CONCEPTO" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-start">
+                                
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Codigo Comprobante</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="CODIGOCOMPROBANTE" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Numero factura</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="NUMEROFACTURA" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Monto</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="MONTO" readonly="readonly" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr />
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+      
+
+        function Consultar(Fechaproceso, Numerocomprobante) {
+
+           
+            $("#FECHAPROCESO").val("");
+            $("#NUMEROCOMPROBANTE").val("");
+            $("#HORATRANSACCION").val("");
+            $("#OFICINA").val("");
+            $("#CONCEPTO").val("");
+            $("#MONTO").val("");
+            $("#NUMEROFACTURA").val("");
+            $("#CODIGOCOMPROBANTE").val("");
+            
+            $.ajax({
+                url: $.MisUrls.url._DetalleBancoRuminahui,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { FechaDeposito: Fechaproceso, NumeroComprobante: Numerocomprobante},
+                success: function (e) {
+
+                    $("#FECHAPROCESO").val(e.FECHAPROCESO);
+                    $("#NUMEROCOMPROBANTE").val(e.NUMEROCOMPROBANTE);
+                    $("#HORATRANSACCION").val(e.HORA);
+                    $("#OFICINA").val(e.OFICINA);
+                    $("#CONCEPTO").val(e.CONCEPTO);
+                    $("#MONTO").val(e.MONTO);
+                    $("#NUMEROFACTURA").val(e.NUMEROFACTURA);
+                    $("#CODIGOCOMPROBANTE").val(e.CODIGOCOMPROBANTE);
+                    
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>
+}

@@ -139,6 +139,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\FacturasP5Controller.cs" />
+    <Compile Include="Controllers\CalculoFr3Controller.cs" />
+    <Compile Include="Controllers\BancoRuminahuiController.cs" />
+    <Compile Include="Controllers\MatriculasAdeudadasController.cs" />
+    <Compile Include="Controllers\MatriculasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManifiestoController.cs" />
@@ -2404,12 +2408,8 @@
     <Content Include="Views\Garantias\DetalleGarantia.cshtml" />
     <Content Include="Views\ManiestoPax\Formulario.cshtml" />
     <Content Include="Views\FacturasP5\ListadoFacturasP5.cshtml" />
-    <Content Include="Views\FacturasP5\DetalleFacturasP5.cshtml" />
     <Content Include="Views\Manifiesto\Formulario.cshtml" />
     <Content Include="Views\TalentoHumano\Index.cshtml" />
-    <Content Include="Views\TalentoHumano\Detalle_Maestro_Personal.cshtml" />
-    <Content Include="Views\TalentoHumano\Editar_Maestro_Personal.cshtml" />
-    <Content Include="Views\TalentoHumano\CursoEmpleado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

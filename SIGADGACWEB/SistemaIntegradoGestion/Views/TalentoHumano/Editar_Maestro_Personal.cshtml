@@ -1,0 +1,494 @@
+﻿@{
+    ViewBag.Title = "Editar Empleado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-12">
+        <section>
+            <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="step-datos-tab" data-toggle="pill" href="#step-datos" role="tab" aria-controls="step-datos" aria-selected="true">
+                                <span class="round-tab">
+                                    <i class="text-blue"><img src="~/Content/imganes/user.png" style="width:30px" /> Datos empleado</i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="step-datos-adicionales-tab" data-toggle="pill" href="#step-datos-adicionales" role="tab" aria-controls="step-datos-adicionales" aria-selected="true">
+                                <span class="round-tab">
+                                    <i class="text-blue"><img src="~/Content/imganes/documento.png" style="width:30px" /> Datos adicionales</i>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Cursos del Empleado</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">                  
+                    <div class="tab-content" id="custom-tabs-four-tabContent">
+                        <div class="tab-pane fade active show" id="step-datos" role="tabpanel" aria-labelledby="step-datos-tab">
+                            <form class="form-horizontal">
+                                <div class="card-body">
+                                    <input type="hidden" id="PathFoto" name="PathFoto" readonly>
+                                    <div class="form-group row">
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td class="col-sm-2">
+                                                    <label for="DocumentoIdentificacion" class=" col-form-label">Documento identidad:</label>
+                                                </td>
+                                                <td class="col-sm-8">
+                                                    <input type="text" class="form-control form-control-sm text-uppercase" autocomplete="off" maxlength="20" id="DocumentoIdentificacion" name="DocumentoIdentificacion" readonly>
+                                                </td>
+                                                <td class="col-sm-2 " rowspan="2">
+                                                    <div class="text-center">
+                                                        <img id="imgEmpleado" style="width:90px; height:90px" />
+                                                    </div>
+
+                                                    <div class="btn-group w-100">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="custom-file-input" id="FileFoto" name="FileFoto" accept="image/*" onchange="loadFile(event)">
+                                                            <label class="custom-file-label fotoEmpleado" for="FileFoto">Actualizar foto</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-2">
+                                                    <label for="NombreCompleto" class=" col-form-label">Nombres y apellidos:</label>
+                                                </td>
+                                                <td class="col-sm-8">
+                                                    <input type="text" class="form-control form-control-sm text-uppercase" autocomplete="off" maxlength="70" id="NombreCompleto" name="NombreCompleto" readonly>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="FechaNacimiento" class="col-sm-2 col-form-label">Fecha nacimiento:<span class="text-danger"> *</span></label>                                       
+                                        <div class="col-sm-2">
+                                            <input type="date" class="form-control form-control-sm text-uppercase" autocomplete="off" maxlength="10" placeholder="dd/mm/yyyy" id="FechaNacimiento" name="FechaNacimiento">
+                                        </div>
+                                        <label for="NumeroTelefonoDomicillo" class="col-sm-2 col-form-label">Télefono domicillo:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control form-control-sm text-uppercase" autocomplete="off" maxlength="20" id="NumeroTelefonoDomicillo" name="NumeroTelefonoDomicillo">
+                                        </div>
+                                        <label for="NumeroTelefonoCelular" class="col-sm-1 col-form-label">Celular:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control form-control-sm text-uppercase" autocomplete="off" maxlength="20" id="NumeroTelefonoCelular" name="NumeroTelefonoCelular">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="EmailPersonal" class="col-sm-2 col-form-label">Email personal:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-10">
+                                            <input type="email" class="form-control form-control-sm" autocomplete="off" maxlength="70" id="EmailPersonal" name="EmailPersonal">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="Genero" class="col-sm-2 col-form-label">Genero:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @Html.DropDownList("Genero", new SelectList(ViewBag.SelectComboGenero, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                        </div>
+                                        <label for="ColorOjos" class="col-sm-2 col-form-label">Color ojos:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @Html.DropDownList("ColorOjos", new SelectList(ViewBag.SelectComboColorOjos, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                        </div>
+                                        <label for="ColorCaballo" class="col-sm-1 col-form-label">Cabello:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-3">
+                                            @Html.DropDownList("ColorCaballo", new SelectList(ViewBag.SelectComboCabello, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="TipoSangre" class="col-sm-2 col-form-label">Tipo sangre:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @Html.DropDownList("TipoSangre", new SelectList(ViewBag.SelectComboTipoSangre, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                        </div>
+                                        <label for="EstadoCivil" class="col-sm-2 col-form-label">Estado civil:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+
+                                            @Html.DropDownList("EstadoCivil", new SelectList(ViewBag.SelectComboEstaCivil, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                        </div>
+                                        <label for="Peso" class="col-sm-1 col-form-label">Peso:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control form-control-sm text-right" autocomplete="off" maxlength="3" id="Peso" name="Peso">
+                                        </div>
+                                        <label for="Peso" class="col-sm-1 col-form-label">kg</label>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="DireccionDomicillo" class="col-sm-2 col-form-label">Dirección domicillo:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="70" id="DireccionDomicillo" name="DireccionDomicillo">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="CodigoPais" class="col-sm-2 col-form-label">Pais:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboPais != null)
+                                            {
+                                                @Html.DropDownList("CodigoPais", new SelectList(ViewBag.SelectComboPais, "Value", "Text"), new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                                            }
+                                        </div>
+                                        <label for="CodigoProviencia" class="col-sm-2 col-form-label">Provincia:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboProvincia != null)
+                                            {
+                                                @Html.DropDownList("CodigoProviencia", new SelectList(ViewBag.SelectComboProvincia, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                            }
+
+                                        </div>
+                                        <label for="CodigoCiudad" class="col-sm-1 col-form-label">Ciudad:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboCiudades != null)
+                                            {
+                                                @Html.DropDownList("CodigoCiudad", new SelectList(ViewBag.SelectComboCiudades, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="CodigoCanton" class="col-sm-2 col-form-label">Canton:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboCantones != null)
+                                            {
+                                                @Html.DropDownList("CodigoCanton", new SelectList(ViewBag.SelectComboCantones, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                            }
+
+
+                                        </div>
+                                        <label for="CodigoParroquia" class="col-sm-2 col-form-label">Parroquia:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboParroquias != null)
+                                            {
+                                                @Html.DropDownList("CodigoParroquia", new SelectList(ViewBag.SelectComboParroquias, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                            }
+                                        </div>
+                                        <label for="SectorDondeVive" class="col-sm-1 col-form-label">Sector residencia:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboSectorDondeVive != null)
+                                            {
+                                                @Html.DropDownList("SectorDondeVive", new SelectList(ViewBag.SelectComboSectorDondeVive, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="RegimenLaboral" class="col-sm-2 col-form-label">Registro laboral:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboRegimenLaboral != null)
+                                            {
+                                                @Html.DropDownList("RegimenLaboral", new SelectList(ViewBag.SelectComboRegimenLaboral, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                            }
+                                        </div>
+                                        <label for="TipoHorario" class="col-sm-2 col-form-label">Tipo horario:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboTipoHorario != null)
+                                            {
+                                                @Html.DropDownList("TipoHorario", new SelectList(ViewBag.SelectComboTipoHorario, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="DecimoTerceroAculado" class="col-sm-2 col-form-label">Acumula décimo tercero:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboDecimoTercero != null)
+                                            {
+                                                @Html.DropDownList("DecimoTerceroAculado", new SelectList(ViewBag.SelectComboDecimoTercero, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                            }
+
+                                        </div>
+                                        <label for="DecimoCuartoAculado" class="col-sm-2 col-form-label">Acumula décimo cuarto:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboDecimoCuarto != null)
+                                            {
+                                                @Html.DropDownList("DecimoCuartoAculado", new SelectList(ViewBag.SelectComboDecimoCuarto, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                            }
+
+                                        </div>
+                                        <label for="AporteFondoReserva" class="col-sm-2 col-form-label">Aportar fondo reserva:<span class="text-danger"> *</span></label>
+                                        <div class="col-sm-2">
+                                            @if (@ViewBag.SelectComboAporteFondoReserva != null)
+                                            {
+                                                @Html.DropDownList("AporteFondoReserva", new SelectList(ViewBag.SelectComboAporteFondoReserva, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <div class="loadingBuscar align-items-center" id="loading1" style="display: none;">
+                                        <img src="~/Content/imganes/loadLines.gif" />
+                                    </div>
+                                    <button type="button" id="btngrabarempleado" class="btn btn-outline-primary float-right">Grabar</button>
+                                </div>
+                                <!-- /.card-footer -->
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="step-datos-adicionales" role="tabpanel" aria-labelledby="step-datos-adicionales-tab">
+                            <form id="form" class="form-horizontal">
+                                <div class="card-body">
+                                    <div class="datos-adicionales">
+                                        <div class="form-group row">
+                                            <label for="NombreContactoEmergencia" class="col-sm-2 col-form-label">Contacto emergencia:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="35" id="NombreContactoEmergencia" name="NombreContactoEmergencia">
+                                            </div>
+                                            <label for="TelefonoContactoEmergencia" class="col-sm-2 col-form-label">Télefono:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="10" id="TelefonoContactoEmergencia" name="TelefonoContactoEmergencia">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="AlergiaMedicina" class="col-sm-2 col-form-label">Alergia medicina:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="15" id="AlergiaMedicina" name="AlergiaMedicina">
+                                            </div>
+                                            <label for="AlergiaAlimentos" class="col-sm-2 col-form-label">Alergia alimento:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="15" id="AlergiaAlimentos" name="AlergiaAlimentos">
+                                            </div>
+                                            <label for="AlergiaMedioAmbiente" class="col-sm-2 col-form-label">Alergia medio ambiente:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="15" id="AlergiaMedioAmbiente" name="AlergiaMedioAmbiente">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="Discapacidad" class="col-sm-2 col-form-label">Discapacidad:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                @if (@ViewBag.SelectComboDiscapacidad != null)
+                                                {
+                                                    @Html.DropDownList("Discapacidad", new SelectList(ViewBag.SelectComboDiscapacidad, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                                }
+
+                                            </div>
+                                            <label for="DiscapacidadNombre" class="col-sm-2 col-form-label">Descripcion discapacidad:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="40" id="DiscapacidadNombre" name="DiscapacidadNombre">
+                                            </div>
+                                            <label for="Porcentaje" class="col-sm-2 col-form-label">Porcentaje discapacidad(%):<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control form-control-sm text-right" autocomplete="off" maxlength="5" id="Porcentaje" name="Porcentaje">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="EnfermedadCatrastrofica" class="col-sm-2 col-form-label">Enfermedad catastrofica:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                @if (@ViewBag.SelectComboEnfermedaCatastrof != null)
+                                                {
+                                                    @Html.DropDownList("EnfermedadCatrastrofica", new SelectList(ViewBag.SelectComboEnfermedaCatastrof, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                                }
+
+                                            </div>
+                                            <label for="EnfermedadCatrastroficaNombre" class="col-sm-2 col-form-label">Descripción Enfermedad:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="20" id="EnfermedadCatrastroficaNombre" name="EnfermedadCatrastroficaNombre">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Sustituto" class="col-sm-2 col-form-label">Sustituto:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                @if (@ViewBag.SelectComboEnfermedaCatastrof != null)
+                                                {
+                                                    @Html.DropDownList("Sustituto", new SelectList(ViewBag.SelectComboEnfermedaCatastrof, "Value", "Text"), new { @class = "form-control form-control-sm" })
+                                                }
+
+                                            </div>
+                                            <label for="NombreFamiliarSustituto" class="col-sm-2 col-form-label">Nombre sustituto:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="30" id="NombreFamiliarSustituto" name="NombreFamiliarSustituto">
+                                            </div>
+                                            <label for="ParentescoSubtituto" class="col-sm-2 col-form-label">Parentesco:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="15" id="ParentescoSubtituto" name="ParentescoSubtituto">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="SenescytNumeroRegistro" class="col-sm-2 col-form-label">Registro senescyt:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="18" id="SenescytNumeroRegistro" name="SenescytNumeroRegistro">
+                                            </div>
+                                            <label for="EnfermedadCatrastroficaNombre" class="col-sm-2 col-form-label">Título:<span class="text-danger"> * </span></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control form-control-sm " autocomplete="off" maxlength="35" id="UltimoTituloObtenido" name="UltimoTituloObtenido">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <button type="button" id="grabarDatosAdiciones" class="btn btn-outline-primary float-right enviarDatos">Grabar</button>
+                                </div>
+                                <!-- /.card-footer -->
+                            </form>
+                        </div>
+
+                        <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                            <form class="form-horizontal">
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <button type="button" id="nuevoCurso" class="btn btn-outline-primary btn-sm  float-right">Nuevo curso</button>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <table class="table table-bordered table-hover table-sm" id="tbCursoEmpleados" style="width:100%; font-size:small">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Código</th>
+                                                        <th>Descripción curso</th>
+                                                        <th>Fecha registro</th>
+                                                        <th>Estado curso</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>                                       
+                                    </div>
+                                </div>
+                                <!-- /.card-footer -->
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+<div class="modal fade" id="cursoModal" tabindex="-1" aria-labelledby="cursoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Curso del Empleado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="formCurso">
+                    <div class="card-body">
+                        <input type="hidden" id="mdocumentoCurso">
+                        <input type="hidden" id="mestadoCurso">
+                        <div class="form-group row">
+                            <label for="mdocumentoIdentidad" class="col-sm-3 col-form-label">Funcionario:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control form-control-sm" id="mdocumentoIdentidad" readonly>
+                            </div>
+                            <input type="text" class="form-control form-control-sm col-sm-7" id="mnombreEmpleado" readonly>
+                        </div>
+                        <div class="form-group row">
+                            <label for="mdocumentoIdentidad" class="col-sm-3 col-form-label">Código curso:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-control-sm " id="mcodigoCurso" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="titulosSelect" class="col-sm-3 col-form-label">Curso:<span class="text-danger"> *</span></label>
+                            <div class="col-sm-9">
+                                <select class="form-control form-control-sm" id="titulosSelect"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="mdescripcionTitulo" class="col-sm-3 col-form-label">Descripción:<span class="text-danger"> *</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-control-sm " id="mdescripcionTitulo" onkeydown="upperCaseF(this)" maxlength="120">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="mcodigoDocumento" class="col-sm-3 col-form-label">Código documento:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-control-sm " id="mcodigoDocumento" onkeydown="upperCaseF(this)" maxlength="40">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="mfechaCurso" class="col-sm-3 col-form-label">Fecha:<span class="text-danger"> *</span></label>
+                            <div class="col-sm-2">
+                                <input type="date" class="form-control form-control-sm " id="mfechaCurso">
+                            </div>
+                            <label for="mduracion" class="col-sm-2 col-form-label">Duración:<span class="text-danger"> *</span></label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control form-control-sm " id="mduracion" maxlength="2" onkeypress="return valideKey(event);">
+                            </div>
+                            <label for="tiempoSelect" class="col-sm-1 col-form-label">Tiempo:<span class="text-danger"> *</span></label>
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" id="tiempoSelect"></select>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Horas</label>
+                        </div>
+                        <div class="form-group row">
+                            <label for="aprobacionSelect" class="col-sm-3 col-form-label">Aprobación:<span class="text-danger"> *</span></label>
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" id="aprobacionSelect"></select>
+                            </div>
+                            <label for="asistenciaSelect" class="col-sm-2 col-form-label">Asistencia:<span class="text-danger"> *</span></label>
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" id="asistenciaSelect"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ciudadSelect" class="col-sm-3 col-form-label">Ciudad:<span class="text-danger"> *</span></label>
+                            <div class="col-sm-9">
+                                <select class="form-control form-control-sm" id="ciudadSelect"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="entidadEducativaSelect" class="col-sm-3 col-form-label">Entidad educativa:<span class="text-danger"> *</span></label>
+                            <div class="col-sm-9">
+                                <select class="form-control form-control-sm" id="entidadEducativaSelect"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="documentoSelect" class="col-sm-3 col-form-label">Documento:<span class="text-danger"> *</span></label>
+                            <div class="col-sm-9">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="adjuntoFile">
+                                    <label class="custom-file-label" for="adjuntoFile">Adjuntar el curso</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary btn-sm" id="btngrabarCurso">Grabar curso</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="archivoModal" tabindex="-1" aria-labelledby="cursoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Archivo - Empleado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body overflow-auto">
+                    <iframe id="iframeDocumento" style="border: 1px solid black; height: 500px; width: 100%"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Views/maestroPersonal.js")" type="text/javascript"></script>
+}

@@ -150,6 +150,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CursoViewModel.cs" />
     <Compile Include="Models\ModelArchivo.cs" />
     <Compile Include="Models\ModelLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -340,6 +341,7 @@
     <Content Include="Content\imganes\consultar-documento.png" />
     <Content Include="Content\imganes\dctCancelado.png" />
     <Content Include="Content\imganes\documento aceptar.png" />
+    <Content Include="Content\imganes\documento.png" />
     <Content Include="Content\imganes\dowload.png" />
     <Content Include="Content\imganes\dowload1.png" />
     <Content Include="Content\imganes\editar-documento.png" />
@@ -381,7 +383,10 @@
     <Content Include="Content\imganes\icons\refresh-page.png" />
     <Content Include="Content\imganes\icons\search_document.ico" />
     <Content Include="Content\imganes\icons\shoppingcart.ico" />
+    <Content Include="Content\imganes\lapiz.png" />
     <Content Include="Content\imganes\Loading.gif" />
+    <Content Include="Content\imganes\loadingHorizontal.gif" />
+    <Content Include="Content\imganes\loadLines.gif" />
     <Content Include="Content\imganes\logo2.jpg" />
     <Content Include="Content\imganes\logodgac.jpg" />
     <Content Include="Content\imganes\logodgac.png" />
@@ -2246,6 +2251,7 @@
     <Content Include="Content\Plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\Plugins\uplot\uPlot.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\th-empleado.css" />
     <Content Include="Content\TreeView\images\ajax-loader.gif" />
     <Content Include="Content\TreeView\images\file.gif" />
     <Content Include="Content\TreeView\images\folder-closed.gif" />
@@ -2369,6 +2375,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
+    <Content Include="Scripts\Views\maestroPersonal.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2400,6 +2407,9 @@
     <Content Include="Views\FacturasP5\DetalleFacturasP5.cshtml" />
     <Content Include="Views\Manifiesto\Formulario.cshtml" />
     <Content Include="Views\TalentoHumano\Index.cshtml" />
+    <Content Include="Views\TalentoHumano\Detalle_Maestro_Personal.cshtml" />
+    <Content Include="Views\TalentoHumano\Editar_Maestro_Personal.cshtml" />
+    <Content Include="Views\TalentoHumano\CursoEmpleado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

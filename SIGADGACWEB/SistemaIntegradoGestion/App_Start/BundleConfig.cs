@@ -65,8 +65,10 @@ namespace DGACWWEB
                       "~/Content/plugins/datatables-buttons/js/buttons.bootstrap4.min.js",
                       "~/Content/plugins/bs-stepper/js/bs-stepper.min.js",
                       "~/Content/plugins/dropzone/min/dropzone.min.js",
+                      "~/Content/plugins/jquery-validation/jquery.validate.min.js",
+                      "~/Content/plugins/jquery-validation/additional-methods.min.js",
                       "~/Content/dist/js/adminlte.min.js",
-                      "~/Content/dist/js/print.min.js",
+                      "~/Content/dist/js/print.min.js",                     
                       "~/Content/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js",
                       "~/Content/dist/js/dgac.js"
                      ));

@@ -48,15 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CD_CursoEmpleado.cs" />
     <Compile Include="CD_DocumentoHabilitante.cs" />
+    <Compile Include="CD_EntidadEducativa.cs" />
     <Compile Include="CD_FacturasDetalleP5.cs" />
     <Compile Include="CD_FacturasP5.cs" />
+    <Compile Include="CD_ListaValor.cs" />
     <Compile Include="CD_Menu.cs" />
+    <Compile Include="CD_Pais.cs" />
+    <Compile Include="CD_Provincia.cs" />
     <Compile Include="CD_Rol.cs" />
     <Compile Include="CD_Sistema.cs" />
     <Compile Include="CD_Garantias.cs" />
     <Compile Include="CD_SolicitudPOA.cs" />
     <Compile Include="CD_SubMenu.cs" />
+    <Compile Include="CD_TalentoHumano.cs" />
+    <Compile Include="CD_TituloCurso.cs" />
     <Compile Include="CD_Usuario.cs" />
     <Compile Include="ConexionDB2.cs" />
     <Compile Include="ConexionP550.cs" />

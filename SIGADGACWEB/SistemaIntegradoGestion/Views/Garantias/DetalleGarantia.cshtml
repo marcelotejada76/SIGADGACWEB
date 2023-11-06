@@ -72,7 +72,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Ruc</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Ruc" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Ruc" readonly="readonly" />
                 </div>
             </div>
 
@@ -81,7 +81,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Compañia Contratista</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Compania_Contratista" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Compania_Contratista" readonly="readonly" />
                 </div>
             </div>
             <div class="row mb-8">
@@ -89,7 +89,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Numero Garantia</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.NumeroGarantia" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.NumeroGarantia" readonly="readonly" />
                 </div>
             </div>
 
@@ -98,7 +98,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Expedición</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Fecha_Expedicion" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Fecha_Expedicion" readonly="readonly" />
                 </div>
             </div>
             <div class="row mb-8">
@@ -106,7 +106,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Administrador Contrato</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Administrador_Contrato" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Administrador_Contrato" readonly="readonly" />
                 </div>
             </div>
             <div class="row mb-8">
@@ -114,7 +114,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Tipo Garantía</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Tipo_Garantia" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Tipo_Garantia" readonly="readonly" />
                 </div>
             </div>
             <div class="row mb-8">
@@ -131,7 +131,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Ruc Cia. Seguros</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Ruc_Cia_Seguros" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Ruc_Cia_Seguros" readonly="readonly" />
                 </div>
             </div>
             <div class="row mb-8">
@@ -139,7 +139,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Razon Social Cia. Seguros</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Razon_Social_Aseguradora" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Razon_Social_Aseguradora" readonly="readonly" />
                 </div>
             </div>
             <div class="row mb-8">
@@ -147,7 +147,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Vigencia Desde</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Vigencia_Desde" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Vigencia_Desde" readonly="readonly" />
                 </div>
             </div>
             <div class="row mb-8">
@@ -155,7 +155,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Vigencia Hasta</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Vigencia_Hasta" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Vigencia_Hasta" readonly="readonly" />
                 </div>
             </div>
             <div class="row mb-8">
@@ -165,13 +165,13 @@
                 <div class="col-sm-8 fv-row">
                     @if (int.Parse(@Model.Dias_a_Caducar) <= 20)
                     {
-                        <input style="font-size:23px; background-color: #bbb8a6"  class="form-control form-control-solid, text-danger"  value="@Model.Dias_a_Caducar" readonly="readonly" />
+                        <input style="font-size:23px; background-color: #bbb8a6"  class="form-control form-control-sm, text-danger"  value="@Model.Dias_a_Caducar" readonly="readonly" />
                         
                     }
                     else
                     {
 
-                        <input class="form-control form-control-solid" value="@Model.Dias_a_Caducar" readonly="readonly" />
+                        <input class="form-control form-control-sm" value="@Model.Dias_a_Caducar" readonly="readonly" />
                     }
                     
                 </div>
@@ -185,7 +185,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Seguro de</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Seguro_de" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Seguro_de" readonly="readonly" />
                 </div>
             </div>
             <div class="row mb-8">
@@ -193,7 +193,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Estado</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Estado" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Estado" readonly="readonly" />
                 </div>
             </div>
             <div class="row mb-8">
@@ -201,7 +201,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Valor Garantía</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-solid" value="@Model.Valor_Garantia" readonly="readonly" />
+                    <input class="form-control form-control-sm" value="@Model.Valor_Garantia" readonly="readonly" />
                 </div>
             </div>
 
@@ -210,7 +210,7 @@
                     <div class="fs-6 fw-bold mt-2 mb-3"><label>Observaciones</label></div>
                 </div>
                 <div class="col-sm-8 fv-row">
-                    @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control form-control-solid", @readonly = "readonly", @rows = "4" })
+                    @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control form-control-sm", @readonly = "readonly", @rows = "4" })
                     @*<input class="form-control form-control-solid" value="@Model.Observaciones" readonly="readonly" />*@
                 </div>
             </div>

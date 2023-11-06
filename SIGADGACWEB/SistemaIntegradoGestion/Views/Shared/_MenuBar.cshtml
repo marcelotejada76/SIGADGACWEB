@@ -20,7 +20,7 @@
                     @foreach (var subMenuList in menuList.oSubMenu)
                     {
                         <li class="nav-item">
-                            <a href="@Url.Action(@subMenuList.Vista, @subMenuList.Controlador, new { reporteurl = subMenuList.ReporteUrl.Trim(), nombreReporte = subMenuList.Nombre.Trim() })" class="nav-link">
+                            <a href="@Url.Action(@subMenuList.Vista, @subMenuList.Controlador, new { reporteurl = subMenuList.ReporteUrl.Trim(), nombreReporte = subMenuList.Nombre.Trim() })" class="nav-link" style="font-size:12px">
                                 <i>
                                     @if (subMenuList.Controlador.Trim().ToUpper().IndexOf("Rep") > 0)
                                     {

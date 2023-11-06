@@ -42,18 +42,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tbBancoRuminahui.cs" />
     <Compile Include="tbCanton.cs" />
     <Compile Include="tbCiudad.cs" />
     <Compile Include="tbCursoEmpleado.cs" />
     <Compile Include="tbDocumentoHabilitante.cs" />
+    <Compile Include="tbEntidadEducativa.cs" />
     <Compile Include="tbFacturasDetalleP5.cs" />
     <Compile Include="tbFacturasP5.cs" />
+    <Compile Include="tbFr3.cs" />
     <Compile Include="tbListaValor.cs" />
     <Compile Include="tbMaestroPersonal.cs" />
+    <Compile Include="tbMatriculas.cs" />
+    <Compile Include="tbMatriculasAdeudadas.cs" />
     <Compile Include="tbMenu.cs" />
     <Compile Include="tbPais.cs" />
     <Compile Include="tbParroquia.cs" />
     <Compile Include="tbProvincia.cs" />
+    <Compile Include="tbRecaudacionDetalleP5.cs" />
     <Compile Include="tbRol.cs" />
     <Compile Include="tbSistema.cs" />
     <Compile Include="tbGarantias.cs" />

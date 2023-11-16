@@ -56,6 +56,7 @@
     <Compile Include="tbMatriculas.cs" />
     <Compile Include="tbMatriculasAdeudadas.cs" />
     <Compile Include="tbMenu.cs" />
+    <Compile Include="tbMovimientosIndra.cs" />
     <Compile Include="tbPais.cs" />
     <Compile Include="tbParroquia.cs" />
     <Compile Include="tbProvincia.cs" />

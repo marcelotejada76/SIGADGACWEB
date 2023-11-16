@@ -142,6 +142,7 @@
     <Compile Include="Controllers\CalculoFr3Controller.cs" />
     <Compile Include="Controllers\BancoRuminahuiController.cs" />
     <Compile Include="Controllers\MatriculasAdeudadasController.cs" />
+    <Compile Include="Controllers\ConsultaFr3Controller.cs" />
     <Compile Include="Controllers\MatriculasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -2415,6 +2416,9 @@
     <Content Include="Views\TalentoHumano\Editar_Maestro_Personal.cshtml" />
     <Content Include="Views\BancoRuminahui\ListadoBancoRuminahui.cshtml" />
     <Content Include="Views\CalculoFr3\DatosFr3.cshtml" />
+    <Content Include="Views\Matriculas\ListadoMatriculaP5.cshtml" />
+    <Content Include="Views\MatriculasAdeudadas\ListadoMatriculasAdeudadas.cshtml" />
+    <Content Include="Views\ConsultaFr3\ListadoFr3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

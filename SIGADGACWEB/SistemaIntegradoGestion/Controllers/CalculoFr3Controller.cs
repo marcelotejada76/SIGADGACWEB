@@ -38,26 +38,7 @@ namespace SistemaIntegradoGestion.Controllers
         public ActionResult DatosFr3() {
             return View();
         }
-        //[HttpPost]
-        //public ActionResult DatosFr3( string Ato,string Matricula,string Origen, string Destino, string Destino1, string Destino2,string FechaI, string FechaF, string HoraI, string HoraF)
-        //{
-        //    Ato=Ato.ToUpper();
-        //    Matricula= Matricula.ToUpper();
-        //    Origen= Origen.ToUpper();
-        //    Destino=Destino.ToUpper();
-        //    Destino1=Destino1.ToUpper();
-        //    Destino2=Destino2.ToUpper();
-        //    if (Session["Usuario"] == null)
-        //        return RedirectToAction("login", "Login");
-
-
-        //    tbFr3 listado = new tbFr3();
-        //    SesionUsuario = (tbUsuario)Session["Usuario"];
-        //    var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
-        //    // string cAnio = oSistema.FechaSistema.Substring(0, 4);
-        //    listado = CD_Fr3.Instancia.DetalleFr3(Ato,Matricula,Origen,Destino,Destino1,Destino2,FechaI,FechaF,HoraI,HoraF);
-        //    return View(listado);
-        //}
+       
 
         [HttpGet]
         public JsonResult CargaDetalleFr3(string Ato, string Matricula, string Origen, string Destino, string Destino1, string Destino2, DateTime FechaI, DateTime FechaF, string HoraI, string HoraF)

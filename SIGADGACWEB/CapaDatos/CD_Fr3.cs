@@ -35,10 +35,10 @@ namespace CapaDatos
             tbFr3 listarSolicitud = new tbFr3();
             StringBuilder sbSol = new StringBuilder();
             string query = string.Empty;
-           
+
             try
             {
-               
+
 
                 iDB2Connection con = new iDB2Connection(ConexionDB2.CadenaConexion);
                 con.Open();
@@ -59,14 +59,14 @@ namespace CapaDatos
                 //String Destino = "SEQM";
                 //String Destino1 = "";
                 //String Destino2 = "";
-                decimal v1 =1;
+                decimal v1 = 1;
                 decimal v2 = 1;
                 decimal v3 = 1;
                 decimal v4 = 1;
                 decimal v5 = 1;
                 decimal v6 = 1;
                 decimal v7 = 1;
-                string Perio="";
+                string Perio = "";
 
                 cm.CommandText = cadena;
                 cm.CommandType = CommandType.StoredProcedure;
@@ -80,17 +80,17 @@ namespace CapaDatos
                 cm.Parameters.AddWithValue("@PR_FECHAFIN", FechaF);
                 cm.Parameters.AddWithValue("@PR_HORAINICIO", HoraI);
                 cm.Parameters.AddWithValue("@PR_HORAFIN", HoraF);
-                cm.Parameters.AddWithValue("@PR_VALEST", v1).Direction=ParameterDirection.Output;
-                cm.Parameters.AddWithValue("@PR_VALATE", v2).Direction = ParameterDirection.Output; 
+                cm.Parameters.AddWithValue("@PR_VALEST", v1).Direction = ParameterDirection.Output;
+                cm.Parameters.AddWithValue("@PR_VALATE", v2).Direction = ParameterDirection.Output;
                 cm.Parameters.AddWithValue("@PR_VALILU", v3).Direction = ParameterDirection.Output;
-                cm.Parameters.AddWithValue("@PR_VALCHA", v4).Direction = ParameterDirection.Output; 
-                cm.Parameters.AddWithValue("@PR_VALPRO", v5).Direction = ParameterDirection.Output; 
-                cm.Parameters.AddWithValue("@PR_VALANT", v6).Direction = ParameterDirection.Output; 
+                cm.Parameters.AddWithValue("@PR_VALCHA", v4).Direction = ParameterDirection.Output;
+                cm.Parameters.AddWithValue("@PR_VALPRO", v5).Direction = ParameterDirection.Output;
+                cm.Parameters.AddWithValue("@PR_VALANT", v6).Direction = ParameterDirection.Output;
                 cm.Parameters.AddWithValue("@PR_TOTAL", v7).Direction = ParameterDirection.Output;
                 cm.Parameters.AddWithValue("@PR_PERIO", Perio).Direction = ParameterDirection.Output;
                 //string valor = cm.Parameters[16].iDB2Value.ToString();
                 cm.CommandTimeout = 0;
-               // cm.ExecuteNonQuery();
+                // cm.ExecuteNonQuery();
 
                 iDB2DataReader dr = cm.ExecuteReader();
 
@@ -115,7 +115,7 @@ namespace CapaDatos
                 oSolicitud.HORAINGRESOPLATAFORMA = HoraI;
                 oSolicitud.HORASALIDAPLATAFORMA = HoraF;
 
-                if ( VALEST !="0")
+                if (VALEST != "0")
                 {
                     oSolicitud.DERECHOESTACIONAMIENTO = Convert.ToDecimal(VALEST.ToString());
                 }
@@ -144,36 +144,536 @@ namespace CapaDatos
                     oSolicitud.TOTAL = Convert.ToDecimal(TOTAL.ToString());
                 }
                 listarSolicitud = oSolicitud;
-                //while (dr.Read())
-                //    {
-                       
-                //        //oSolicitud.DERECHOESTACIONAMIENTO = Convert.ToDecimal( dr["OID"].ToString());
-                //        //oSolicitud.RUC = dr["RUC"].ToString();
-                //        //oSolicitud.COMPAÑIA = dr["COMPANIA"].ToString();
-                        
-                //        //oSolicitud.MATRICULA = dr["MATRICULAO"].ToString();
-                //        //oSolicitud.MARCA = dr["MARCA"].ToString();
-                //        //oSolicitud.MODELO = dr["MODELO"].ToString();
-                //        //oSolicitud.ESTADO = dr["ESTADO"].ToString();
-                //        //oSolicitud.USO = dr["USO"].ToString();
 
-                //        //oSolicitud.FECHACREA = dr["FECHACREA"].ToString();
-                //        //oSolicitud.USUARIOCREA = dr["USUARIOCREA"].ToString();
-                //        //oSolicitud.PESOMAXESTRUCTURAL = decimal.Parse(dr["PESOMAXESTRUCTURAL"].ToString());
-                        
-                //      //  listarSolicitud.Add(oSolicitud);
-                //    }
-                   // dr.Close();
-                    con.Close();
-               
+                con.Close();
+
 
             }
             catch (Exception ex)
             {
-             //   throw ex;
+                //   throw ex;
             }
             return listarSolicitud;
         }
 
+
+        public List<tbFr3> ConsultaFr3()
+        {
+            string fECHA = DateTime.Now.ToString("yyyyMMdd");
+            List<tbFr3> listarSolicitud = new List<tbFr3>();
+            StringBuilder sbSol = new StringBuilder();
+            string query = string.Empty;
+            try
+            {
+                sbSol.Append("SELECT * FROM OPCAR5 left join opcar1 on opcaer=opcco4 WHERE OPCFE4 = '" + fECHA + "'");
+
+                query = sbSol.ToString();
+                iDB2Command cmd;
+
+
+                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                {
+                    cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+                    iDB2DataReader dr = cmd.ExecuteReader();
+
+
+
+                    while (dr.Read())
+                    {
+                        tbFr3 oSolicitud = new tbFr3();
+                        oSolicitud.NUMEROFR3 = Convert.ToInt16(dr["OPCSEC"].ToString());
+                        oSolicitud.ATO = dr["OPCAER"].ToString();
+                        oSolicitud.FECHAEMISION = dr["OPCFE4"].ToString();
+                        oSolicitud.AÑO = dr["OPCANO"].ToString();
+                        oSolicitud.AEROPUERTO = dr["opcdes"].ToString();
+                        oSolicitud.MATRICULA = dr["OPCMAT"].ToString();
+                        oSolicitud.ORIGEN = dr["OPCORI"].ToString();
+                        oSolicitud.DESTINO = dr["OPCDE7"].ToString();
+                        oSolicitud.DESTINO1 = dr["OPCRET"].ToString();
+                        oSolicitud.DESTINO2 = dr["OPCRE8"].ToString();
+
+                        oSolicitud.FECHAINGRESOPLATAFORMA = dr["OPCFE5"].ToString();
+                        oSolicitud.FECHASALIDAPLATAFORMA = dr["OPCFE6"].ToString();
+                        oSolicitud.HORAINGRESOPLATAFORMA = dr["OPCHO8"].ToString();
+                        oSolicitud.HORASALIDAPLATAFORMA = dr["OPCHO9"].ToString();
+
+                        // oSolicitud.PESOMAXESTRUCTURAL = Convert.ToDecimal(VALEST.ToString());
+                        oSolicitud.DERECHOESTACIONAMIENTO = Convert.ToDecimal(dr["OPCDE4"].ToString());
+                        oSolicitud.DERECHOATERRIZAJEDIURNO = Convert.ToDecimal(dr["OPCDER"].ToString());
+                        oSolicitud.DERECHOPROTVLO = Convert.ToDecimal(dr["OPCDE3"].ToString());
+                        oSolicitud.DERECHOPROTANTESYDESPUES = Convert.ToDecimal(dr["OPCTOT"].ToString());
+                        oSolicitud.DERECHOILUMINACION = Convert.ToDecimal(dr["OPCDE2"].ToString());
+                        oSolicitud.CHARTER = Convert.ToDecimal(dr["OPCVA6"].ToString());
+
+                        oSolicitud.TOTAL = Convert.ToDecimal(dr["OPCGRA"].ToString());
+                        oSolicitud.PERIODO = dr["OPCPER"].ToString();
+
+
+                        oSolicitud.NACINT = dr["OPCNAC"].ToString();
+                        oSolicitud.RUTA = dr["OPCRUT"].ToString();
+                        oSolicitud.DISTANCIA = dr["OPCDI2"].ToString();
+                        oSolicitud.RUC = dr["OPCRU1"].ToString();
+                        oSolicitud.RAZONSOCIAL = dr["OPCNO4"].ToString();
+                        oSolicitud.CIA = dr["OPCC08"].ToString();
+                        oSolicitud.NOMBRECIA = dr["OPCNO5"].ToString();
+                        oSolicitud.AUTORIZACION = dr["OPCAUT"].ToString();
+
+                        oSolicitud.TRANSFERENCIA = dr["OPCCHE"].ToString();
+                        oSolicitud.EMAIL = dr["OPCEM1"].ToString();
+                        oSolicitud.OBSERVACION = dr["OPCOBS"].ToString();
+                        oSolicitud.NUMEROFACTURA = dr["OPCNUM"].ToString();
+                        oSolicitud.RECAUDACION = dr["OPCC07"].ToString();
+                        oSolicitud.USUARIOCREA = dr["OPCUS7"].ToString();
+                        oSolicitud.FECHACREA = dr["OPCDA4"].ToString();
+                        oSolicitud.HORACREA = dr["OPCH01"].ToString();
+                        // oSolicitud.ESTADO = dr["OPCPRO"].ToString();
+
+                        oSolicitud.FORMAPAGO = dr["OPCFOR"].ToString();
+                        string formaPago = dr["OPCFOR"].ToString();
+                        switch (formaPago)
+                        {
+                            case "01":
+                                oSolicitud.FORMAPAGO = "EFECTIVO";
+                                break;
+
+                            case "02":
+                                oSolicitud.FORMAPAGO = "TRANSF / DEPOSITO";
+                                break;
+
+                            case "03":
+                                oSolicitud.FORMAPAGO = "ABONO";
+                                break;
+                            case "04":
+                                oSolicitud.FORMAPAGO = "PAGO POSTERIOR";
+                                break;
+
+                            default:
+                                break;
+                        }
+                        string banco = dr["OPCBAN"].ToString();
+                        switch (banco)
+                        {
+                            case "01":
+                                oSolicitud.BANCO = "RUMIÑAHUI";
+                                break;
+
+                            case "02":
+                                oSolicitud.BANCO = "INTERNACIONAL";
+                                break;
+
+                            case "03":
+                                oSolicitud.BANCO = "BANECUADOR";
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        string estado = dr["OPCPRO"].ToString();
+                        switch (estado)
+                        {
+                            case "P":
+                                oSolicitud.ESTADO = "PROCESADO";
+                                break;
+
+                            case "E":
+                                oSolicitud.ESTADO = "ENVIADO A FACTURAR";
+                                break;
+
+                            case "A":
+                                oSolicitud.ESTADO = "ANULADO";
+                                break;
+
+                            default:
+                                break;
+                        }
+                        string tipo = dr["OPCTIP"].ToString();
+                        switch (tipo)
+                        {
+                            case "01":
+                                oSolicitud.TIPOOPERACION = "PRIVADO";
+                                break;
+
+                            case "02":
+                                oSolicitud.TIPOOPERACION = "CHARTER NACIONAL";
+                                break;
+
+                            case "03":
+                                oSolicitud.TIPOOPERACION = "CHARTER INTERNACIONAL";
+                                break;
+                            case "04":
+                                oSolicitud.TIPOOPERACION = "ESPECIAL NACIONAL";
+                                break;
+                            case "05":
+                                oSolicitud.TIPOOPERACION = "ESPECIAL INTERNACIONAL";
+                                break;
+
+                            default:
+                                break;
+                        }
+                        listarSolicitud.Add(oSolicitud);
+                    }
+
+                    dr.Close();
+                    oConexion.Close();
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
+            return listarSolicitud;
+        }
+        public List<tbFr3> ConsultaFr3PorFecha(string FECHA)
+        {
+            // string fECHA = DateTime.Now.ToString("yyyyMMdd");
+            List<tbFr3> listarSolicitud = new List<tbFr3>();
+            StringBuilder sbSol = new StringBuilder();
+            string query = string.Empty;
+            try
+            {
+                sbSol.Append("SELECT * FROM OPCAR5 left join opcar1 on opcaer=opcco4 WHERE OPCFE4 = '" + FECHA + "'");
+
+                query = sbSol.ToString();
+                iDB2Command cmd;
+
+
+                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                {
+                    cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+                    iDB2DataReader dr = cmd.ExecuteReader();
+
+
+
+                    while (dr.Read())
+                    {
+                        tbFr3 oSolicitud = new tbFr3();
+                        oSolicitud.NUMEROFR3 = Convert.ToInt16(dr["OPCSEC"].ToString());
+                        oSolicitud.FECHAEMISION = dr["OPCFE4"].ToString();
+                        oSolicitud.AÑO = dr["OPCANO"].ToString();
+                        oSolicitud.AEROPUERTO = dr["opcdes"].ToString();
+                        oSolicitud.MATRICULA = dr["OPCMAT"].ToString();
+                        oSolicitud.ORIGEN = dr["OPCORI"].ToString();
+                        oSolicitud.DESTINO = dr["OPCDE7"].ToString();
+                        oSolicitud.DESTINO1 = dr["OPCRET"].ToString();
+                        oSolicitud.DESTINO2 = dr["OPCRE8"].ToString();
+
+                        oSolicitud.FECHAINGRESOPLATAFORMA = dr["OPCFE5"].ToString();
+                        oSolicitud.FECHASALIDAPLATAFORMA = dr["OPCFE6"].ToString();
+                        oSolicitud.HORAINGRESOPLATAFORMA = dr["OPCHO8"].ToString();
+                        oSolicitud.HORASALIDAPLATAFORMA = dr["OPCHO9"].ToString();
+
+                        // oSolicitud.PESOMAXESTRUCTURAL = Convert.ToDecimal(VALEST.ToString());
+                        oSolicitud.DERECHOESTACIONAMIENTO = Convert.ToDecimal(dr["OPCDE4"].ToString());
+                        oSolicitud.DERECHOATERRIZAJEDIURNO = Convert.ToDecimal(dr["OPCDER"].ToString());
+                        oSolicitud.DERECHOPROTVLO = Convert.ToDecimal(dr["OPCDE3"].ToString());
+                        oSolicitud.DERECHOPROTANTESYDESPUES = Convert.ToDecimal(dr["OPCTOT"].ToString());
+                        oSolicitud.DERECHOILUMINACION = Convert.ToDecimal(dr["OPCDE2"].ToString());
+                        oSolicitud.CHARTER = Convert.ToDecimal(dr["OPCVA6"].ToString());
+
+                        oSolicitud.TOTAL = Convert.ToDecimal(dr["OPCGRA"].ToString());
+                        oSolicitud.PERIODO = dr["OPCPER"].ToString();
+
+
+                        oSolicitud.NACINT = dr["OPCNAC"].ToString();
+                        oSolicitud.RUTA = dr["OPCRUT"].ToString();
+                        oSolicitud.DISTANCIA = dr["OPCDI2"].ToString();
+                        oSolicitud.RUC = dr["OPCRU1"].ToString();
+                        oSolicitud.RAZONSOCIAL = dr["OPCNO4"].ToString();
+                        oSolicitud.CIA = dr["OPCC08"].ToString();
+                        oSolicitud.NOMBRECIA = dr["OPCNO5"].ToString();
+                        oSolicitud.AUTORIZACION = dr["OPCAUT"].ToString();
+
+                        oSolicitud.TRANSFERENCIA = dr["OPCCHE"].ToString();
+                        oSolicitud.EMAIL = dr["OPCEM1"].ToString();
+                        oSolicitud.OBSERVACION = dr["OPCOBS"].ToString();
+                        oSolicitud.NUMEROFACTURA = dr["OPCNUM"].ToString();
+                        oSolicitud.RECAUDACION = dr["OPCC07"].ToString();
+                        oSolicitud.USUARIOCREA = dr["OPCUS7"].ToString();
+                        oSolicitud.FECHACREA = dr["OPCDA4"].ToString();
+                        oSolicitud.HORACREA = dr["OPCH01"].ToString();
+                        // oSolicitud.ESTADO = dr["OPCPRO"].ToString();
+
+                        oSolicitud.FORMAPAGO = dr["OPCFOR"].ToString();
+                        string formaPago = dr["OPCFOR"].ToString();
+                        switch (formaPago)
+                        {
+                            case "01":
+                                oSolicitud.FORMAPAGO = "EFECTIVO";
+                                break;
+
+                            case "02":
+                                oSolicitud.FORMAPAGO = "TRANSF / DEPOSITO";
+                                break;
+
+                            case "03":
+                                oSolicitud.FORMAPAGO = "ABONO";
+                                break;
+                            case "04":
+                                oSolicitud.FORMAPAGO = "PAGO POSTERIOR";
+                                break;
+
+                            default:
+                                break;
+                        }
+                        string banco = dr["OPCBAN"].ToString();
+                        switch (banco)
+                        {
+                            case "01":
+                                oSolicitud.BANCO = "RUMIÑAHUI";
+                                break;
+
+                            case "02":
+                                oSolicitud.BANCO = "INTERNACIONAL";
+                                break;
+
+                            case "03":
+                                oSolicitud.BANCO = "BANECUADOR";
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        string estado = dr["OPCPRO"].ToString();
+                        switch (estado)
+                        {
+                            case "P":
+                                oSolicitud.ESTADO = "PROCESADO";
+                                break;
+
+                            case "E":
+                                oSolicitud.ESTADO = "ENVIADO A FACTURAR";
+                                break;
+
+                            case "A":
+                                oSolicitud.ESTADO = "ANULADO";
+                                break;
+
+                            default:
+                                break;
+                        }
+                        string tipo = dr["OPCTIP"].ToString();
+                        switch (tipo)
+                        {
+                            case "01":
+                                oSolicitud.TIPOOPERACION = "PRIVADO";
+                                break;
+
+                            case "02":
+                                oSolicitud.TIPOOPERACION = "CHARTER NACIONAL";
+                                break;
+
+                            case "03":
+                                oSolicitud.TIPOOPERACION = "CHARTER INTERNACIONAL";
+                                break;
+                            case "04":
+                                oSolicitud.TIPOOPERACION = "ESPECIAL NACIONAL";
+                                break;
+                            case "05":
+                                oSolicitud.TIPOOPERACION = "ESPECIAL INTERNACIONAL";
+                                break;
+
+                            default:
+                                break;
+                        }
+                        listarSolicitud.Add(oSolicitud);
+                    }
+
+                    dr.Close();
+                    oConexion.Close();
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
+            return listarSolicitud;
+        }
+        public tbFr3 ConsultaFr3PorSecuencia(Int16 NumeroFr3, string Ato, string Ano)
+        {
+            // string fECHA = DateTime.Now.ToString("yyyyMMdd");
+            tbFr3 listarSolicitud = new tbFr3();
+            StringBuilder sbSol = new StringBuilder();
+            string query = string.Empty;
+            try
+            {
+                sbSol.Append("SELECT * FROM OPCAR5 left join opcar1 on opcaer=opcco4 left join usuarc on usucod=opcus7  WHERE OPCSEC = " + NumeroFr3 + " AND OPCAER= '" + Ato + "' AND OPCANO ='" + Ano + "'");
+
+                query = sbSol.ToString();
+                iDB2Command cmd;
+
+
+                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                {
+                    cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+                    iDB2DataReader dr = cmd.ExecuteReader();
+
+                    dr.Read();
+
+                    //while (dr.Read())
+                    //{
+                    tbFr3 oSolicitud = new tbFr3();
+                    oSolicitud.NUMEROFR3 = Convert.ToInt16(dr["OPCSEC"].ToString());
+                    oSolicitud.FECHAEMISION = dr["OPCFE4"].ToString();
+                    oSolicitud.AÑO = dr["OPCANO"].ToString();
+                    oSolicitud.AEROPUERTO = dr["opcdes"].ToString();
+                    oSolicitud.MATRICULA = dr["OPCMAT"].ToString();
+                    oSolicitud.CALLSIGN = dr["OPCCAL"].ToString();
+                    oSolicitud.ORIGEN = dr["OPCORI"].ToString();
+                    oSolicitud.DESTINO = dr["OPCDE7"].ToString();
+                    oSolicitud.DESTINO1 = dr["OPCRET"].ToString();
+                    oSolicitud.DESTINO2 = dr["OPCRE8"].ToString();
+                    oSolicitud.PESOMAXESTRUCTURAL = Convert.ToDecimal(dr["OPCPES"].ToString());
+
+                    oSolicitud.FECHAINGRESOPLATAFORMA = dr["OPCFE5"].ToString();
+                    oSolicitud.FECHASALIDAPLATAFORMA = dr["OPCFE6"].ToString();
+                    oSolicitud.HORAINGRESOPLATAFORMA = dr["OPCHO8"].ToString();
+                    oSolicitud.HORASALIDAPLATAFORMA = dr["OPCHO9"].ToString();
+
+                    // oSolicitud.PESOMAXESTRUCTURAL = Convert.ToDecimal(VALEST.ToString());
+                    oSolicitud.DERECHOESTACIONAMIENTO = Convert.ToDecimal(dr["OPCDE4"].ToString());
+                    oSolicitud.DERECHOATERRIZAJEDIURNO = Convert.ToDecimal(dr["OPCDER"].ToString());
+                    oSolicitud.DERECHOPROTVLO = Convert.ToDecimal(dr["OPCDE3"].ToString());
+                    oSolicitud.DERECHOPROTANTESYDESPUES = Convert.ToDecimal(dr["OPCTOT"].ToString());
+                    oSolicitud.DERECHOILUMINACION = Convert.ToDecimal(dr["OPCDE2"].ToString());
+                    oSolicitud.CHARTER = Convert.ToDecimal(dr["OPCVA6"].ToString());
+
+                    oSolicitud.TOTAL = Convert.ToDecimal(dr["OPCGRA"].ToString());
+                    oSolicitud.PERIODO = dr["OPCPER"].ToString();
+
+
+                    oSolicitud.NACINT = dr["OPCNAC"].ToString();
+                    oSolicitud.RUTA = dr["OPCRUT"].ToString();
+                    oSolicitud.DISTANCIA = dr["OPCDI2"].ToString();
+                    oSolicitud.RUC = dr["OPCRU1"].ToString();
+                    oSolicitud.RAZONSOCIAL = dr["OPCNO4"].ToString();
+                    oSolicitud.CIA = dr["OPCC08"].ToString();
+                    oSolicitud.NOMBRECIA = dr["OPCNO5"].ToString();
+                    oSolicitud.AUTORIZACION = dr["OPCAUT"].ToString();
+
+                    oSolicitud.TRANSFERENCIA = dr["OPCCHE"].ToString();
+                    oSolicitud.EMAIL = dr["OPCEM1"].ToString();
+                    oSolicitud.OBSERVACION = dr["OPCOBS"].ToString();
+                    oSolicitud.NUMEROFACTURA = dr["OPCNUM"].ToString();
+                    oSolicitud.RECAUDACION = dr["OPCC07"].ToString();
+                    oSolicitud.USUARIOCREA = dr["OPCUS7"].ToString();
+                    oSolicitud.FECHACREA = dr["OPCDA4"].ToString();
+                    oSolicitud.HORACREA = dr["OPCH01"].ToString();
+                    string nombreusuario = dr["USUNOM"].ToString().Trim();
+                    string apellidousuario = dr["USUAPE"].ToString().Trim();
+                    oSolicitud.NOMBREUSUARIO = nombreusuario + " " + apellidousuario;
+                    // oSolicitud.ESTADO = dr["OPCPRO"].ToString();
+
+                    oSolicitud.FORMAPAGO = dr["OPCFOR"].ToString();
+                    string formaPago = dr["OPCFOR"].ToString();
+                    switch (formaPago)
+                    {
+                        case "01":
+                            oSolicitud.FORMAPAGO = "EFECTIVO";
+                            break;
+
+                        case "02":
+                            oSolicitud.FORMAPAGO = "TRANSF / DEPOSITO";
+                            break;
+
+                        case "03":
+                            oSolicitud.FORMAPAGO = "ABONO";
+                            break;
+                        case "04":
+                            oSolicitud.FORMAPAGO = "PAGO POSTERIOR";
+                            break;
+
+                        default:
+                            break;
+                    }
+                    string banco = dr["OPCBAN"].ToString();
+                    switch (banco)
+                    {
+                        case "01":
+                            oSolicitud.BANCO = "RUMIÑAHUI";
+                            break;
+
+                        case "02":
+                            oSolicitud.BANCO = "INTERNACIONAL";
+                            break;
+
+                        case "03":
+                            oSolicitud.BANCO = "BANECUADOR";
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    string estado = dr["OPCPRO"].ToString();
+                    switch (estado)
+                    {
+                        case "P":
+                            oSolicitud.ESTADO = "PROCESADO";
+                            break;
+
+                        case "E":
+                            oSolicitud.ESTADO = "ENVIADO A FACTURAR";
+                            break;
+
+                        case "A":
+                            oSolicitud.ESTADO = "ANULADO";
+                            break;
+
+                        default:
+                            break;
+                    }
+                    string tipo = dr["OPCTIP"].ToString();
+                    switch (tipo)
+                    {
+                        case "01":
+                            oSolicitud.TIPOOPERACION = "PRIVADO";
+                            break;
+
+                        case "02":
+                            oSolicitud.TIPOOPERACION = "CHARTER NACIONAL";
+                            break;
+
+                        case "03":
+                            oSolicitud.TIPOOPERACION = "CHARTER INTERNACIONAL";
+                            break;
+                        case "04":
+                            oSolicitud.TIPOOPERACION = "ESPECIAL NACIONAL";
+                            break;
+                        case "05":
+                            oSolicitud.TIPOOPERACION = "ESPECIAL INTERNACIONAL";
+                            break;
+
+                        default:
+                            break;
+                    }
+                    listarSolicitud = oSolicitud;
+
+
+
+                    dr.Close();
+                    oConexion.Close();
+                    return listarSolicitud;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
+            return listarSolicitud;
+           
+        }
     }
 }

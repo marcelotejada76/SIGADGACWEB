@@ -41,7 +41,7 @@ namespace CapaDatos
                 string fecha = DateTime.Now.ToString("yyyy-MM-dd").ToUpper();
                 sbSol.Append("SELECT FA.OID, FA.NOMBRECLIENTE, FA.CEDULA_RUC,FA.NUMEROFACTURA,CAST(FA.FECHA AS date) AS FECHA,FA.VALORFACTURA,FA.ESTADO,RE.CODIGO " +
                     "FROM FACTURA AS FA LEFT JOIN RECAUDACION AS RE ON RE.OIDDOCUMENTOCC = FA.OIDDOCUMENTOCC  " +
-                    "where CAST(FA.FECHACREA AS date) = '" + fecha + "'");
+                    "where FA.NUMEROFACTURA IS NOT NULL AND CAST(FA.FECHACREA AS date) = '" + fecha + "'");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 OdbcCommand cmd;
@@ -341,7 +341,7 @@ namespace CapaDatos
             try
             {
                 sbSol.Append("SELECT OID, NOMBRECLIENTE, CEDULA_RUC,NUMEROFACTURA,FECHA,VALORFACTURA,ESTADO  " +
-                    "FROM FACTURA where NOMBRECLIENTE Like ('" + Cliente + "%') ORDER BY FECHA DESC ");
+                    "FROM FACTURA where NUMEROFACTURA IS NOT NULL AND  NOMBRECLIENTE Like ('" + Cliente + "%') ORDER BY FECHA DESC ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 OdbcCommand cmd;

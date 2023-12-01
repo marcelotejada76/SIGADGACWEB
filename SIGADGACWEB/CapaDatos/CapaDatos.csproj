@@ -61,6 +61,7 @@
     <Compile Include="CD_EntidadEducativa.cs" />
     <Compile Include="CD_FacturasDetalleP5.cs" />
     <Compile Include="CD_FacturasP5.cs" />
+    <Compile Include="CD_Tut.cs" />
     <Compile Include="CD_Fr3.cs" />
     <Compile Include="CD_ListaValor.cs" />
     <Compile Include="CD_Matriculas.cs" />

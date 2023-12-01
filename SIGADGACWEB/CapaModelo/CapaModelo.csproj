@@ -50,6 +50,7 @@
     <Compile Include="tbEntidadEducativa.cs" />
     <Compile Include="tbFacturasDetalleP5.cs" />
     <Compile Include="tbFacturasP5.cs" />
+    <Compile Include="tbTut.cs" />
     <Compile Include="tbFr3.cs" />
     <Compile Include="tbListaValor.cs" />
     <Compile Include="tbMaestroPersonal.cs" />

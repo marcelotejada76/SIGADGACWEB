@@ -228,6 +228,7 @@ namespace CapaDatos
                         oSolicitud.FECHACREA = dr["OPCDA4"].ToString();
                         oSolicitud.HORACREA = dr["OPCH01"].ToString();
                         // oSolicitud.ESTADO = dr["OPCPRO"].ToString();
+                        oSolicitud.IMPRESO = dr["OPCENV"].ToString();
 
                         oSolicitud.FORMAPAGO = dr["OPCFOR"].ToString();
                         string formaPago = dr["OPCFOR"].ToString();
@@ -312,6 +313,8 @@ namespace CapaDatos
                             default:
                                 break;
                         }
+
+
                         listarSolicitud.Add(oSolicitud);
                     }
 
@@ -398,7 +401,7 @@ namespace CapaDatos
                         oSolicitud.FECHACREA = dr["OPCDA4"].ToString();
                         oSolicitud.HORACREA = dr["OPCH01"].ToString();
                         // oSolicitud.ESTADO = dr["OPCPRO"].ToString();
-
+                        oSolicitud.IMPRESO = dr["OPCENV"].ToString();
                         oSolicitud.FORMAPAGO = dr["OPCFOR"].ToString();
                         string formaPago = dr["OPCFOR"].ToString();
                         switch (formaPago)
@@ -573,7 +576,7 @@ namespace CapaDatos
                     string apellidousuario = dr["USUAPE"].ToString().Trim();
                     oSolicitud.NOMBREUSUARIO = nombreusuario + " " + apellidousuario;
                     // oSolicitud.ESTADO = dr["OPCPRO"].ToString();
-
+                    oSolicitud.IMPRESO = dr["OPCENV"].ToString();
                     oSolicitud.FORMAPAGO = dr["OPCFOR"].ToString();
                     string formaPago = dr["OPCFOR"].ToString();
                     switch (formaPago)

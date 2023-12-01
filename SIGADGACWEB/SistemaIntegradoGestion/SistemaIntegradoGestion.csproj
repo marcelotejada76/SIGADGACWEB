@@ -138,6 +138,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ConsultaTutController.cs" />
     <Compile Include="Controllers\FacturasP5Controller.cs" />
     <Compile Include="Controllers\CalculoFr3Controller.cs" />
     <Compile Include="Controllers\BancoRuminahuiController.cs" />
@@ -2419,6 +2420,7 @@
     <Content Include="Views\Matriculas\ListadoMatriculaP5.cshtml" />
     <Content Include="Views\MatriculasAdeudadas\ListadoMatriculasAdeudadas.cshtml" />
     <Content Include="Views\ConsultaFr3\ListadoFr3.cshtml" />
+    <Content Include="Views\ConsultaTut\ListadoTut.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

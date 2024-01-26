@@ -359,6 +359,7 @@ namespace CapaDatos
                         oSolicitud.NUMEROFR3 = Convert.ToInt16(dr["OPCSEC"].ToString());
                         oSolicitud.FECHAEMISION = dr["OPCFE4"].ToString();
                         oSolicitud.AÑO = dr["OPCANO"].ToString();
+                        oSolicitud.ATO = dr["OPCAER"].ToString();
                         oSolicitud.AEROPUERTO = dr["opcdes"].ToString();
                         oSolicitud.MATRICULA = dr["OPCMAT"].ToString();
                         oSolicitud.ORIGEN = dr["OPCORI"].ToString();
@@ -529,6 +530,7 @@ namespace CapaDatos
                     oSolicitud.NUMEROFR3 = Convert.ToInt16(dr["OPCSEC"].ToString());
                     oSolicitud.FECHAEMISION = dr["OPCFE4"].ToString();
                     oSolicitud.AÑO = dr["OPCANO"].ToString();
+                    oSolicitud.ATO = dr["OPCAER"].ToString();
                     oSolicitud.AEROPUERTO = dr["opcdes"].ToString();
                     oSolicitud.MATRICULA = dr["OPCMAT"].ToString();
                     oSolicitud.CALLSIGN = dr["OPCCAL"].ToString();

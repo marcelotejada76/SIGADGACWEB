@@ -51,6 +51,9 @@
     <Reference Include="CapaModelo">
       <HintPath>..\CapaModelo\bin\Debug\CapaModelo.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.9\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.Common.dll</HintPath>
@@ -167,7 +170,10 @@
     <Compile Include="Reporte\ReportViewer.aspx.designer.cs">
       <DependentUpon>ReportViewer.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Utilitarios\CertificadoFirma.cs" />
     <Compile Include="Utilitarios\Constantes.cs" />
+    <Compile Include="Utilitarios\SeguridadEncriptar.cs" />
+    <Compile Include="Utilitarios\Utilitario.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\css\bootstrap.min.css" />
@@ -2381,7 +2387,12 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
+    <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
     <Content Include="Scripts\Views\maestroPersonal.js" />
+    <Content Include="Scripts\Views\operacionesAprueba.js" />
+    <Content Include="Scripts\Views\revisarAprobarSolicitudPOA.js" />
+    <Content Include="Scripts\Views\revisarSolicitudPOA.js" />
+    <Content Include="Scripts\Views\solicitarCertificadoPOA.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2421,6 +2432,12 @@
     <Content Include="Views\MatriculasAdeudadas\ListadoMatriculasAdeudadas.cshtml" />
     <Content Include="Views\ConsultaFr3\ListadoFr3.cshtml" />
     <Content Include="Views\ConsultaTut\ListadoTut.cshtml" />
+    <Content Include="Views\SolicitarModificaciones\AprobarSolicitudCertificacionPOA.cshtml" />
+    <Content Include="Views\SolicitarModificaciones\CrearCertificado.cshtml" />
+    <Content Include="Views\SolicitarModificaciones\EnviarSolicitarCertificadoPOA.cshtml" />
+    <Content Include="Views\SolicitarModificaciones\RevisarAprobarSolicitudCertificado.cshtml" />
+    <Content Include="Views\SolicitarModificaciones\RevisarSolicitudCertificado.cshtml" />
+    <Content Include="Views\SolicitarModificaciones\SolicitarCertificadoPOA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -24,7 +24,7 @@ namespace DGACWWEB
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/plugins/fontawesome-free/css/all.min.css",
+                     "~/Content/plugins/fontawesome-free/css/all.min.css",
                       "~/Content/plugins/daterangepicker/daterangepicker.css",
                       "~/Content/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
                       "~/Content/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css",
@@ -38,6 +38,7 @@ namespace DGACWWEB
                        "~/Content/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css",
                       "~/Content/plugins/datatables-responsive/css/responsive.bootstrap4.min.css",
                       "~/Content/plugins/datatables-buttons/css/buttons.bootstrap4.min.css",
+                       "~/Content/plugins/ddatatables-fixedheader/css/fixedHeader.bootstrap4.css",
                       "~/Content/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css",
                       "~/Content/dist/css/adminlte.min.css"));
 
@@ -46,7 +47,7 @@ namespace DGACWWEB
                      ));
 
             bundles.Add(new StyleBundle("~/Content/PluginsJS").Include(
-                      "~/Content/plugins/jquery/jquery.min.js",
+                     "~/Content/plugins/jquery/jquery.min.js",
                       "~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js",
                       "~/Content/plugins/select2/js/select2.full.min.js",
                       "~/Content/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js",
@@ -63,12 +64,11 @@ namespace DGACWWEB
                       "~/Content/plugins/datatables-responsive/js/responsive.bootstrap4.min.js",
                       "~/Content/plugins/datatables-buttons/js/dataTables.buttons.min.js",
                       "~/Content/plugins/datatables-buttons/js/buttons.bootstrap4.min.js",
+                      "~/Content/plugins/datatables-fixedheader/css/fixedHeader.bootstrap4.min.js",
                       "~/Content/plugins/bs-stepper/js/bs-stepper.min.js",
                       "~/Content/plugins/dropzone/min/dropzone.min.js",
-                      "~/Content/plugins/jquery-validation/jquery.validate.min.js",
-                      "~/Content/plugins/jquery-validation/additional-methods.min.js",
                       "~/Content/dist/js/adminlte.min.js",
-                      "~/Content/dist/js/print.min.js",                     
+                      "~/Content/dist/js/print.min.js",
                       "~/Content/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js",
                       "~/Content/dist/js/dgac.js"
                      ));

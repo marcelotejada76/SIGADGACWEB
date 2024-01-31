@@ -1,0 +1,142 @@
+﻿@model IEnumerable<CapaModelo.tbSolicitudPOA>
+
+@{
+    ViewBag.Title = "Enviar Solicitud Certificado POA";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2>Solicitar Certificado POA</h2>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Inicio </a></li>
+                    <li class="breadcrumb-item active">Solicitar Certificado POA</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<div class="container-fluid">
+    <div class="card card-default">
+        <div class="card-body">
+            <div class="card-header bg-gradient-lightblue">
+                <label class="col-form-label col-form-label-sm"> @Session["DireccionSubSistema"].ToString()</label>
+            </div>
+            <input hidden id="codanio" />
+            <input hidden id="codDireccion" />
+            <input hidden id="tipoSolicitud" />
+            <input hidden id="numSolicitud" />
+           <br />
+            <div class="row">               
+                <div class="col-12">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Año</th>
+                                <th>Número Solicitud</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Tipo Solicitud</th>
+                                <th>Estado Solicitud</th>
+                                <th>Fecha Revision</th>
+                                <th>Estado Autorizado</th>
+                                <th>Fecha Aprobacion</th>
+                                <th>Actividad</th>
+                                <th>Certificado_Actual</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.AnioSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NumeroSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TipoSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EstadoSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaRevision)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EstadoAutorizacion)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaAprobacion)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.SecuenciaActividad)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NumeroCertificadoPOA)</td>
+                                    <td class="text-center">
+                                        <a id="aprobarEnviarSolicitud" href="#" onclick="enviarAprobarSolicitud('@item.CodigoDireccionPYGE', '@item.AnioSolicitud', '@item.TipoSolicitud', '@item.NumeroSolicitud')" class="btn btn-primary btn-sm ">
+                                            Aprobar/Enviar Solicitud
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="formModalEnviar" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary text-white">
+                <label class="col-form-label col-form-label-sm" style="font-size:small"> @Session["DireccionSubSistema"].ToString()</label>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="font-size:12px">
+                <label id="lblDescripcionActividad" class="col-form-label text-lg"></label>
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="modal-header">
+                                <span id="pathArchivo" class="folder"></span>
+                            </div>
+                            <div class="card-body border-radius-none">
+                                <div class="card-body col-12 p-0">
+                                    <ul id="browser" class="nav nav-pills flex-column filetree treeview-famfamfam col-sm-12"></ul>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-primary grabar-Autorizacion" onclick="Guardar()"><img src='~/Content/imganes/save.png' style='width:20px' /> Aprobar-Enviar </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="container-fluid h-100 d-flex flex-column">
+                            <div class="row overflow-hidden">
+                                <div class="col-sm-12 h-100">
+                                    <div class="card h-100">
+                                        <div class="card-body overflow-auto">
+                                            <iframe id="iframeCetificado" style="border: 1px solid black; height: 600px; width: 100%"></iframe>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><img src='~/Content/imganes/cancel.png' style='width:20px' />Cerrar </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Views/enviaAprobacionSolicitud.js")" type="text/javascript"></script>
+}
+
+
+

@@ -17,7 +17,7 @@ namespace CapaModelo
         public string EstadoVerificacionFinanciera { get; set; }
         public string FechaRevision { get; set; }
         public string FechaAprobacion { get; set; }
-        public decimal SecuenciaActividad { get; set; }
+        public Int32 SecuenciaActividad { get; set; }
         public string Observaciones { get; set; }
         public string Observaciones2 { get; set; }
         public string ObservacionRevision1 { get; set; }
@@ -45,6 +45,12 @@ namespace CapaModelo
         public string ObservacionVerificacionPresupuesto2 { get; set; }
         public string CodigoUnidadEjecucion { get; set; }
         public string CodigoDireccionPYGE { get; set; }
+        public Int32 NumeroCertificadoPOA { get; set; }
+        public Int32 SecuencialActualizacion { get; set; }
+        public Int32 numeroDocumentoAdjunto { get; set; }
+        public string DescripcionActividadEjecutar { get; set; }
+
+        public List<tbModelArchivo> oModelArchivo { get; set; }
 
     }
 }

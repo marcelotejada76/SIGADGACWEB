@@ -44,12 +44,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tbBancoRuminahui.cs" />
     <Compile Include="tbCanton.cs" />
+    <Compile Include="tbCertificadoDigital.cs" />
     <Compile Include="tbCiudad.cs" />
     <Compile Include="tbCursoEmpleado.cs" />
     <Compile Include="tbDocumentoHabilitante.cs" />
     <Compile Include="tbEntidadEducativa.cs" />
     <Compile Include="tbFacturasDetalleP5.cs" />
     <Compile Include="tbFacturasP5.cs" />
+    <Compile Include="tbModelArchivo.cs" />
     <Compile Include="tbTut.cs" />
     <Compile Include="tbFr3.cs" />
     <Compile Include="tbListaValor.cs" />

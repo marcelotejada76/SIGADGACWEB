@@ -26,6 +26,7 @@ namespace CapaModelo
         public string CodigoGestion { get; set; }
         public string CodigoModulo { get; set; }
         public string CodigoRol { get; set; }
+        public string CentroContable { get; set; }
         public string UsuarioCreacion { get; set; }
         public string FechaCreacion { get; set; }
         public string HoraCreacion { get; set; }
@@ -35,6 +36,15 @@ namespace CapaModelo
         public string HoraModificacion { get; set; }
         public string DispositivoModificacion { get; set; }
         public string DescripcionSubSistema { get; set; }
+        public string HoraInicio { get; set; }
+        public string HoraFin { get; set; }
+        public string fechaSistema { get; set; }
+        public string TipoHorario { get; set; }
+        public string NumeroAleatorio { get; set; }
+        public string NombreCorto { get; set; }
+        public string Cargo { get; set; }
+
+
         public tbRol oRol { get; set; }        
     }
 }

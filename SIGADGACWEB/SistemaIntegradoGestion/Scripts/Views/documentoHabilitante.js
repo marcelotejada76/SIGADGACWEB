@@ -83,27 +83,4 @@ function eliminar($nombreArchivo) {
     }
 
 }
-function eliminar1($nombreArchivo) {
 
-    if ($nombreArchivo != null) {
-        Swal.fire({
-            title: '¿Eliminar?',
-            text: "¿Está seguro de que eliminar el archivo del sitio?\n" + $nombreArchivo,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#C5C7CF',
-            confirmButtonText: 'Eliminar',
-            cancelButtonText: "Cancelar",
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-            }
-        })
-
-    }
-    else {
-        Swal.fire("Mensaje", "No puede anular la Solitud de Vuelo", "warning");
-    }
-
-}

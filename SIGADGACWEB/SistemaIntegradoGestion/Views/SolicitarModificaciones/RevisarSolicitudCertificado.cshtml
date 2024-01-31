@@ -1,0 +1,182 @@
+﻿@model IEnumerable<CapaModelo.tbSolicitudPOA>
+
+@{
+    ViewBag.Title = "Revisar Aprobar Solicitud Certificado POA";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2>Revisar Solicitud Certificado POA</h2>
+            </div>
+
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<div class="container-fluid">
+    <div class="card card-default">
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row mb-2 bg-gradient-lightblue">
+                    <div class="col-sm-6">
+                        <label class="col-form-label col-form-label-sm"> @Session["DireccionSubSistema"].ToString()</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="@Url.Action("CrearCertificado", "SolicitarModificaciones")" class="text-white float-sm-right"> Certificado digital <i class="fas"><img src="~/Content/imganes/icons/icon-next.png" style="width:5px" /></i></a>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+            <input hidden id="codanio" />
+            <input hidden id="codDireccion" />
+            <input hidden id="tipoSolicitud" />
+            <input hidden id="numSolicitud" />
+            <input hidden id="estSolicitud" />
+            <input hidden id="codigoSubsistema" value="@Session["CodigoSubsistema"].ToString()" />
+            <input hidden id="codigoRol" value="@Session["CodigoRol"].ToString()" />
+            <input hidden id="numSolicitud" />
+            <div class="row">
+                <div class="col-12">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Año</th>
+                                <th>Unidad Ejecución</th>
+                                <th>Dirección</th>
+                                <th>Número Solicitud</th>
+                                <th>Tipo Solicitud</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Fecha Revision</th>
+                                <th>Estado Autorizado</th>
+                                <th>Fecha Aprobacion</th>
+                                <th>Actividad</th>
+                                <th>Certificado_Actual</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.AnioSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CodigoUnidadEjecucion)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CodigoDireccionPYGE)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NumeroSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TipoSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaRevision)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EstadoAutorizacion)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaAprobacion)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.SecuenciaActividad)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NumeroCertificadoPOA)</td>
+                                    <td class="text-center">
+                                        <a id="aprobarEnviarSolicitud" href="#" onclick="enviarAprobarSolicitud('@item.CodigoDireccionPYGE', '@item.AnioSolicitud', '@item.TipoSolicitud', '@item.NumeroSolicitud')" class="btn btn-primary btn-sm ">
+                                            Revisar
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="formModalEnviar" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary text-white">
+                <label class="col-form-label col-form-label-sm" style="font-size:small"> @Session["DireccionSubSistema"].ToString() <span>(Revisar o Aprobar Certificado POA)</span></label>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="font-size:12px">
+                <label id="lblDescripcionActividad" class="col-form-label text-lg"></label>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="modal-header">
+                                <span id="pathArchivo" class="folder"></span>
+                            </div>
+                            <div class="card-body border-radius-none">
+                                <div class="card-body col-12 p-0">
+                                    <ul id="browser" class="nav nav-pills flex-column filetree treeview-famfamfam col-sm-12"></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+
+                            <div class="card-body border-radius-none">
+                                <div id="apruebaRevision" style="display: none">
+                                    <div id="idAprobarCertificado" class="col-12 p-0">
+                                        <div class="form-group">
+                                            <label for="idEstado">Estado aprobación</label>
+                                            <select id="idEstado" class="form-control" style="width: 100%;">
+                                                <option value="0">Seleccionar..</option>                                                
+                                                <option value="RA">Revisado Aprobado</option>
+                                                <option value="RD">Revisado Devuelto</option>
+                                                <option value="RN">Revisado Negado</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txtObservacion">Observación</label>
+                                            <input type="text" id="txtObservacion" class="form-control" maxlength="76">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="txtObservacion1" class="form-control" maxlength="76">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="txtObservacion2" class="form-control" maxlength="76">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-12 col-sm-12 loadingBuscar" id="loadingBuscar" style="display: none">
+                                                <img src="~/Content/imganes/loadingHorizontal.gif" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="btnAprobar" class="btn btn-sm btn-primary grabar-Autorizacion" onclick="ExportaToPDF()"><img src='~/Content/imganes/save.png' style='width:20px' /> Grabar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="container-fluid h-100 d-flex flex-column">
+                            <div class="row overflow-hidden">
+                                <div class="col-sm-12 h-100">
+                                    <div class="card h-100">
+                                        <div class="card-body overflow-auto">
+                                            <iframe id="iframeCetificado" style="border: 1px solid black; height: 600px; width: 100%"></iframe>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><img src='~/Content/imganes/cancel.png' style='width:20px' />Cerrar </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Views/revisarSolicitudPOA.js")" type="text/javascript"></script>
+}
+
+
+

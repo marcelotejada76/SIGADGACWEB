@@ -335,6 +335,7 @@ function cargaDetlleCurso(idDocumento) {
             scrollCollapse: true,
             paging: false,
             info: false,
+            autoWidth: true,
             "order": [[0, 'desc']],
             "ajax": {
                 "url": $.MisUrls.url._ObtenerCursosPorCedula,
@@ -343,22 +344,52 @@ function cargaDetlleCurso(idDocumento) {
                 "datatype": "json"
             },
             "columns": [
-                { "data": "DocumentoIdentificacion" },
-                { "data": "DescripcionCurso" },
-                { "data": "FechaCurso" },
-                { "data": "EstadoCurso" },
+                { "data": "DocumentoIdentificacion", "width": "10%", className: "text-center" },
+                { "data": "DescripcionCurso", "width": "55%" },
+                { "data": "FechaCurso", "width": "10%", "className": "text-center" },
+                { "data": "EstadoCurso", "width": "10%", "className": "text-center" },
                 {
                     "data": "DocumentoIdentificacion", "render": function (data, type, row, meta) {
-                        return "<button class='btn btn-primary btn-sm' type='button' onclick='editarCursoEmpleado(" + JSON.stringify(row) + ")'><i>Editar</i></button> " + " <button class='btn btn-primary btn-sm' type='button' onclick='verDocumento(" + JSON.stringify(row) + ")'><i>Ver-Diploma</i></button>" 
+                        if (row.PathDocumentoCurso != '') {
+                            if (row.EstadoCurso != 'VA') {
+                                return "<div class='btn-group'><button class='btn btn-primary btn-sm' type='button' onclick='editarCursoEmpleado(" + JSON.stringify(row) + ")'><i>Editar</i></button> &nbsp; <button class='btn btn-primary btn-sm' type='button' onclick='verDocumento(" + JSON.stringify(row) + ")'><i>Ver-Diploma</i></button></div>"
+                            }
+                            else {
+                                return "<div class='btn-group'><button class='btn btn-primary btn-sm' type='button' onclick='verDocumento(" + JSON.stringify(row) + ")'><i>Ver-Diploma</i></button></div>"
+                            }
+                        }
+                        else {
+                            if (row.EstadoCurso != 'VA') {
+                                return "<div class='btn-group'><button class='btn btn-primary btn-sm' type='button' onclick='editarCursoEmpleado(" + JSON.stringify(row) + ")'><i>Editar</i></button>"  
+                            }
+                        }
+                        
                     },
                     "orderable": false,
                     "searchable": false,
-                    "width": "90px"
+                    "width": "15%",
                 }
 
             ],
             "language": {
-                "url": $.MisUrls.url.Url_datatable_spanish
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
             },
             responsive: true
         });
@@ -837,7 +868,7 @@ function verDocumento(json) {
 function cargaCombos() {
     //InicioTitulo
     $.ajax({
-        url: "/TalentoHumano/GetSelectListTitulosCurso",
+        url: $.MisUrls.url._GetSelectListTitulosCurso,
         type: "POST",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -858,7 +889,7 @@ function cargaCombos() {
     //FinTitulo
     //InicioEntidadEducativa
     $.ajax({
-        url: "/TalentoHumano/GetSelectListEntinidadEducativa",
+        url: $.MisUrls.url._GetSelectListEntinidadEducativa,
         type: "POST",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -880,7 +911,7 @@ function cargaCombos() {
 
     //Inicio Lista valores Aprobacion
     $.ajax({
-        url: "/TalentoHumano/GetSelectListaValores",
+        url: $.MisUrls.url._GetSelectListaValores,
         type: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -902,7 +933,7 @@ function cargaCombos() {
     //Fin valores Aprobacion
     //Inicio Lista valores Asistencia
     $.ajax({
-        url: "/TalentoHumano/GetSelectListaValores",
+        url: $.MisUrls.url._GetSelectListaValores,
         type: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -925,7 +956,7 @@ function cargaCombos() {
 
     //Inicio Lista valores tiempo
     $.ajax({
-        url: "/TalentoHumano/GetSelectListaValores",
+        url: $.MisUrls.url._GetSelectListaValores,
         type: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -948,7 +979,7 @@ function cargaCombos() {
 
     //InicioEntidadEducativa
     $.ajax({
-        url: "/TalentoHumano/GetSelectListCiudad",
+        url: $.MisUrls.url._GetSelectListCiudad,
         type: "POST",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",

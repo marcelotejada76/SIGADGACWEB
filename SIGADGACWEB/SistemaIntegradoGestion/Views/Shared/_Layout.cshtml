@@ -156,9 +156,9 @@
 
 
         //lenguaje español datatable
-        $.MisUrls.urls({ Url_datatable_spanish: '@Url.Content("~/Content/plugins/datatables/datatable_spanish.json")' });
+        $.MisUrls.urls({ _datatable_spanish: '@Url.Content("~/Content/plugins/datatables/datatable_spanish.json")' });
 
-        
+                
         //Editar Empleado
         $.MisUrls.urls({ _EditarMaestroPersonal: '@Url.Action("Editar_Maestro_Personal", "TalentoHumano")' });
         $.MisUrls.urls({ _ObtenerMaestroPersonal: '@Url.Action("ObtenerMaestroPersonal", "TalentoHumano")' });
@@ -172,10 +172,24 @@
         
         $.MisUrls.urls({ _GetSelectListCantonesList: '@Url.Action("GetSelectListCantonesList", "TalentoHumano")' });
 
+        //Solicitud Certificado POA
+        $.MisUrls.urls({ _EnviaAprobarSolicitudCertificadoPOA: '@Url.Action("EnviaAprobarSolicitudCertificadoPOA", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _CargaSolicitudCertificado: '@Url.Action("CargaSolicitudCertificado", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _RevisaSolicitudCertificadoPOA: '@Url.Action("RevisaSolicitudCertificadoPOA", "SolicitarModificaciones")' });
+
+
             //Obtiene el docuemnto del curso
         $.MisUrls.urls({ _CursoEmpleado: '@Url.Action("CursoEmpleado", "TalentoHumano")' });
         $.MisUrls.urls({ _DocumentoCurso: '@Url.Action("DocumentoCurso", "TalentoHumano")' });
         $.MisUrls.urls({ _ObtenerCursosPorCedula: '@Url.Action("ObtenerCursosPorCedula", "TalentoHumano")' });
+
+
+        $.MisUrls.urls({ _DocumentosHabilitantes: '@Url.Action("CargaTodosArchivos", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _GeneraReportePDF: '@Url.Action("ExportToPDF", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _VerificaExisteCertificadoFirma: '@Url.Action("VerificaExisteCertificadoFirma", "SolicitarModificaciones")' });
+
+        $.MisUrls.urls({ _VisualizarDocumento: '@Url.Action("VisualizarFile", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _CargaTodosArchivosDirectory: '@Url.Action("CargaTodosArchivosDirectory", "SolicitarModificaciones")' });
 
         //Fin Maestro empleado
        

@@ -1,0 +1,259 @@
+﻿@model CapaModelo.tbCertificadoDigital
+@{
+    ViewBag.Title = "Crear Certificado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<div class="row">
+    <div class="col-12">
+        <div class="card card-default card-outline">
+            <div class="card-body">
+                @using (Html.BeginForm("CrearCertificado", "SolicitarModificaciones", FormMethod.Post, new { id = "certificadoForm", enctype = "multipart/form-data", }))
+                {
+                    @Html.HiddenFor(m => m.Secuencial)
+                    @Html.HiddenFor(m => m.OidCertificadoPadre)
+                    @Html.HiddenFor(m => m.PathDocumento)
+                    <input type="hidden" id="pvista" name="pvista" value="@ViewBag.Vista" />
+                    <div class="col-12">
+                        <table style="width:100%">
+                            <tr>
+                                <td colspan="3">
+                                    <div class="text-blue text-left">
+                                        <strong>Datos del certificado</strong>
+                                    </div>
+                                    <hr />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-1"></td>
+                                <td class="col-10">
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label for="CodigoUsuario" class="col-sm-3 col-form-label">Usuario:</label>
+                                            <div class="col-sm-9">
+                                                @Html.TextBoxFor(model => model.CodigoUsuario, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "10", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="NombresApellidos" class="col-sm-3 col-form-label">Nombre y Apellidos:</label>
+                                            <div class="col-sm-9">
+                                                @Html.TextBoxFor(model => model.NombresApellidos, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "70", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Cargo" class="col-sm-3 col-form-label">Cargo</label>
+                                            <div class="col-sm-9">
+                                                @Html.TextBoxFor(model => model.Cargo, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "70", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Ruc" class="col-sm-3 col-form-label">Ruc o cédula:</label>
+                                            <div class="col-sm-9">
+                                                @Html.TextBoxFor(model => model.Ruc, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "20", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="subirArchivo" class="col-sm-3 col-form-label">Certificado en archivo:</label>
+                                            <div class="col-sm-9">
+                                                <div class="custom-file">
+
+                                                    <input type="file" class="custom-file-input" id="subirArchivo" name="subirArchivo" accept=".p12, .pfx" lang="es">
+                                                    <label class="custom-file-label label-archivo" for="subirArchivo">Seleccionar certificado</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Contrasena" class="col-sm-3 col-form-label">Contraseña:</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" placeholder="Contraseña" id="Contrasena" name="Contrasena">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <div class="modal-footer">
+                                                    <button type="button" id="enviarTramite" class="btn btn-sm btn-primary"><img src='~/Content/imganes/save.png' style='width:20px' /> Guardar certificado </button>
+                                                    <a href="@Url.Action(@ViewBag.Vista, "SolicitarModificaciones")" class="btn btn-sm btn-default"><i><img src="~/Content/imganes/cancel.png" style="width:20px" /></i> Cancelar o Regresar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="text-blue text-center">
+                                                <strong>Historial de certificados subidos</strong>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <table id="tbCertidicadoDigital" class="table table-bordered table-hover table-sm text-center" style="width:100%; font-size:small">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                Usuario
+                                                            </th>
+                                                            <th>
+                                                                Ruc
+                                                            </th>
+                                                            <th>
+                                                                Asignado
+                                                            </th>
+                                                            <th>
+                                                                Fecha subida
+                                                            </th>
+                                                            <th>
+                                                                Fecha vencimiento
+                                                            </th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.oCertificado != null)
+                                                        {
+                                                            foreach (var item in Model.oCertificado)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.CodigoUsuario)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.Ruc)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.Asignado)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.FechaSubida)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.FechaVencimiento)
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </td>
+                                <td class="col-1"></td>
+                            </tr>
+                        </table>
+                        @if (ViewBag.mensajeError != null)
+                        {
+                            <script type="text/javascript">
+                                window.onload = function () {
+                                     //alert(set(@Html.Raw(Json.Encode(ViewBag.Error))));
+                                    Swal.fire("Datos del certificado", set(@Html.Raw(Json.Encode(ViewBag.mensajeError))), "warning");
+                                };
+                                function set(value) {
+                                    return value;
+                                }
+                            </script>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#subirArchivo').on('change', function () {
+                var ext = $(this).val().split('.').pop();
+                if ($(this).val() != '') {
+                    if (ext == "p12") {                        
+                        if ($(this)[0].files[0].size > 1048576) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: "¡Precaución!",
+                                html: "El documento excede el tamaño máximo, se solicita un archivo no mayor a 1MB. Por favor verifica."
+                            });
+                            $(this).val('');
+                        } 
+                    }
+                    else {
+                        $(this).val('');                       
+                        Swal.fire({
+                            icon: 'warning',
+                            title: "¡Precaución!",
+                            html: "Extensión no permitida: " + ext
+                        });
+                    }
+                }
+                $(".label-archivo").html($('#subirArchivo').val());
+                $('#PathDocumento').val($('#subirArchivo').val());
+            });
+
+            $('#enviarTramite').click(function () {
+                if (validaCamposCertificado()) {
+                    //$('#loadImagenEnviar').css('display', 'block');
+                    $("#certificadoForm").submit();
+                }
+            });
+
+           
+        });
+        function CambiaColorTexto() {
+            $('#CodigoUsuario').removeClass("border-danger");
+            $('#NombresApellidos').removeClass("border-danger");
+            $('#Cargo').removeClass("border-danger");
+            $('#Ruc').removeClass("border-danger");
+            $('#subirArchivo').removeClass("border-danger");
+            $('#Contrasena').removeClass("border-danger");
+        }
+
+        function validaCamposCertificado() {
+            CambiaColorTexto();
+            var _codigoUsuario = $('#CodigoUsuario').val();
+            var _nombresApellidos = $('#NombresApellidos').val();
+            var _cargo = $('#Cargo').val();
+            var _ruc = $('#Ruc').val();
+            var _subirArchivo = $('#subirArchivo').val();
+            var _contrasena = $('#Contrasena').val();
+            var _mensajeError = "";
+
+            if (_codigoUsuario.trim().length == 0) {
+                _mensajeError = _mensajeError + "<ul><li><p style='color: #ff0000; font-size: 14px; text-align:justify'>Código del usuario no es valido actualice, comuniquese con el administrador del sistema </li></ul>";
+                $('#CodigoUsuario').addClass("border-danger");
+            }
+
+            if (_nombresApellidos.trim().length == 0) {
+                _mensajeError = _mensajeError + "<ul><li><p style='color: #ff0000; font-size: 14px; text-align:justify'>Nombres y apellidos no es valido actualice, comuniquese con el administrador del sistema </li></ul>";
+                $('#NombresApellidos').addClass("border-danger");
+            }
+
+            if (_cargo.trim().length == 0) {
+                _mensajeError = _mensajeError + "<ul><li><p style='color: #ff0000; font-size: 14px; text-align:justify'>Cargo no es valido actualice, comuniquese con el administrador del sistema </li></ul>";
+                $('#Cargo').addClass("border-danger");
+            }
+
+            if (_ruc.trim().length == 0) {
+                _mensajeError = _mensajeError + "<ul><li><p style='color: #ff0000; font-size: 14px; text-align:justify'>Ruc o Cédula no es valido actualice, comuniquese con el administrador del sistema </li></ul>";
+                $('#Ruc').addClass("border-danger");
+            }
+
+            if (_subirArchivo.trim().length == 0) {
+                _mensajeError = _mensajeError + "<ul><li><p style='color: #ff0000; font-size: 14px; text-align:justify'>Debe seleccionar el archivo del certificado para la firma electrónica</li></ul>";
+                $('#subirArchivo').addClass("border-danger");
+            }
+
+            if (_contrasena.trim().length == 0) {
+                _mensajeError = _mensajeError + "<ul><li><p style='color: #ff0000; font-size: 14px; text-align:justify'>Debe ingresar la contraseña o clave del certificado</li></ul>";
+                $('#Contrasena').addClass("border-danger");
+            }
+
+            if (_mensajeError.trim().length > 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: "<p style='width: 100 %; font-size: 14px;'>Datos del certificado obligatorio llenar</p>",
+                    html: "<p style='text-align:justify; font-size: 14px;'>" + _mensajeError + "</p>"
+                });
+                return false;
+            }
+            return true;
+        }
+    </script>
+}
+

@@ -352,6 +352,7 @@
     <Content Include="Content\imganes\close1.png" />
     <Content Include="Content\imganes\consultar-documento.png" />
     <Content Include="Content\imganes\dctCancelado.png" />
+    <Content Include="Content\imganes\descargar-pdf.png" />
     <Content Include="Content\imganes\documento aceptar.png" />
     <Content Include="Content\imganes\documento.png" />
     <Content Include="Content\imganes\dowload.png" />

@@ -141,6 +141,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
     <Compile Include="Controllers\ConsultaTutController.cs" />
     <Compile Include="Controllers\FacturasP5Controller.cs" />
     <Compile Include="Controllers\CalculoFr3Controller.cs" />
@@ -2439,6 +2440,7 @@
     <Content Include="Views\SolicitarModificaciones\RevisarAprobarSolicitudCertificado.cshtml" />
     <Content Include="Views\SolicitarModificaciones\RevisarSolicitudCertificado.cshtml" />
     <Content Include="Views\SolicitarModificaciones\SolicitarCertificadoPOA.cshtml" />
+    <Content Include="Views\ActualizacionContraseña\CambioContraseña.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

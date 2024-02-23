@@ -62,6 +62,7 @@
     <Compile Include="CD_EntidadEducativa.cs" />
     <Compile Include="CD_FacturasDetalleP5.cs" />
     <Compile Include="CD_FacturasP5.cs" />
+    <Compile Include="CD_ActualizaContraseña.cs" />
     <Compile Include="CD_Tut.cs" />
     <Compile Include="CD_Fr3.cs" />
     <Compile Include="CD_ListaValor.cs" />
@@ -129,6 +130,17 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="cwbx">
+      <Guid>{AD8D8CE0-15D3-11D2-849C-0004AC94E175}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

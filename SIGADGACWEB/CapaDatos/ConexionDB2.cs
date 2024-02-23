@@ -8,7 +8,6 @@ namespace CapaDatos
 {
     public class ConexionDB2
     {
-        //Conexión a la base de datos de DESARROLLO
         static string cadenaConexion = "DataSource=190.152.8.185;UserID=DGACCONEXI;Password=DGACTIC20@;Database=S10a1a05;DataCompression=True;Default Collection = DGACDAT;";
 
         //Conexión a la base de datos de PRODICCION

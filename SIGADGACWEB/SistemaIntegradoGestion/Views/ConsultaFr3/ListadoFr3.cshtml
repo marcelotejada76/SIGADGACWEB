@@ -71,7 +71,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.NUMEROFACTURA)</td>
                                 <td>@Html.DisplayFor(modelItem => item.RECAUDACION)</td>
                                 <td>@Html.DisplayFor(modelItem => item.TOTAL)</td>
-                               <td> @Html.DisplayFor(modelItem => item.ESTADO)</td>
+                                <td> @Html.DisplayFor(modelItem => item.ESTADO)</td>
                                 <td>
                                     @if (item.IMPRESO == "S" && item.ESTADO == "PROCESADO")
                                     {
@@ -82,7 +82,7 @@
                                     else
                                     {
 
-                                       
+
                                     }
                                 </td>
 
@@ -95,6 +95,11 @@
                                         Consulta
                                     </a>
 
+                                </td>
+                                <td> 
+                                    <a id="Descarga" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DescargaFr3", "ConsultaFr3", new {NumeroFr3= item.NUMEROFR3, Ato =item.ATO, FechaEmision = item.FECHAEMISION, Ruc = item.RUC.ToString() })">
+                                        <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Descargar
+                                    </a>
                                 </td>
                             </tr>
                             }
@@ -387,6 +392,7 @@
 
         });
 
+      
         function modalAdjunto() {
             $('#FormModal').modal('show');
         }
@@ -461,6 +467,7 @@
             $('#largeModal').modal('show');
         }
 
+      
 
     </script>
 }

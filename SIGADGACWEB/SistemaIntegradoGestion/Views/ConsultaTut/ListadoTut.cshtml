@@ -61,40 +61,44 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.NUMEROTASA)</td>
-                                <td>@Html.DisplayFor(modelItem => item.FECHAEMISION)</td>
-                                <td>@Html.DisplayFor(modelItem => item.AEROPUERTO)</td>
-                                <td>@Html.DisplayFor(modelItem => item.MATRICULA)</td>
-                                <td>@Html.DisplayFor(modelItem => item.NUMEROFACTURA)</td>
-                                <td>@Html.DisplayFor(modelItem => item.RECAUDACION)</td>
-                                <td>@Html.DisplayFor(modelItem => item.TOTAL)</td>
-                               <td> @Html.DisplayFor(modelItem => item.ESTADO)</td>
-                                <td>
-                                    @if (item.IMPRESO == "S" && item.ESTADO == "PROCESADO")
-                                    {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMEROTASA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAEMISION)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AEROPUERTO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.MATRICULA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMEROFACTURA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.RECAUDACION)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TOTAL)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.ESTADO)</td>
+                                    <td>
+                                        @if (item.IMPRESO == "S" && item.ESTADO == "PROCESADO")
+                                        {
 
-                                        <p class="text-danger" , style="font-size:16px;background-color: #bbb8a6"> No Impresa</p>
+                                            <p class="text-danger" , style="font-size:16px;background-color: #bbb8a6"> No Impresa</p>
 
-                                    }
-                                    else
-                                    {
+                                        }
+                                        else
+                                        {
 
-                                       
-                                    }
-                                </td>
 
-                                <td>
-                                    <a id="Consultar" href="#" onclick="Consultar(@item.NUMEROTASA,'@item.ATO','@item.AÑO')">
-                                        <i>
-                                            <img src="~/Content/imganes/consultar-documento.png" style="width:12px" />
+                                        }
+                                    </td>
 
-                                        </i>
-                                        Consulta
-                                    </a>
+                                    <td>
+                                        <a id="Consultar" href="#" onclick="Consultar(@item.NUMEROTASA,'@item.ATO','@item.AÑO')">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:12px" />
 
-                                </td>
-                            </tr>
+                                            </i>
+                                            Consulta
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a id="Descarga" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DescargaTasa", "ConsultaTut", new {NumeroTasa= item.NUMEROTASA, Ato =item.ATO, FechaEmision = item.FECHAEMISION, Ruc = item.RUC.ToString() })">
+                                            <i><img src="~/Content/imganes/adjunto.png" style="width:12px" /></i>Descargar
+                                        </a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -131,7 +135,7 @@
                                     <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Emision</label></div>
                                     <input style="font-size:12px" class="form-control form-control-sm" id="FECHAEMISION" readonly="readonly" />
                                 </div>
-                              
+
                                 <div class="col-4">
                                     <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Aeropuerto</label></div>
                                     <input style="font-size:12px" class="form-control form-control-sm" id="AEROPUERTO" readonly="readonly" />
@@ -144,8 +148,8 @@
                                     <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Matricula</label></div>
                                     <input style="font-size:12px" class="form-control form-control-sm" id="MATRICULA" readonly="readonly" />
                                 </div>
-                              
-                              
+
+
                                 <div class="col-3">
                                     <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Nacional/Internacional</label></div>
                                     <input style="font-size:12px" class="form-control form-control-sm" id="NACINT" readonly="readonly" />
@@ -154,7 +158,7 @@
                             </div>
 
                             <div class="row justify-content-start">
-                               
+
                                 <div class="col-2">
                                     <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Ruta</label></div>
                                     <input style="font-size:12px" class="form-control form-control-sm" id="ORIGEN" readonly="readonly" />
@@ -164,10 +168,10 @@
                                     <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
                                     <input style="font-size:12px" class="form-control form-control-sm" id="DESTINO" readonly="readonly" />
                                 </div>
-                              
+
 
                             </div>
-                           
+
 
                             <div class="row justify-content-start">
                                 <div class="col-3">
@@ -178,11 +182,11 @@
                                     <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Razon Social</label></div>
                                     <input style="font-size:12px" class="form-control form-control-sm" id="RAZONSOCIAL" readonly="readonly" />
                                 </div>
-                               
+
 
                             </div>
                             <div class="row justify-content-start">
-                              
+
                                 <div class="col-4">
                                     <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Forma Pago</label></div>
                                     <input style="font-size:12px" class="form-control form-control-sm" id="FORMAPAGO" readonly="readonly" />
@@ -261,7 +265,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                   
+
                                     <tr>
                                         <td>  <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:14px "><label>TOTAL</label></div> </td>
                                         <td>
@@ -315,6 +319,21 @@
         $(document).ready(function () {
 
         });
+        function DescargaTasa(NumeroFr3, Ato, Ano, FechaEmision, Ruc) {
+
+
+            $.ajax({
+                url: $.MisUrls.url._DescargaTasa,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { NumeroFr3: NumeroFr3, Ato: Ato, Ano: Ano, FechaEmision: FechaEmision, Ruc: Ruc },
+
+            });
+
+            alert("Archivo descargado en la ruta C:\\TUTPdf");
+
+        }
 
         function modalAdjunto() {
             $('#FormModal').modal('show');
@@ -323,9 +342,9 @@
 
         function Consultar(NumeroTut, Ato, Ano) {
 
-           
+
             $.ajax({
-                url: $.MisUrls.url._CargaDetalleTutDatos, 
+                url: $.MisUrls.url._CargaDetalleTutDatos,
                 type: "GET",
                 contentType: "application/json;charset=UTF-8",
                 dataType: "json",
@@ -341,7 +360,7 @@
                     $("#ORIGEN").val(e.ORIGEN);
                     $("#DESTINO").val(e.DESTINO);
                     $("#MATRICULA").val(e.MATRICULA);
-                  
+
                     $("#ESTADO").val(e.ESTADO);
                     $("#RUC").val(e.RUC);
                     $("#RAZONSOCIAL").val(e.RAZONSOCIAL);
@@ -353,7 +372,7 @@
                     $("#USO").val(e.USO);
                     $("#EMAIL").val(e.EMAIL);
                     $("#OBSERVACION").val(e.OBSERVACION);
-                    
+
                     $("#FECHACREA").val(e.FECHACREA);
                     $("#USUARIOCREA").val(e.USUARIOCREA);
                     $("#HORACREA").val(e.HORACREA);

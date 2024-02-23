@@ -56,12 +56,12 @@
                         <input class="form-control form-control-lg form-control-solid" type="password" valid="NuevaContraseña" name="NuevaContraseña" autocomplete="off"
                                value="@(ViewBag.NuevaContraseña !=null ? ViewBag.NuevaContraseña : "")" required />
                     </div>
-                    @*@if (ViewBag.Mensaje != null)
+                    @if (ViewBag.Mensaje != null)
                         {
                             <div class="alert alert-danger">
                                 @ViewBag.Mensaje
                             </div>
-                        }*@
+                        }
                     @if (ViewBag.Error != null)
                     {
                         if (ViewBag.estado == true)

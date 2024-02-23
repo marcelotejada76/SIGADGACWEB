@@ -37,9 +37,9 @@
                                 <th>Fecha Solicitud</th>
                                 <th>Tipo Solicitud</th>
                                 <th>Estado Solicitud</th>
-                                <th>Fecha Revision</th>
+                                <th>Fecha Revisión</th>
                                 <th>Estado Autorizado</th>
-                                <th>Fecha Aprobacion</th>
+                                <th>Fecha Aprobación</th>
                                 <th>Actividad</th>
                                 <th>Certificado_Actual</th>
                                 <th></th>
@@ -62,13 +62,13 @@
                                     <td class="text-center">
                                         @if (item.EstadoSolicitud == "NS")
                                         {
-                                            <a id="documentosAdjuntos" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DocumentoHabilitante", "SolicitarModificaciones", new {cdireccion= item.CodigoDireccionPYGE, canio =item.AnioSolicitud, tipoSolicitud = item.TipoSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), estadoAutorizado = item.EstadoAutorizacion.ToString() })">
+                                            <a id="documentosAdjuntos" class="btn btn-group-sm  btn-outline-warning" href="@Url.Action("DocumentoHabilitante", "SolicitarModificaciones", new {cdireccion= item.CodigoDireccionPYGE, canio =item.AnioSolicitud, tipoSolicitud = item.TipoSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), estadoAutorizado = item.EstadoAutorizacion.ToString(), vista="SolicitarCertificadoPOA" })">
                                                 <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Adjuntar
                                             </a>
                                         }
                                         else
                                         {
-                                            <a id="documentosAdjuntos" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DocumentoHabilitante", "SolicitarModificaciones", new {cdireccion= item.CodigoDireccionPYGE, canio =item.AnioSolicitud, tipoSolicitud = item.TipoSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), estadoAutorizado = item.EstadoAutorizacion.ToString() })">
+                                            <a id="documentosAdjuntos" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DocumentoHabilitante", "SolicitarModificaciones", new {cdireccion= item.CodigoDireccionPYGE, canio =item.AnioSolicitud, tipoSolicitud = item.TipoSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), estadoAutorizado = item.EstadoAutorizacion.ToString(), vista="SolicitarCertificadoPOA" })">
                                                 <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Descargar
                                             </a>
                                         }

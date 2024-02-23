@@ -29,6 +29,10 @@ namespace CapaModelo
         public string HoraModificado { get; set; }
         public string DispositivoModificado { get; set; }
         public Int32 OidCertificadoPadre { get; set; }
+        public string TipoArchivo { get; set; }
+        public string EstadoAutoridad { get; set; }
+        public string EstadoCertificado { get; set; }
+
         public List<tbCertificadoDigital> oCertificado { get; set; }
 
 

@@ -2,6 +2,7 @@
 using IBM.Data.DB2.iSeries;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,8 +52,8 @@ namespace CapaDatos
                 if (canio.Trim().Length > 0)
                 {
                     sbSol.Append(" AND SOLAN1 = '" + canio + "'");
-                }               
-                
+                }
+
                 sbSol.Append(" AND (SOLTIP = 'CER' OR SOLTIP = 'ACT') ORDER BY SOLAN1, SOLNU3 DESC");
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -144,6 +145,86 @@ namespace CapaDatos
                 throw ex;
             }
             return solicitudPOA;
+        }
+
+        public DataSet SolicitudCertificadoPOAPorAnioNumeroSolicitud(string cAnio, int numSolicitud)
+        {
+            DataSet dsSolicitud = new DataSet();
+            string query = string.Empty;
+            try
+            {
+                query = "SELECT ('Solicitud de ' || ifnull(rtrim(ltrim((SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP))), '') || ' No: ' || (SOLAN1 || '-' || SOLNU3)) AS TituloSolicitud,"
+                + " (SOLAN1 || '-' || SOLNU3) as anioSolicitud, ifnull(rtrim(ltrim(SOLFE6)), '') as FechaSolicitud,"
+                + " 'Con la finalidad de cumplir con las actividades programadas en el POA ' ||SOLAN1 || ' de la Dirección ' ||  TRIM(DIRDES) || ' para la consecución de los Objetivos Estratégicos Insititucionales de la DGAC, agradeceré disponer a quien corresponda se emita la Certificación POA de la actividad ' as DescripcionSolicitud1,"
+                + " ' como consta en el POA, misma que se encuentra registrada en el POA ' || SOLAN1 || ' de la DGAC.'as DescripcionSolicitud2,"
+                + " TRIM(LINAC1 || LINAC2 || LINAC3 || LINAC4 || LINAC5) as Actividad,   SOLAN1 as anio,  'Atenamente' as Atentamente, ('DIRECTOR(A) DE' || ' ' || TRIM(DIRDES)) as Direccion "                   
+                + " FROM solar1 join LINARC on SOLAN1 = LINAN1 and SOLNU3 = LINNU1"
+                + " join dgacdat.DIRARC ON SOLCO4 = DIRCO1 AND SOLCO5 = DIRCO3"
+                + " WHERE SOLAN1 = '" + cAnio + "' AND SOLNU3 = " + numSolicitud;
+              
+                iDB2Command cmd;
+
+                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                {
+                    cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+                    iDB2DataAdapter da = new iDB2DataAdapter(cmd);
+                    da.Fill(dsSolicitud);
+                    oConexion.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return dsSolicitud;
+        }
+
+        /// <summary>
+        /// Metodo Certificado Poa
+        /// </summary>
+        /// <param name="cAnio"></param>
+        /// <param name="numSolicitud"></param>
+        /// <returns>DataSet</returns>
+        public DataSet CertificadoPOAPorAnioNumeroSolicitud(string cAnio, int numSolicitud)
+        {
+            DataSet dsSolicitud = new DataSet();
+            string query = string.Empty;
+            try
+            {
+                query = "SELECT (L.LINAN1 || '-' ||CHAR(L.LINNU1)) as NO_SOLICITUD, INTEGER(L.LINNU1) AS N_SOLICITUD, YEAR(DATE(TO_DATE(S.SOLFE6,'YYYY/MM/DD'))) AS ANIO_SOLICITUD, "
+                    + " S.SOLFE6 AS FECHA_SOLICITUD, CAST(C.CERNU2 AS INT) AS CERTIFICACION_POA_NO, S.SOLF01 AS FECHAAPRBCERTIFICADO, D.DIRDES AS DIRECCION_SOLICITANTE,"
+                    + " (L.LINACT) AS ACTIVIDAD_P, (L.LINACT || ' ' || A.ACTDES) AS ACTIVIDAD_PRESUPUESTARIA, (L.LINC43 || ' ' || P.PRODE1) AS PROGRAMA, L.LINC35 AS GEOGRAFICO,"
+                    + " (L.LINC42 || ' ' || T.TIPDE2) AS TIPO_ADQUISICION, (L.LINAC1 || L.LINAC2 || L.LINAC3 || L.LINAC4 || L.LINAC5) AS ACTIVIDAD_POA,"
+                    + " (L.LINC31 || L.LINC32 || L.LINC33 || L.LINC34) AS PARTIDA_PRESUPUESTARIA, L.LINMON AS MONTO_TOTAL_USD, "
+                    + " RTRIM(S.SOLUS6)|| '-' ||YEAR(DATE(TO_DATE(S.SOLFE6,'YYYY/MM/DD')))|| '-' ||INTEGER(L.LINNU1)  AS USUARIO"
+                    + " FROM LINARC L"
+                    + " JOIN CERAR2 C ON (L.LINAN1=C.CERANI AND L.LINNU1=C.CERNU4)"
+                    + " JOIN SOLAR1 S ON (S.SOLAN1=L.LINAN1 AND S.SOLNU3=L.LINNU1)"
+                    + " JOIN DIRARC D ON (D.DIRCO3=S.SOLCO5)"
+                    + " JOIN ACTARC A ON (A.ACTCOD=L.LINACT)"
+                    + " JOIN PROAR1 P ON (P.PROCO6=L.LINC43)"
+                    + " JOIN TIPAR2 T ON (T.TIPCO1=L.LINC42)"
+                    + " WHERE SUBSTRING(S.SOLFE6, 1, 4) = '" + cAnio + "' AND L.LINNU1 = " + numSolicitud;
+
+                iDB2Command cmd;
+
+                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                {
+                    cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+                    iDB2DataAdapter da = new iDB2DataAdapter(cmd);
+                    da.Fill(dsSolicitud);
+                    oConexion.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return dsSolicitud;
         }
 
         public bool ApruebaEnviaSolicitudCertificadoPOA(string canio, int numSolicitud, string codUsuario)

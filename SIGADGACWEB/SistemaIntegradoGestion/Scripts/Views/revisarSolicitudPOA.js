@@ -1,6 +1,10 @@
 ﻿
 $(document).ready(function () {
     loadDataTable();
+
+    $('.cerrarVentana').click(function () {
+        window.location.reload();
+    });
 });
 
 
@@ -8,18 +12,33 @@ $(document).ready(function () {
 function loadDataTable() {
     $('#tbDetalle').DataTable({
         "processing": true,
-        scrollY: '400px',
+        scrollY: '500px',
         scrollCollapse: true,
         paging: false,
         fixedHeader: true,
-        "order": [[0, 'desc'], [1, 'desc']],
+        "order": [[0, 'desc'], [1, 'desc'], [2, 'desc'], [3, 'desc']],
         "language": {
-            "url": $.MisUrls.url._datatable_spanish
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
         },
         responsive: true
     });
-
-
 }
 
 function enviarAprobarSolicitud(codDireccion, canio, ctipo, numSol) {
@@ -43,22 +62,18 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, numSol) {
             datatype: "json",
             contentType: "application/json",
             success: function (data) {
-                if (data.EstadoAutorizacion.trim().length > 0) {
-                    $("#idEstado").val(data.EstadoAutorizacion);
-                }
-                else {
-                    $("#idEstado").val("0");
-                }
-               
                 oestadoAutorizado = data.EstadoAutorizacion;
                 //if (data.EstadoAutorizacion == "AP") {
                 $('#lblDescripcionActividad').text(JSON.stringify(data.DescripcionActividadEjecutar));
                 var elementoBuscar = canio + numSol + "-signed";
                 if (data.EstadoAutorizacion == "AP" || data.EstadoAutorizacion == "RN") {
                     $("#apruebaRevision").css("display", "none");
+                    $("#btnAprobar").attr("disabled", true);
+                    mensajeGeneral("Revisar Solicitud Certificado POA", " Solicitud fue Aprobada por Director (a)");
                 }
                 else {
                     $("#apruebaRevision").css("display", "block");
+                    $("#btnAprobar").removeAttr("disabled");
                 }
                 $.ajax({
                     url: $.MisUrls.url._DocumentosHabilitantes,
@@ -71,40 +86,26 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, numSol) {
                             $.each(data, function (index, value) {
                                 //en caso de existir se asigna la posicion
                                 indice = value.NombreArchivo.indexOf(elementoBuscar);
-                                $("#browser").append("<li><a href='#' onclick='abrirArchivo(" + JSON.stringify(value.NombreArchivo) + ")'>" + JSON.stringify(value.NombreArchivo) + "</a></li>");
-                                //si existe
-                                if (indice > 0) {
-                                    existeRegistro = 1;
-                                    $("#btnAprobar").attr("disabled", true);
-                                }
-                                else {
-                                    if (existeRegistro == 0) {
-                                        $("#btnAprobar").removeAttr("disabled");
-                                    }
-                                }
+                                $("#browser").append("<li><a href='#' onclick='abrirArchivo(" + JSON.stringify(value.NombreArchivo) + ")'>" + JSON.parse(JSON.stringify(value.NombreArchivo)) + "</a></li>");
+
                             });
+                        }
+                        else {
+                            $("#apruebaRevision").css("display", "none");
+                            $("#btnAprobar").attr("disabled", true);
+                            mensajeGeneral("Adjuntos", "No hay documentos habilitantes adjuntos");
                         }
 
                         $('#formModalEnviar').modal('show');
 
                     }
                 });
-
-                //if (_codigoSubsistema == "DIRE" && _codigoRol == "DPGE") {
-                //    $("#btnAprobar").removeAttr("disabled");
-                //}
-                //}
             }
         });
 
     }
     else {
-        Swal.fire({
-            icon: 'warning',
-            title: "<p style='width: 100 %; font-size: 14px;'>Datos adjuntos</p>",
-            html: "<ul class='text-danger text-left'>No existe información de la documentación.</ul>",
-            confirmButtonText: 'Aceptar'
-        });
+        mensajeGeneral("Revisar Solicitud Certificado POA", "Los campos de buesqueda están en blanco");
     }
 
 }
@@ -112,30 +113,43 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, numSol) {
 function abrirArchivo(fileName) {
     var nombreArchivo = fileName;
     var opathArchivo = $('#pathArchivo').text();
+
+    var _extensionArchivo = "";
     if (nombreArchivo.trim().length > 0 && opathArchivo.trim().length > 0) {
-        var texto = $.MisUrls.url._VisualizarDocumento + "?nombreArchivo=" + nombreArchivo + "&direccion=" + opathArchivo;
-        $("#iframeCetificado").attr("src", texto);
-        $('#loadingBuscar').hide();
+        var _extensionArchivo = getExtensionArchivo(nombreArchivo);
+        if (_extensionArchivo == "pdf") {
+            var texto = $.MisUrls.url._VisualizarDocumento + "?nombreArchivo=" + nombreArchivo + "&direccion=" + opathArchivo;
+            $("#iframeCetificado").attr("src", texto);
+            $('#loadingBuscar').hide();
+        }
+        else {
+            descargarArchivo(nombreArchivo, opathArchivo);
+        }
     }
+
+
 }
 
-function Guardar() {
-    var canio = $('#codanio').val();
-    var numSol = $('#numSolicitud').val();
-    Swal.fire({
-        title: "Solicitud Certificación POA",
-        text: "¿Está seguro de enviar aprobar la solicitud de certificación POA?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Aprobar",
-        cancelButtonText: "Cancelar",
-    }).then((result) => {
-        if (result.isConfirmed) {
 
+
+//Obtengo la extension del archivo
+function getExtensionArchivo(filename) {
+    return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
+}
+
+//Descarga el archivo
+function descargarArchivo(onombreArchivo, odireccion) {
+    try {
+        if (onombreArchivo.length > 0 && odireccion.length > 0) {
+            window.location = $.MisUrls.url._DescargarArchivo + "?nombreArchivo=" + onombreArchivo + "&direccion=" + odireccion;
         }
-    });
+        else {
+            mensajeGeneral("Descargar archivo", "El nombre del archivo en blanco.");
+        }
+    } catch (e) {
+        mensajeGeneral("Descargar archivo", "Hay un problema al descargar el archivo.");
+    }
+
 }
 
 function ExportaToPDF() {
@@ -148,72 +162,8 @@ function ExportaToPDF() {
     var _observacion = $('#txtObservacion').val();
     var _observacion1 = $('#txtObservacion1').val();
     var _observacion2 = $('#txtObservacion2').val();
-    $('#loadingBuscar').show();
-    if (_EstadoAprobado == "AP") {
-        if (_codigoSubsistema == "DPGE" && _codigoRol == "DIRE") {
-            $.ajax({
-                url: $.MisUrls.url._VerificaExisteCertificadoFirma,
-                type: "GET",
-                contentType: "application/json;charset=UTF-8",
-                success: function (result) {
-                    if (result.resultado == true) {
-                        if (_codigoSubsistema == "DPGE" && _codigoRol == "DIRE") {
-                            $("#btnAprobar").removeAttr("disabled");
-                            FirmaCertificadoPOA(canio, numSol, opathArchivo, _EstadoAprobado, _observacion);
-                            $("#btnAprobar").attr("disabled", true);
-                        }
-                        else {
-                            $('#loadingBuscar').hide();
-                            Swal.fire({
-                                icon: 'warning',
-                                title: "<p style='width: 100 %; font-size: 14px;'>Revisar o Aprobar Solicitud</p>",
-                                html: "<ul class='text-danger text-left'>Opción habilitada para Rol=Director DPGE</ul>",
-                                confirmButtonText: 'Aceptar'
-                            });
-                        }
-
-                    }
-                    else {
-                        $('#loadingBuscar').hide();
-                        Swal.fire({
-                            icon: 'warning',
-                            title: "<p style='width: 100 %; font-size: 14px;'>Certificado electronico</p>",
-                            html: "<ul class='text-danger text-left'>No tiene cargado el certificado de la firma digital </ul>",
-                            confirmButtonText: 'Aceptar'
-                        });
-                    }
-                },
-                error: function (errormessage) {
-                    $('#loadingBuscar').hide();
-                    Swal.fire({
-                        icon: 'warning',
-                        title: "<p style='width: 100 %; font-size: 14px;'>Certificado electronico</p>",
-                        html: "<ul class='text-danger text-left'>Error, " + errormessage + "</ul>",
-                        confirmButtonText: 'Aceptar'
-                    });
-                }
-            });
-        }
-        else {
-            $('#loadingBuscar').hide();
-            Swal.fire({
-                icon: 'warning',
-                title: "<p style='width: 100 %; font-size: 14px;'>Revisar o Aprobar Solicitud</p>",
-                html: "<ul class='text-danger text-left'>Opción habilitada para Rol=Director DPGE</ul>",
-                confirmButtonText: 'Aceptar'
-            });
-        }
-    }
-    else if (_EstadoAprobado == "0") {
-        $('#loadingBuscar').hide();
-        Swal.fire({
-            icon: 'warning',
-            title: "<p style='width: 100 %; font-size: 14px;'>Revisar o Aprobar Solicitud</p>",
-            html: "<ul class='text-danger text-left'>Debe seleecionar el estado de aprobación</ul>",
-            confirmButtonText: 'Aceptar'
-        });
-    }
-    else {
+    if (_EstadoAprobado != "0") {
+        $('#loadingBuscar').show();
         $.ajax({
             url: $.MisUrls.url._RevisaSolicitudCertificadoPOA,
             type: "GET",
@@ -222,75 +172,53 @@ function ExportaToPDF() {
             contentType: "application/json;charset=UTF-8",
             success: function (result) {
                 if (result.resultado == true) {
-                    window.location.reload();
+                    mensajeGeneral("Revisar Solicitud del Certificado POA", "La operación fue realizada con exito.");
                 }
                 else {
                     $('#loadingBuscar').hide();
-                    Swal.fire({
-                        icon: 'warning',
-                        title: "<p style='width: 100 %; font-size: 14px;'>Revisar Solicitud del Certificado POA</p>",
-                        html: "<ul class='text-danger text-left'>No puedo grabar el registro </ul>",
-                        confirmButtonText: 'Aceptar'
-                    });
+                    mensajeGeneral("Revisar Solicitud del Certificado POA", "No puedo grabar el registro");
                 }
+                $('#loadingBuscar').hide();
             },
             error: function (errormessage) {
                 $('#loadingBuscar').hide();
-                Swal.fire({
-                    icon: 'warning',
-                    title: "<p style='width: 100 %; font-size: 14px;'>Certificado electronico</p>",
-                    html: "<ul class='text-danger text-left'>Error, " + errormessage + "</ul>",
-                    confirmButtonText: 'Aceptar'
-                });
+                mensajeGeneral("Revisar Solicitud del Certificado POA", "Error, " + errormessage);
             }
         });
     }
-
+    else {
+        mensajeGeneral("Revisar Solicitud Certificado POA", "Debe seleccionar el estado");
+    }
     return false;
 }
 
-function FirmaCertificadoPOA(canio, numSol, opathArchivo, estaut, observacion) {
+
+
+function CargaTodosDocumentosDirectorio(opathArchivo, nombreArchivo) {
+    //Carga todos os archivos 
     $.ajax({
-        url: $.MisUrls.url._GeneraReportePDF,
+        url: $.MisUrls.url._CargaTodosArchivosDirectory,
         type: "GET",
         contentType: "application/json;charset=UTF-8",
-        data: { canio: canio, numSolicitud: parseInt(numSol), cdireccion: opathArchivo, estAut: estaut, cobservacion: observacion },
+        data: { direccionDirectory: opathArchivo },
         success: function (result) {
-            if (result.length > 0) {
-                abrirArchivo(result);
-                setTimeout(function () {
-                    frame = document.getElementById("frmPDF");
-                    framedoc = frame.contentWindow;
-                    framedoc.focus();
-                    framedoc.print();
-                }, 1000);
-                //Carga todos os archivos 
-                $.ajax({
-                    url: $.MisUrls.url._CargaTodosArchivosDirectory,
-                    type: "GET",
-                    contentType: "application/json;charset=UTF-8",
-                    data: { direccionDirectory: opathArchivo },
-                    success: function (result) {
-                        $("#browser").html("");
-                        $.each(result, function (i, item) {
-                            if (item.NombreArchivo.length > 0) {
-                                $("#browser").append("<li><a href='#' onclick='abrirArchivo(" + JSON.stringify(item.NombreArchivo) + ")'>" + JSON.stringify(item.NombreArchivo) + "</a></li>");
-                            }
-                        })
-                    },
-                    error: function (errormessage) {
-                        Swal.fire("Mensaje", "Error, Exportar el reporte" + errormessage, "warning");
-                    }
-                });
-            }
-            else {
-                $('#loadingBuscar').hide();
-                Swal.fire("Mensaje", "No se pudo firmar la Solicitud del Certificado POA", "warning");
-            }
-
+            $("#browser").html("");
+            $.each(result, function (i, item) {
+                if (item.NombreArchivo.length > 0) {
+                    $("#browser").append("<li><a href='#' onclick='abrirArchivo(" + JSON.stringify(nombreArchivo) + ")'>" + JSON.stringify(nombreArchivo) + "</a></li>");
+                }
+            })
         },
         error: function (errormessage) {
-            Swal.fire("Mensaje", "Error, Exportar el reporte" + errormessage, "warning");
+            mensajeGeneral("Documentos adjuntos", "Hay un problema al cargar los archivos." + errormessage);
         }
+    });
+}
+function mensajeGeneral(titulo, contenido) {
+    Swal.fire({
+        icon: 'warning',
+        title: "<p style='width: 100 %;'>" + titulo + "</p>",
+        html: "<ul >" + contenido + "</ul>",
+        confirmButtonText: 'Aceptar'
     });
 }

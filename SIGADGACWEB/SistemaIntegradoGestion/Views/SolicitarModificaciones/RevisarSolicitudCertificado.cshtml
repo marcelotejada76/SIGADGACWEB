@@ -22,11 +22,9 @@
             <div class="container-fluid">
                 <div class="row mb-2 bg-gradient-lightblue">
                     <div class="col-sm-6">
-                        <label class="col-form-label col-form-label-sm"> @Session["DireccionSubSistema"].ToString()</label>
+                        <label class="col-form-label col-form-label-sm">@Session["DireccionSubSistema"].ToString()</label>
                     </div>
-                    <div class="col-sm-6">
-                        <a href="@Url.Action("CrearCertificado", "SolicitarModificaciones")" class="text-white float-sm-right"> Certificado digital <i class="fas"><img src="~/Content/imganes/icons/icon-next.png" style="width:5px" /></i></a>
-                    </div>
+                   
                 </div>
             </div><!-- /.container-fluid -->
             <input hidden id="codanio" />
@@ -48,9 +46,9 @@
                                 <th>Número Solicitud</th>
                                 <th>Tipo Solicitud</th>
                                 <th>Fecha Solicitud</th>
-                                <th>Fecha Revision</th>
+                                <th>Fecha Revisión</th>
                                 <th>Estado Autorizado</th>
-                                <th>Fecha Aprobacion</th>
+                                <th>Fecha Aprobación</th>
                                 <th>Actividad</th>
                                 <th>Certificado_Actual</th>
                                 <th></th>
@@ -93,7 +91,7 @@
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary text-white">
                 <label class="col-form-label col-form-label-sm" style="font-size:small"> @Session["DireccionSubSistema"].ToString() <span>(Revisar o Aprobar Certificado POA)</span></label>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close cerrarVentana"  aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -141,12 +139,15 @@
                                                 <img src="~/Content/imganes/loadingHorizontal.gif" />
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" id="btnAprobar" class="btn btn-sm btn-primary grabar-Autorizacion" onclick="ExportaToPDF()"><img src='~/Content/imganes/save.png' style='width:20px' /> Grabar</button>
-                                        </div>
+
                                     </div>
                                 </div>
-                               
+                                <div class="form-group">
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnCerrar" class="btn btn-sm btn-default cerrarVentana"><img src='~/Content/imganes/cancel.png' style='width:20px' />Cerrar </button>
+                                        <button type="button" id="btnAprobar" class="btn btn-sm btn-primary grabar-Autorizacion" onclick="ExportaToPDF()"><img src='~/Content/imganes/save.png' style='width:20px' /> Grabar</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,10 +158,7 @@
                                     <div class="card h-100">
                                         <div class="card-body overflow-auto">
                                             <iframe id="iframeCetificado" style="border: 1px solid black; height: 600px; width: 100%"></iframe>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><img src='~/Content/imganes/cancel.png' style='width:20px' />Cerrar </button>
-                                        </div>
+                                        </div>                                      
                                     </div>
                                 </div>
                             </div>

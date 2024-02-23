@@ -40,12 +40,13 @@ namespace CapaDatos
             StringBuilder sb = new StringBuilder();
             try
             {
-                sb.Append("SELECT ifnull(rtrim(ltrim(CERC10)), '') AS CODIGOUSUARIO, ifnull(CERSEU, 0) AS SECUENCIAL, ifnull(rtrim(ltrim(CERRUC)), '') AS RUC, ifnull(rtrim(ltrim(CERSER)), '') AS SERIE,");
+                sb.Append("SELECT ifnull(rtrim(ltrim(CERC10)), '') AS CODIGOUSUARIO, ifnull(CAST(CERSEU AS INT), 0) AS SECUENCIAL, ifnull(rtrim(ltrim(CERRUC)), '') AS RUC, ifnull(rtrim(ltrim(CERSER)), '') AS SERIE,");
                 sb.Append(" ifnull(rtrim(ltrim(CERASI)), '') AS ASIGNADO, ifnull(rtrim(ltrim(CERF05)), '') AS FECHASUBIDA, ifnull(rtrim(ltrim(CERF06)), '') AS FECHAVENCIMIENTO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERCON)), '') AS CONTRASENA, ifnull(rtrim(ltrim(CERDOC)), '') AS PATHDOCUMENTO, ifnull(rtrim(ltrim(CERPAT)), '') AS PATHIMAGENFIRMA, ifnull(rtrim(ltrim(CERUS8)), '') AS USUARIOCREADO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERF07)), '') AS FECHACREADO, ifnull(rtrim(ltrim(CERHO8)), '') AS HORACREADO, ifnull(rtrim(ltrim(CERUS9)), '') AS USUARIOMODIFICADO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERF08)), '') AS FECHAMODIFICADO, ifnull(rtrim(ltrim(CERHO9)), '') AS HORAMODIFICADO, ifnull(rtrim(ltrim(CERDI8)), '') AS DISPOSITIVOCREADO,");
-                sb.Append(" ifnull(rtrim(ltrim(CERDI9)), '') AS DISPOSITIVOMODIFICADO, ifnull(CEROI3, 0) AS OIDCERTIFICADOPADRE  FROM CERAR4 WHERE CERASI = 'AC' AND CERC10 = '" + codUsuario.Trim().ToUpper() + "'");
+                sb.Append(" ifnull(rtrim(ltrim(CERDI9)), '') AS DISPOSITIVOMODIFICADO, ifnull(CAST(CEROI3 AS INT), 0) AS OIDCERTIFICADOPADRE, ifnull(rtrim(ltrim(CERTI2)), '') AS TipoArchivo, ifnull(rtrim(ltrim(CERES5)), '') AS EstadoAutoridad");
+                sb.Append(" FROM CERAR4 WHERE CERASI = 'AC' AND CERC10 = '" + codUsuario.Trim().ToUpper() + "'");
                 query = sb.ToString();
                 iDB2Command cmd;
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
@@ -75,6 +76,8 @@ namespace CapaDatos
                         oCertificado.DispositivoModificado = dr["DispositivoModificado"].ToString();
                         oCertificado.oCertificado = CertificadoDigitalPorUsuarioListar(codUsuario);
                         oCertificado.OidCertificadoPadre = Int32.Parse(dr["OIDCERTIFICADOPADRE"].ToString());
+                        oCertificado.TipoArchivo = dr["TipoArchivo"].ToString();
+                        oCertificado.EstadoAutoridad = dr["EstadoAutoridad"].ToString();
                     }
                     dr.Close();
                 }
@@ -153,12 +156,15 @@ namespace CapaDatos
             StringBuilder sb = new StringBuilder();
             try
             {
-                sb.Append("SELECT ifnull(rtrim(ltrim(CERC10)), '') AS CODIGOUSUARIO, ifnull(CERSEU, 0) AS SECUENCIAL, ifnull(rtrim(ltrim(CERRUC)), '') AS RUC, ifnull(rtrim(ltrim(CERSER)), '') AS SERIE,");
+                sb.Append("SELECT ifnull(rtrim(ltrim(CERC10)), '') AS CODIGOUSUARIO, ifnull(CAST(CERSEU AS INT), 0) AS SECUENCIAL, ifnull(rtrim(ltrim(CERRUC)), '') AS RUC, ifnull(rtrim(ltrim(CERSER)), '') AS SERIE,");
                 sb.Append(" ifnull(rtrim(ltrim(CERASI)), '') AS ASIGNADO, ifnull(rtrim(ltrim(CERF05)), '') AS FECHASUBIDA, ifnull(rtrim(ltrim(CERF06)), '') AS FECHAVENCIMIENTO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERCON)), '') AS CONTRASENA, ifnull(rtrim(ltrim(CERDOC)), '') AS PATHDOCUMENTO, ifnull(rtrim(ltrim(CERPAT)), '') AS PATHIMAGENFIRMA, ifnull(rtrim(ltrim(CERUS8)), '') AS USUARIOCREADO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERF07)), '') AS FECHACREADO, ifnull(rtrim(ltrim(CERHO8)), '') AS HORACREADO, ifnull(rtrim(ltrim(CERUS9)), '') AS USUARIOMODIFICADO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERF08)), '') AS FECHAMODIFICADO, ifnull(rtrim(ltrim(CERHO9)), '') AS HORAMODIFICADO, ifnull(rtrim(ltrim(CERDI8)), '') AS DISPOSITIVOCREADO,");
-                sb.Append(" ifnull(rtrim(ltrim(CERDI9)), '') AS DISPOSITIVOMODIFICADO, ifnull(CEROI3, 0) AS OIDCERTIFICADOPADRE  FROM CERAR4 WHERE CERC10 = '" + codUsuario.Trim().ToUpper() + "' FETCH FIRST 1 ROWS ONLY");
+                sb.Append(" ifnull(rtrim(ltrim(CERDI9)), '') AS DISPOSITIVOMODIFICADO, ifnull(CAST(CEROI3 AS INT) , 0) AS OIDCERTIFICADOPADRE, ifnull(rtrim(ltrim(CERTI2)), '') AS TipoArchivo, ifnull(rtrim(ltrim(CERES5)), '') AS EstadoAutoridad");
+                sb.Append(" FROM CERAR4 WHERE CERASI = 'AC' AND CERC10 = '" + codUsuario.Trim().ToUpper() + "'");
+
+              
                 query = sb.ToString();
                 iDB2Command cmd;
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
@@ -188,6 +194,8 @@ namespace CapaDatos
                         oCertificado.DispositivoModificado = dr["DispositivoModificado"].ToString();
                         oCertificado.oCertificado = CertificadoDigitalPorUsuarioListar(codUsuario);
                         oCertificado.OidCertificadoPadre = Int32.Parse(dr["OIDCERTIFICADOPADRE"].ToString());
+                        oCertificado.TipoArchivo = dr["TipoArchivo"].ToString();
+                        oCertificado.EstadoAutoridad = dr["EstadoAutoridad"].ToString();
                     }
                     dr.Close();
                 }
@@ -208,12 +216,14 @@ namespace CapaDatos
             StringBuilder sb = new StringBuilder();
             try
             {
-                sb.Append("SELECT ifnull(rtrim(ltrim(CERC10)), '') AS CODIGOUSUARIO, ifnull(CERSEU, 0) AS SECUENCIAL, ifnull(rtrim(ltrim(CERRUC)), '') AS RUC, ifnull(rtrim(ltrim(CERSER)), '') AS SERIE,");
+                sb.Append("SELECT ifnull(rtrim(ltrim(CERC10)), '') AS CODIGOUSUARIO, ifnull(CAST(CERSEU AS INT), 0) AS SECUENCIAL, ifnull(rtrim(ltrim(CERRUC)), '') AS RUC, ifnull(rtrim(ltrim(CERSER)), '') AS SERIE,");
                 sb.Append(" ifnull(rtrim(ltrim(CERASI)), '') AS ASIGNADO, ifnull(rtrim(ltrim(CERF05)), '') AS FECHASUBIDA, ifnull(rtrim(ltrim(CERF06)), '') AS FECHAVENCIMIENTO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERCON)), '') AS CONTRASENA, ifnull(rtrim(ltrim(CERDOC)), '') AS PATHDOCUMENTO, ifnull(rtrim(ltrim(CERPAT)), '') AS PATHIMAGENFIRMA, ifnull(rtrim(ltrim(CERUS8)), '') AS USUARIOCREADO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERF07)), '') AS FECHACREADO, ifnull(rtrim(ltrim(CERHO8)), '') AS HORACREADO, ifnull(rtrim(ltrim(CERUS9)), '') AS USUARIOMODIFICADO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERF08)), '') AS FECHAMODIFICADO, ifnull(rtrim(ltrim(CERHO9)), '') AS HORAMODIFICADO, ifnull(rtrim(ltrim(CERDI8)), '') AS DISPOSITIVOCREADO,");
-                sb.Append(" ifnull(rtrim(ltrim(CERDI9)), '') AS DISPOSITIVOMODIFICADO FROM CERAR4 WHERE CERC10 = '" + codUsuario.Trim().ToUpper() + "'");
+                sb.Append(" ifnull(rtrim(ltrim(CERDI9)), '') AS DISPOSITIVOMODIFICADO, ifnull(CAST(CEROI3 AS INT) , 0) AS OIDCERTIFICADOPADRE, ifnull(rtrim(ltrim(CERTI2)), '') AS TipoArchivo, ifnull(rtrim(ltrim(CERES5)), '') AS EstadoAutoridad");
+                sb.Append(" FROM CERAR4 WHERE CERASI = 'AC' AND CERC10 = '" + codUsuario.Trim().ToUpper() + "'");
+                
                 query = sb.ToString();
                 iDB2Command cmd;
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
@@ -242,6 +252,11 @@ namespace CapaDatos
                         oCertificado.FechaModificado = dr["FechaModificado"].ToString();
                         oCertificado.HoraModificado = dr["HoraModificado"].ToString();
                         oCertificado.DispositivoModificado = dr["DispositivoModificado"].ToString();
+                        oCertificado.DispositivoModificado = dr["DispositivoModificado"].ToString();
+                        oCertificado.DispositivoModificado = dr["DispositivoModificado"].ToString();
+                        oCertificado.OidCertificadoPadre = Convert.ToInt32(dr["OIDCERTIFICADOPADRE"].ToString());
+                        oCertificado.TipoArchivo = dr["TipoArchivo"].ToString();
+                        oCertificado.EstadoAutoridad = dr["EstadoAutoridad"].ToString();
                         ListarCertificado.Add(oCertificado);
                     }
                     dr.Close();
@@ -262,12 +277,15 @@ namespace CapaDatos
             tbCertificadoDigital oCertificado = new tbCertificadoDigital();
             try
             {
-                sb.Append("SELECT ifnull(rtrim(ltrim(CERC10)), '') AS CODIGOUSUARIO, ifnull(CERSEU, 0) AS SECUENCIAL, ifnull(rtrim(ltrim(CERRUC)), '') AS RUC, ifnull(rtrim(ltrim(CERSER)), '') AS SERIE,");
+                sb.Append("SELECT ifnull(rtrim(ltrim(CERC10)), '') AS CODIGOUSUARIO, ifnull(CAST(CERSEU AS INT), 0) AS SECUENCIAL, ifnull(rtrim(ltrim(CERRUC)), '') AS RUC, ifnull(rtrim(ltrim(CERSER)), '') AS SERIE,");
                 sb.Append(" ifnull(rtrim(ltrim(CERASI)), '') AS ASIGNADO, ifnull(rtrim(ltrim(CERF05)), '') AS FECHASUBIDA, ifnull(rtrim(ltrim(CERF06)), '') AS FECHAVENCIMIENTO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERCON)), '') AS CONTRASENA, ifnull(rtrim(ltrim(CERDOC)), '') AS PATHDOCUMENTO, ifnull(rtrim(ltrim(CERPAT)), '') AS PATHIMAGENFIRMA, ifnull(rtrim(ltrim(CERUS8)), '') AS USUARIOCREADO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERF07)), '') AS FECHACREADO, ifnull(rtrim(ltrim(CERHO8)), '') AS HORACREADO, ifnull(rtrim(ltrim(CERUS9)), '') AS USUARIOMODIFICADO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERF08)), '') AS FECHAMODIFICADO, ifnull(rtrim(ltrim(CERHO9)), '') AS HORAMODIFICADO, ifnull(rtrim(ltrim(CERDI8)), '') AS DISPOSITIVOCREADO,");
-                sb.Append(" ifnull(rtrim(ltrim(CERDI9)), '') AS DISPOSITIVOMODIFICADO, ifnull(CEROI3, 0) AS OIDCERTIFICADOPADRE FROM CERAR4 WHERE  CERC10 = '" + codUsuario.Trim().ToUpper() + "' AND CERSEU = " + secuencial);
+                sb.Append(" ifnull(rtrim(ltrim(CERDI9)), '') AS DISPOSITIVOMODIFICADO, ifnull(CAST(CEROI3 AS INT) , 0) AS OIDCERTIFICADOPADRE, ifnull(rtrim(ltrim(CERTI2)), '') AS TipoArchivo, ifnull(rtrim(ltrim(CERES5)), '') AS EstadoAutoridad");
+                sb.Append(" FROM CERAR4 WHERE  CERC10 = '" + codUsuario.Trim().ToUpper() + "' AND CERSEU = " + secuencial);
+
+               
                 query = sb.ToString();
                 iDB2Command cmd;
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
@@ -297,6 +315,8 @@ namespace CapaDatos
                         oCertificado.HoraModificado = dr["HoraModificado"].ToString();
                         oCertificado.DispositivoModificado = dr["DispositivoModificado"].ToString();
                         oCertificado.OidCertificadoPadre = Int32.Parse(dr["OIDCERTIFICADOPADRE"].ToString());
+                        oCertificado.TipoArchivo = dr["TipoArchivo"].ToString();
+                        oCertificado.EstadoAutoridad = dr["EstadoAutoridad"].ToString();
 
                     }
                     dr.Close();
@@ -318,12 +338,15 @@ namespace CapaDatos
             StringBuilder sb = new StringBuilder();
             try
             {
-                sb.Append("SELECT ifnull(rtrim(ltrim(CERC10)), '') AS CODIGOUSUARIO, ifnull(CERSEU, 0) AS SECUENCIAL, ifnull(rtrim(ltrim(CERRUC)), '') AS RUC, ifnull(rtrim(ltrim(CERSER)), '') AS SERIE,");
+                sb.Append("SELECT ifnull(rtrim(ltrim(CERC10)), '') AS CODIGOUSUARIO, ifnull(CAST(CERSEU AS INT), 0) AS SECUENCIAL, ifnull(rtrim(ltrim(CERRUC)), '') AS RUC, ifnull(rtrim(ltrim(CERSER)), '') AS SERIE,");
                 sb.Append(" ifnull(rtrim(ltrim(CERASI)), '') AS ASIGNADO, ifnull(rtrim(ltrim(CERF05)), '') AS FECHASUBIDA, ifnull(rtrim(ltrim(CERF06)), '') AS FECHAVENCIMIENTO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERCON)), '') AS CONTRASENA, ifnull(rtrim(ltrim(CERDOC)), '') AS PATHDOCUMENTO, ifnull(rtrim(ltrim(CERPAT)), '') AS PATHIMAGENFIRMA, ifnull(rtrim(ltrim(CERUS8)), '') AS USUARIOCREADO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERF07)), '') AS FECHACREADO, ifnull(rtrim(ltrim(CERHO8)), '') AS HORACREADO, ifnull(rtrim(ltrim(CERUS9)), '') AS USUARIOMODIFICADO,");
                 sb.Append(" ifnull(rtrim(ltrim(CERF08)), '') AS FECHAMODIFICADO, ifnull(rtrim(ltrim(CERHO9)), '') AS HORAMODIFICADO, ifnull(rtrim(ltrim(CERDI8)), '') AS DISPOSITIVOCREADO,");
-                sb.Append(" ifnull(rtrim(ltrim(CERDI9)), '') AS DISPOSITIVOMODIFICADO, ifnull(CEROI3, 0) AS OIDCERTIFICADOPADRE  FROM CERAR4 WHERE CERASI = 'AC' AND CERC10 = '" + codUsuario.Trim().ToUpper() + "'");
+                sb.Append(" ifnull(rtrim(ltrim(CERDI9)), '') AS DISPOSITIVOMODIFICADO, ifnull(CAST(CEROI3 AS INT) , 0) AS OIDCERTIFICADOPADRE, ifnull(rtrim(ltrim(CERTI2)), '') AS TipoArchivo, ifnull(rtrim(ltrim(CERES5)), '') AS EstadoAutoridad");
+                sb.Append(" FROM CERAR4 WHERE CERASI = 'AC' AND CERC10 = '" + codUsuario.Trim().ToUpper() + "'");
+
+                
                 query = sb.ToString();
                 iDB2Command cmd;
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
@@ -354,6 +377,8 @@ namespace CapaDatos
                         oCertificado.DispositivoModificado = dr["DispositivoModificado"].ToString();
                         oCertificado.OidCertificadoPadre = Int32.Parse(dr["OIDCERTIFICADOPADRE"].ToString());
                         oCertificado.oCertificado = CertificadoDigitalPorUsuarioListar(codUsuario);
+                        oCertificado.TipoArchivo = dr["TipoArchivo"].ToString();
+                        oCertificado.EstadoAutoridad = dr["EstadoAutoridad"].ToString();
 
                         ListarCertificado.Add(oCertificado);
                     }
@@ -575,29 +600,20 @@ namespace CapaDatos
             {
                 osistema = CD_Sistema.Instancia.GetFechaHoraSistema();
                 osecuencial = GeneraSecuencial();
-                sb.Append("INSERT INTO CERAR4 (CERC10, CERSEU, CERRUC, CERSER, CERASI, CERF05, CERF06, CERCON, CERDOC, CERPAT, CERUS8, CERF07, CERHO8, CERDI8)");
-                sb.Append(" VALUES(@CodigoUsuario, @Secuencial, @Ruc, @Serie, @Asignado, @FechaSubida, @FechaVencimiento, @Contrasena, @PathDocumento, @PathImagenFirma, @UsuarioCreado, @FechaCreado, @HoraCreado, @DispositivoCreado) ");
-                query = sb.ToString();
+
+                query = "INSERT INTO CERAR4 (CERC10, CERSEU, CERRUC, CERSER, CERASI, CERF05, CERF06, CERCON, CERDOC, CERPAT, CERUS8, CERF07, CERHO8, CERDI8, CERTI2, CERES5, CERES4)"
+                    + " VALUES('" + certificadoDigital.CodigoUsuario.Trim() + "', " + osecuencial + ", '" + campoNull(certificadoDigital.Ruc) + "','" + campoNull(certificadoDigital.Serie) + "',"
+                    + "'" + campoNull(certificadoDigital.Asignado) + "', '" + campoNull(certificadoDigital.FechaSubida) + "','" + campoNull(certificadoDigital.FechaVencimiento) + "',"
+                    + "'" + campoNull(certificadoDigital.Contrasena) + "','" + campoNull(certificadoDigital.PathDocumento) + "', '" + campoNull(certificadoDigital.PathImagenFirma) + "',"
+                    + "'" + certificadoDigital.UsuarioCreado + "','" + osistema.FechaSistema + "','" + osistema.HoraSistema + "','" + campoNull(certificadoDigital.DispositivoCreado) + "'," 
+                    + "'" + campoNull(certificadoDigital.TipoArchivo) + "','" + campoNull(certificadoDigital.EstadoAutoridad) + "','" + campoNull(certificadoDigital.EstadoCertificado) + "')";
+
                 iDB2Command cmd;
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
                 {
                     cmd = new iDB2Command(query, oConexion);
                     oConexion.Open();
-                    cmd.DeriveParameters();
-                    cmd.Parameters["@CodigoUsuario"].Value = certificadoDigital.CodigoUsuario;
-                    cmd.Parameters["@Secuencial"].Value = osecuencial;
-                    cmd.Parameters["@Ruc"].Value = campoNull(certificadoDigital.Ruc);
-                    cmd.Parameters["@Serie"].Value = campoNull(certificadoDigital.Serie);
-                    cmd.Parameters["@Asignado"].Value = campoNull(certificadoDigital.Asignado);
-                    cmd.Parameters["@FechaSubida"].Value = campoNull(certificadoDigital.FechaSubida);
-                    cmd.Parameters["@FechaVencimiento"].Value = campoNull(certificadoDigital.FechaVencimiento);
-                    cmd.Parameters["@Contrasena"].Value = campoNull(certificadoDigital.Contrasena);
-                    cmd.Parameters["@PathDocumento"].Value = campoNull(certificadoDigital.PathDocumento);
-                    cmd.Parameters["@PathImagenFirma"].Value = campoNull(certificadoDigital.PathImagenFirma);
-                    cmd.Parameters["@UsuarioCreado"].Value = certificadoDigital.UsuarioCreado;
-                    cmd.Parameters["@FechaCreado"].Value = osistema.FechaSistema;
-                    cmd.Parameters["@HoraCreado"].Value = osistema.HoraSistema;
-                    cmd.Parameters["@DispositivoCreado"].Value = campoNull(certificadoDigital.DispositivoCreado);
+                  
 
                     respuesta = Convert.ToBoolean(cmd.ExecuteNonQuery());
                     cmd.Dispose();
@@ -628,32 +644,33 @@ namespace CapaDatos
             try
             {
                 osistema = CD_Sistema.Instancia.GetFechaHoraSistema();
-                sb.Append("UPDATE CERAR4 SET CERRUC = @Ruc, CERSER = @Serie, CERASI = @Asignado, CERF05 = @FechaSubida, CERF06 = @FechaVencimiento, ");
-                sb.Append(" CERCON = @Contrasena, CERDOC = @PathDocumento, CERPAT = @PathImagenFirma, CERUS9 = @UsuarioModificado, ");
-                sb.Append(" CERF08 = @FechaModificado, CERHO9 = @HoraModificado, CERDI9 = @DispositivoModificado, CEROI3 = @OidCertificadoPadre");
-                sb.Append(" WHERE CERC10 = @CodigoUsuario AND CERSEU = @Secuencial");
-                query = sb.ToString();
+                query = "UPDATE CERAR4 SET CERRUC = '" + campoNull(certificadoDigital.Ruc) + "', CERSER = '" + campoNull(certificadoDigital.Serie) + "', CERASI =  '" + campoNull(certificadoDigital.Asignado) + "', CERF05 = '" + campoNull(certificadoDigital.FechaSubida) + "', CERF06 = '" + campoNull(certificadoDigital.FechaVencimiento) + "',"
+                    + " CERCON = '" + campoNull(certificadoDigital.Contrasena) + "', CERDOC = '" + campoNull(certificadoDigital.PathDocumento) + "', CERPAT = '" + campoNull(certificadoDigital.PathImagenFirma) + "', CERUS9 =  '" + certificadoDigital.UsuarioModificado + "',"
+                    + " CERF08 = '" + osistema.FechaSistema + "', CERHO9 = '" + osistema.HoraSistema + "', CERDI9 = '" + campoNull(certificadoDigital.DispositivoCreado) + ", CEROI3 = '" + certificadoDigital.OidCertificadoPadre + "',"
+                    + " CERTI2 = '" + campoNull(certificadoDigital.TipoArchivo) + ", CERES5 = '" + campoNull(certificadoDigital.EstadoAutoridad) + "'"
+                    + " WHERE CERC10 = '" + certificadoDigital.CodigoUsuario + "' AND CERSEU = " + certificadoDigital.Secuencial;
+               
                 iDB2Command cmd;
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
                 {
                     cmd = new iDB2Command(query, oConexion);
                     oConexion.Open();
-                    cmd.DeriveParameters();
-                    cmd.Parameters["@Ruc"].Value = campoNull(certificadoDigital.Ruc);
-                    cmd.Parameters["@Serie"].Value = campoNull(certificadoDigital.Serie);
-                    cmd.Parameters["@Asignado"].Value = campoNull(certificadoDigital.Asignado);
-                    cmd.Parameters["@FechaSubida"].Value = campoNull(certificadoDigital.FechaSubida);
-                    cmd.Parameters["@FechaVencimiento"].Value = campoNull(certificadoDigital.FechaVencimiento);
-                    cmd.Parameters["@Contrasena"].Value = campoNull(certificadoDigital.Contrasena);
-                    cmd.Parameters["@PathDocumento"].Value = campoNull(certificadoDigital.PathDocumento);
-                    cmd.Parameters["@PathImagenFirma"].Value = campoNull(certificadoDigital.PathImagenFirma);
-                    cmd.Parameters["@UsuarioModificado"].Value = certificadoDigital.UsuarioModificado;
-                    cmd.Parameters["@FechaModificado"].Value = osistema.FechaSistema;
-                    cmd.Parameters["@HoraModificado"].Value = osistema.HoraSistema;
-                    cmd.Parameters["@DispositivoModificado"].Value = campoNull(certificadoDigital.DispositivoCreado);
-                    cmd.Parameters["@OidCertificadoPadre"].Value = certificadoDigital.OidCertificadoPadre;
-                    cmd.Parameters["@CodigoUsuario"].Value = certificadoDigital.CodigoUsuario;
-                    cmd.Parameters["@Secuencial"].Value = certificadoDigital.Secuencial;
+                    //cmd.DeriveParameters();
+                    //cmd.Parameters["@Ruc"].Value = campoNull(certificadoDigital.Ruc);
+                    //cmd.Parameters["@Serie"].Value = campoNull(certificadoDigital.Serie);
+                    //cmd.Parameters["@Asignado"].Value = campoNull(certificadoDigital.Asignado);
+                    //cmd.Parameters["@FechaSubida"].Value = campoNull(certificadoDigital.FechaSubida);
+                    //cmd.Parameters["@FechaVencimiento"].Value = campoNull(certificadoDigital.FechaVencimiento);
+                    //cmd.Parameters["@Contrasena"].Value = campoNull(certificadoDigital.Contrasena);
+                    //cmd.Parameters["@PathDocumento"].Value = campoNull(certificadoDigital.PathDocumento);
+                    //cmd.Parameters["@PathImagenFirma"].Value = campoNull(certificadoDigital.PathImagenFirma);
+                    //cmd.Parameters["@UsuarioModificado"].Value = certificadoDigital.UsuarioModificado;
+                    //cmd.Parameters["@FechaModificado"].Value = osistema.FechaSistema;
+                    //cmd.Parameters["@HoraModificado"].Value = osistema.HoraSistema;
+                    //cmd.Parameters["@DispositivoModificado"].Value = campoNull(certificadoDigital.DispositivoCreado);
+                    //cmd.Parameters["@OidCertificadoPadre"].Value = certificadoDigital.OidCertificadoPadre;
+                    //cmd.Parameters["@CodigoUsuario"].Value = certificadoDigital.CodigoUsuario;
+                    //cmd.Parameters["@Secuencial"].Value = certificadoDigital.Secuencial;
 
                     respuesta = Convert.ToBoolean(cmd.ExecuteNonQuery());
                     cmd.Dispose();

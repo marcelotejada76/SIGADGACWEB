@@ -103,6 +103,7 @@
       <DependentUpon>ModelConfiar.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tbListaValor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

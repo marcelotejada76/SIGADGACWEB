@@ -142,12 +142,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\SorteoController.cs" />
     <Compile Include="Controllers\ConsultaTutController.cs" />
     <Compile Include="Controllers\FacturasP5Controller.cs" />
     <Compile Include="Controllers\CalculoFr3Controller.cs" />
     <Compile Include="Controllers\BancoRuminahuiController.cs" />
     <Compile Include="Controllers\MatriculasAdeudadasController.cs" />
     <Compile Include="Controllers\ConsultaFr3Controller.cs" />
+    <Compile Include="Controllers\MantenimientoMatriculasController.cs" />
     <Compile Include="Controllers\MatriculasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -2441,6 +2443,8 @@
     <Content Include="Views\SolicitarModificaciones\RevisarSolicitudCertificado.cshtml" />
     <Content Include="Views\SolicitarModificaciones\SolicitarCertificadoPOA.cshtml" />
     <Content Include="Views\ActualizacionContraseña\CambioContraseña.cshtml" />
+    <Content Include="Views\MantenimientoMatriculas\ListadoMatricula.cshtml" />
+    <Content Include="Views\Sorteo\Sorteo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

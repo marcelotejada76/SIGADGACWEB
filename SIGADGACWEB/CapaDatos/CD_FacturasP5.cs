@@ -39,7 +39,7 @@ namespace CapaDatos
             try
             {
                 string fecha = DateTime.Now.ToString("yyyy-MM-dd").ToUpper();
-                sbSol.Append("SELECT FA.OID, FA.NOMBRECLIENTE, FA.CEDULA_RUC,FA.NUMEROFACTURA,CAST(FA.FECHA AS date) AS FECHA,FA.VALORFACTURA,FA.ESTADO,RE.CODIGO " +
+                sbSol.Append("SELECT FA.OID, FA.NOMBRECLIENTE, FA.CEDULA_RUC,FA.NUMEROFACTURA,CAST(FA.FECHA AS date) AS FECHA,FA.VALORFACTURA,FA.ESTADO,RE.CODIGO,FA.USUARIOCREA,FA.FECHACREA " +
                     "FROM FACTURA AS FA LEFT JOIN RECAUDACION AS RE ON RE.OIDDOCUMENTOCC = FA.OIDDOCUMENTOCC  " +
                     "where FA.NUMEROFACTURA IS NOT NULL AND CAST(FA.FECHACREA AS date) = '" + fecha + "'");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
@@ -101,6 +101,8 @@ namespace CapaDatos
 
 
                         oSolicitud.CODIGO= dr["CODIGO"].ToString();
+                        oSolicitud.USUARIOCREA = dr["USUARIOCREA"].ToString();
+                        oSolicitud.FECHACREACION = dr["FECHACREA"].ToString();
 
                         listarSolicitud.Add(oSolicitud);
                     }
@@ -124,7 +126,7 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT FA.OID, FA.OIDDOCUMENTOCC,NOMBRECLIENTE, FA.CEDULA_RUC,FA.NUMEROFACTURA,CAST(FA.FECHA AS date) AS FECHA,FA.VALORFACTURA,FA.ESTADO,RE.CODIGO " +
+                sbSol.Append("SELECT FA.OID, FA.OIDDOCUMENTOCC,NOMBRECLIENTE, FA.CEDULA_RUC,FA.NUMEROFACTURA,CAST(FA.FECHA AS date) AS FECHA,FA.VALORFACTURA,FA.ESTADO,RE.CODIGO,FA.USUARIOCREA,FA.FECHACREA " +
                     "FROM FACTURA AS FA  LEFT JOIN RECAUDACION AS RE ON RE.OIDDOCUMENTOCC = FA.OIDDOCUMENTOCC " +
                     "where FA.OID=" + OidFactura + "");
 
@@ -167,7 +169,9 @@ namespace CapaDatos
                         {
                             oSolicitud.ESTADO = "PRE-FACTURADO";
                         }
-                        
+                        oSolicitud.USUARIOCREA = dr["USUARIOCREA"].ToString();
+                        oSolicitud.FECHACREACION = dr["FECHACREA"].ToString();
+
                         oSolicitud.OIDFACTURA = Int32.Parse(dr["OID"].ToString());
                         oSolicitud.OIDDOCUMENTOCC = Int32.Parse(dr["OIDDOCUMENTOCC"].ToString());
                         oSolicitud.CODIGO = dr["CODIGO"].ToString();
@@ -340,7 +344,7 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT OID, NOMBRECLIENTE, CEDULA_RUC,NUMEROFACTURA,FECHA,VALORFACTURA,ESTADO  " +
+                sbSol.Append("SELECT OID, NOMBRECLIENTE, CEDULA_RUC,NUMEROFACTURA,FECHA,VALORFACTURA,ESTADO,USUARIOCREA,FECHACREA  " +
                     "FROM FACTURA where NUMEROFACTURA IS NOT NULL AND  NOMBRECLIENTE Like ('" + Cliente + "%') ORDER BY FECHA DESC ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
@@ -397,6 +401,8 @@ namespace CapaDatos
                         {
                             oSolicitud.ESTADO = "PRE-FACTURADO";
                         }
+                        oSolicitud.USUARIOCREA = dr["USUARIOCREA"].ToString();
+                        oSolicitud.FECHACREACION = dr["FECHACREA"].ToString();
 
                         listarSolicitud.Add(oSolicitud);
                     }
@@ -419,7 +425,7 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT OID, NOMBRECLIENTE, CEDULA_RUC,NUMEROFACTURA,FECHA,VALORFACTURA,ESTADO  " +
+                sbSol.Append("SELECT OID, NOMBRECLIENTE, CEDULA_RUC,NUMEROFACTURA,FECHA,VALORFACTURA,ESTADO,USUARIOCREA,FECHACREA  " +
                     "FROM FACTURA where NUMEROFACTURA =" + Cliente + " ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
@@ -452,6 +458,7 @@ namespace CapaDatos
                         }
 
                         string FechaCrea = dr["FECHA"].ToString();
+                        
                         string Fechaf = Convert.ToDateTime(FechaCrea).ToString("dd/MM/yyyy");
                         oSolicitud.FECHACREA = Fechaf;
 
@@ -476,7 +483,8 @@ namespace CapaDatos
                         {
                             oSolicitud.ESTADO = "PRE-FACTURADO";
                         }
-
+                        oSolicitud.USUARIOCREA= dr["USUARIOCREA"].ToString();
+                        oSolicitud.FECHACREACION = dr["FECHACREA"].ToString();
                         listarSolicitud.Add(oSolicitud);
                     }
                     dr.Close();

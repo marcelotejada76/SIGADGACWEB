@@ -1,5 +1,4 @@
-﻿
-using CapaDatos;
+﻿using CapaDatos;
 using CapaModelo;
 using System;
 using System.Collections.Generic;

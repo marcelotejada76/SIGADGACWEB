@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Web;
 using ClosedXML.Excel;
 using OfficeOpenXml;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 
 namespace SistemaIntegradoGestion.Utilitarios
@@ -31,24 +29,25 @@ namespace SistemaIntegradoGestion.Utilitarios
             }
         }
 
-        public bool ExportExcel(DataSet dsPoaPropuesto, string archivoPath)
-        {
-            bool estado = false;
-            using (ExcelPackage pck = new ExcelPackage())
-            {
-                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("SearchReport");
-                ws.Cells["A1"].LoadFromDataTable(dsPoaPropuesto.Tables[0], true, TableStyles.Medium15); //You can Use TableStyles property of your desire.    
-                                                                                                        //Read the Excel file in a byte array    
-                Byte[] fileBytes = pck.GetAsByteArray();
-                HttpContext.Current.Response.ClearContent();
-                HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=" + archivoPath);
-                HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                HttpContext.Current.Response.BinaryWrite(fileBytes);
-                HttpContext.Current.Response.End();
-                estado = true;
-            }
-            return estado;
-        }
+        //public bool ExportExcel(DataSet dsPoaPropuesto, string archivoPath)
+        //{
+        //    bool estado = false;
+            
+        //    using (ExcelPackage pck = new ExcelPackage())
+        //    {
+        //        ExcelWorksheet ws = pck.Workbook.Worksheets.Add("SearchReport");
+        //        ws.Cells["A1"].LoadFromDataTable(dsPoaPropuesto.Tables[0], true, TableStyles.Medium15); //You can Use TableStyles property of your desire.    
+        //                                                                                                //Read the Excel file in a byte array    
+        //        Byte[] fileBytes = pck.GetAsByteArray();
+        //        HttpContext.Current.Response.ClearContent();
+        //        HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=" + archivoPath);
+        //        HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //        HttpContext.Current.Response.BinaryWrite(fileBytes);
+        //        HttpContext.Current.Response.End();
+        //        estado = true;
+        //    }
+        //    return estado;
+        //}
 
         public void ExportDataTableToExcel(DataSet dsPoaPropuesto, string archivoPath)
         {
@@ -100,5 +99,9 @@ namespace SistemaIntegradoGestion.Utilitarios
                 }
             }
         }
+    }
+
+    internal class ExcelPackage
+    {
     }
 }

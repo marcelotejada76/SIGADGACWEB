@@ -2,27 +2,13 @@
 $(document).ready(function () {
     ///loadDataTable();
     $('#btnEnviar').click(function () {
+
         $("#registerForm").submit();
     });
 
-    $('#documentFile').on('change', function () {       
-        if ($(this).val() != '') {
-            //alert("La extensión es: " + ext);  
-            const fileSize = $(this)[0].files[0].size / 1024 / 1024; // in MiB 
-            if (fileSize > 2) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: "¡Precaución!",
-                    html: "El documento excede el tamaño máximo, se solicita un archivo no mayor a 2MB. Por favor verifica."
-                });
-                $(this).val('');
-            }
-        }
-        $("#labelFile").html($('#documentFile').val());
-        //$('#ComprobantePago').val($('#FileComprobantePago').val());
-
+    $('#documentFile').on('change', function () {
+        $("#documentFile").html($('#FileCertificadoOperador').val());    
     });
-
 
 });
 

@@ -59,7 +59,7 @@ namespace CapaDatos
                 {
                     cmd = new iDB2Command(query, oConexion);
                     oConexion.Open();
-                    iDB2DataReader dr = cmd.ExecuteReader();                    
+                    iDB2DataReader dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
                         tbMenu oMenu = new tbMenu();
@@ -87,7 +87,6 @@ namespace CapaDatos
                     {
                         item.oSubMenu = CD_SubMenu.Instancia.GetSubMenuPorCodigo(codigoUsuario, item.CodigoMenu);
                     }
-
                 }
 
             }

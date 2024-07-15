@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.2092
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CapaDatos", "CapaDatos", "{C59B34ED-9D89-4176-8CD8-459C9A272455}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CapaModelo", "CapaModelo", "{91AB31A8-081A-4177-8371-06EE9E6022A5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaModelo", "CapaModelo\CapaModelo.csproj", "{BA03EFD6-4928-4E2D-9B62-E282F2903FF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaDatos", "CapaDatos\CapaDatos.csproj", "{2D10C0B3-5B1F-4B4C-8BED-AE80A6010835}"

@@ -22,8 +22,6 @@ namespace CapaModelo
         public string AUTORIZACION { get; set; }
         public string FECHARECAUDACION { get; set; }
         public string NUMERODEPOSITO { get; set; }
-        public string USUARIOCREA { get; set; }
-        public string FECHACREACION { get; set; }
         public List<tbFacturasDetalleP5> oDetalleFactura { get; set; }
         public List<tbRecaudacionDetalleP5> oDetalleRecaudacion { get; set; }
     }

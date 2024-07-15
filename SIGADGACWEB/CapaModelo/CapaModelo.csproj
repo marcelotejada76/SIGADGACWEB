@@ -51,7 +51,6 @@
     <Compile Include="tbEntidadEducativa.cs" />
     <Compile Include="tbFacturasDetalleP5.cs" />
     <Compile Include="tbFacturasP5.cs" />
-    <Compile Include="tbSorteo.cs" />
     <Compile Include="tbModelArchivo.cs" />
     <Compile Include="tbTut.cs" />
     <Compile Include="tbFr3.cs" />

@@ -52,6 +52,7 @@
     <Compile Include="tbFacturasDetalleP5.cs" />
     <Compile Include="tbFacturasP5.cs" />
     <Compile Include="tbModelArchivo.cs" />
+    <Compile Include="tbSorteo.cs" />
     <Compile Include="tbTut.cs" />
     <Compile Include="tbFr3.cs" />
     <Compile Include="tbListaValor.cs" />

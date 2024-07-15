@@ -50,30 +50,13 @@
                                 <th>Estado Autorizado</th>
                                 <th>Fecha Aprobación</th>
                                 <th>Actividad</th>
-                                <th>Certificado Actual</th>
+                                <th>Certificado_Actual</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                var numeroCertActu = "";
-                                if (item.TipoSolicitud.Equals("ACT"))
-                                {
-                                    if (item.EstadoSolicitud.Equals("NS"))
-                                    {
-                                        numeroCertActu = item.NumeroCertificadoPOA.ToString();
-                                    }
-                                    else
-                                    {
-                                        numeroCertActu = item.NumeroCertificadoPOA.ToString() + " / " + item.SecuencialActualizacion.ToString();
-                                    }
-
-                                }
-                                else
-                                {
-                                    numeroCertActu = item.NumeroCertificadoPOA.ToString();
-                                }
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.AnioSolicitud)</td>
                                     <td>@Html.DisplayFor(modelItem => item.CodigoUnidadEjecucion)</td>
@@ -85,10 +68,9 @@
                                     <td>@Html.DisplayFor(modelItem => item.EstadoAutorizacion)</td>
                                     <td>@Html.DisplayFor(modelItem => item.FechaAprobacion)</td>
                                     <td>@Html.DisplayFor(modelItem => item.SecuenciaActividad)</td>
-                                    <td>@numeroCertActu</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NumeroCertificadoPOA)</td>
                                     <td class="text-center">
-                                        <a id="aprobarEnviarSolicitud" href="#" onclick="enviarAprobarSolicitud('@item.CodigoDireccionPYGE', '@item.AnioSolicitud', '@item.TipoSolicitud', '@item.NumeroSolicitud')" class="btn btn-default btn-group-sm">
-                                            <img src="~/Content/imganes/checklist.png" style="width:20px"/>
+                                        <a id="aprobarEnviarSolicitud" href="#" onclick="enviarAprobarSolicitud('@item.CodigoDireccionPYGE', '@item.AnioSolicitud', '@item.TipoSolicitud', '@item.NumeroSolicitud')" class="btn btn-primary btn-sm ">
                                             Revisar
                                         </a>
                                     </td>

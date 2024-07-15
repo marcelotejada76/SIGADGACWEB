@@ -95,7 +95,7 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, cestSol, numSol, est
                                             $("#btnGrabarEnviar").removeAttr('disabled');
                                         }
                                         else {
-                                            mensajeGeneralIcono("Revisar y Aprobar Solicitud", "No hay documentos habilitantes adjuntos");    
+                                            mensajeGeneral("Revisar y Aprobar Solicitud", "No hay documentos habilitantes adjuntos");    
                                         }
                                     }
                                     else {
@@ -117,13 +117,13 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, cestSol, numSol, est
                 });
             }
             else {
-                mensajeGeneralIcono("Firma electrónica", "No tiene cargado el certificado de la firma electrónica", "warning");               
+                mensajeGeneral("Firma electrónica", "No tiene cargado el certificado de la firma electrónica");               
             }
         });
 
     }
     else {
-        mensajeGeneralIcono("Datos adjuntos", "No existe información de la documentación.", "warning");       
+        mensajeGeneral("Datos adjuntos", "No existe información de la documentación.");       
     }
 }
 
@@ -220,18 +220,7 @@ function mensajeGeneral(titulo, contenido) {
         icon: 'warning',
         title: "<p style='width: 100 %;'>" + titulo +"</p>", 
         html: "<ul class='text-left'>" + contenido+ "</ul>",
-        confirmButtonText: 'Aceptar',
-        allowOutsideClick: false,
-    });
-}
-
-function mensajeGeneralIcono(titulo, contenido, icono) {
-    Swal.fire({
-        icon: icono,
-        title: "<p style='width: 100 %;'>" + titulo + "</p>",
-        html: "<ul class='text-left'>" + contenido + "</ul>",
-        confirmButtonText: 'Aceptar',
-        allowOutsideClick: false,
+        confirmButtonText: 'Aceptar'
     });
 }
 
@@ -292,6 +281,12 @@ function FirmaCertificadoPOA(canio, numSol) {
         success: function (result) {
             if (result.length > 0) {
                 abrirArchivo(result);
+                //setTimeout(function () {
+                //    frame = document.getElementById("iframeCetificado");
+                //    framedoc = frame.contentWindow;
+                //    framedoc.focus();
+                //    framedoc.print();
+                //}, 1000);
                 $('#loadingBuscar').hide();            
             }
             else {

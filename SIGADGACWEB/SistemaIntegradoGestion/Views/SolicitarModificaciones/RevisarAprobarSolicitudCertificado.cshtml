@@ -40,41 +40,24 @@
                 <div class="col-12">
                     <table id="tbDetalle" class="table table-bordered table-hover table-sm display" style="width:100%">
                         <thead>
-                            <tr class="text-center">
+                            <tr>
                                 <th>Año</th>
                                 <th>EOD</th>
                                 <th>Dirección</th>
-                                <th>Número<br /> Solicitud</th>
-                                <th>Tipo<br /> Solicitud</th>                                
-                                <th>Fecha<br /> Solicitud</th>
-                                <th>Fecha<br /> Revisión</th>
-                                <th>Estado<br /> Autorizado</th>
-                                <th>Fecha<br />Aprobación</th>
+                                <th>Número Solicitud</th>
+                                <th>Tipo Solicitud</th>                                
+                                <th>Fecha Solicitud</th>
+                                <th>Fecha Revisión</th>
+                                <th>Estado Autorizado</th>
+                                <th>Fecha Aprobación</th>
                                 <th>Actividad</th>
-                                <th>Certificación<br />Actualización</th>
+                                <th>Certificado_Actual</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                var numeroCertActu = "";
-                                if (item.TipoSolicitud.Equals("ACT"))
-                                {
-                                    if (item.EstadoSolicitud.Equals("NS"))
-                                    {
-                                        numeroCertActu = item.NumeroCertificadoPOA.ToString();
-                                    }
-                                    else
-                                    {
-                                        numeroCertActu = item.NumeroCertificadoPOA.ToString() + " / " + item.SecuencialActualizacion.ToString();
-                                    }
-
-                                }
-                                else
-                                {
-                                    numeroCertActu = item.NumeroCertificadoPOA.ToString();
-                                }
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.AnioSolicitud)</td>
                                 <td>@Html.DisplayFor(modelItem => item.CodigoUnidadEjecucion)</td>
@@ -86,10 +69,10 @@
                                 <td>@Html.DisplayFor(modelItem => item.EstadoAutorizacion)</td>
                                 <td>@Html.DisplayFor(modelItem => item.FechaAprobacion)</td>
                                 <td>@Html.DisplayFor(modelItem => item.SecuenciaActividad)</td>
-                                <td>@numeroCertActu</td>
+                                <td>@Html.DisplayFor(modelItem => item.NumeroCertificadoPOA)</td>
                                 <td class="text-center">
                                     <a id="aprobarEnviarSolicitud" class="btn btn-group-sm btn-outline-primary" href="#" onclick="enviarAprobarSolicitud('@item.CodigoDireccionPYGE', '@item.AnioSolicitud', '@item.TipoSolicitud', '@item.NumeroSolicitud')" >
-                                       <img src="~/Content/imganes/icons/proceso.png" style="width:20px"/> Revisar-Aprobar
+                                        Revisar-Aprobar
                                     </a>
                                 </td>
                             </tr>

@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html>
 <head lang="es-ec">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/imganes/logo2.jpg" />    
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/imganes/logo2.jpg" />
     <title>@ViewBag.Title - DGAC</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -23,7 +23,7 @@
                 <li class="nav-item d-none d-sm-inline-block">
                     <p class="nav-link">
                         Dirección General de Aviciación Civil del Ecuador
-                    </p>                   
+                    </p>
                 </li>
             </ul>
 
@@ -88,22 +88,22 @@
 
             <!-- Sidebar -->
             <div class="sidebar">
-                <!-- Sidebar user (optional) -->               
+                <!-- Sidebar user (optional) -->
                 @if (Session["Usuario"] != null)
                 {
                     var userLogin = (CapaModelo.tbUsuario)Session["Usuario"];
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        <div class="info form-control-sm" >
+                        <div class="info form-control-sm">
                             <a class="d-block">@userLogin.CodigoUsuario</a>
-                           
+
                         </div>
                     </div>
                 }
 
                 <!-- Sidebar Menu -->
-                    <nav class="mt-2">                      
-                        @Html.Partial("_MenuBar")
-                    </nav>
+                <nav class="mt-2">
+                    @Html.Partial("_MenuBar")
+                </nav>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
@@ -113,7 +113,7 @@
             <!-- Main content -->
             <section class="content">
                 <br />
-                @RenderBody() 
+                @RenderBody()
             </section>
             <!-- /.content -->
         </div>
@@ -142,13 +142,13 @@
         $.extend({ MisUrls: { url: {}, urls: function (a) { $.extend($.MisUrls.url, a); } } });
 
 
-       
+
           $.MisUrls.urls({ _DetalleFacturaP5: '@Url.Action("CargaDetalleFacturaP5", "FacturasP5")' });
 
         $.MisUrls.urls({ _DetalleFacturaP5Confiar: '@Url.Action("DetalleFacturaP5Confiar", "FacturasP5")' });
         $.MisUrls.urls({ _DetalleMatriculaP5: '@Url.Action("CargaDetalleMatriculaP5", "Matriculas")' });
          $.MisUrls.urls({ _DetalleFr3: '@Url.Action("CargaDetalleFr3", "CalculoFr3")' });
-      
+
         $.MisUrls.urls({ _DetalleMatriculaDeudor: '@Url.Action("CargaDetalleMatricula", "MatriculasAdeudadas")' });
         $.MisUrls.urls({ _DetalleBancoRuminahui: '@Url.Action("CargaDetalleBanco", "BancoRuminahui")' });
         $.MisUrls.urls({ _CargaDetalleFr3Datos: '@Url.Action("CargaDetalleFr3Datos", "ConsultaFr3")' });
@@ -158,7 +158,7 @@
         //lenguaje español datatable
         $.MisUrls.urls({ _datatable_spanish: '@Url.Content("~/Content/plugins/datatables/datatable_spanish.json")' });
 
-                
+
         //Editar Empleado
         $.MisUrls.urls({ _EditarMaestroPersonal: '@Url.Action("Editar_Maestro_Personal", "TalentoHumano")' });
         $.MisUrls.urls({ _ObtenerMaestroPersonal: '@Url.Action("ObtenerMaestroPersonal", "TalentoHumano")' });
@@ -169,7 +169,7 @@
  //Inicio de Maestro empleado
         $.MisUrls.urls({ _DatosAdicionalesMaestroPersonal: '@Url.Action("DatosAdicionalesMaestroPersonal", "TalentoHumano")' });
         $.MisUrls.urls({ _CursoEmpleadoPorDocumentoCodigo: '@Url.Action("CursoEmpleadoPorDocumentoCodigo", "TalentoHumano")' });
-        
+
         $.MisUrls.urls({ _GetSelectListCantonesList: '@Url.Action("GetSelectListCantonesList", "TalentoHumano")' });
         $.MisUrls.urls({ _GetSelectListParroquiasList: '@Url.Action("GetSelectListParroquiasList", "TalentoHumano")' });
 
@@ -202,8 +202,8 @@
         //Modificacion POA Con Afectacion Presupuestaria
         $.MisUrls.urls({ _VisualizarArchivo: '@Url.Action("VisualizarArchivo", "ModificacionPoa")' });
          $.MisUrls.urls({ _DescargarArchivo: '@Url.Action("DescargarArchivo", "ModificacionPoa")' });
-        
-        
+
+
 
             //Obtiene el docuemnto del curso
         $.MisUrls.urls({ _CursoEmpleado: '@Url.Action("CursoEmpleado", "TalentoHumano")' });
@@ -213,7 +213,7 @@
         $.MisUrls.urls({ _GetSelectListEntinidadEducativa: '@Url.Action("GetSelectListEntinidadEducativa", "TalentoHumano")' });
         $.MisUrls.urls({ _GetSelectListaValores: '@Url.Action("GetSelectListaValores", "TalentoHumano")' });
         $.MisUrls.urls({ _GetSelectListCiudad: '@Url.Action("GetSelectListCiudad", "TalentoHumano")' });
-        
+
 
 
 
@@ -226,7 +226,7 @@
 
 
         //Fin Maestro empleado
-       
+
 
           //Login
          $.MisUrls.urls({ _FormularioLogin: '@Url.Action("login", "Login")' });

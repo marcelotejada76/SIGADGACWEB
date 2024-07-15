@@ -1,6 +1,5 @@
 ﻿
 using CapaDatos;
-using CapaModelo;
 using SistemaIntegradoGestion.Models;
 using System;
 using System.Collections.Generic;
@@ -23,8 +22,6 @@ namespace SistemaIntegradoGestion.Controllers
         public ActionResult login(ModelLogin login)
         {
             string estado = string.Empty;
-            tbUsuario ousuario = new tbUsuario();
-            tbMaestroPersonal datosEmpleado = new tbMaestroPersonal();
             try
             {
                 login.Mensaje = string.Empty;
@@ -47,11 +44,9 @@ namespace SistemaIntegradoGestion.Controllers
 
                     if (estado == "200")
                     {
-
-
                         if (CD_Usuario.Instancia.GetUsuarioExistePorCodigo(login.Usuario))
                         {
-                            ousuario = CD_Usuario.Instancia.GetUsuarioPorCodigo(login.Usuario);
+                            var ousuario = CD_Usuario.Instancia.GetUsuarioPorCodigo(login.Usuario);
                             var oMenu = CD_Menu.Instancia.GetMenuPorCodigo(login.Usuario);
                             Session["Usuario"] = ousuario;
                             Session["MenuMaster"] = oMenu;

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CapaModelo.tbModelArchivo>
 @{
-    ViewBag.Title = "Documentos Habilitantes";
+    ViewBag.Title = "DocumentoHabilitante";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/TreeView/jquery.treeview.css" rel="stylesheet" />
@@ -11,17 +11,13 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1>Cargar/Descarga Documentos Habilitantes</h1>
+                <label id="lblDescripcionActividad" class="col-form-label text-lg text-blue">@Session["DireccionActividad"].ToString()</label>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="@Url.Action("SolicitarCertificadoPOA", "SolicitarModificaciones")">@Session["TituloActionResul"]</a></li>
                     <li class="breadcrumb-item active">DocumentoHabilitante</li>
                 </ol>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <label id="lblDescripcionActividad" class="col-form-label text-lg text-blue">@Session["DireccionActividad"].ToString()</label>
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -47,59 +43,57 @@
                                 <input type="hidden" id="tituloActionResul" name="tituloActionResul" value="@Session["TituloActionResul"].ToString()" />
                             }
 
-                            <ul id="browser" class="nav nav-pills flex-column filetree treeview-famfamfam">
-                                <li class="nav-item active">
-                                    @if (Session["DireccionSubSistema"] != null)
+                                <ul id="browser" class="nav nav-pills flex-column filetree treeview-famfamfam">
+                                    <li class="nav-item active">
+                                        @if (Session["DireccionSubSistema"] != null)
+                                        {
+                                            <span class="text-blue">@Session["DireccionSubSistema"].ToString()</span>
+                                        }
+                                    </li>
+                                    <li class="nav-item active">
+                                        @if (ViewBag.DireccionDirectory != null)
+                                        {
+                                            <span class="folder">@ViewBag.DireccionDirectory</span>
+                                        }
+                                    </li>
+                                    @if (ViewBag.EstadoAutorizado != null || ViewBag.EstadoAutorizado != "")
                                     {
-                                        <span class="text-blue">@Session["DireccionSubSistema"].ToString()</span>
-                                    }
-                                </li>
-                                <li class="nav-item active">
-                                    @if (ViewBag.DireccionDirectory != null)
-                                    {
-                                        <span class="folder">@ViewBag.DireccionDirectory</span>
-                                    }
-                                </li>
-                                @if (ViewBag.EstadoAutorizado != null || ViewBag.EstadoAutorizado != "")
-                                {
-
-                                    string[] EstadosAutoArray = { "AP", "RA", "RN" };
-                                    if (!EstadosAutoArray.Any(x => x == ViewBag.EstadoAutorizado) || ViewBag.EstadoAutorizado == "RA")
-                                    {
-                                        <li class="nav-item">
-                                            <div class="form-group row">
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="documentFile" name="documentFile">
-                                                    <label id="labelFile" class="custom-file-label" for="documentFile">No se ha seleccionado ningún archivo.</label>
+                                        string[] EstadosAutoArray = { "AP", "RA", "RN" };
+                                        if (!EstadosAutoArray.Any(x => x == ViewBag.EstadoAutorizado) || ViewBag.EstadoAutorizado == "RA")
+                                        {
+                                            <li class="nav-item">
+                                                <div class="form-group row">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" id="documentFile" name="documentFile">
+                                                        <label class="custom-file-label" for="documentFile">No se ha seleccionado ningún archivo.</label>
+                                                    </div>
+                                                    <div class="text-sm text-info">
+                                                        <p style="text-align:justify">
+                                                            Tamaño máximo de archivo 4 MB
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div class="text-sm text-info">
-                                                    <p style="text-align:justify">
-                                                        Tamaño máximo de archivo 4 MB
-                                                    </p>
+                                            </li>
+                                            <li class="nav-item active">
+                                                <div class="form-group col-12">
+                                                    <a class="btn btn-outline-secondary" href="@Url.Action(@Session["ActionResul"].ToString(), "SolicitarModificaciones")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
+                                                    <button type="button" id="btnEnviar" class="btn btn-outline-primary float-right"><i><img src="~/Content/imganes/save.png" style="width:20px" /></i> Grabar anexo </button>
+
                                                 </div>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item active">
-                                            <div class="form-group col-12">
-                                                <a class="btn btn-outline-secondary" href="@Url.Action(@Session["ActionResul"].ToString(), "SolicitarModificaciones")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
-                                                <button type="button" id="btnEnviar" class="btn btn-outline-primary float-right"><i><img src="~/Content/imganes/save.png" style="width:20px" /></i> Grabar anexo </button>
+                                            </li>
+                                        }
+                                        else
+                                        {                                          
+                                            <li class="nav-item active">
+                                                <div class="form-group col-12">
+                                                    <a class="btn btn-outline-secondary float-right" href="@Url.Action(@Session["ActionResul"].ToString(), "SolicitarModificaciones")">Regresar</a>
+                                                </div>
+                                            </li>
+                                        }
 
-                                            </div>
-                                        </li>
                                     }
 
-                                    else
-                                    {
-                                        <li class="nav-item active">
-                                            <div class="form-group col-12">
-                                                <a class="btn btn-outline-secondary float-right" href="@Url.Action(@Session["ActionResul"].ToString(), "SolicitarModificaciones")">Regresar</a>
-                                            </div>
-                                        </li>
-                                    }
-
-                                }
-
-                            </ul>
+                                </ul>
 
 
 
@@ -147,8 +141,7 @@
                                                             <img src="~/Content/imganes/eliminar1.png" style="width:25px" />
                                                         </i>
                                                         Eliminar
-                                                    </a>
-                                                }
+                                                    </a>}
                                             }
                                         </td>
                                         <td>

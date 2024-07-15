@@ -116,7 +116,7 @@ $(document).ready(function () {
         var _NombreCompleto = $("#NombreCompleto").val();
         $('#mdocumentoIdentidad').val(_DocumentoIdentificacion);
         $('#mnombreEmpleado').val(_NombreCompleto);
-
+        
         $('#cursoModal').modal('show');
     });
 
@@ -161,8 +161,8 @@ $(document).ready(function () {
                     if (result.Success) {
                         $('#cursoModal').modal('hide');
                         tabladata.ajax.reload();
-                        // var urlAction = $.MisUrls.url._EditarMaestroPersonal;
-                        // window.location.href = urlAction;
+                       // var urlAction = $.MisUrls.url._EditarMaestroPersonal;
+                       // window.location.href = urlAction;
                     }
                 },
                 error: function (errormessage) {
@@ -235,7 +235,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#custom-tabs-four-profile-tab').click(function () {
+    $('#custom-tabs-four-profile-tab').click(function () {        
         tabladata.ajax.reload();
         tabladata.ajax.reload();
     });
@@ -279,7 +279,7 @@ function cargaDatosEmpleado() {
                     $("#DecimoCuartoAculado").val(item.DecimoCuartoAculado);
                     $("#AporteFondoReserva").val(item.AporteFondoReserva);
                     $("#PathFoto").val(item.PathFoto);
-
+                    
                     //Datos adicionales
                     $("#NombreContactoEmergencia").val(item.NombreContactoEmergencia);
                     $("#TelefonoContactoEmergencia").val(item.TelefonoContactoEmergencia);
@@ -319,13 +319,13 @@ function cargaDatosEmpleado() {
             console.log(error)
         },
         beforeSend: function () {
-            // $('.loadingBuscar').hide();
+           // $('.loadingBuscar').hide();
         },
     });
 }
 
 function cargaDetlleCurso(idDocumento) {
-
+    
     if (idDocumento.trim().length > 0) {
         tabladata = $('#tbCursoEmpleados').DataTable({
             "destroy": true,
@@ -360,10 +360,10 @@ function cargaDetlleCurso(idDocumento) {
                         }
                         else {
                             if (row.EstadoCurso != 'VA') {
-                                return "<div class='btn-group'><button class='btn btn-primary btn-sm' type='button' onclick='editarCursoEmpleado(" + JSON.stringify(row) + ")'><i>Editar</i></button>"
+                                return "<div class='btn-group'><button class='btn btn-primary btn-sm' type='button' onclick='editarCursoEmpleado(" + JSON.stringify(row) + ")'><i>Editar</i></button>"  
                             }
                         }
-
+                        
                     },
                     "orderable": false,
                     "searchable": false,
@@ -394,7 +394,7 @@ function cargaDetlleCurso(idDocumento) {
             responsive: true
         });
     }
-
+    
 }
 
 function cargaCanton() {
@@ -402,10 +402,10 @@ function cargaCanton() {
     var _codProviencia = $('#CodigoProviencia').val();
     var _codCanton = $('#CodigoCanton').val();
     var jsonInput = { codPais: _codPais, codProvincia: _codProviencia, codCanton: _codCanton };
-    //_GetSelectListParroquiasList
+
     //InicioGrabar
     $.ajax({
-        url: $.MisUrls.url._GetSelectListParroquiasList,
+        url: "/TalentoHumano/GetSelectListParroquiasList",
         type: "POST",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -442,7 +442,7 @@ function cambiaColorDatosEmpleaado() {
     $('#Peso').removeClass("border-danger");
     $('#DireccionDomicillo').removeClass("border-danger");
     $('#CodigoPais').removeClass("border-danger");
-
+    
 }
 
 function validaCamposDatosEmpleado() {
@@ -861,7 +861,7 @@ function verDocumento(json) {
     var texto = $.MisUrls.url._DocumentoCurso + "?fileName=" + json.PathDocumentoCurso + "&id=" + json.DocumentoIdentificacion;
     $("#iframeDocumento").attr("src", texto);
     $('#archivoModal').modal('show');
-
+   
 
 }
 
@@ -999,9 +999,6 @@ function cargaCombos() {
     });
     //FinEntidadEducativa
 }
-
-
-
 
 function upperCaseF(a) {
     setTimeout(function () {

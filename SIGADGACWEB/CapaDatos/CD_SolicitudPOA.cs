@@ -327,7 +327,7 @@ namespace CapaDatos
                         + " LEFT JOIN TIPAR2 AS TAD ON TAD.TIPCO1 = M.MODC09 "
                         + " WHERE M.MODAN2 = '" + cAnio + "' AND M.MODNU3 = " + numSolicitud
                         + " ORDER BY M.MODAN2, M.MODNU3, M.MODSEC, M.MODEST DESC";
-                
+
                 iDB2Command cmd;
 
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
@@ -721,7 +721,7 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@CDIREC", codDireccionPYCE);
                     cmd.Parameters.AddWithValue("@CESTA", CEstado).Direction = ParameterDirection.Output;
                     cmd.Parameters.AddWithValue("@CUSUAR", campoNull(codUsuario));
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;                    
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     oConexion.Open();
                     estadoSolicitud = Convert.ToBoolean(cmd.ExecuteNonQuery());
                     string cEstadoModif = cmd.Parameters[4].iDB2Value.ToString();
@@ -755,7 +755,7 @@ namespace CapaDatos
 
                     var osistema = CD_Sistema.Instancia.GetFechaHoraSistema();
                     sb.Append("UPDATE SOLAR1 SET ");
-                    sb.Append(" SOLES6 = @estadoSolicitud, SOLES7 = '', SOLES9  = '', ");                   
+                    sb.Append(" SOLES6 = @estadoSolicitud, SOLES7 = '', SOLES9  = '', ");
                     sb.Append(" SOLUS7 = '', SOLFE6 = '', SOLFE8 = '', SOLHO7 = '', SOLDI3 =''");
                     sb.Append(" WHERE SOLAN1 = @canio AND SOLNU3 = @NumeroSolicitud");
                     queryUpdate = sb.ToString();
@@ -982,9 +982,9 @@ namespace CapaDatos
             {
                 try
                 {
-                    osistema = CD_Sistema.Instancia.GetFechaHoraSistema();                    
+                    osistema = CD_Sistema.Instancia.GetFechaHoraSistema();
                     sb.Append("UPDATE SOLAR1 SET ");
-                    sb.Append(" SOLF01 =  @fecha, SOLES7 = @cEstadoAut, SOLOB9 = @cObsAutorizacion1, SOLO01 = @cObsAutorizacion2, ");                   
+                    sb.Append(" SOLF01 =  @fecha, SOLES7 = @cEstadoAut, SOLOB9 = @cObsAutorizacion1, SOLO01 = @cObsAutorizacion2, ");
                     sb.Append(" SOLUS8 = @usuarioMod, SOLF04 = @fecha, SOLHO8 = @hora, SOLDI5 = ''");
                     sb.Append(" WHERE SOLAN1 = @canio AND SOLNU3 = @NumeroSolicitud");
                     queryUpdate = sb.ToString();
@@ -1271,7 +1271,7 @@ namespace CapaDatos
             {
                 fechaibm = DateTime.Parse(fecha).ToString("yyyyMMdd");
             }
-            catch 
+            catch
             {
                 fechaibm = "";
             }

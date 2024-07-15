@@ -40,7 +40,7 @@ namespace SistemaIntegradoGestion.Controllers
             if (Session["Usuario"] == null)
                 return Json(new { data = oListarMaestroPersonal }, JsonRequestBehavior.AllowGet);
 
-            var ousuario = (tbUsuario)Session["Usuario"];
+            var ousuario = (tbUsuario)Session["Usuario"];   
 
             oMaestroPersonal = CD_TalentoHumano.Instancia.MaestroPersonalPorCedula(ousuario.CedulaUsuario);
             oListarMaestroPersonal.Add(oMaestroPersonal);
@@ -86,33 +86,6 @@ namespace SistemaIntegradoGestion.Controllers
 
                 var ousuario = (tbUsuario)Session["Usuario"];
                 oMaestroPersonal = CD_TalentoHumano.Instancia.MaestroPersonalPorCedula(ousuario.CedulaUsuario);
-                oMaestroPersonal.CodigoPais = "SE";
-                if (oMaestroPersonal.PathFoto.Length > 0)
-                {
-                    string urlDocumentos = Constantes.MaestroPersonalURL + ousuario.CedulaUsuario + @"\" + oMaestroPersonal.PathFoto;
-                    // Convert image to byte array
-                    byte[] byteData = System.IO.File.ReadAllBytes(urlDocumentos);
-                    //Convert byte arry to base64string
-                    string imreBase64Data = Convert.ToBase64String(byteData);
-                    string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
-                    //Passing image data in viewbag to view
-                    //ViewBag.ImageData = imgDataURL;
-                    oMaestroPersonal.imagenFoto = imgDataURL;
-                }
-                else
-                {
-                    string imgPath = Server.MapPath("~/Content/imganes/user.png");
-                    // Convert image to byte array
-                    byte[] byteData = System.IO.File.ReadAllBytes(imgPath);
-                    //Convert byte arry to base64string
-                    string imreBase64Data = Convert.ToBase64String(byteData);
-                    string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
-                    //Passing image data in viewbag to view
-                    oMaestroPersonal.imagenFoto = imgDataURL;
-                    //ViewBag.ImageData = imgDataURL;
-
-                }
-                oMaestroPersonal.tabNumero = 1;
                 VieqBagCombos(oMaestroPersonal.CodigoPais, oMaestroPersonal.CodigoProviencia, oMaestroPersonal.CodigoCanton, oMaestroPersonal.CodigoParroquia);
             }
             catch (Exception ex)
@@ -122,29 +95,29 @@ namespace SistemaIntegradoGestion.Controllers
             }
 
 
-            return View(oMaestroPersonal);
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Editar_Maestro_Personal(tbMaestroPersonal modalPersonal, HttpPostedFileBase FileFoto)
+        public ActionResult Editar_Maestro_Personal(tbMaestroPersonal modalPersonal, HttpPostedFileBase fileFoto)
         {
-            //tbMaestroPersonal oMaestroPersonal = new tbMaestroPersonal();
+            tbMaestroPersonal oMaestroPersonal = new tbMaestroPersonal();
             try
             {
                 if (Session["Usuario"] == null)
                     return RedirectToAction("login", "Login");
 
                 var ousuario = (tbUsuario)Session["Usuario"];
-                modalPersonal.FechaNacimiento = DateTime.Parse(modalPersonal.FechaNacimiento).ToString("yyyyMMdd");
-                modalPersonal.UsuarioModificacion = ousuario.CodigoUsuario;
-                if (modalPersonal.tabNumero == 1)
-                {
-                    if (FileFoto != null && FileFoto.ContentLength > 0)
-                        modalPersonal.PathFoto = GuardaServidorArchivo(FileFoto, modalPersonal.DocumentoIdentificacion);
 
-                    if (CD_TalentoHumano.Instancia.MaestroPersonalActualizar(modalPersonal))
+                if (ousuario.CedulaUsuario.Length > 0)
+                {
+                    if (fileFoto != null && fileFoto.ContentLength > 0)
+                        modalPersonal.PathFoto = GuardaServidorArchivo(fileFoto, ousuario.CedulaUsuario);
+
+                    modalPersonal.FechaNacimiento = DateTime.Parse(modalPersonal.FechaNacimiento).ToString("yyyyMMdd");
+                    modalPersonal.UsuarioModificacion = ousuario.CodigoUsuario;
+                    if (modalPersonal.PathFoto.Length > 0)
                     {
-                        modalPersonal = CD_TalentoHumano.Instancia.MaestroPersonalPorCedula(ousuario.CedulaUsuario);
                         string urlDocumentos = Constantes.MaestroPersonalURL + ousuario.CedulaUsuario + @"\" + modalPersonal.PathFoto;
                         // Convert image to byte array
                         byte[] byteData = System.IO.File.ReadAllBytes(urlDocumentos);
@@ -152,28 +125,30 @@ namespace SistemaIntegradoGestion.Controllers
                         string imreBase64Data = Convert.ToBase64String(byteData);
                         string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
                         //Passing image data in viewbag to view
-                        //ViewBag.ImageData = imgDataURL;
-                        modalPersonal.imagenFoto = imgDataURL;
-                        modalPersonal.tabNumero = 1;
+                        ViewBag.ImageData = imgDataURL;
+                    }
+                    else
+                    {
+                        string imgPath = Server.MapPath("~/Content/imganes/user.png");
+                        // Convert image to byte array
+                        byte[] byteData = System.IO.File.ReadAllBytes(imgPath);
+                        //Convert byte arry to base64string
+                        string imreBase64Data = Convert.ToBase64String(byteData);
+                        string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                        //Passing image data in viewbag to view
+                        ViewBag.ImageData = imgDataURL;
+
                     }
 
-                }
-                else if (modalPersonal.tabNumero == 2) {
-                    modalPersonal.UsuarioModificacion = ousuario.CodigoUsuario;
-                    if (CD_TalentoHumano.Instancia.MaestroPersonalActualizarDatosAdicionales(modalPersonal))
-                    {                        
-                        modalPersonal.tabNumero = 2;
-                    }
-                }
-                else if (modalPersonal.tabNumero == 3) {                    
-                    modalPersonal.tabNumero = 3;
+                    if (!CD_TalentoHumano.Instancia.MaestroPersonalActualizar(modalPersonal))
+                        ViewBag.MensajeError = "No puedo guardar la información";
+
+                    oMaestroPersonal = CD_TalentoHumano.Instancia.MaestroPersonalPorCedula(ousuario.CedulaUsuario); ;
+                    VieqBagCombos(oMaestroPersonal.CodigoPais, oMaestroPersonal.CodigoProviencia, oMaestroPersonal.CodigoCanton, oMaestroPersonal.CodigoParroquia);
+                    return View(oMaestroPersonal);
                 }
 
 
-                modalPersonal = CD_TalentoHumano.Instancia.MaestroPersonalPorCedula(ousuario.CedulaUsuario);
-
-                modalPersonal.CodigoPais = "SE";
-                VieqBagCombos(modalPersonal.CodigoPais, modalPersonal.CodigoProviencia, modalPersonal.CodigoCanton, modalPersonal.CodigoParroquia);
             }
             catch (Exception ex)
             {
@@ -186,6 +161,7 @@ namespace SistemaIntegradoGestion.Controllers
         [HttpPost]
         public JsonResult DatosEmpleadoActualizar(string Empleado, HttpPostedFileBase adjuntoFoto)
         {
+
             bool respuesta = false;
             string message = string.Empty;
             tbMaestroPersonal oDatosEmpleado = new tbMaestroPersonal();
@@ -196,12 +172,13 @@ namespace SistemaIntegradoGestion.Controllers
                 oDatosEmpleado = JsonConvert.DeserializeObject<tbMaestroPersonal>(Empleado);
                 oDatosEmpleado.FechaNacimiento = DateTime.Parse(oDatosEmpleado.FechaNacimiento).ToString("yyyyMMdd");
                 oDatosEmpleado.UsuarioModificacion = ousuario.CodigoUsuario;
+               
 
                 if (adjuntoFoto != null && adjuntoFoto.ContentLength > 0)
                     oDatosEmpleado.PathFoto = GuardaServidorArchivo(adjuntoFoto, oDatosEmpleado.DocumentoIdentificacion);
 
 
-                respuesta = CD_TalentoHumano.Instancia.MaestroPersonalActualizar(oDatosEmpleado);
+                respuesta =  CD_TalentoHumano.Instancia.MaestroPersonalActualizar(oDatosEmpleado);
 
 
                 if (respuesta)
@@ -219,7 +196,8 @@ namespace SistemaIntegradoGestion.Controllers
 
             return Json(new { Success = respuesta, Message = message }, JsonRequestBehavior.AllowGet);
         }
-        
+
+
 
         [HttpPost]
         public JsonResult DatosAdicionalesMaestroPersonal(tbMaestroPersonal modalPersonal)
@@ -291,25 +269,23 @@ namespace SistemaIntegradoGestion.Controllers
             ViewBag.SelectComboPais = GetSelectListPais(codigoPias);
             ViewBag.SelectComboProvincia = GetSelectListProvincia(codigoPias);
             ViewBag.SelectComboCiudades = GetSelectListCiudades(codigoPias);
-            ViewBag.SelectComboCantones = GetSelectListCantones(codigoPias, codigoPrivincia);
-            ViewBag.SelectComboParroquias = GetSelectListParroquias(codigoPias, codigoPrivincia, codigoCanton);
 
             ViewBag.SelectComboRegimenLaboral = GetSelectListValores("MAERE1");
             ViewBag.SelectComboTipoHorario = GetSelectListValores("MAETI3");
             ViewBag.SelectComboDecimoTercero = GetSelectListValores("MAEDEC");
             ViewBag.SelectComboDecimoCuarto = GetSelectListValores("MAEDE1 ");
             ViewBag.SelectComboAporteFondoReserva = GetSelectListValores("MAEAPO");
+            ViewBag.SelectComboCantones = GetSelectListCantones(codigoPias, codigoPrivincia);
+            ViewBag.SelectComboParroquias = GetSelectListParroquias(codigoPias, codigoPrivincia, codigoCanton);
             ViewBag.SelectComboSectorDondeVive = GetSelectListValores("MAESEC");
             ViewBag.SelectComboDiscapacidad = GetSelectListValores("MAEDIS");
             ViewBag.SelectComboEnfermedaCatastrof = GetSelectListValores("MAEENF");
-            ViewBag.SelectCombotitulosSelect = GetSelectListTitulosCurso();
-
         }
 
         private SelectList GetSelectListValores(string campo)
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            var olistTipoValores = CD_ListaValor.Instancia.ListaValores(campoNull(campo));
+            var olistTipoValores = CD_ListaValor.Instancia.ListaValores(campo);
 
             foreach (var item in olistTipoValores)
             {
@@ -332,7 +308,7 @@ namespace SistemaIntegradoGestion.Controllers
         private SelectList GetSelectListValores1(string campo)
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            var olistTipoValores = CD_ListaValor.Instancia.ListaValores(campoNull(campo));
+            var olistTipoValores = CD_ListaValor.Instancia.ListaValores(campo);
 
             foreach (var item in olistTipoValores)
             {
@@ -355,10 +331,10 @@ namespace SistemaIntegradoGestion.Controllers
         private SelectList GetSelectListPais(string campo)
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            var olistPais = CD_Pais.Instancia.ObtienePaisPorCodigo(campoNull(campo));
+            var olistPais = CD_Pais.Instancia.ObtienePaisPorCodigo(campo);
 
 
-            if (olistPais.CodigoPais != null)
+            if (olistPais != null)
             {
                 list.Add(new SelectListItem()
                 {
@@ -366,18 +342,14 @@ namespace SistemaIntegradoGestion.Controllers
                     Value = olistPais.CodigoPais.Trim()
                 });
             }
-            else
-            {
-                list.Add(new SelectListItem { Text = "-- Seleccionar --", Value = "0" });
-            }
             return new SelectList(list, "Value", "Text");
         }
 
         private SelectList GetSelectListProvincia(string campo)
         {
             List<SelectListItem> list = new List<SelectListItem>();
+            var olistProvincia = CD_Pais.Instancia.ObtieneTodosProvincias(campo);
 
-            var olistProvincia = CD_Pais.Instancia.ObtieneTodosProvincias(campoNull(campo));
 
             foreach (var item in olistProvincia)
             {
@@ -400,7 +372,7 @@ namespace SistemaIntegradoGestion.Controllers
         private SelectList GetSelectListCiudades(string campo)
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            var olistCiudades = CD_Pais.Instancia.ObtieneTodosCiudad(campoNull(campo));
+            var olistCiudades = CD_Pais.Instancia.ObtieneTodosCiudad(campo);
 
 
             foreach (var item in olistCiudades)
@@ -424,8 +396,9 @@ namespace SistemaIntegradoGestion.Controllers
         private SelectList GetSelectListCantones(string campo, string codProvincia)
         {
             List<SelectListItem> list = new List<SelectListItem>();
+            var olistCantones = CD_Pais.Instancia.ObtieneTodosCantones(campo, codProvincia);
 
-            var olistCantones = CD_Pais.Instancia.ObtieneTodosCantones(campo, campoNull(codProvincia));
+
             foreach (var item in olistCantones)
             {
                 list.Add(new SelectListItem()
@@ -447,8 +420,8 @@ namespace SistemaIntegradoGestion.Controllers
         private SelectList GetSelectListParroquias(string codPais, string codProvincia, string codigoCanton)
         {
             List<SelectListItem> list = new List<SelectListItem>();
+            var olistCProvincias = CD_Pais.Instancia.ObtieneTodosParroquias(codPais, codProvincia, codigoCanton);
 
-            var olistCProvincias = CD_Pais.Instancia.ObtieneTodosParroquias(codPais, campoNull(codProvincia), campoNull(codigoCanton));
 
             foreach (var item in olistCProvincias)
             {
@@ -471,8 +444,9 @@ namespace SistemaIntegradoGestion.Controllers
         public JsonResult GetSelectListCantonesList(string codPais, string codProvincia)
         {
             List<SelectListItem> list = new List<SelectListItem>();
+            var olistCantones = CD_Pais.Instancia.ObtieneTodosCantones(codPais, codProvincia);
 
-            var olistCantones = CD_Pais.Instancia.ObtieneTodosCantones(codPais, campoNull(codProvincia));
+
             foreach (var item in olistCantones)
             {
                 list.Add(new SelectListItem()
@@ -481,7 +455,6 @@ namespace SistemaIntegradoGestion.Controllers
                     Value = item.CodigoCanton.Trim()
                 });
             }
-
             var seleccion = new SelectListItem()
             {
                 Value = "0",
@@ -495,8 +468,8 @@ namespace SistemaIntegradoGestion.Controllers
         public JsonResult GetSelectListParroquiasList(string codPais, string codProvincia, string codCanton)
         {
             List<SelectListItem> list = new List<SelectListItem>();
+            var olistParroquias = CD_Pais.Instancia.ObtieneTodosParroquias(codPais, codProvincia, codCanton);
 
-            var olistParroquias = CD_Pais.Instancia.ObtieneTodosParroquias(codPais, campoNull(codProvincia), campoNull(codCanton));
 
             foreach (var item in olistParroquias)
             {
@@ -506,7 +479,6 @@ namespace SistemaIntegradoGestion.Controllers
                     Value = item.CodigoParroquia.Trim()
                 });
             }
-
             var seleccion = new SelectListItem()
             {
                 Value = "0",
@@ -591,7 +563,7 @@ namespace SistemaIntegradoGestion.Controllers
         public JsonResult GetSelectListaValores(string campo)
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            var olistTipoValores = CD_ListaValor.Instancia.ListaValores(campoNull(campo));
+            var olistTipoValores = CD_ListaValor.Instancia.ListaValores(campo);
 
             foreach (var item in olistTipoValores)
             {
@@ -660,14 +632,13 @@ namespace SistemaIntegradoGestion.Controllers
             byte[] reportData = null;
             try
             {
-                if (!fileName.IsEmpty())
-                {
+                if (!fileName.IsEmpty()) {
                     path = Constantes.MaestroPersonalURL + id;
                     pathArchivo = path + @"\" + fileName;
 
                     reportData = System.IO.File.ReadAllBytes(pathArchivo);
                 }
-
+                
             }
             catch
             {
@@ -675,9 +646,9 @@ namespace SistemaIntegradoGestion.Controllers
             return new FileContentResult(reportData, "application/pdf");
         }
 
-
+        
         public JsonResult CursoEmpleadoPorDocumentoCodigo(string idDoc, string codigoCurso)
-        {
+        {            
             tbCursoEmpleado ocursoEmpleado = new tbCursoEmpleado();
             try
             {
@@ -728,11 +699,5 @@ namespace SistemaIntegradoGestion.Controllers
 
         #endregion
 
-        private string campoNull(string campo)
-        {
-            if (String.IsNullOrEmpty(campo))
-                campo = "";
-            return campo;
-        }
     }
 }

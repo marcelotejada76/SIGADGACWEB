@@ -16,7 +16,7 @@ function loadDataTable() {
         scrollCollapse: true,
         paging: false,
         fixedHeader: true,
-        "order": [[0, 'desc'], [2, 'asc'], [4, 'asc'], [3, 'desc'] ],
+        "order": [[0, 'desc'], [1, 'desc'], [2, 'desc'], [3, 'desc']],
         "language": {
             "decimal": "",
             "emptyTable": "No hay información",

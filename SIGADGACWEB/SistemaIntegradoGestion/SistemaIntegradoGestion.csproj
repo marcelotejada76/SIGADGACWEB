@@ -54,10 +54,11 @@
     <Reference Include="ClosedXML, Version=0.93.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.0.93.1\lib\net40\ClosedXML.dll</HintPath>
     </Reference>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
-      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.8.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.8.0\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus">
+    <Reference Include="EPPlus, Version=6.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CapaDatos\librerias\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus.Interfaces, Version=6.1.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
@@ -93,6 +94,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -147,9 +149,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="UtilitarioGeneral">
-      <HintPath>..\UtilitarioGeneral\bin\Debug\UtilitarioGeneral.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -160,8 +159,10 @@
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="zxing, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Bin\zxing.dll</HintPath>
+      <HintPath>..\packages\ZXing.Net.0.16.9\lib\net45\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.9\lib\net45\zxing.presentation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -174,17 +175,19 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\ModificacionPoaController.cs" />
+    <Compile Include="Controllers\SorteoController.cs" />
     <Compile Include="Controllers\ConsultaTutController.cs" />
     <Compile Include="Controllers\FacturasP5Controller.cs" />
     <Compile Include="Controllers\CalculoFr3Controller.cs" />
     <Compile Include="Controllers\BancoRuminahuiController.cs" />
     <Compile Include="Controllers\MatriculasAdeudadasController.cs" />
     <Compile Include="Controllers\ConsultaFr3Controller.cs" />
+    <Compile Include="Controllers\MantenimientoMatriculasController.cs" />
     <Compile Include="Controllers\MatriculasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManifiestoController.cs" />
-    <Compile Include="Controllers\ModificacionPoaController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\GarantiasController.cs" />
     <Compile Include="Controllers\SolicitarModificacionesController.cs" />
@@ -406,13 +409,10 @@
     <Content Include="Content\imganes\folderFile.png" />
     <Content Include="Content\imganes\folderOpen.png" />
     <Content Include="Content\imganes\green.png" />
-    <Content Include="Content\imganes\icons\Attach.ico" />
-    <Content Include="Content\imganes\icons\Attach1.ico" />
     <Content Include="Content\imganes\icons\deletedocument.ico" />
     <Content Include="Content\imganes\icons\dinersclub.png" />
     <Content Include="Content\imganes\icons\dinersclub2.png" />
     <Content Include="Content\imganes\icons\document-edit.ico" />
-    <Content Include="Content\imganes\icons\download-file.ico" />
     <Content Include="Content\imganes\icons\favicon.png" />
     <Content Include="Content\imganes\icons\franquicias.png" />
     <Content Include="Content\imganes\icons\icon-close.png" />
@@ -431,13 +431,9 @@
     <Content Include="Content\imganes\icons\icon-prev.png" />
     <Content Include="Content\imganes\icons\logo-01.png" />
     <Content Include="Content\imganes\icons\logo-02.png" />
-    <Content Include="Content\imganes\icons\pdf.ico" />
     <Content Include="Content\imganes\icons\pin.png" />
     <Content Include="Content\imganes\icons\print-black-printer.ico" />
-    <Content Include="Content\imganes\icons\procesar.ico" />
-    <Content Include="Content\imganes\icons\proceso.png" />
     <Content Include="Content\imganes\icons\process_accepting.ico" />
-    <Content Include="Content\imganes\icons\process_basededatos.ico" />
     <Content Include="Content\imganes\icons\refresh-page.png" />
     <Content Include="Content\imganes\icons\search_document.ico" />
     <Content Include="Content\imganes\icons\shoppingcart.ico" />
@@ -2432,27 +2428,14 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\Views\ConsultarSolicitudModificacionPoa.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
     <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
     <Content Include="Scripts\Views\maestroPersonal.js" />
     <Content Include="Scripts\Views\operacionesAprueba.js" />
-    <Content Include="Scripts\Views\RevisarAprobarSolicitudModificacionPOA.js" />
     <Content Include="Scripts\Views\revisarAprobarSolicitudPOA.js" />
     <Content Include="Scripts\Views\revisarSolicitudPOA.js" />
-    <Content Include="Scripts\Views\listarVerificarPresupuestariaSin.js" />
-    <Content Include="Scripts\Views\sinAfectacionPresupuestaria.js" />
     <Content Include="Scripts\Views\solicitarCertificadoPOA.js" />
-    <Content Include="Scripts\Views\ConsultarSolicitud.js" />
-    <Content Include="Scripts\Views\SolicitudModificacionPOA.js" />
-    <Content Include="Scripts\Views\SolModificacionPoaConAsignacionRecursos.js" />
-    <Content Include="Scripts\Views\SolModificacionPoaConAfectacionPresupuestaria.js" />
-    <Content Include="Scripts\Views\SubirDocumentosHabilitantes.js" />
-    <Content Include="Scripts\Views\verificaPresupuestariaSolicitud.js" />
-    <Content Include="Scripts\Views\visualizarDocumentos.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -2498,18 +2481,19 @@
     <Content Include="Views\SolicitarModificaciones\RevisarSolicitudCertificado.cshtml" />
     <Content Include="Views\SolicitarModificaciones\SolicitarCertificadoPOA.cshtml" />
     <Content Include="Views\ActualizacionContraseña\CambioContraseña.cshtml" />
-    <Content Include="Views\SolicitarModificaciones\VisualizarDocumentos.cshtml" />
+    <Content Include="Views\MantenimientoMatriculas\ListadoMatricula.cshtml" />
+    <Content Include="Views\Sorteo\Sorteo.cshtml" />
+    <Content Include="Views\ModificacionPoa\ConsultarSolicitud.cshtml" />
+    <Content Include="Views\ModificacionPoa\ConsultarSolicitudModificacionPoa.cshtml" />
+    <Content Include="Views\ModificacionPoa\ListarConAsignacionRecursos.cshtml" />
+    <Content Include="Views\ModificacionPoa\ListarVerificarPresupuestaria.cshtml" />
+    <Content Include="Views\ModificacionPoa\RevisarAprobarSolicModificacionPoa.cshtml" />
     <Content Include="Views\ModificacionPoa\SinAfectacionPresupuestaria.cshtml" />
+    <Content Include="Views\ModificacionPoa\SolicitudModificacionPOA.cshtml" />
+    <Content Include="Views\ModificacionPoa\SolModificacionPoaConAfectacionPresupuestaria.cshtml" />
+    <Content Include="Views\ModificacionPoa\SolModificacionPoaConAsignacionRecursos.cshtml" />
     <Content Include="Views\ModificacionPoa\SubirDocumentosHabilitantes.cshtml" />
     <Content Include="Views\ModificacionPoa\VerificaPresupuestariaSolicitud.cshtml" />
-    <Content Include="Views\ModificacionPoa\ListarVerificarPresupuestaria.cshtml" />
-    <Content Include="Views\ModificacionPoa\SolicitudModificacionPOA.cshtml" />
-    <Content Include="Views\ModificacionPoa\RevisarAprobarSolicModificacionPoa.cshtml" />
-    <Content Include="Views\ModificacionPoa\ConsultarSolicitud.cshtml" />
-    <Content Include="Views\ModificacionPoa\SolModificacionPoaConAfectacionPresupuestaria.cshtml" />
-    <Content Include="Views\ModificacionPoa\ConsultarSolicitudModificacionPoa.cshtml" />
-    <Content Include="Views\ModificacionPoa\SolModificacionPoaConAsignacionRecursos.cshtml" />
-    <Content Include="Views\ModificacionPoa\ListarConAsignacionRecursos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2518,6 +2502,17 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="cwbx">
+      <Guid>{AD8D8CE0-15D3-11D2-849C-0004AC94E175}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -54,30 +54,13 @@
                                 <th>Estado Autorizado</th>
                                 <th>Fecha Aprobación</th>
                                 <th>Actividad</th>
-                                <th>Certificado Actual</th>
+                                <th>Certificado_Actual</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                var numeroCertActu = "";
-                                if (item.TipoSolicitud.Equals("ACT"))
-                                {
-                                    if (item.EstadoSolicitud.Equals("NS"))
-                                    {
-                                        numeroCertActu = item.NumeroCertificadoPOA.ToString();
-                                    }
-                                    else
-                                    {
-                                        numeroCertActu = item.NumeroCertificadoPOA.ToString() + " / " + item.SecuencialActualizacion.ToString();
-                                    }
-
-                                }
-                                else
-                                {
-                                    numeroCertActu = item.NumeroCertificadoPOA.ToString();
-                                }
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.AnioSolicitud)</td>
                                     <td>@Html.DisplayFor(modelItem => item.NumeroSolicitud)</td>
@@ -88,26 +71,16 @@
                                     <td>@Html.DisplayFor(modelItem => item.EstadoAutorizacion)</td>
                                     <td>@Html.DisplayFor(modelItem => item.FechaAprobacion)</td>
                                     <td>@Html.DisplayFor(modelItem => item.SecuenciaActividad)</td>
-                                    <td>@numeroCertActu</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NumeroCertificadoPOA)</td>
                                     <td class="text-center">
                                         <div class="btn-group-sm">
-                                            <a id="aprobarEnviarSolicitud" class="btn btn-default btn-group-sm" href="#" onclick="enviarAprobarSolicitud('@item.CodigoDireccionPYGE', '@item.AnioSolicitud', '@item.TipoSolicitud', '@item.EstadoSolicitud', '@item.NumeroSolicitud', '@item.EstadoAutorizacion')">
-                                                <strong class="text-lightblue"><img src="~/Content/imganes/icons/process_basededatos.ico" style="width:20px" /> Aprobar/Enviar</strong>
+                                            <a id="aprobarEnviarSolicitud" class="btn btn-group-sm btn-outline-primary" href="#" onclick="enviarAprobarSolicitud('@item.CodigoDireccionPYGE', '@item.AnioSolicitud', '@item.TipoSolicitud', '@item.EstadoSolicitud', '@item.NumeroSolicitud', '@item.EstadoAutorizacion')" >
+                                                Aprobar/Enviar Solicitud
                                             </a>
-                                            @if (@item.EstadoAutorizacion.Equals("AP"))
-                                            {
-                                                <a id="documentosAdjuntos" class="btn btn-default btn-group-sm " href="@Url.Action("VisualizarDocumentos", "SolicitarModificaciones", new {cdireccion= item.CodigoDireccionPYGE, canio =item.AnioSolicitud, tipoSolicitud = item.TipoSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), estadoAutorizado = item.EstadoAutorizacion.ToString(), vista="EnviarSolicitarCertificadoPOA" })">
-                                                    <strong><img src="~/Content/imganes/icons/download-file.ico" style="width:15px" /> Descargar</strong>
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a id="documentosAdjuntos" class="btn btn-default btn-group-sm" href="@Url.Action("DocumentoHabilitante", "SolicitarModificaciones", new {cdireccion= item.CodigoDireccionPYGE, canio =item.AnioSolicitud, tipoSolicitud = item.TipoSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), estadoAutorizado = item.EstadoAutorizacion.ToString(), vista="EnviarSolicitarCertificadoPOA" })">
-                                                    <strong class="text-yellow"><img src="~/Content/imganes/icons/Attach1.ico" style="width:20px" />  Adjuntar</strong>
-                                                </a>
-                                            }
-
-                                        </div>
+                                            <a id="documentosAdjuntos" class="btn btn-group-sm  btn-outline-warning" href="@Url.Action("DocumentoHabilitante", "SolicitarModificaciones", new {cdireccion= item.CodigoDireccionPYGE, canio =item.AnioSolicitud, tipoSolicitud = item.TipoSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), estadoAutorizado = item.EstadoAutorizacion.ToString(), vista="EnviarSolicitarCertificadoPOA" })">
+                                                <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Adjuntar
+                                            </a>
+                                        </div>                                        
                                     </td>
                                 </tr>
                             }
@@ -149,6 +122,13 @@
                                 <button type="button" id="btnCerrar" class="btn btn-sm btn-default cerrarVentana"><img src='~/Content/imganes/cancel.png' style='width:20px' />Cerrar </button>
                                 <button type="button" id="btnGrabarEnviar" class="btn btn-sm btn-primary grabar-Autorizacion" onclick="Guardar()"><img src='~/Content/imganes/save.png' style='width:20px' /> Aprobar/Enviar Solicitud </button>
                             </div>
+
+                            <div class="card-body border-radius-none">
+                                <div class="card-body col-12 p-0">
+                                    <a class="" href="#">Adjuntar documentos</a>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-12 col-sm-12 loadingBuscar" id="loadingBuscar" style="display: none">
                                     <img src="~/Content/imganes/loadingHorizontal.gif" />
@@ -163,7 +143,7 @@
                                     <div class="card h-100">
                                         <div class="card-body overflow-auto">
                                             <iframe id="iframeCetificado" style="border: 1px solid black; height: 600px; width: 100%"></iframe>
-                                        </div>
+                                        </div>                                       
                                     </div>
                                 </div>
                             </div>

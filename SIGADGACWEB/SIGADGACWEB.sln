@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaDatos", "CapaDatos\Capa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaIntegradoGestion", "SistemaIntegradoGestion\SistemaIntegradoGestion.csproj", "{AC649B5D-C7CF-40DF-9D5E-5B841ABB9A37}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaCargaDepositos", "SistemaCargaDepositos\SistemaCargaDepositos.csproj", "{7FA7ACA8-5B11-4AB1-AD6F-7E765F1869BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{AC649B5D-C7CF-40DF-9D5E-5B841ABB9A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC649B5D-C7CF-40DF-9D5E-5B841ABB9A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC649B5D-C7CF-40DF-9D5E-5B841ABB9A37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FA7ACA8-5B11-4AB1-AD6F-7E765F1869BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FA7ACA8-5B11-4AB1-AD6F-7E765F1869BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FA7ACA8-5B11-4AB1-AD6F-7E765F1869BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FA7ACA8-5B11-4AB1-AD6F-7E765F1869BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

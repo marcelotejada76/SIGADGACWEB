@@ -273,14 +273,7 @@ function FirmaCertificadoPOA(canio, numSol, opathArchivo, estaut, observacion, o
         data: { canio: canio, numSolicitud: parseInt(numSol), cdireccion: opathArchivo, estAut: estaut, cobservacion: observacion, cobservacion1: observacion1 },
         success: function (result) {
             if (result.length > 0) {
-                abrirArchivo(result);
-                //setTimeout(function () {
-                //    frame = document.getElementById("frmPDF");
-                //    framedoc = frame.contentWindow;
-                //    framedoc.focus();
-                //    framedoc.print();
-                //}, 1000);
-                //Carga todos os archivos 
+                abrirArchivo(result);               
                 $.ajax({
                     url: $.MisUrls.url._CargaTodosArchivosDirectory,
                     type: "GET",

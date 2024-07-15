@@ -70,6 +70,7 @@ namespace SistemaIntegradoGestion.Controllers
             listado = CD_SolicitudPOA.Instancia.SolicitarCertificadoSoloPOA(cAnio, SesionUsuario.CodigoSubsistema);
             Session["Rol"] = SesionUsuario.CodigoRol;
             Session["ActionResul"] = "EnviarSolicitarCertificadoPOA";
+            Session["Controlador"] = "SolicitarModificaciones";
             Session["TituloActionResul"] = "Enviar Solicitud Certificación POA";
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
 
@@ -210,6 +211,7 @@ namespace SistemaIntegradoGestion.Controllers
             ViewBag.canio = canio;
             ViewBag.numSolcitud = numSolicitud;
             Session["ActionResul"] = vista;
+            Session["Controlador"] = "SolicitarModificaciones";
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
             return View(listArchivo);
         }
@@ -239,6 +241,27 @@ namespace SistemaIntegradoGestion.Controllers
                 documentFile.SaveAs(Path.Combine(urlDocumentos, nombreArchivo));
             }
             listArchivo = GetObtenerTodosArchivos(Directory);
+            return View(listArchivo);
+        }
+
+        public ActionResult VisualizarDocumentos(string cdireccion, string canio, string tipoSolicitud, string numSolicitud, string estadoAutorizado, string vista)
+        {
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+            List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
+            string direccionDirectory = @"\" + cdireccion + @"\" + canio + @"\" + tipoSolicitud + @"\" + numSolicitud;
+            listArchivo = GetObtenerTodosArchivos(direccionDirectory);
+            ViewBag.DireccionDirectory = direccionDirectory;
+
+            var oSolicitudPOA = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, int.Parse(numSolicitud));
+            Session["DireccionActividad"] = oSolicitudPOA.DescripcionActividadEjecutar;
+            ViewBag.EstadoAutorizado = oSolicitudPOA.EstadoAutorizacion;
+            ViewBag.canio = canio;
+            ViewBag.numSolcitud = numSolicitud;
+            Session["ActionResul"] = vista;
+            Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
             return View(listArchivo);
         }
 
@@ -295,8 +318,6 @@ namespace SistemaIntegradoGestion.Controllers
         {
             tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
             oSolicitud = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, Int32.Parse(numSolicitud));
-
-            //GenerarCertificadoPOA(canio, Int32.Parse(numSolicitud));
             return Json(oSolicitud, JsonRequestBehavior.AllowGet);
         }
 
@@ -373,6 +394,8 @@ namespace SistemaIntegradoGestion.Controllers
 
             try //Maybe error could happen like Access denied or Presses Already User used
             {
+                System.GC.Collect();
+                System.GC.WaitForPendingFinalizers();
                 System.IO.File.Delete(path);
                 return true;
             }
@@ -387,7 +410,7 @@ namespace SistemaIntegradoGestion.Controllers
         {
             try
             {
-                string fullName = Constantes.poaURL + direccion + @"\" + nombreArchivo;
+                string fullName = Constantes.poaURL.Trim() + direccion.Trim() + @"\" + nombreArchivo;
                 byte[] fileBytes = GetFile(fullName);
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, nombreArchivo);
 
@@ -447,7 +470,7 @@ namespace SistemaIntegradoGestion.Controllers
                         FileNameFirmado = "CertificadoPOA" + canio + numSolicitud.ToString() + "-signed.pdf";
                         string FilePath = urlReporteElectronico + @"\" + FileName;
 
-                        
+
                         if (InsertaCertificadoDocumentoFirmado(FileName, FileNameFirmado, cdireccion, 1))
                         {
                             EliminaArchivoServidor(FilePath);
@@ -570,7 +593,7 @@ namespace SistemaIntegradoGestion.Controllers
         }
 
         /// <summary>
-        /// Genera el reporte del Certificado POA
+        /// Genera el reporte del Certificado POA Y ACTUALIZACIONES
         /// </summary>
         /// <param name="canio"></param>
         /// <param name="numSolicitud"></param>
@@ -582,14 +605,14 @@ namespace SistemaIntegradoGestion.Controllers
         public ActionResult ExportToPDF(string canio, Int32 numSolicitud, string cdireccion, string estAut, string cobservacion, string cobservacion1)
         {
 
-           
             string FilePathReturn = string.Empty;
             string FileNameFirmado = string.Empty;
-           
-            
+            string FileName = string.Empty;
+
             tbCertificadoDigital oCertificado = new tbCertificadoDigital();
             tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
             Document dctoCertificado = new Document();
+            string nombreArchivo = string.Empty;
             try
             {
                 var ousuario = (tbUsuario)Session["Usuario"];
@@ -600,30 +623,39 @@ namespace SistemaIntegradoGestion.Controllers
                     oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
                     if (oSolicitud.NumeroSolicitud > 0)
                     {
-                        string urlReporteElectronico = Constantes.poaURL + cdireccion;
+                        string urlReporteElectronico = @Constantes.poaURL + @"\" + oSolicitud.CodigoDireccionPYGE + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud;
                         //Verifica si existe la carpeta creada si no lo crear
                         if (!System.IO.Directory.Exists(urlReporteElectronico))
                             System.IO.Directory.CreateDirectory(urlReporteElectronico);
-                        
-                        string FileName = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString() + ".pdf";
-                        FileNameFirmado =  "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString() + "-signed.pdf";
-                        string FilePath = urlReporteElectronico + @"\" + FileName;
 
-                        dctoCertificado = GenerarCertificadoPOA(canio, numSolicitud);
+                        if (oSolicitud.TipoSolicitud.Equals("CER"))
+                            nombreArchivo = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroCertificadoPOA.ToString();
+                        else if (oSolicitud.TipoSolicitud.Equals("ACT"))
+                            nombreArchivo = "ActualizacionPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroCertificadoPOA.ToString() + "_" + oSolicitud.SecuencialActualizacion.ToString();
+
+                        FileName = nombreArchivo + ".pdf";
+                        FileNameFirmado = nombreArchivo;
+                        string FilePath = urlReporteElectronico + @"\" + FileName; 
+
+                        int secuencial = 0;
+                        while (VerificaExistaArchivo(FilePath))
+                        {
+                            secuencial++;
+                            FileName = nombreArchivo + "_" + secuencial + ".pdf";
+                            FileNameFirmado = nombreArchivo + "_" + secuencial;
+                            FilePath = urlReporteElectronico + @"\" + FileName;
+                         
+                        }
+                        FileNameFirmado = FileNameFirmado + "-signed.pdf";
+                        dctoCertificado = GenerarCertificadoPOA(canio, numSolicitud, FilePath);
                         if (dctoCertificado.Left > 0)
                         {
                             if (oCertificado.TipoArchivo.Equals("A"))
                             {
-                                if (InsertaCertificadoDocumentoFirmado(FileName, FileNameFirmado, cdireccion, 1))
+                                if (InsertaCertificadoDocumentoFirmado(FileName , FileNameFirmado, urlReporteElectronico, 1))
                                 {
                                     EliminaArchivoServidor(FilePath);
                                 }
-                                //if (InsertaFirmaCertificadoPOADocumento(FileName, FileNameFirmado, cdireccion, 1))
-                                //{
-                                //    EliminaArchivoServidor(FilePath);
-                                //}
-
-
                             }
                             else
                             {
@@ -631,7 +663,7 @@ namespace SistemaIntegradoGestion.Controllers
                             }
                         }
                     }
-                  
+
                     FilePathReturn = FileNameFirmado;
                 }
                 else { FilePathReturn = ""; }
@@ -644,16 +676,22 @@ namespace SistemaIntegradoGestion.Controllers
 
         }
 
+        /// <summary>
+        /// Genera el reporte del Solicitud de Director de Area
+        /// </summary>
+        /// <param name="canio"></param>
+        /// <param name="numSolicitud"></param>
+        /// <returns></returns>
         public ActionResult ExportaServerReportAPDF(string canio, Int32 numSolicitud)
         {
             tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
             tbCertificadoDigital oCertificado = new tbCertificadoDigital();
-            
+
             string cdireccion = string.Empty;
             string FilePathReturn = string.Empty;
-            string FileNameFirmado = string.Empty;           
+            string FileNameFirmado = string.Empty;
             string nombreArchivo = string.Empty;
-            string inicionombreArchivo = string.Empty;          
+            string inicionombreArchivo = string.Empty;
             string nombreReporte = string.Empty;
             Document dctoSolicitud = new Document();
             try
@@ -663,9 +701,9 @@ namespace SistemaIntegradoGestion.Controllers
                 oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
                 if (oSolicitud.NumeroSolicitud > 0)
                 {
-                    
+
                     cdireccion = oSolicitud.CodigoDireccionPYGE.Trim() + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud.ToString();
-                    nombreArchivo = "SolicitudCertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
+                    nombreArchivo = "Solicitud" + oSolicitud.DescripcionTipoSolicitud.Trim() + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
                     string urlReporteElectronico = Constantes.poaURL + @"\" + cdireccion;
 
                     string FileName = nombreArchivo + ".pdf";
@@ -677,6 +715,9 @@ namespace SistemaIntegradoGestion.Controllers
                         dctoSolicitud.CloseDocument();
                         if (oCertificado.TipoArchivo.Equals("A"))
                         {
+                            string FilePathFirmar = urlReporteElectronico + @"\" + FileNameFirmado;
+                            EliminaArchivoServidor(FilePathFirmar);
+
                             if (InsertaCertificadoDocumentoFirmado(FileName, FileNameFirmado, cdireccion, 1))
                             {
                                 EliminaArchivoServidor(FilePath);
@@ -687,8 +728,8 @@ namespace SistemaIntegradoGestion.Controllers
                             FileNameFirmado = FileName;
                         }
                     }
-                   
-                                      
+
+
                     FilePathReturn = FileNameFirmado;
 
                 }
@@ -1153,7 +1194,7 @@ namespace SistemaIntegradoGestion.Controllers
             }
             return estado;
         }
-        
+
 
         #endregion
 
@@ -1179,9 +1220,9 @@ namespace SistemaIntegradoGestion.Controllers
             {
                 var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
                 var ousuario = (tbUsuario)Session["Usuario"];
-                pathAutorizacion = Constantes.poaURL + @"\" + directorio;
+                pathAutorizacion = directorio;// Constantes.poaURL + directorio;
                 pathCertificado = Utilitarios.Utilitario.certificadoPOAUrl + ousuario.CodigoUsuario;
-              
+
                 var oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
                 store = storeCertificado(oCertificado, ousuario);
 
@@ -1193,35 +1234,35 @@ namespace SistemaIntegradoGestion.Controllers
                     X509CertificateEntry[] chain = store.GetCertificateChain(alias);
 
                     // Cargar el PDF de entrada
-                    using (FileStream inputStream = new FileStream(pathAutorizacion + @"\" + inputPdfPath, FileMode.Open))
-                    using (FileStream outputStream = new FileStream(pathAutorizacion + @"\" + outputPdfPath, FileMode.Create, FileAccess.ReadWrite))
+                    //using (FileStream inputStream = new FileStream(pathAutorizacion + @"\" + inputPdfPath, FileMode.Open))
+                    using (PdfReader pdfReader = new PdfReader(pathAutorizacion + @"\" + inputPdfPath))
                     {
-                        PdfReader reader = new PdfReader(inputStream);                       
+                        using (FileStream outputStream = new FileStream(pathAutorizacion + @"\" + outputPdfPath, FileMode.Create, FileAccess.ReadWrite))
+                        {
+                            //PdfReader reader = new PdfReader(inputStream);
 
-                        PdfStamper stamper = PdfStamper.CreateSignature(reader, outputStream, '\0', null, true);
-                         appearance = stamper.SignatureAppearance;
-                        //PdfSignatureAppearance appearanceAto = stamper.SignatureAppearance;
+                            PdfStamper stamper = PdfStamper.CreateSignature(pdfReader, outputStream, '\0', null, true);
+                            appearance = stamper.SignatureAppearance;
+                            //PdfSignatureAppearance appearanceAto = stamper.SignatureAppearance;
 
-                        numPage = reader.NumberOfPages;
-                        nsejeX = 120; //disminuir para acercar al margen izquierdo y aumenta para alejarlo
-                        nsejeY = 5;  //disminuir para acercar al pie de pagina erdo y aumenta para ajejarlo
-                        // Configurar la apariencia de la firma
-
-                       
-                        string fechaFirma = fechaDateAs400(oSistema.FechaSistema) + " " + oSistema.HoraSistema;  //DateTime.Now.Date.ToString();
-                        appearance.SignDate = DateTime.Parse(fechaFirma); // DateTime.Now.Date;
+                            numPage = pdfReader.NumberOfPages;
+                            nsejeX = 120; //disminuir para acercar al margen izquierdo y aumenta para alejarlo
+                            nsejeY = 5;  //disminuir para acercar al pie de pagina erdo y aumenta para ajejarlo
+                                         // Configurar la apariencia de la firma
 
 
-                        var codigoCertificado = chain.Select(c => c.Certificate).ToList();
-                        // Crear el objeto de firma
-                        IExternalSignature externalSignature = new PrivateKeySignature(keyEntry.Key, "SHA-256");
-                        MakeSignature.SignDetached(appearance, externalSignature, chain.Select(c => c.Certificate).ToList(), null, null, null, 0, CryptoStandard.CMS);
+                            string fechaFirma = fechaDateAs400(oSistema.FechaSistema) + " " + oSistema.HoraSistema;  //DateTime.Now.Date.ToString();
+                            appearance.SignDate = DateTime.Parse(fechaFirma); // DateTime.Now.Date;
 
-                    
 
-                        stamper.Close();
+                            var codigoCertificado = chain.Select(c => c.Certificate).ToList();
+                            // Crear el objeto de firma
+                            IExternalSignature externalSignature = new PrivateKeySignature(keyEntry.Key, "SHA-256");
+                            MakeSignature.SignDetached(appearance, externalSignature, chain.Select(c => c.Certificate).ToList(), null, null, null, 0, CryptoStandard.CMS);
 
-                        estado = true;
+                            stamper.Close();
+                            estado = true;
+                        }
                     }
                 }
 
@@ -1404,10 +1445,10 @@ namespace SistemaIntegradoGestion.Controllers
                 {
                     foreach (DataRow dr in dsDatosSolicitud.Tables[0].Rows)
                     {
-                       
+
                         pathCertificado = Utilitarios.Utilitario.certificadoPOAUrl + ousuario.CodigoUsuario;
                         directorio = oSolicitud.CodigoDireccionPYGE + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud.ToString();
-                        nombreArchivo = "SolicitudCertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
+                        nombreArchivo = "Solicitud" + oSolicitud.DescripcionTipoSolicitud.Trim() + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
 
                         pathSolcitud = Constantes.poaURL + @"\" + directorio;
 
@@ -1429,7 +1470,7 @@ namespace SistemaIntegradoGestion.Controllers
                         var c1 = new PdfPCell(logo) { Rowspan = 3 };
                         var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL DEL ECUADOR", negrita10));
 
-                        c1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;                        
+                        c1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                         c2.HorizontalAlignment = PdfPCell.ALIGN_MIDDLE;
                         c2.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
 
@@ -1509,7 +1550,33 @@ namespace SistemaIntegradoGestion.Controllers
                         paraAsunto.Add(dr["Direccion"].ToString());
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
                         paraAsunto.Font = tituloNormal12;
-                        pdfDoc.Add(paraAsunto);                       
+                        pdfDoc.Add(paraAsunto);
+                        //Adjuntar los anexo
+                        PdfPTable tableAnexos = new PdfPTable(new float[] { 10f, 90f }) { WidthPercentage = 100f };
+                        var celA1 = new PdfPCell(new Phrase("Anexos", negritaBlack8));
+                        celA1.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
+                        celA1.Border = 0;
+                        var celA2 = new PdfPCell(new Phrase("", negritaBlack8));
+                        celA2.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
+                        celA2.Border = 0;
+                        tableAnexos.AddCell(celA1);
+                        tableAnexos.AddCell(celA2);
+
+                        DirectoryInfo directory = new DirectoryInfo(pathSolcitud);
+                        FileInfo[] arrayArchivos = directory.GetFiles();
+                        foreach (FileInfo itemsfile in arrayArchivos)
+                        {
+                            celA1 = new PdfPCell(new Phrase("- ", negritaBlack8));
+                            celA1.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
+                            celA1.Border = 0;
+                            celA2 = new PdfPCell(new Phrase(itemsfile.Name, negritaBlack8));
+                            celA2.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
+                            celA2.Border = 0;
+                            tableAnexos.AddCell(celA1);
+                            tableAnexos.AddCell(celA2);
+                        }
+                        pdfDoc.Add(tableAnexos);
+
                     }
                     pdfWriter.CloseStream = true;
                     pdfDoc.CloseDocument();
@@ -1531,15 +1598,17 @@ namespace SistemaIntegradoGestion.Controllers
         /// <param name="canio"></param>
         /// <param name="numSolicitud"></param>
         /// <returns>Documento</returns>
-        public Document GenerarCertificadoPOA(string canio, int numSolicitud)
+        public Document GenerarCertificadoPOA(string canio, int numSolicitud, string pathArchivo)
         {
             tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
+            DataSet dsDatosCertificadoPOA = new DataSet();
             tbSistema oSistema = new tbSistema();
             Document pdfDoc = new Document(PageSize.A4, 40, 40, 40, 40);
             PdfWriter pdfWriter = null;
             string pathSolcitud = string.Empty;
             string directorio = string.Empty;
             string nombreArchivo = string.Empty;
+            string nombreFile = string.Empty;
             string pathCertificado = string.Empty;
             BarcodeQRCode barcodeQRCodeFirma;
             Image codeQRImageFirma;
@@ -1583,7 +1652,11 @@ namespace SistemaIntegradoGestion.Controllers
                 var ousuario = (tbUsuario)Session["Usuario"];
                 oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
                 oSolicitud = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
-                DataSet dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.CertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+
+                if (oSolicitud.TipoSolicitud.Equals("CER"))
+                    dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.CertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+                else if (oSolicitud.TipoSolicitud.Equals("ACT"))
+                    dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.ActualizacionPOAPorAnioNumeroSolicitud(canio, numSolicitud);
 
                 var oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
                 store = storeCertificado(oCertificado, ousuario);
@@ -1596,16 +1669,23 @@ namespace SistemaIntegradoGestion.Controllers
 
                         pathCertificado = Utilitarios.Utilitario.certificadoPOAUrl + ousuario.CodigoUsuario;
                         directorio = oSolicitud.CodigoDireccionPYGE + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud.ToString();
-                        nombreArchivo = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
+                        if (oSolicitud.TipoSolicitud.Equals("CER"))
+                            nombreFile = "CertificadoPOA";
+                        else if (oSolicitud.TipoSolicitud.Equals("ACT"))
+                            nombreFile = "ActualizacionPOA";
 
+                        nombreArchivo = nombreFile + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
                         pathSolcitud = Constantes.poaURL + @"\" + directorio;
 
                         //Obtengo l path del servidor donde se va crear el archivo
 
-                        if (!System.IO.Directory.Exists(pathSolcitud))
-                            System.IO.Directory.CreateDirectory(pathSolcitud);
+                       // if (!System.IO.Directory.Exists(pathSolcitud))
+                        //    System.IO.Directory.CreateDirectory(pathSolcitud);
 
-                        FileStream file = new FileStream(pathSolcitud + @"\" + nombreArchivo + ".pdf", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                        //FileStream file = new FileStream(pathSolcitud + @"\" + nombreArchivo + ".pdf", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+
+                        FileStream file = new FileStream(pathArchivo, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                         pdfWriter = PdfWriter.GetInstance(pdfDoc, file);
 
                         pdfDoc.Open();
@@ -1639,26 +1719,31 @@ namespace SistemaIntegradoGestion.Controllers
                         paraAsunto.Clear();
                         pdfDoc.Add(Chunk.NEWLINE);
                         paraAsunto.Font = negrita12;
-                        paraAsunto.Add("Certificación POA No." + dr["CERTIFICACION_POA_NO"].ToString());
+                        if (oSolicitud.TipoSolicitud.Equals("CER"))
+                            paraAsunto.Add(dr["DESCRIPCIONTIPOSOLICITUD"].ToString() + " No." + dr["CERTIFICACION_POA_NO"].ToString());
+                        else if (oSolicitud.TipoSolicitud.Equals("ACT"))
+                            paraAsunto.Add(dr["DESCRIPCIONTIPOSOLICITUD"].ToString() + " No." + dr["CERTIFICACION_ACTUALIZACON_POA_NO"].ToString());
+
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
                         pdfDoc.Add(paraAsunto);
                         paraAsunto.Clear();
                         pdfDoc.Add(Chunk.NEWLINE);
                         paraAsunto.Font = negrita12;
-                        paraAsunto.Add("Fecha Certificación POA: " + fechaDateAs400(dr["FECHAAPRBCERTIFICADO"].ToString()));
+                        paraAsunto.Add("Fecha " + dr["DESCRIPCIONTIPOSOLICITUD"].ToString() + ": " + fechaDateAs400(dr["FECHAAPRBCERTIFICADO"].ToString()));
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
-                        pdfDoc.Add(paraAsunto);                       
+                        pdfDoc.Add(paraAsunto);
                         paraAsunto.Clear();
                         pdfDoc.Add(Chunk.NEWLINE);
                         paraAsunto.Font = tituloNormal12;
-                        referenciaCertificado = "En referencia a la solicitud No. " + dr["N_SOLICITUD"].ToString().Trim() + ", de " + fechaTexto(dr["FECHA_SOLICITUD"].ToString()).Trim() + ", mediante el cual, la Dirección " + dr["DIRECCION_SOLICITANTE"].ToString().Trim() + ", solicita la certificación POA de " + dr["ACTIVIDAD_POA"].ToString().Trim();                        
-                        paraAsunto.Add(referenciaCertificado);                        
+
+                        referenciaCertificado = "En referencia a la solicitud No. " + dr["N_SOLICITUD"].ToString().Trim() + ", de " + fechaTexto(dr["FECHA_SOLICITUD"].ToString()).Trim() + ", mediante el cual, la Dirección " + dr["DIRECCION_SOLICITANTE"].ToString().Trim() + ", solicita la certificación POA de " + dr["ACTIVIDAD_POA"].ToString().Trim();
+                        paraAsunto.Add(referenciaCertificado);
                         paraAsunto.Alignment = Element.ALIGN_JUSTIFIED;
                         pdfDoc.Add(paraAsunto);
                         pdfDoc.Add(Chunk.NEWLINE);
                         paraAsunto.Clear();
                         paraAsunto.Font = tituloNormal12;
-                        respectoCertificado = "Al respecto, me permito certificar que la mencionada actividad consta en el POA "+ dr["ANIO_SOLICITUD"].ToString().Trim() + " de la DGAC, siendo la Dirección "+ dr["DIRECCION_SOLICITANTE"].ToString().Trim() + " responsable de su ejecución, según la siguiente estructura:";
+                        respectoCertificado = "Al respecto, me permito certificar que la mencionada actividad consta en el POA " + dr["ANIO_SOLICITUD"].ToString().Trim() + " de la DGAC, siendo la Dirección de " + dr["DIRECCION_SOLICITANTE"].ToString().Trim() + " es responsable de su ejecución, según la siguiente estructura:";
                         paraAsunto.Add(respectoCertificado);
                         paraAsunto.Alignment = Element.ALIGN_JUSTIFIED;
                         pdfDoc.Add(paraAsunto);
@@ -1699,7 +1784,7 @@ namespace SistemaIntegradoGestion.Controllers
                         celle1 = new PdfPCell(new Phrase("Actividad POA:", negrita12));
                         celle2 = new PdfPCell(new Phrase(dr["ACTIVIDAD_POA"].ToString().Trim(), tituloNormal12));
                         celle1.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
-                        celle2.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
+                        celle2.HorizontalAlignment = PdfPCell.ALIGN_JUSTIFIED;
                         tableEstructura.AddCell(celle1);
                         tableEstructura.AddCell(celle2);
                         celle1 = new PdfPCell(new Phrase("Partida Presupuestaria:", negrita12));
@@ -1755,8 +1840,8 @@ namespace SistemaIntegradoGestion.Controllers
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
                         paraAsunto.Font = tituloNormal12;
                         pdfDoc.Add(paraAsunto);
-                        paraAsunto.Clear();                        
-                        paraAsunto.Add(dr["USUARIO"].ToString().Trim());
+                        paraAsunto.Clear();
+                        paraAsunto.Add(dr["USUARIO1"].ToString().Trim());
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
                         paraAsunto.Font = tituloNormal12;
                         pdfDoc.Add(paraAsunto);
@@ -1960,7 +2045,6 @@ namespace SistemaIntegradoGestion.Controllers
 
         }
 
-
         public JsonResult VerificaExisteCertificadoFirma(string codUsuario, string nombreArchivo)
         {
             bool estado = false;
@@ -1983,6 +2067,11 @@ namespace SistemaIntegradoGestion.Controllers
             return Json(new { resultado = estado }, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Verifica si existe el documento existente
+        /// </summary>
+        /// <param name="urlDocumentos"></param>
+        /// <returns></returns>
         private Int32 DocumentacionExiste(string urlDocumentos)
         {
 
@@ -2005,14 +2094,30 @@ namespace SistemaIntegradoGestion.Controllers
             return numArchivo;
         }
 
+        private bool VerificaExistaArchivo(string ruta)
+        {
+            bool estado = false;
+            try
+            {
+                if (System.IO.File.Exists(ruta))
+                {
+                    estado = true;
+                }
+            }
+            catch
+            {
+                estado = false;
+            }
+            return estado;
+        }
         private string fechaTexto(string fecha)
         {
             string fechaNueva = string.Empty;
-            if (fecha.Trim().Length >0)
+            if (fecha.Trim().Length > 0)
             {
                 fechaNueva = fecha.Substring(6, 2) + " de " + mestexto(fecha.Substring(4, 2)) + " de " + fecha.Substring(0, 4);
-            }            
-            
+            }
+
             return fechaNueva;
         }
 
@@ -2057,7 +2162,7 @@ namespace SistemaIntegradoGestion.Controllers
                 odate = ofecha.Substring(6, 2) + "/" + ofecha.Substring(4, 2) + "/" + ofecha.Substring(0, 4);
             }
 
-            
+
             return odate;
         }
 

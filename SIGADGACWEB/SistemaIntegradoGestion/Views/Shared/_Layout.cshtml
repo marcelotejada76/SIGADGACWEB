@@ -142,7 +142,7 @@
         $.extend({ MisUrls: { url: {}, urls: function (a) { $.extend($.MisUrls.url, a); } } });
 
 
-        $.MisUrls.urls({ _EliminaArchivo: '@Url.Action("EliminarDocumento", "SolicitarModificaciones")' });
+       
           $.MisUrls.urls({ _DetalleFacturaP5: '@Url.Action("CargaDetalleFacturaP5", "FacturasP5")' });
 
         $.MisUrls.urls({ _DetalleFacturaP5Confiar: '@Url.Action("DetalleFacturaP5Confiar", "FacturasP5")' });
@@ -171,6 +171,7 @@
         $.MisUrls.urls({ _CursoEmpleadoPorDocumentoCodigo: '@Url.Action("CursoEmpleadoPorDocumentoCodigo", "TalentoHumano")' });
         
         $.MisUrls.urls({ _GetSelectListCantonesList: '@Url.Action("GetSelectListCantonesList", "TalentoHumano")' });
+        $.MisUrls.urls({ _GetSelectListParroquiasList: '@Url.Action("GetSelectListParroquiasList", "TalentoHumano")' });
 
         //Solicitud Certificado POA
         $.MisUrls.urls({ _EnviaAprobarSolicitudCertificadoPOA: '@Url.Action("EnviaAprobarSolicitudCertificadoPOA", "SolicitarModificaciones")' });
@@ -181,14 +182,39 @@
         $.MisUrls.urls({ _ObtieneSolicitudCertificadoPOAPorAnioNumeroSolicitud: '@Url.Action("ObtieneSolicitudCertificadoPOAPorAnioNumeroSolicitud", "SolicitarModificaciones")' });
         $.MisUrls.urls({ _ExportaServerReportAPDF: '@Url.Action("ExportaServerReportAPDF", "SolicitarModificaciones")' });
         $.MisUrls.urls({ _DescargarArchivo: '@Url.Action("DownloadFile", "SolicitarModificaciones")' });
-        
+         $.MisUrls.urls({ _EliminaArchivo: '@Url.Action("EliminarDocumento", "SolicitarModificaciones")' });
 
+        //Modificacion POA Sin afectacion presupuestaria
+        $.MisUrls.urls({ _DescargarArchivoSinAfectacion: '@Url.Action("DownloadFileSinAfectacionPresupuestaria", "ModificacionPoa")' });
+        $.MisUrls.urls({ _VisualizarDocumentoSinAfectacion: '@Url.Action("VisualizarFileSinAfectacion", "ModificacionPoa")' });
+        $.MisUrls.urls({ _EliminaArchivoSinAfectacion: '@Url.Action("EliminarDocumentoSinAfectacion", "ModificacionPoa")' });
+        $.MisUrls.urls({ _EnviaSolicitudVerificacionPresupuestario: '@Url.Action("EnviaSolicitudVerificacionPresupuestario", "ModificacionPoa")' });
+        $.MisUrls.urls({ _VerificaExisteFirmasElectronicas: '@Url.Action("VerificaExisteFirmasElectronicas", "ModificacionPoa")' });
+        $.MisUrls.urls({ _EnviaAprobarSolicitudModificacionPOAaDPGE: '@Url.Action("EnviaAprobarSolicitudModificacionPOAaDPGE", "ModificacionPoa")' });
+        $.MisUrls.urls({ _ElaborarInformeViabilidadModificacionPOA: '@Url.Action("ElaborarInformeViabilidadModificacionPOA", "ModificacionPoa")' });
+        $.MisUrls.urls({ _AprobarInformeViabilidadModificacionPao: '@Url.Action("AprobarInformeViabilidadModificacionPao", "ModificacionPoa")' });
+        $.MisUrls.urls({ _RevisarAprobarSolicitudModificacionPoaEstadoAutorizado: '@Url.Action("RevisarAprobarSolicitudModificacionPoaEstadoAutorizado", "ModificacionPoa")' });
+        $.MisUrls.urls({ _ActualizarPoa: '@Url.Action("ActualizarPoa", "ModificacionPoa")' });
+        $.MisUrls.urls({ _ImprimirPoaPropuestoInformeViabilidad: '@Url.Action("ImprimirPoaPropuestoInformeViabilidad", "ModificacionPoa")' });
+        $.MisUrls.urls({ _LegalizaModificacionNegada: '@Url.Action("LegalizaModificacionNegada", "ModificacionPoa")' });
+
+
+        //Modificacion POA Con Afectacion Presupuestaria
+        $.MisUrls.urls({ _VisualizarArchivo: '@Url.Action("VisualizarArchivo", "ModificacionPoa")' });
+         $.MisUrls.urls({ _DescargarArchivo: '@Url.Action("DescargarArchivo", "ModificacionPoa")' });
+        
         
 
             //Obtiene el docuemnto del curso
         $.MisUrls.urls({ _CursoEmpleado: '@Url.Action("CursoEmpleado", "TalentoHumano")' });
         $.MisUrls.urls({ _DocumentoCurso: '@Url.Action("DocumentoCurso", "TalentoHumano")' });
         $.MisUrls.urls({ _ObtenerCursosPorCedula: '@Url.Action("ObtenerCursosPorCedula", "TalentoHumano")' });
+        $.MisUrls.urls({ _GetSelectListTitulosCurso: '@Url.Action("GetSelectListTitulosCurso", "TalentoHumano")' });
+        $.MisUrls.urls({ _GetSelectListEntinidadEducativa: '@Url.Action("GetSelectListEntinidadEducativa", "TalentoHumano")' });
+        $.MisUrls.urls({ _GetSelectListaValores: '@Url.Action("GetSelectListaValores", "TalentoHumano")' });
+        $.MisUrls.urls({ _GetSelectListCiudad: '@Url.Action("GetSelectListCiudad", "TalentoHumano")' });
+        
+
 
 
         $.MisUrls.urls({ _DocumentosHabilitantes: '@Url.Action("CargaTodosArchivos", "SolicitarModificaciones")' });
@@ -197,6 +223,7 @@
 
         $.MisUrls.urls({ _VisualizarDocumento: '@Url.Action("VisualizarFile", "SolicitarModificaciones")' });
         $.MisUrls.urls({ _CargaTodosArchivosDirectory: '@Url.Action("CargaTodosArchivosDirectory", "SolicitarModificaciones")' });
+
 
         //Fin Maestro empleado
        

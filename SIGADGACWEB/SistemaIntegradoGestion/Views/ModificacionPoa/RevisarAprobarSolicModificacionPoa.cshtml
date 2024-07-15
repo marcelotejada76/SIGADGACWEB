@@ -1,0 +1,355 @@
+﻿@model CapaModelo.tbSolicitudPOA
+@{
+    /**/
+
+    ViewBag.Title = "RevisarAprobarSolicModificacionPoa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2>Cargar/Descarga Documentos Habilitantes</h2>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item">@Session["ActionResul"]</li>
+                    <li class="breadcrumb-item active">DocumentoHabilitante</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<div class="container-fluid">
+    @using (Html.BeginForm("RevisarAprobarSolicModificacionPoa", "ModificacionPoa", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+
+        <input type="hidden" id="Directory" name="Directory" value="@ViewBag.DireccionDirectory" />
+        @Html.HiddenFor(m => m.AnioSolicitud)
+        @Html.HiddenFor(m => m.NumeroSolicitud)
+        @Html.HiddenFor(m => m.TipoSolicitud)
+        <input type="hidden" id="nombre-archivo" name="nombre-archivo">
+        <input type="hidden" id="vista" name="vista" value="@Session["ActionResul"].ToString()">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-body p-0">
+                            <span id="pathArchivo" class="folder"><img src="~/Content/imganes/folderOpen.png" style="width:15px" /> @Session["DireccionPath"].ToString()</span>
+                            <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre archivo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.oModelArchivo != null)
+                                    {
+                                        foreach (var item in Model.oModelArchivo)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="#" onclick="abrirArchivo(JSON.stringify('@item.NombreArchivo'));"> @item.NombreArchivo</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-12 col-sm-12 loadingBuscar" id="loadingBuscar" style="display: none">
+                                <img src="~/Content/imganes/loadingHorizontal.gif" />
+                            </div>
+                        </div>
+                        <br />
+
+                        @if (Model.EstadoSolicitud.Equals("SO") && Model.EstadoVerificacionFinanciera.Equals("VP") && Model.EstadoAutorizacion != "RA" && Model.CodigoRolPYGE != "DIRE")
+                        {
+                            if (Model.EstadoAutorizacion.Equals("RA") || Model.EstadoAutorizacion.Equals("RN"))
+                            {
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-footer">
+                                                <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
+                                                <a id="imprimirPoaPropuesto" class="btn btn-outline-primary float-right" href="#"><i><img src="~/Content/imganes/printer.png" style="width:25px" /></i> Imprimir PP e Informe viabilidad</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="col-12">
+                                                    <div class="form-group row">
+                                                        <label>Estado autorización</label>
+                                                        @Html.DropDownListFor(model => model.EstadoAutorizacion, new SelectList(ViewBag.SelectComboEstadoAutorizacion, "Value", "Text"), new { @class = "form-control form-control-sm" })
+
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label>Observación</label>
+                                                        @Html.TextBoxFor(model => model.ObservacionAutorizacion1, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "75" })
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        @Html.TextBoxFor(model => model.ObservacionAutorizacion2, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "75" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
+                                                <a id="btnEnviar" class="btn btn-outline-primary float-right" href="#"><i><img src="~/Content/imganes/save.png" style="width:25px" /></i> Grabar </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                        else if (Model.EstadoSolicitud.Equals("SO") && Model.EstadoAutorizacion != "RA" && Model.CodigoRolPYGE != "DIRE")
+                        {
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-12">
+                                                <div class="form-group row">
+                                                    <label>Estado autorización</label>
+                                                    @Html.DropDownListFor(model => model.EstadoAutorizacion, new SelectList(ViewBag.SelectComboEstadoAutorizacion, "Value", "Text"), new { @class = "form-control form-control-sm" })
+
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label>Observación</label>
+                                                    @Html.TextBoxFor(model => model.ObservacionAutorizacion1, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "75" })
+                                                </div>
+                                                <div class="form-group row">
+                                                    @Html.TextBoxFor(model => model.ObservacionAutorizacion2, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "75" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
+                                            <a id="btnEnviar" class="btn btn-outline-primary float-right" href="#"><i><img src="~/Content/imganes/save.png" style="width:25px" /></i> Grabar </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                        else if (Model.CodigoRolPYGE.Equals("DIRE"))
+                        {
+                            if (Model.EstadoActualizacionPOA != "PR" && Model.EstadoAutorizacion != "AP")
+                            {
+                                if (Model.EstadoAutorizacion.Equals("RN"))
+                                {
+                                    <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-footer">
+                                                <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar</a>
+                                                <a id="btnLegalizarModificacionNegada" href="#" class="nav-link btn btn-outline-secondary float-right">Legalizar modificación negada</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                                else
+                                {
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="col-12">
+                                                    <div class="form-group row">
+                                                        <label>Estado autorización</label>
+                                                        @Html.DropDownListFor(model => model.EstadoAutorizacion, new SelectList(ViewBag.SelectComboEstadoAutorizacionTodos, "Value", "Text"), new { @class = "form-control form-control-sm" })
+
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label>Observación</label>
+                                                        @Html.TextBoxFor(model => model.ObservacionAutorizacion1, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "75" })
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        @Html.TextBoxFor(model => model.ObservacionAutorizacion2, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "75" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar</a>
+                                                @if (Model.EstadoAutorizacion == "RA")
+                                                {
+                                                    <a id = "imprimirPoaPropuesto" class="btn btn-outline-primary" href="#"><i><img src="~/Content/imganes/printer.png" style="width:25px" /></i> Poa_P e Inf_viabilidad</a>
+                                                }
+
+                                                <a id="btnEnviarAprobarInformeViabilidad" href="#" class="btn btn-outline-secondary float-right">Grabar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+                        }
+                        else if (Model.EstadoActualizacionPOA.Equals("NP") && Model.EstadoAutorizacion.Equals("AP"))
+                        {
+                            if (Model.TipoSolicitud != "MDP" && Model.EstadoVerificacionFinanciera != "AP")
+                            {
+                                <div class="card-footer">
+                                    <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="card-footer">
+                                    <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar</a>
+                                    <a id="ActualizarPoa" onclick="modalActualizarPoa();" href="#" class="nav-link btn btn-outline-secondary float-right">Actualizar POA</a>
+                                </div>
+                            }
+
+                        }
+                        else
+                        {
+                            <div class="card-footer">
+                                <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar</a>
+                            </div>
+                        }
+                    }
+
+                    else
+                    {
+                        <div class="card-footer">
+                            @if (Model.EstadoAutorizacion.Equals("RA"))
+                            {
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-footer">
+                                                <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar</a>
+                                                <a id="imprimirPoaPropuesto" class="btn btn-outline-primary float-right" href="#"><i><img src="~/Content/imganes/printer.png" style="width:25px" /></i> Imprimir PP e Informe viabilidad</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar</a>
+                            }
+                        </div>
+                    }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="container-fluid h-100 d-flex flex-column">
+                    <div class="row overflow-hidden">
+                        <div class="col-sm-12 h-100">
+                            <div class="card h-100">
+                                <div class="card-body overflow-auto">
+                                    <iframe id="iframeCetificado" style="border: 1px solid black; height: 700px; width: 100%"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        if (@ViewBag.mensajeTitulo != null)
+        {
+            if (@ViewBag.mensajeTitulo.Length > 0)
+            {
+                <script type="text/javascript">
+                                        window.onload = function() {
+                                            Swal.fire("", set(@Html.Raw(Json.Encode(@ViewBag.mensajeTitulo))), "warning");
+                                        };
+                                        function set(value)
+{
+            return value;
+}
+                </script>
+            }
+
+        }
+    }
+    </div>
+
+
+
+    <div class="modal fade" id="formModalActualizarPoa" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Actualizar POA a partir de Modificación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="formCurso">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <h4 class="col-sm-12 text-center text-blue">Ingrese los siguientes parámetros para el proceso de actualización</h4>
+                            </div>
+                            <div class="form-group row">
+                                <label for="AnioSolicitud" class="col-sm-3 col-form-label">Año ejercición POA:</label>
+                                @Html.TextBoxFor(model => model.AnioSolicitud, new { @class = "form-control form-control-sm col-sm-1", autocomplete = "off", maxlength = "5", @readonly = "readonly" })
+                            </div>
+                            <div class="form-group row">
+                                <label for="AnioSolicitud" class="col-sm-3 col-form-label">Número solicitud:</label>
+                                @Html.TextBoxFor(model => model.NumeroSolicitud, new { @class = "form-control form-control-sm col-sm-3", autocomplete = "off", maxlength = "15", @readonly = "readonly" })
+                            </div>
+
+                            <div id="campoModificacion" style="display: none">
+                                <div class="form-group row">
+                                    <label for="NumeroCUR" class="col-sm-3 col-form-label">Número Comprobante modificación:</label>
+                                    @Html.TextBoxFor(model => model.NumeroCUR, new { @class = "form-control form-control-sm col-sm-4", autocomplete = "off", maxlength = "5" })
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="FechaCUR" class="col-sm-3 col-form-label">Fecha. Imput.ESIGEF:</label>
+                                    @Html.TextBoxFor(model => model.FechaCUR, new { @class = "form-control form-control-sm col-sm-3", autocomplete = "off", @type = "date" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <strong class="text-justify">
+                                    Nota: Al continuar con el proceso, se modificará el POA a partir del Análisis de Viabilidad aprobado. Para modificaciones con afectación presupuestaria y de asignación de recursos se requiere la aprobación de la Dirección Financiera y CUR o Comprobante de modificación en el ESIGEF.
+                                </strong>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="EstadoActualizacionPOA" class="col-sm-3 col-form-label">Observaciones:</label>
+                            </div>
+                            <div class="form-group row">
+                                @Html.TextBoxFor(model => model.ObservacionAutorizacion1, new { @class = "form-control form-control-sm col-sm-12", autocomplete = "off", maxlength = 76 })
+                            </div>
+                            <div class="form-group row">
+                                @Html.TextBoxFor(model => model.ObservacionAutorizacion2, new { @class = "form-control form-control-sm col-sm-12", autocomplete = "off", maxlength = 76 })
+                            </div>
+                            <div class="card-footer" id="bntGrabarActualizar">
+                                <a class="btn btn-outline-secondary" href="#" data-toggle="modal" data-target="#formModalActualizarPoa"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
+                                <a id="btnActualizaPoa" class="btn btn-outline-primary float-right" href="#"><i><img src="~/Content/imganes/save.png" style="width:25px" /></i> Grabar </a>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-12 col-sm-12 loadingGrabar" id="loadingGrabar" style="display: none">
+                                    <img src="~/Content/imganes/loadingHorizontal.gif" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+        <script src="@Url.Content("~/Scripts/Views/RevisarAprobarSolicitudModificacionPOA.js")" type="text/javascript"></script>
+    }
+

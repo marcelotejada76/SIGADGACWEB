@@ -23,7 +23,7 @@ namespace SistemaIntegradoGestion.Controllers
 
             return View();
         }
-
+        //comentario
         /// <summary>
         /// Accion gf
         /// </summary>

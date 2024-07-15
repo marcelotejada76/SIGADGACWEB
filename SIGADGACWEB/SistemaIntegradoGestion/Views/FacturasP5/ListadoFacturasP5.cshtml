@@ -186,6 +186,20 @@
 
 
                             </table>
+                            <hr />
+
+                            <p class="text-blue" style="font-size:14px">DATOS USUARIO</p>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Usuario Creación Factura</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="USUARIOCREA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Creación Factura</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="FECHACREACION" readonly="readonly" />
+                                </div>
+                            </div>
+
 
                         </div>
 
@@ -236,6 +250,8 @@
                     $("#NUMEROFACTURA").val(e.NUMEROFACTURA);
                     $("#CODIGO").val(e.CODIGO);
                     $("#VALORFACTURA").val(e.VALORFACTURA);
+                    $("#USUARIOCREA").val(e.USUARIOCREA);
+                    $("#FECHACREACION").val(e.FECHACREACION);
                     $("#tbDetalleFactura tbody").html("");
                     $.each(e.oDetalleFactura, function (i, row) {
 

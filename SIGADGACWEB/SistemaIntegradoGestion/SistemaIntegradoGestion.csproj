@@ -51,27 +51,6 @@
     <Reference Include="CapaModelo">
       <HintPath>..\CapaModelo\bin\Debug\CapaModelo.dll</HintPath>
     </Reference>
-    <Reference Include="ClosedXML, Version=0.93.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ClosedXML.0.93.1\lib\net40\ClosedXML.dll</HintPath>
-    </Reference>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
-      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
-    </Reference>
-    <Reference Include="EPPlus">
-      <HintPath>..\CapaDatos\librerias\EPPlus.dll</HintPath>
-    </Reference>
-    <Reference Include="EPPlus.Interfaces, Version=6.1.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
-      <HintPath>..\packages\EPPlus.Interfaces.6.1.1\lib\net35\EPPlus.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="EPPlus.System.Drawing, Version=6.1.1.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
-      <HintPath>..\packages\EPPlus.System.Drawing.6.1.1\lib\net35\EPPlus.System.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
-    </Reference>
-    <Reference Include="FastMember.Signed, Version=1.3.0.0, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
-      <HintPath>..\packages\FastMember.Signed.1.3.0\lib\net45\FastMember.Signed.dll</HintPath>
-    </Reference>
     <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.9\lib\itextsharp.dll</HintPath>
     </Reference>
@@ -85,15 +64,12 @@
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.WebForms.DLL</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="ReportViewerForMvc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ReportViewerForMvc4.1.1.2\lib\net40\ReportViewerForMvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -147,9 +123,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="UtilitarioGeneral">
-      <HintPath>..\UtilitarioGeneral\bin\Debug\UtilitarioGeneral.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -157,11 +130,6 @@
     <Reference Include="Antlr3.Runtime">
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="zxing, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Bin\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -174,17 +142,18 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\SorteoController.cs" />
     <Compile Include="Controllers\ConsultaTutController.cs" />
     <Compile Include="Controllers\FacturasP5Controller.cs" />
     <Compile Include="Controllers\CalculoFr3Controller.cs" />
     <Compile Include="Controllers\BancoRuminahuiController.cs" />
     <Compile Include="Controllers\MatriculasAdeudadasController.cs" />
     <Compile Include="Controllers\ConsultaFr3Controller.cs" />
+    <Compile Include="Controllers\MantenimientoMatriculasController.cs" />
     <Compile Include="Controllers\MatriculasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManifiestoController.cs" />
-    <Compile Include="Controllers\ModificacionPoaController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\GarantiasController.cs" />
     <Compile Include="Controllers\SolicitarModificacionesController.cs" />
@@ -196,7 +165,6 @@
     <Compile Include="Models\CursoViewModel.cs" />
     <Compile Include="Models\ModelArchivo.cs" />
     <Compile Include="Models\ModelLogin.cs" />
-    <Compile Include="Models\ModelPagina.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reporte\ReportViewer.aspx.cs">
       <DependentUpon>ReportViewer.aspx</DependentUpon>
@@ -207,9 +175,6 @@
     </Compile>
     <Compile Include="Utilitarios\CertificadoFirma.cs" />
     <Compile Include="Utilitarios\Constantes.cs" />
-    <Compile Include="Utilitarios\DocumentoFirmado.cs" />
-    <Compile Include="Utilitarios\DocumentoFirmadoFirmaElectronica.cs" />
-    <Compile Include="Utilitarios\ExportarArchivoExcel.cs" />
     <Compile Include="Utilitarios\SeguridadEncriptar.cs" />
     <Compile Include="Utilitarios\Utilitario.cs" />
   </ItemGroup>
@@ -406,13 +371,10 @@
     <Content Include="Content\imganes\folderFile.png" />
     <Content Include="Content\imganes\folderOpen.png" />
     <Content Include="Content\imganes\green.png" />
-    <Content Include="Content\imganes\icons\Attach.ico" />
-    <Content Include="Content\imganes\icons\Attach1.ico" />
     <Content Include="Content\imganes\icons\deletedocument.ico" />
     <Content Include="Content\imganes\icons\dinersclub.png" />
     <Content Include="Content\imganes\icons\dinersclub2.png" />
     <Content Include="Content\imganes\icons\document-edit.ico" />
-    <Content Include="Content\imganes\icons\download-file.ico" />
     <Content Include="Content\imganes\icons\favicon.png" />
     <Content Include="Content\imganes\icons\franquicias.png" />
     <Content Include="Content\imganes\icons\icon-close.png" />
@@ -431,13 +393,9 @@
     <Content Include="Content\imganes\icons\icon-prev.png" />
     <Content Include="Content\imganes\icons\logo-01.png" />
     <Content Include="Content\imganes\icons\logo-02.png" />
-    <Content Include="Content\imganes\icons\pdf.ico" />
     <Content Include="Content\imganes\icons\pin.png" />
     <Content Include="Content\imganes\icons\print-black-printer.ico" />
-    <Content Include="Content\imganes\icons\procesar.ico" />
-    <Content Include="Content\imganes\icons\proceso.png" />
     <Content Include="Content\imganes\icons\process_accepting.ico" />
-    <Content Include="Content\imganes\icons\process_basededatos.ico" />
     <Content Include="Content\imganes\icons\refresh-page.png" />
     <Content Include="Content\imganes\icons\search_document.ico" />
     <Content Include="Content\imganes\icons\shoppingcart.ico" />
@@ -2432,27 +2390,14 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\Views\ConsultarSolicitudModificacionPoa.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
     <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
     <Content Include="Scripts\Views\maestroPersonal.js" />
     <Content Include="Scripts\Views\operacionesAprueba.js" />
-    <Content Include="Scripts\Views\RevisarAprobarSolicitudModificacionPOA.js" />
     <Content Include="Scripts\Views\revisarAprobarSolicitudPOA.js" />
     <Content Include="Scripts\Views\revisarSolicitudPOA.js" />
-    <Content Include="Scripts\Views\listarVerificarPresupuestariaSin.js" />
-    <Content Include="Scripts\Views\sinAfectacionPresupuestaria.js" />
     <Content Include="Scripts\Views\solicitarCertificadoPOA.js" />
-    <Content Include="Scripts\Views\ConsultarSolicitud.js" />
-    <Content Include="Scripts\Views\SolicitudModificacionPOA.js" />
-    <Content Include="Scripts\Views\SolModificacionPoaConAsignacionRecursos.js" />
-    <Content Include="Scripts\Views\SolModificacionPoaConAfectacionPresupuestaria.js" />
-    <Content Include="Scripts\Views\SubirDocumentosHabilitantes.js" />
-    <Content Include="Scripts\Views\verificaPresupuestariaSolicitud.js" />
-    <Content Include="Scripts\Views\visualizarDocumentos.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -2498,18 +2443,8 @@
     <Content Include="Views\SolicitarModificaciones\RevisarSolicitudCertificado.cshtml" />
     <Content Include="Views\SolicitarModificaciones\SolicitarCertificadoPOA.cshtml" />
     <Content Include="Views\ActualizacionContraseña\CambioContraseña.cshtml" />
-    <Content Include="Views\SolicitarModificaciones\VisualizarDocumentos.cshtml" />
-    <Content Include="Views\ModificacionPoa\SinAfectacionPresupuestaria.cshtml" />
-    <Content Include="Views\ModificacionPoa\SubirDocumentosHabilitantes.cshtml" />
-    <Content Include="Views\ModificacionPoa\VerificaPresupuestariaSolicitud.cshtml" />
-    <Content Include="Views\ModificacionPoa\ListarVerificarPresupuestaria.cshtml" />
-    <Content Include="Views\ModificacionPoa\SolicitudModificacionPOA.cshtml" />
-    <Content Include="Views\ModificacionPoa\RevisarAprobarSolicModificacionPoa.cshtml" />
-    <Content Include="Views\ModificacionPoa\ConsultarSolicitud.cshtml" />
-    <Content Include="Views\ModificacionPoa\SolModificacionPoaConAfectacionPresupuestaria.cshtml" />
-    <Content Include="Views\ModificacionPoa\ConsultarSolicitudModificacionPoa.cshtml" />
-    <Content Include="Views\ModificacionPoa\SolModificacionPoaConAsignacionRecursos.cshtml" />
-    <Content Include="Views\ModificacionPoa\ListarConAsignacionRecursos.cshtml" />
+    <Content Include="Views\MantenimientoMatriculas\ListadoMatricula.cshtml" />
+    <Content Include="Views\Sorteo\Sorteo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

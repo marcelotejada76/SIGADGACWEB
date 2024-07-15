@@ -10,7 +10,7 @@ namespace CapaDatos
     {
 
 
-        public static string CadenaConexion = "Dsn=DB_P00;uid=dacadm;pwd=dacadm";
+         public static string CadenaConexion = "Dsn=DB_P00;uid=dacadm;pwd=dacadm";
         //public static string CadenaConexion = "Dsn=DAC_DB;uid=dacadm;pwd=dacadm";
 
     }

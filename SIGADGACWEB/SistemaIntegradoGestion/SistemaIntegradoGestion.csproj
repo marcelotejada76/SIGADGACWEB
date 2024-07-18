@@ -2428,13 +2428,23 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Views\ConsultarSolicitud.js" />
+    <Content Include="Scripts\Views\ConsultarSolicitudModificacionPoa.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
     <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
     <Content Include="Scripts\Views\maestroPersonal.js" />
     <Content Include="Scripts\Views\operacionesAprueba.js" />
+    <Content Include="Scripts\Views\RevisarAprobarSolicitudModificacionPOA.js" />
     <Content Include="Scripts\Views\revisarAprobarSolicitudPOA.js" />
     <Content Include="Scripts\Views\revisarSolicitudPOA.js" />
+    <Content Include="Scripts\Views\sinAfectacionPresupuestaria.js" />
     <Content Include="Scripts\Views\solicitarCertificadoPOA.js" />
+    <Content Include="Scripts\Views\SolicitudModificacionPOA.js" />
+    <Content Include="Scripts\Views\SolModificacionPoaConAfectacionPresupuestaria.js" />
+    <Content Include="Scripts\Views\SolModificacionPoaConAsignacionRecursos.js" />
+    <Content Include="Scripts\Views\SubirDocumentosHabilitantes.js" />
+    <Content Include="Scripts\Views\verificaPresupuestariaSolicitud.js" />
+    <Content Include="Scripts\Views\visualizarDocumentos.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

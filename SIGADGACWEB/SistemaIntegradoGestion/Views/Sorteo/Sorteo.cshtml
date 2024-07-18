@@ -54,6 +54,7 @@
 
                     <option value="01"> SORTEO PERITOS AERONAUTICOS</option>
                     <option value="02">CASA VALORES</option>
+                    <option value="03">PERITOS CONTABLES</option>
 
                 </select>
 
@@ -184,9 +185,7 @@
         }
 
 
-
-        function Consultar() {
-           
+        function Consultar() {           
             var _Cedula = $('#Cedula').val();
             var _Nombre = $('#Nombre').val();
             var _Correo = $('#Correo').val();
@@ -199,8 +198,8 @@
             $("#Correo").val("");
             $("#Celular").val("");
             $("#Descripcion").val("");
+            console.log(_Tipo); 
             
-
             $.ajax({
                 url: $.MisUrls.url._Sorteo,
                 type: "GET",

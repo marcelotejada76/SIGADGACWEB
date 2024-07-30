@@ -63,7 +63,11 @@ namespace SistemaIntegradoGestion.Controllers
              listado = CD_BancoRuminahui.Instancia.DetalleDepositoComprobante(Comprobante);
             if (listado.Count==0)
             {
-                listado = CD_BancoRuminahui.Instancia.DetalleDepositoNumeroFactura(Comprobante);
+                listado = CD_BancoRuminahui.Instancia.DetalleDepositoFecha(Comprobante);
+                if (listado.Count == 0)
+                {
+                    listado = CD_BancoRuminahui.Instancia.DetalleDepositante (Comprobante);
+                }
             }
             return View(listado);
         }

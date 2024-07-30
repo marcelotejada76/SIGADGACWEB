@@ -45,6 +45,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CapaDatos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CapaDatos\bin\Debug\CapaDatos.dll</HintPath>
+    </Reference>
+    <Reference Include="CapaModelo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CapaDatos\bin\Debug\CapaModelo.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -184,14 +192,6 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">
-      <Project>{2d10c0b3-5b1f-4b4c-8bed-ae80a6010835}</Project>
-      <Name>CapaDatos</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CapaModelo\CapaModelo.csproj">
-      <Project>{ba03efd6-4928-4e2d-9b62-e282f2903ff0}</Project>
-      <Name>CapaModelo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SistemaIntegradoGestion\SistemaIntegradoGestion.csproj">
       <Project>{ac649b5d-c7cf-40df-9d5e-5b841abb9a37}</Project>
       <Name>SistemaIntegradoGestion</Name>

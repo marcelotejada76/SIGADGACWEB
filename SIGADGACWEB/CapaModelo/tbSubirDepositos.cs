@@ -16,5 +16,6 @@ namespace CapaModelo
 
         public string FechaSistema { get; set; }
         public string HoraSistema { get; set; }
+        public List<tbModelArchivo> oModelArchivo { get; set; }
     }
 }

@@ -55,7 +55,7 @@ namespace SistemaCargaDepositos.Controllers
             Session["Controlador"] = "DepositosFinancieros";
             Session["ActionResul"] = "SubirDocumentosDepositos";
             Session["CodigoRol"] = SesionUsuario.CodigoRol;
-            //listado = CD_SolicitudPOA.Instancia.SolicitudModificacionSinAfectacionPresupetariaListarDireccionAnio(SesionUsuario.CodigoSubsistema, cAnio);
+            listado = CD_Depositos.Instancia.DetalleDepositos(cAnio,SesionUsuario.NumeroRuc);
             ////Verifica que si ya tiene subido los archivos
             //foreach (var item in listado)
             //{
@@ -69,82 +69,82 @@ namespace SistemaCargaDepositos.Controllers
             return View(listado);
         }
 
-        public ActionResult SubirDocumentosDepositos(string canio, int numSolicitud, string vista)
-        {
-            string direccionDirectory = string.Empty;
-            //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
-            tbSolicitudPOA oSolicitudPoa = new tbSolicitudPOA();
-            if (Session["Usuario"] == null)
-                return RedirectToAction("login", "Login");
+        //public ActionResult SubirDocumentosDepositos(string canio, int numSolicitud, string vista)
+        //{
+        //    string direccionDirectory = string.Empty;
+        //    //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
+        //    tbSolicitudPOA oSolicitudPoa = new tbSolicitudPOA();
+        //    if (Session["Usuario"] == null)
+        //        return RedirectToAction("login", "Login");
 
-            SesionUsuario = (tbUsuario)Session["Usuario"];
-            Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
-            oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+        //    SesionUsuario = (tbUsuario)Session["Usuario"];
+        //    Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
+        //    oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
 
-            direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + canio + @"\" + numSolicitud;
-            Session["ActionResul"] = vista;
-            Session["DireccionPath"] = direccionDirectory;
-            ViewBag.DireccionDirectory = direccionDirectory;
-            oSolicitudPoa.CodigoRolPYGE = SesionUsuario.CodigoRol;
-           // oSolicitudPoa.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
-            if (oSolicitudPoa.oModelArchivo.Count() > 0)
-            {
-                oSolicitudPoa.numeroDocumentoAdjunto = 1;
-            }
-
-
-            return View(oSolicitudPoa);
-        }
-
-        [HttpPost]
-        public ActionResult SubirDocumentosHabilitantes(HttpPostedFileBase documentFile, string AnioSolicitud, int NumeroSolicitud, string vista)
-        {
-            string direccionDirectory = string.Empty;
-            string nombreArchivo = string.Empty;
-            ViewBag.mensajeError = string.Empty;
-            //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
-            tbSolicitudPOA oSolicitudPoa = new tbSolicitudPOA();
-            if (Session["Usuario"] == null)
-                return RedirectToAction("login", "Login");
+        //    direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + canio + @"\" + numSolicitud;
+        //    Session["ActionResul"] = vista;
+        //    Session["DireccionPath"] = direccionDirectory;
+        //    ViewBag.DireccionDirectory = direccionDirectory;
+        //    oSolicitudPoa.CodigoRolPYGE = SesionUsuario.CodigoRol;
+        //   // oSolicitudPoa.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
+        //    if (oSolicitudPoa.oModelArchivo.Count() > 0)
+        //    {
+        //        oSolicitudPoa.numeroDocumentoAdjunto = 1;
+        //    }
 
 
-            SesionUsuario = (tbUsuario)Session["Usuario"];
-            Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
-            oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(AnioSolicitud, NumeroSolicitud);
-            direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + AnioSolicitud + @"\" + NumeroSolicitud;
-            Session["DireccionPath"] = direccionDirectory;
-            ViewBag.DireccionDirectory = direccionDirectory;
-            oSolicitudPoa.CodigoRolPYGE = SesionUsuario.CodigoRol;
+        //    return View(oSolicitudPoa);
+        //}
 
-            if (documentFile != null && documentFile.ContentLength > 0)
-            {
-                string urlDocumentos = Constantes.poaURL + @"\" + direccionDirectory;
-                //Verifica si existe la carpeta creada si no lo crear
-                if (!System.IO.Directory.Exists(urlDocumentos))
-                    System.IO.Directory.CreateDirectory(urlDocumentos);
+        //[HttpPost]
+        //public ActionResult SubirDocumentosDepositos(HttpPostedFileBase documentFile, string AnioSolicitud, int NumeroSolicitud, string vista)
+        //{
+        //    string direccionDirectory = string.Empty;
+        //    string nombreArchivo = string.Empty;
+        //    ViewBag.mensajeError = string.Empty;
+        //    //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
+        //    tbSolicitudPOA oSolicitudPoa = new tbSolicitudPOA();
+        //    if (Session["Usuario"] == null)
+        //        return RedirectToAction("login", "Login");
 
 
-                nombreArchivo = documentFile.FileName;
-                if (!System.IO.File.Exists(urlDocumentos + @"\" + nombreArchivo))
-                {
-                    documentFile.SaveAs(Path.Combine(urlDocumentos, nombreArchivo));
-                }
-                else
-                {
-                    ViewBag.mensajeError = "El archivo ya existe no puede actualizar, cambie de nombre";
-                }
+        //    SesionUsuario = (tbUsuario)Session["Usuario"];
+        //    Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
+        //    oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(AnioSolicitud, NumeroSolicitud);
+        //    direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + AnioSolicitud + @"\" + NumeroSolicitud;
+        //    Session["DireccionPath"] = direccionDirectory;
+        //    ViewBag.DireccionDirectory = direccionDirectory;
+        //    oSolicitudPoa.CodigoRolPYGE = SesionUsuario.CodigoRol;
 
-            }
+        //    if (documentFile != null && documentFile.ContentLength > 0)
+        //    {
+        //        string urlDocumentos = Constantes.poaURL + @"\" + direccionDirectory;
+        //        //Verifica si existe la carpeta creada si no lo crear
+        //        if (!System.IO.Directory.Exists(urlDocumentos))
+        //            System.IO.Directory.CreateDirectory(urlDocumentos);
 
-          //  oSolicitudPoa.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
-            if (oSolicitudPoa.oModelArchivo.Count() > 0)
-            {
-                oSolicitudPoa.numeroDocumentoAdjunto = 1;
-            }
 
-            return View(oSolicitudPoa);
+        //        nombreArchivo = documentFile.FileName;
+        //        if (!System.IO.File.Exists(urlDocumentos + @"\" + nombreArchivo))
+        //        {
+        //            documentFile.SaveAs(Path.Combine(urlDocumentos, nombreArchivo));
+        //        }
+        //        else
+        //        {
+        //            ViewBag.mensajeError = "El archivo ya existe no puede actualizar, cambie de nombre";
+        //        }
 
-        }
+        //    }
+
+        //  //  oSolicitudPoa.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
+        //    if (oSolicitudPoa.oModelArchivo.Count() > 0)
+        //    {
+        //        oSolicitudPoa.numeroDocumentoAdjunto = 1;
+        //    }
+
+        //    return View(oSolicitudPoa);
+
+        //}
 
 
     }

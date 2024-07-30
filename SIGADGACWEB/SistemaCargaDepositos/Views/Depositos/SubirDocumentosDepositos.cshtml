@@ -1,19 +1,19 @@
-﻿@model CapaModelo.tbSolicitudPOA
+﻿@model CapaModelo.tbSubirDepositos
 
 @{
-    ViewBag.Title = "Documentos Habilitantes";
+    ViewBag.Title = "Documentos Financieros";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <section>
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h2>Cargar/Descarga Documentos Habilitantes</h2>
+                <h2>Cargar/Descarga Documentos Depositos</h2>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">@Session["ActionResul"]</li>
-                    <li class="breadcrumb-item active">DocumentoHabilitante</li>
+                    <li class="breadcrumb-item active">DocumentoDeposito</li>
                 </ol>
             </div>
         </div>
@@ -21,7 +21,7 @@
 </section>
 
 <div class="container-fluid">
-    @using (Html.BeginForm("SubirDocumentosHabilitantes", "ModificacionPoa", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    @using (Html.BeginForm("SubirDocumentosDepositos", "DepositosFinancieros", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
     {
 
         <input type="hidden" id="Directory" name="Directory" value="@ViewBag.DireccionDirectory" />

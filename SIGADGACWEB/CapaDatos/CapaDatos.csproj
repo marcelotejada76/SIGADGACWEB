@@ -60,6 +60,7 @@
     <Compile Include="CD_CursoEmpleado.cs" />
     <Compile Include="CD_DocumentoHabilitante.cs" />
     <Compile Include="CD_EntidadEducativa.cs" />
+    <Compile Include="CD_DetalleComprobanteDeposito.cs" />
     <Compile Include="CD_FacturasDetalleP5.cs" />
     <Compile Include="CD_FacturasP5.cs" />
     <Compile Include="CD_ActualizaContraseña.cs" />

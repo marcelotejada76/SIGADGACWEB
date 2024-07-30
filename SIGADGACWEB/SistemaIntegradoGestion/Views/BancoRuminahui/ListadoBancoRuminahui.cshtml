@@ -24,14 +24,14 @@
     {
         <div class="row mb-8">
             <div class="col-sm-3">
-                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>NUM.COMPROBANTE/FACTURA</label></div>
+                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>NUM.COMPROBANTE/FECHADEPOSITO/DEPOSITANTE</label></div>
             </div>
             <div class="col-sm-8 fv-row">
 
                 <input style="text-transform:uppercase" class="form-control form-control-solid" id="Comprobante" name="Comprobante" />
             </div>
             <div>
-           
+
                 <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
 
 
@@ -49,8 +49,11 @@
                             <tr>
                                 <th>Fecha Proceso</th>
                                 <th>Numero Comprobante</th>
-                                <th>Codigo Comprobante</th>
-                                <th>Factura</th>
+                                <th>Fecha Bco Central</th>
+                                <th>Comp Bco Central</th>
+                                <th>Depositante</th>
+                                <th>Estacion</th>
+                                <th>Estado</th>
                                 <th>Monto</th>
                                 <th class=" control-label control-lab"></th>
                             </tr>
@@ -58,23 +61,60 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.FECHAPROCESO)</td>
-                                <td>@Html.DisplayFor(modelItem => item.NUMEROCOMPROBANTE)</td>
-                                <td>@Html.DisplayFor(modelItem => item.CODIGOCOMPROBANTE)</td>
-                                <td>@Html.DisplayFor(modelItem => item.NUMEROFACTURA)</td>
-                                <td>@Html.DisplayFor(modelItem => item.MONTO)</td>
-                                <td>
-                                    <a id="Consultar" href="#" onclick="Consultar(@item.FECHAPROCESO,'@item.NUMEROCOMPROBANTE' )">
-                                        <i>
-                                            <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+                                <tr>
 
-                                        </i>
-                                        Consulta
-                                    </a>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAPROCESO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMEROCOMPROBANTE)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHABCOCENTRAL)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMCOMPBCOCENTRAL)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.DEPOSITANTE)</td>
 
-                                </td>
-                            </tr>
+
+                                    <td>
+                                        @if (item.ZONAL == "QUITO")
+                                        {
+
+                                            <p class="" , style="background-color: #9ccfe6">   @Html.DisplayFor(modelItem => item.ZONAL)</p>
+
+                                        }
+                                        @if (item.ZONAL == "GUAYAQUIL")
+                                        {
+
+                                            <p class="" , style="background-color: #caae41">   @Html.DisplayFor(modelItem => item.ZONAL)</p>
+
+                                        }
+
+                                    </td>
+
+                                    <td>
+                                        @if (item.ESTADO == "P")
+                                        {
+
+                                            <p class="text-danger" , style="font-size:16px;color: #bbb8a6">   @Html.DisplayFor(modelItem => item.ESTADO)</p>
+
+                                        }
+                                        @if (item.ESTADO == "E")
+                                        {
+
+                                            <p class="text-gray" , style="font-size:16px;background-color: #00ff21">   @Html.DisplayFor(modelItem => item.ESTADO)</p>
+
+                                        }
+
+                                    </td>
+
+
+                                    <td>@Html.DisplayFor(modelItem => item.MONTO)</td>
+                                    <td>
+                                        <a id="Consultar" href="#" onclick="Consultar(@item.FECHAPROCESO,'@item.NUMEROCOMPROBANTE' )">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>
+
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -112,8 +152,8 @@
                                     <input style="font-size:14px" class="form-control form-control-sm" id="NUMEROCOMPROBANTE" readonly="readonly" />
                                 </div>
                                 <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Hora Transaccion</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="HORATRANSACCION" readonly="readonly" />
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Estacion</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="ESTACION" readonly="readonly" />
                                 </div>
                             </div>
                             <div class="row justify-content-start">
@@ -129,16 +169,19 @@
                             </div>
 
                             <div class="row justify-content-start">
-                                
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Codigo Comprobante</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="CODIGOCOMPROBANTE" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Numero factura</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="NUMEROFACTURA" readonly="readonly" />
-                                </div>
 
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Depositante</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="DEPOSITANTE" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label> Fecha Bco Central</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="FECHABCOCENTRAL" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label> Comp Bco Central</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="NUMCOMPBCOCENTRAL" readonly="readonly" />
+                                </div>
 
                             </div>
 
@@ -151,6 +194,81 @@
                             </div>
                         </div>
                         <hr />
+
+
+
+
+                        <p class="text-blue" style="font-size:14px">DETALLE COMPROBANTES</p>
+
+
+
+                        <table id="tbDetalleComprobantesDeposito" class="table table-bordered table-hover table-sm" style="width:100%; font-size:13px">
+                            <thead>
+                                <tr>
+                                    <th>CODIGO </th>
+                                    <th>FACTURA</th>
+                                    <th>CLIENTE</th>
+                                    <th>LUGAR</th>
+                                    <th>ND/CR/FA</th>
+                                    <th>VALOR</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody style="font-size:12px"></tbody>
+
+
+                        </table>
+
+                        <div class="row align-items-end">
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+                                <p class="text-blue" style="font-size:13px">TOTAL</p>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="text-align: right" ; id="TOTAL" readonly="readonly">
+                            </div>
+                        </div>
+
+                        <div class="row align-items-end">
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+
+                            </div>
+                            <div class="col">
+                                <p class="text-danger" style="font-size:14px">DIFERENCIA</p>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="text-align: right" ; id="DIFERENCIA" readonly="readonly">
+                            </div>
+                        </div>
+
+                       
 
                     </div>
 
@@ -176,37 +294,59 @@
             $('#FormModal').modal('show');
         }
 
-      
+
 
         function Consultar(Fechaproceso, Numerocomprobante) {
 
-           
+
             $("#FECHAPROCESO").val("");
             $("#NUMEROCOMPROBANTE").val("");
-            $("#HORATRANSACCION").val("");
+            $("#ESTACION").val("");
             $("#OFICINA").val("");
             $("#CONCEPTO").val("");
             $("#MONTO").val("");
-            $("#NUMEROFACTURA").val("");
+            $("#DEPOSITANTE").val("");
             $("#CODIGOCOMPROBANTE").val("");
-            
+            $("#FECHABCOCENTRAL").val("");
+            $("#NUMCOMPBCOCENTRAL").val("");
+            $("#TOTAL").val("");
+            $("#DIFERENCIA").val("");
+
+
             $.ajax({
                 url: $.MisUrls.url._DetalleBancoRuminahui,
                 type: "GET",
                 contentType: "application/json;charset=UTF-8",
                 dataType: "json",
-                data: { FechaDeposito: Fechaproceso, NumeroComprobante: Numerocomprobante},
+                data: { FechaDeposito: Fechaproceso, NumeroComprobante: Numerocomprobante },
                 success: function (e) {
 
                     $("#FECHAPROCESO").val(e.FECHAPROCESO);
                     $("#NUMEROCOMPROBANTE").val(e.NUMEROCOMPROBANTE);
-                    $("#HORATRANSACCION").val(e.HORA);
+                    $("#ESTACION").val(e.ZONAL);
                     $("#OFICINA").val(e.OFICINA);
                     $("#CONCEPTO").val(e.CONCEPTO);
                     $("#MONTO").val(e.MONTO);
-                    $("#NUMEROFACTURA").val(e.NUMEROFACTURA);
+                    $("#DEPOSITANTE").val(e.DEPOSITANTE);
                     $("#CODIGOCOMPROBANTE").val(e.CODIGOCOMPROBANTE);
-                    
+                    $("#FECHABCOCENTRAL").val(e.FECHABCOCENTRAL);
+                    $("#NUMCOMPBCOCENTRAL").val(e.NUMCOMPBCOCENTRAL);
+                    $("#TOTAL").val(e.TOTAL);
+                    $("#DIFERENCIA").val(e.DIFERENCIA);
+                    $("#tbDetalleComprobantesDeposito tbody").html("");
+                    $.each(e.oDetalleDeposito, function (i, row) {
+
+                        $("<tr>").append(
+                            $("<td>").text(row["CODIGORECAUDACION"]),
+                            $("<td>").text(row["NUMEROFACTURA"]),
+                            $("<td>").text(row["CLIENTE"]),
+                            $("<td>").text(row["LUGAR"]),
+                            $("<td>").text(row["TIPO"]),
+                            $("<td class='text-right'>").text(row["MONTO"]))
+
+                            .appendTo("#tbDetalleComprobantesDeposito tbody");
+                    })
+
                 },
                 error: function (errormessage) {
                     Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");

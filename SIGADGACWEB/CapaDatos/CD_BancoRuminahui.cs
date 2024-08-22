@@ -419,7 +419,7 @@ namespace CapaDatos
 
                 try
                 {
-                    sbSol.Append("SELECT * FROM FICARC WHERE FICDEP like ('%" + Depositante + "%') ");
+                    sbSol.Append("SELECT * FROM FICARC WHERE upper(FICDEP) like ('%" + Depositante + "%') ");
 
                     query = sbSol.ToString();
                     iDB2Command cmd;
@@ -476,5 +476,7 @@ namespace CapaDatos
             return listarSolicitud;
 
         }
+
+
     }
 }

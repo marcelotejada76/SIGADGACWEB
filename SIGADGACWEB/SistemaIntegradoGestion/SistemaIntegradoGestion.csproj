@@ -175,6 +175,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\DepositosController.cs" />
     <Compile Include="Controllers\ModificacionPoaController.cs" />
     <Compile Include="Controllers\SorteoController.cs" />
     <Compile Include="Controllers\ConsultaTutController.cs" />
@@ -2430,6 +2431,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Views\ConsultarSolicitud.js" />
     <Content Include="Scripts\Views\ConsultarSolicitudModificacionPoa.js" />
+    <Content Include="Scripts\Views\Depositos\SubirDepositos.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
     <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
     <Content Include="Scripts\Views\maestroPersonal.js" />
@@ -2504,6 +2506,10 @@
     <Content Include="Views\ModificacionPoa\SolModificacionPoaConAsignacionRecursos.cshtml" />
     <Content Include="Views\ModificacionPoa\SubirDocumentosHabilitantes.cshtml" />
     <Content Include="Views\ModificacionPoa\VerificaPresupuestariaSolicitud.cshtml" />
+    <Content Include="Views\Depositos\CargaDepositosClientes.cshtml" />
+    <Content Include="Views\Depositos\SubirDocumentosDepositos.cshtml" />
+    <Content Include="Views\Depositos\ConsultaDepositosClientes.cshtml" />
+    <Content Include="Views\Depositos\ConsultaDocumentosDepositos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

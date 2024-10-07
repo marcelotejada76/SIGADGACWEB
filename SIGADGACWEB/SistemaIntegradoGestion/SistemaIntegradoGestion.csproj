@@ -45,11 +45,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CapaDatos">
+    <Reference Include="CapaDatos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CapaDatos\bin\Debug\CapaDatos.dll</HintPath>
     </Reference>
-    <Reference Include="CapaModelo">
-      <HintPath>..\CapaModelo\bin\Debug\CapaModelo.dll</HintPath>
+    <Reference Include="CapaModelo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CapaDatos\bin\Debug\CapaModelo.dll</HintPath>
     </Reference>
     <Reference Include="ClosedXML, Version=0.93.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.0.93.1\lib\net40\ClosedXML.dll</HintPath>
@@ -175,6 +177,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\ControlAtcDiarioController.cs" />
+    <Compile Include="Controllers\ControlAtcController.cs" />
     <Compile Include="Controllers\DepositosController.cs" />
     <Compile Include="Controllers\ModificacionPoaController.cs" />
     <Compile Include="Controllers\SorteoController.cs" />
@@ -2510,6 +2514,8 @@
     <Content Include="Views\Depositos\SubirDocumentosDepositos.cshtml" />
     <Content Include="Views\Depositos\ConsultaDepositosClientes.cshtml" />
     <Content Include="Views\Depositos\ConsultaDocumentosDepositos.cshtml" />
+    <Content Include="Views\ControlAtc\ListadoAtc.cshtml" />
+    <Content Include="Views\ControlAtcDiario\ListadoAtcDiario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

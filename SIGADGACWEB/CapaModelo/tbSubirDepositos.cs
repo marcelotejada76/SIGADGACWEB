@@ -17,6 +17,7 @@ namespace CapaModelo
         public int Registros { get; set; }
         public string FechaSistema { get; set; }
         public string HoraSistema { get; set; }
+        public string  Observaciones { get; set; }
         public List<tbModelArchivo> oModelArchivo { get; set; }
     }
 }

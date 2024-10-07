@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace SistemaIntegradoGestion.Controllers
 {
-    public class BancoRuminahuiController : Controller
+    public class ControlAtcController : Controller
     {
         /// <summary>
         /// cambio por github
@@ -34,58 +34,59 @@ namespace SistemaIntegradoGestion.Controllers
 
             return View();
         }
-
-        public ActionResult ListadoBancoRuminahui()
+        public ActionResult ListadoAtc()
         {
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
 
-            List<tbBancoRuminahui> listado = new List<tbBancoRuminahui>();
+            List<tbAtc> listado = new List<tbAtc>();
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             // string cAnio = oSistema.FechaSistema.Substring(0, 4);
-            listado = CD_BancoRuminahui.Instancia.DetalleDepositos();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
+            listado = CD_Controlador.Instancia.ConsultaControlador();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
             return View(listado);
         }
 
-
+       
 
         [HttpPost]
-        public ActionResult ListadoBancoRuminahui(string Comprobante)
+        public ActionResult ListadoAtc(string Licencia)
         {
-            Comprobante = Comprobante.ToUpper();
+           Licencia = Licencia.ToUpper().TrimStart().TrimEnd();
 
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
-            List<tbBancoRuminahui> listado = new List<tbBancoRuminahui>();
+            List<tbAtc> listado = new List<tbAtc>();
+
+            //tbAtc listado = new tbAtc();
             //Compania.ToUpper();
-            listado = CD_BancoRuminahui.Instancia.DetalleDepositoComprobante(Comprobante);
-            if (listado.Count == 0)
+            listado = CD_Controlador.Instancia.ControladorLicencia(Licencia);
+            if (listado.Count==0)
             {
-                listado = CD_BancoRuminahui.Instancia.DetalleDepositoFecha(Comprobante);
-                if (listado.Count == 0)
-                {
-                    listado = CD_BancoRuminahui.Instancia.DetalleDepositante(Comprobante);
-                }
+                listado = CD_Controlador.Instancia.ControladorLicenciaApellido(Licencia); 
+                //if (listado.Count == 0)
+                //{
+                //    listado = CD_BancoRuminahui.Instancia.DetalleDepositante(Licencia);
+                //}
             }
             return View(listado);
         }
-
+      
         [HttpGet]
-        public JsonResult CargaDetalleBanco(string FechaDeposito, string NumeroComprobante)
+        public JsonResult CargaDetalleAtc(string Licencia)
         {
-            tbBancoRuminahui DetalleDepsoito = new tbBancoRuminahui();
+            tbAtc DetalleDepsoito = new tbAtc();
 
             if (Session["Usuario"] == null)
                 return Json(DetalleDepsoito, JsonRequestBehavior.AllowGet);
 
             try
             {
-                if (NumeroComprobante != "")
+                if (Licencia != "")
                 {
-                    DetalleDepsoito = CD_BancoRuminahui.Instancia.DetalleDepositoPorFecha(FechaDeposito, NumeroComprobante);
+                    DetalleDepsoito = CD_Controlador.Instancia.ConsultacControladorLicencia(Licencia);
 
                     return Json(DetalleDepsoito, JsonRequestBehavior.AllowGet);
                 }
@@ -99,7 +100,7 @@ namespace SistemaIntegradoGestion.Controllers
             }
 
         }
-
-
+      
+      
     }
 }

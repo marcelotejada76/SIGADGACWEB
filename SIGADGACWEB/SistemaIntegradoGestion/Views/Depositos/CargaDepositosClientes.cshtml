@@ -65,7 +65,7 @@
                             <td>@Html.DisplayFor(modelItem => item.Registros)</td>
 
                             <td class="text-left">
-                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosDepositos", "Depositos", new {Año =item.Año, Mes=item.Mes,UsuarioRuc= item.UsuarioRuc.ToString()})">
+                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosDepositos", "Depositos", new {Año =item.Año, Mes=item.Mes,UsuarioRuc= item.UsuarioRuc.ToString(),RazonSocial=item.RazonSocial.ToString()})">
                                     @*<a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosDepositos", "Depositos", new { canio = item.Año, ruc = item.UsuarioRuc.ToString(), vista = "SinAfectacionPresupuestaria" })">*@
                                     <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Adjuntar archivos
                                 </a>

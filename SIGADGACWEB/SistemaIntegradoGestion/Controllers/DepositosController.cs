@@ -83,7 +83,7 @@ namespace SistemaIntegradoGestion.Controllers
             return View(listado);
         }
 
-        public ActionResult ConsultaDocumentosDepositos(string Año, string Mes, string UsuarioRuc)
+        public ActionResult ConsultaDocumentosDepositos(string Año, string Mes, string UsuarioRuc,string RazonSocial)
         {
             string direccionDirectory = string.Empty;
             //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
@@ -92,13 +92,13 @@ namespace SistemaIntegradoGestion.Controllers
             CargaArchivo.Año = Año;
             CargaArchivo.Mes = Mes;
             CargaArchivo.UsuarioRuc = UsuarioRuc;
-            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc;
+            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
             ViewBag.direccionDirectory = direccionDirectory;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
 
             return View(CargaArchivo);
         }
-        public ActionResult SubirDocumentosDepositos(string Año, string Mes, string UsuarioRuc)
+        public ActionResult SubirDocumentosDepositos(string Año, string Mes, string UsuarioRuc, string RazonSocial)
         {
             string direccionDirectory = string.Empty;
             //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
@@ -107,7 +107,7 @@ namespace SistemaIntegradoGestion.Controllers
             CargaArchivo.Año = Año;
             CargaArchivo.Mes = Mes;
             CargaArchivo.UsuarioRuc = UsuarioRuc;
-            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc;
+            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
             ViewBag.direccionDirectory = direccionDirectory;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
 
@@ -116,7 +116,7 @@ namespace SistemaIntegradoGestion.Controllers
 
         [HttpPost]
 
-        public ActionResult SubirDocumentosDepositos(string Año, string Mes, string UsuarioRuc, HttpPostedFileBase documentFile)
+        public ActionResult SubirDocumentosDepositos(string Año, string Mes, string UsuarioRuc,string RazonSocial, HttpPostedFileBase documentFile)
         {
             string direccionDirectory = string.Empty;
             //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
@@ -125,17 +125,17 @@ namespace SistemaIntegradoGestion.Controllers
             CargaArchivo.Año = Año;
             CargaArchivo.Mes = Mes;
             CargaArchivo.UsuarioRuc = UsuarioRuc;
-            guardarDocumento(Año, Mes, UsuarioRuc, documentFile);
-            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc;
+            guardarDocumento(Año, Mes, UsuarioRuc, RazonSocial, documentFile);
+            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
             ViewBag.direccionDirectory = direccionDirectory;
 
             return View(CargaArchivo);
         }
-        public bool guardarDocumento(string Año, string Mes, string UsuarioRuc, HttpPostedFileBase documentFile)
+        public bool guardarDocumento(string Año, string Mes, string UsuarioRuc,string RazonSocial, HttpPostedFileBase documentFile)
         {
             bool existearchivo = false;
-            string direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc;
+            string direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
             string nombreArchivo = "";
             if (documentFile != null && documentFile.ContentLength > 0)
             {

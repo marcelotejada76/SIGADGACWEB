@@ -42,6 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tbDetalleEventosAtc.cs" />
+    <Compile Include="tbDetalleNotamsAtc.cs" />
+    <Compile Include="tbDetalleControladoresAtc.cs" />
+    <Compile Include="tbItsControlAtc.cs" />
     <Compile Include="tbDetalleComprobantesDeposito.cs" />
     <Compile Include="tbBancoRuminahui.cs" />
     <Compile Include="tbCanton.cs" />
@@ -53,6 +57,7 @@
     <Compile Include="tbFacturasDetalleP5.cs" />
     <Compile Include="tbFacturasP5.cs" />
     <Compile Include="tbModelArchivo.cs" />
+    <Compile Include="tbAtc.cs" />
     <Compile Include="tbSubirDepositos.cs" />
     <Compile Include="tbSorteo.cs" />
     <Compile Include="tbTut.cs" />

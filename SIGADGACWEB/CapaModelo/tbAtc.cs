@@ -21,6 +21,7 @@ namespace CapaModelo
         public string ApellidoNombre { get; set; }
         public string CodigoDependencia { get; set; }
         public string CodigCiudad{ get; set; }
+        public string Url { get; set; }
 
     }
 }

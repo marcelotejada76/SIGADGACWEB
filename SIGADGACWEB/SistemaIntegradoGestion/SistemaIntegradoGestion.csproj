@@ -177,6 +177,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\HistoricoControlAtcController.cs" />
     <Compile Include="Controllers\ControlAtcDiarioController.cs" />
     <Compile Include="Controllers\ControlAtcController.cs" />
     <Compile Include="Controllers\DepositosController.cs" />
@@ -415,6 +416,7 @@
     <Content Include="Content\imganes\folderOpen.png" />
     <Content Include="Content\imganes\green.png" />
     <Content Include="Content\imganes\icons\deletedocument.ico" />
+    <Content Include="Content\imganes\icons\descargas.png" />
     <Content Include="Content\imganes\icons\dinersclub.png" />
     <Content Include="Content\imganes\icons\dinersclub2.png" />
     <Content Include="Content\imganes\icons\document-edit.ico" />
@@ -2516,6 +2518,7 @@
     <Content Include="Views\Depositos\ConsultaDocumentosDepositos.cshtml" />
     <Content Include="Views\ControlAtc\ListadoAtc.cshtml" />
     <Content Include="Views\ControlAtcDiario\ListadoAtcDiario.cshtml" />
+    <Content Include="Views\HistoricoControlAtc\ListadoHistoricoAtc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

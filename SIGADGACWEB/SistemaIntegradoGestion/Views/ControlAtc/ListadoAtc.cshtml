@@ -128,15 +128,26 @@
                     <div class="card-body border-top p-9">
 
                         <div class="container">
+                            <div class="text-right">
+                                <img id="imgControlador" style="width:90px; height:90px" />
+                            </div>
+
+                          
+
                             <div class="row justify-content-start">
                                 <div class="col-4">
                                     <div class="fs-6 fw-bold mt-2 mb-3"><label>LICENCIA</label></div>
                                     <input style="font-size:14px" class="form-control form-control-sm" id="Lic" readonly="readonly" />
                                 </div>
                                 <div class="col-7">
+
                                     <div class="fs-6 fw-bold mt-2 mb-3"><label>APELLIDO NOMBRES</label></div>
                                     <input style="font-size:14px" class="form-control form-control-sm" id="Nombres" readonly="readonly" />
+
+
                                 </div>
+
+
 
 
                             </div>
@@ -227,7 +238,8 @@
             $("#Vigencia").val("");
             $("#Estado").val("");
             $("#CodigoDependencia").val("");
-           
+
+            
 
             $.ajax({
                 url: $.MisUrls.url._DetalleControladorAtc,
@@ -236,7 +248,7 @@
                 dataType: "json",
                 data: { Licencia: Licencia },
                 success: function (e) {
-
+                                 
                     $("#Lic").val(e.Licencia);
                     $("#Nombres").val(e.ApellidoNombre);
                     $("#Institucion").val(e.Institucion);
@@ -245,6 +257,8 @@
                     $("#Vigencia").val(e.VigenciaCemac);
                     $("#Estado").val(e.Estado);
                     $("#CodigoDependencia").val(e.CodigoDependencia);
+                    $('#imgControlador').attr('src', e.Url);
+                   
                 },
                 error: function (errormessage) {
                     Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");

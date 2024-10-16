@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tbHistoricoDetalleCursoAtc.cs" />
+    <Compile Include="tbHistoricoDetalleDependenciaAtc.cs" />
+    <Compile Include="tbHistoricoAtc.cs" />
     <Compile Include="tbDetalleEventosAtc.cs" />
     <Compile Include="tbDetalleNotamsAtc.cs" />
     <Compile Include="tbDetalleControladoresAtc.cs" />

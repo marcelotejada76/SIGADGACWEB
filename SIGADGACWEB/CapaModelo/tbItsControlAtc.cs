@@ -26,9 +26,15 @@ namespace CapaModelo
         public Int16 TGL { get; set; }
         public Int16 SOBSEGU { get; set; }
         public Int16 TOTGENSEGU        { get; set; }
+        public Int32 TOTALIFR { get; set; }
+        public Int32 TOTALVFR { get; set; }
+        public Int32 TOTALDEP { get; set; }
+        public Int32 TOTALARR { get; set; }
+         public Int32 TOTALGENERAL { get; set; }
+        
 
 
-       
+
         public List<tbDetalleControladoresAtc> oDetalleControladorAtc { get; set; }
         public List<tbDetalleNotamsAtc> oDetalleNotamsAtc { get; set; }
         public List<tbDetalleEventosAtc> oDetalleEventosAtc { get; set; }

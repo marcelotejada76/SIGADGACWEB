@@ -164,6 +164,7 @@ namespace CapaDatos
                         oSolicitud.Dependencia = dr["OPCD04"].ToString().Trim();
                         oSolicitud.Ciudad = dr["OPCCIU"].ToString().Trim();
                         oSolicitud.VigenciaCemac = dr["OPCF07"].ToString().Trim();
+                        oSolicitud.Url = @"\\172.20.19.55\TransitoAereo\imagenes\" + Licencia + "jpg";
 
                         oSolicitud.ApellidoNombre = dr["OPCAPE"].ToString().Trim() + " " + dr["OPCN01"].ToString().Trim();
                         //oSolicitud.Estado = dr["OPCES5"].ToString();
@@ -263,7 +264,7 @@ namespace CapaDatos
                         oSolicitud.VigenciaCemac = dr["OPCF07"].ToString().Trim();
                         //oSolicitud.Estado = dr["OPCES5"].ToString();
                         oSolicitud.ApellidoNombre = dr["OPCAPE"].ToString().Trim() + " " + dr["OPCN01"].ToString().Trim();
-
+                        oSolicitud.Url = @"\\172.20.19.55\TransitoAereo\imagenes\" + Licencia + "jpg";
                         string estado = dr["OPCES5"].ToString();
                         switch (estado)
                         {

@@ -39,7 +39,6 @@ namespace SistemaIntegradoGestion.Controllers
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
-
             List<tbItsControlAtc> listado = new List<tbItsControlAtc>();
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
@@ -58,44 +57,24 @@ namespace SistemaIntegradoGestion.Controllers
 
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
-
             List<tbItsControlAtc> listado = new List<tbItsControlAtc>();
-            //Compania.ToUpper();
-            listado = CD_ItsControlAtc.Instancia.DetalleDocumentosFecha(Fecha);
-            //if (listado.Count==0)
-            //{
-            //    listado = CD_Matriculas.Instancia.DetallePorMatriculasP5(NombreCompania);
-            //}
+            if (Fecha != "")
+            {
+
+
+
+               
+                //Compania.ToUpper();
+                listado = CD_ItsControlAtc.Instancia.DetalleDocumentosFecha(Fecha);
+                //if (listado.Count==0)
+                //{
+                //    listado = CD_Matriculas.Instancia.DetallePorMatriculasP5(NombreCompania);
+                //}
+               
+            }
             return View(listado);
         }
 
-
-        //[HttpPost]
-        //public ActionResult ListadoAtcDiario(string Lugar, string Dependencia, string Fechaelab, string Turno)
-        //{
-        //    Lugar = Lugar.ToUpper().TrimStart().TrimEnd();
-        //    Dependencia = Dependencia.ToUpper().TrimStart().TrimEnd();
-        //    Turno = Turno.ToUpper().TrimStart().TrimEnd();
-
-        //    if (Session["Usuario"] == null)
-        //        return RedirectToAction("login", "Login");
-
-        //    List<tbItsControlAtc> listado = new List<tbItsControlAtc>();
-
-        //    //tbAtc listado = new tbAtc();
-        //    //Compania.ToUpper();
-        //    listado = CD_ItsControlAtc.Instancia.DetalleDocumentos();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
-
-        //    if (listado.Count == 0)
-        //    {
-        //        listado = CD_ItsControlAtc.Instancia.DetalleDocumentosFecha(Fechaelab);
-        //        //if (listado.Count == 0)
-        //        //{
-        //        //    listado = CD_BancoRuminahui.Instancia.DetalleDepositante(Licencia);
-        //        //}
-        //    }
-        //    return View(listado);
-        //}
 
         [HttpGet]
         public JsonResult CargaDetalleAtcDiario(string Lugar, string Dependencia, string Fechaelab, string Turno)

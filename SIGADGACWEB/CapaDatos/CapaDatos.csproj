@@ -55,6 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CD_DetalleHistoricoDependenciaAtc.cs" />
+    <Compile Include="CD_HistoricoControlador.cs" />
     <Compile Include="CD_DetalleEventosAtc.cs" />
     <Compile Include="CD_DetalleNotamsAtc.cs" />
     <Compile Include="CD_DetalleControladoresAtc.cs" />

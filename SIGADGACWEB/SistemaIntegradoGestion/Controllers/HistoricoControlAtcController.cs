@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace SistemaIntegradoGestion.Controllers
 {
-    public class ControlAtcController : Controller
+    public class HistoricoControlAtcController : Controller
     {
         /// <summary>
         /// cambio por github
@@ -34,38 +34,38 @@ namespace SistemaIntegradoGestion.Controllers
 
             return View();
         }
-        public ActionResult ListadoAtc()
+        public ActionResult ListadoHistoricoAtc()
         {
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
 
-            List<tbAtc> listado = new List<tbAtc>();
+            List<tbHistoricoAtc> listado = new List<tbHistoricoAtc>();
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             // string cAnio = oSistema.FechaSistema.Substring(0, 4);
-            listado = CD_Controlador.Instancia.ConsultaControlador();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
+            listado = CD_HistoricoControlador.Instancia.ConsultaHistoricoControlador();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
             return View(listado);
         }
 
 
 
         [HttpPost]
-        public ActionResult ListadoAtc(string Licencia)
+        public ActionResult ListadoHistoricoAtc(string Licencia)
         {
             Licencia = Licencia.ToUpper().TrimStart().TrimEnd();
 
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
-            List<tbAtc> listado = new List<tbAtc>();
+            List<tbHistoricoAtc> listado = new List<tbHistoricoAtc>();
 
             //tbAtc listado = new tbAtc();
             //Compania.ToUpper();
-            listado = CD_Controlador.Instancia.ControladorLicencia(Licencia);
+            listado = CD_HistoricoControlador.Instancia.HistoricoControladorLicencia(Licencia);
             if (listado.Count == 0)
             {
-                listado = CD_Controlador.Instancia.ControladorLicenciaApellido(Licencia);
+                listado = CD_HistoricoControlador.Instancia.HistoricoControladorLicenciaApellido(Licencia);
                 //if (listado.Count == 0)
                 //{
                 //    listado = CD_BancoRuminahui.Instancia.DetalleDepositante(Licencia);
@@ -75,9 +75,9 @@ namespace SistemaIntegradoGestion.Controllers
         }
 
         [HttpGet]
-        public JsonResult CargaDetalleAtc(string Licencia)
+        public JsonResult HistoricoCargaDetalleAtc(string Licencia)
         {
-            tbAtc DetalleDepsoito = new tbAtc();
+            tbHistoricoAtc DetalleDepsoito = new tbHistoricoAtc();
 
             if (Session["Usuario"] == null)
                 return Json(DetalleDepsoito, JsonRequestBehavior.AllowGet);
@@ -86,7 +86,7 @@ namespace SistemaIntegradoGestion.Controllers
             {
                 if (Licencia != "")
                 {
-                    DetalleDepsoito = CD_Controlador.Instancia.ConsultacControladorLicencia(Licencia);
+                    DetalleDepsoito = CD_HistoricoControlador.Instancia.HistoricoConsultacControladorLicencia(Licencia);
 
 
 

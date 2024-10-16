@@ -29,7 +29,12 @@
             <div class="col-sm-8 fv-row">
 
                 @*<input style="text-transform:uppercase" class="form-control form-control-solid" id="FechaElab" name="FechaElab" />*@
-                <input type="date" class="form-control form-control-solid" name="FechaElab">
+
+                @*<input type="date" id="start"  name="FechaElab" value="2018-07-22" min="2018-01-01" max="2018-12-31" />*@ 
+               
+                <input type="date" name="FechaElab" id="FechaElab" class="form-control form-control-solid" required >
+
+
             </div>
             <div>
 
@@ -48,11 +53,11 @@
                     <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Lugar</th>
-                                <th>Dependencia</th>
-                                <th>Fecha Elaboracion</th>
-                                <th>Turno</th>
-                                <th>Responsable Turno</th>
+                                <th class="bg-gradient-info">Lugar</th>
+                                <th class="bg-gradient-info">Dependencia</th>
+                                <th class="bg-gradient-info">Fecha Elaboracion</th>
+                                <th class="bg-gradient-info">Turno</th>
+                                <th class="bg-gradient-info">Responsable Turno</th>
 
                                 <th class=" control-label control-lab"></th>
                             </tr>
@@ -60,275 +65,386 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr>
+                                <tr>
 
-                                <td>@Html.DisplayFor(modelItem => item.LUGAR)</td>
-                                <td>@Html.DisplayFor(modelItem => item.DEPENDENCIA)</td>
-                                <td>@Html.DisplayFor(modelItem => item.FECHAELABORACION)</td>
-                                <td>@Html.DisplayFor(modelItem => item.TURNO)</td>
-                                <td>@Html.DisplayFor(modelItem => item.NOMBRERESPONSABLE)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.LUGAR)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.DEPENDENCIA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAELABORACION)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TURNO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NOMBRERESPONSABLE)</td>
 
-                                <td>
+                                    <td class="btn-group btn-group-sm" role="group" aria-label="...">
 
-                                    <a id="Consultar" href="#" onclick="Consultar('@item.LUGAR', '@item.DEPENDENCIA', '@item.FECHAELABORACION', '@item.TURNO')">
-                                        <i>
-                                            <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+                                        <a  id="Consultar" class="btn btn-lg btn-secondary" href="#" onclick="Consultar('@item.LUGAR', '@item.DEPENDENCIA', '@item.FECHAELABORACION', '@item.TURNO')">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:14px" />
 
-                                        </i>
-                                        Consulta
-                                    </a>
+                                            </i>
+                                            Consulta
+                                        </a>
 
-                                </td>
-                              
-                                <td>
-                                    <a id="Descarga" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DescargaIts", "ControlAtcDiario", new {Lugar= item.LUGAR.ToString(), Dependencia =item.DEPENDENCIA.ToString(), Fechaelab = item.FECHAELABORACION, Turno = item.TURNO.ToString() })">
-                                        <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Descargar
-                                    </a>
-                                </td>
-                            </tr>
+                                    </td>
+
+                                    <td class="btn-group btn-group-sm" role="group" aria-label="...">
+
+                                        <a id="Descarga" class="btn btn-lg btn-primary" href="@Url.Action("DescargaIts", "ControlAtcDiario", new {Lugar= item.LUGAR.ToString(), Dependencia =item.DEPENDENCIA.ToString(), Fechaelab = item.FECHAELABORACION, Turno = item.TURNO.ToString() })">
+                                            <i><img src="~/Content/imganes/descargas.png" style="width:14px" /></i> Descarga
+                                        </a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
+                      
                     </table>
                 </div>
             </div>
         </div>
     }
 </div>
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true" >
 
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                <div class="modal-content">
 
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6 class="modal-title text-white" id="modalLabel"> INFORME DIARIO ITS</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="card-body border-top p-9">
-
-                        <div class="container">
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>LUGAR</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Lugar" readonly="readonly" />
-                                </div>
-                                <div class="col-7">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>DEPENDENCIA</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Dependencia" readonly="readonly" />
-                                </div>
-
-
-                            </div>
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>FECHA ELABORACION</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Fechaelab" readonly="readonly" />
-                                </div>
-                                <div class="col-md-7">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TURNO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Turno" readonly="readonly" />
-                                </div>
-                            </div>
-
-
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>LICENCIA RESPONSABLE TURNO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Licresponsable" readonly="readonly" />
-                                </div>
-                                <div class="col-8">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>ATCO RESPONSABLE TURNO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsable" readonly="readonly" />
-                                </div>
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>LICENCIA RESPOSABLE TURNO SALIENTE</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Licturnosaliente" readonly="readonly" />
-                                </div>
-                                <div class="col-8">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>ATCO RESPONSABLE TURNO SALIENTE</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsablesal" readonly="readonly" />
-                                </div>
-
-
-                            </div>
-
-                            <p class="text-blue" align='center' style="font-size:14px">DETALLE CONTROLADORES</p>
-
-
-
-                            <table id="tbDetalleControladores" class="table table-bordered table-hover table-sm" style="width:100% ; font-size:11px">
-                                <thead>
-                                    <tr>
-                                        <th>LICENCIA </th>
-                                        <th>NOMBRE</th>
-                                        <th>VIGENCIA CEMAC</th>
-                                        <th>LESTADO</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:12px"></tbody>
-
-
-                            </table>
-
-                            <p class="text-blue " align='center' style="font-size:14px">DETALLE NOTAMS</p>
-
-                            <table id="tbDetalleNotams" class="table table-bordered table-hover table-sm" style="width:100% ; font-size:10px">
-                                <thead>
-                                    <tr>
-                                        <th>CODIGO </th>
-                                        <th>DESCRIPCION</th>
-                                        
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:10px"></tbody>
-
-
-                            </table>
-
-
-                          
-                            <p class="text-blue " align='center' style="font-size:14px">DETALLE EVENTOS Y NOVEDADES</p>
-
-
-
-
-                            <table id="tbDetalleEventos" class="table table-bordered table-hover table-sm" style="width:100%; font-size:10px ">
-                                <thead>
-                                    <tr>
-                                        <th>HORA UTC </th>
-                                        <th>EVENTOS</th>
-                                        <th>DESCRIPCION DE LA NOVEDAD</th>
-                                        <th>RESPONSABLE</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:10px"></tbody>
-
-
-                            </table>
-                        </div>
-
+                    <div class="modal-header bg-gradient-primary text-white">
+                        <h6 class="modal-title text-white" id="modalLabel"> INFORME DIARIO ITS</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="card-body border-top p-9">
 
-                </div>
+                                <div class="container">
+                                    <div class="row justify-content-start">
+                                        <div class="col-4">
+                                            <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LUGAR</label></div>
+                                            <input style="font-size:12px" class="form-control form-control-sm" id="Lugar" readonly="readonly" />
+                                           
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>DEPENDENCIA</label></div>
+                                            <input style="font-size:12px" class="form-control form-control-sm" id="Dependencia" readonly="readonly" />
+                                        </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                                    </div>
+                                    <div class="row justify-content-start">
+
+                                        <div class="col-4">
+                                            <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>FECHA ELABORACION</label></div>
+                                            <input style="font-size:12px" class="form-control form-control-sm" id="Fechaelab" readonly="readonly" />
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>TURNO</label></div>
+                                            <input style="font-size:12px" class="form-control form-control-sm" id="Turno" readonly="readonly" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row justify-content-start">
+
+                                        <div class="col-4">
+                                            <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LICENCIA RESPONSABLE TURNO</label></div>
+                                            <input style="font-size:12px" class="form-control form-control-sm" id="Licresponsable" readonly="readonly" />
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ATCO RESPONSABLE TURNO</label></div>
+                                            <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsable" readonly="readonly" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-start">
+                                        <div class="col-4">
+                                            <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LICENCIA RESPOSABLE TURNO SALIENTE</label></div>
+                                            <input style="font-size:12px" class="form-control form-control-sm" id="Licturnosaliente" readonly="readonly" />
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ATCO RESPONSABLE TURNO SALIENTE</label></div>
+                                            <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsablesal" readonly="readonly" />
+                                        </div>
+
+
+                                    </div>
+
+                                    <p class="bg-success " align='center' style="font-size:14px">DETALLE CONTROLADORES</p>
+
+
+
+                                    <table id="tbDetalleControladores" class="table table-bordered table-hover table-sm" style="width:100% ; font-size:11px">
+                                        <thead>
+                                            <tr>
+                                                <th>LICENCIA </th>
+                                                <th>NOMBRE</th>
+                                                <th>VIGENCIA CEMAC</th>
+                                                <th>LESTADO</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size:12px"></tbody>
+
+
+                                    </table>
+
+                                    <p  class="bg-success "   align='center' style="font-size:14px">DETALLE NOTAMS</p>
+
+                                    <table id="tbDetalleNotams" class="table table-striped" style="width:100% ; font-size:10px">
+                                        
+                                        <thead>
+                                            <tr class="table-secondary">
+                                                
+                                                <th class="bg-info">CODIGO </th>
+                                                <th class="bg-info">DESCRIPCION</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size:10px"></tbody>
+
+
+                                    </table>
+
+
+
+                                    <p class="bg-success "  align='center' style="font-size:14px">DETALLE EVENTOS Y NOVEDADES</p>
+
+
+
+
+                                    <table id="tbDetalleEventos" class="table table-striped" style="width:100%; font-size:10px ">
+                                        <thead>
+                                            <tr class="table-secondary">
+                                                <th class="bg-info">HORA UTC </th>
+                                                <th class="bg-info">EVENTOS</th>
+                                                <th class="bg-info">DESCRIPCION DE LA NOVEDAD</th>
+                                                <th class="bg-info">RESPONSABLE</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size:10px"></tbody>
+
+
+                                    </table>
+
+                                    <p class="bg-success "  align='center' style="font-size:14px">NUMERO DE OPERACIONES</p>
+
+
+
+                                    <div class="row justify-content-start " id="costadisplay" style="display: none;">
+                                        <div class="col-5">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>SOBREVUELOS </label></div>
+                                            <input style="font-size:12px;color:brown;background-color:#c1cedb" class="form-control form-control-sm" id="SOBREVUELOS" readonly="readonly" />
+                                        </div>
+                                        <div class="col-5">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL </label></div>
+                                            <input style="font-size:12px;color:#aa87de;background-color:#c1cedb" class="form-control form-control-sm" fw id="TOTAL" readonly="readonly" />
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row justify-content-start " id="sierradisplay" style="display: none">
+
+
+                                        <div class="row justify-content-start ">
+                                            <div class="col-2">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>IFR DEP</label></div>
+                                                <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="IFRDEP" readonly="readonly" />
+                                            </div>
+                                            <div class="col-2">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>IFR ARR</label></div>
+                                                <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="IFRARR" readonly="readonly" />
+                                            </div>
+                                            <div class="col-2">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>VFR DEP</label></div>
+                                                <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="VFRDEP" readonly="readonly" />
+                                            </div>
+                                            <div class="col-2">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>VFR ARR</label></div>
+                                                <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="VFRARR" readonly="readonly" />
+                                            </div>
+                                            <div class="col-2">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>OVR</label></div>
+                                                <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="OVR" readonly="readonly" />
+                                            </div>
+                                            <div class="col-2">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TGL</label></div>
+                                                <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="TGL" readonly="readonly" />
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row justify-content-start ">
+                                            <div class="col-2">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL IFR </label></div>
+                                                <input style="font-size:12px;color:brown;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALIFR" readonly="readonly" />
+                                            </div>
+                                            <div class="col-2">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL VFR</label></div>
+                                                <input style="font-size:12px;color:#aa87de;background-color:#c1cedb" class="form-control form-control-sm" fw id="TOTALVFR" readonly="readonly" />
+                                            </div>
+                                            <div class="col-2">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL DEP</label></div>
+                                                <input style="font-size:12px;color:chocolate;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALDEP" readonly="readonly" />
+                                            </div>
+                                            <div class="col-2">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL ARR</label></div>
+                                                <input style="font-size:12px;color:#07390f;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALARR" readonly="readonly" />
+                                            </div>
+                                            <div class="col-6">
+                                                <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL GENERAL</label></div>
+                                                <input style="font-size:16px;color:#f3fb13;background-color:#32587d" class="form-control form-control-sm" id="TOTALGENERAL" readonly="readonly" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
+       
+
         </div>
-    </div>
-</div>
 
+    @section scripts{
+        <script>
+            $(document).ready(function () {
 
-
-@section scripts{
-    <script>
-        $(document).ready(function () {
-
-        });
-
-        function modalAdjunto() {
-            $('#FormModal').modal('show');
-        }
-
-
-
-        function Consultar(Lugar, Dependencia, Fechaelab, Turno) {
-
-
-            //$("#Lic").val("");
-            $("#Lugar").val("");
-            $("#Dependencia").val("");
-            $("#Fechaelab").val("");
-            $("#Turno").val("");
-            $("#Licresponsable").val("");
-            $("#Nombreresponsable").val("");
-            $("#Licturnosaliente").val("");
-            $("#Nombreresponsablesal").val("");
-
-
-            $.ajax({
-                url: $.MisUrls.url._DetalleControladorAtcDiario,
-                type: "GET",
-                contentType: "application/json;charset=UTF-8",
-                dataType: "json",
-                data: { Lugar: Lugar, Dependencia: Dependencia, Fechaelab: Fechaelab, Turno: Turno },
-                success: function (e) {
-
-                    $("#Lugar").val(e.LUGAR);
-                    $("#Dependencia").val(e.DEPENDENCIA);
-                    $("#Fechaelab").val(e.FECHAELABORACION);
-                    $("#Turno").val(e.TURNO);
-                    $("#Licresponsable").val(e.LICENCIARESPONSABLE);
-                    $("#Nombreresponsable").val(e.NOMBRERESPONSABLE);
-                    $("#Licturnosaliente").val(e.LICENCIARESPSALIEN);
-                    $("#Nombreresponsablesal").val(e.NOMBRERESSALIDA);
-
-                    $("#tbDetalleControladores tbody").html("");
-                    $.each(e.oDetalleControladorAtc, function (i, row) {
-
-                        $("<tr>").append(
-                            $("<td>").text(row["LICENCIACONTROLADOR"]),
-                            $("<td>").text(row["NOMBRECONTROLADOR"]),
-                            $("<td>").text(row["VIGENCIACEMAC"]),
-                            $("<td>").text(row["ESTADO"]))
-
-                            .appendTo("#tbDetalleControladores tbody");
-                    })
-
-                    $("#tbDetalleNotams tbody").html("");
-                    $.each(e.oDetalleNotamsAtc, function (i, row) {
-
-                        $("<tr>").append(
-                            $("<td >").text(row["CODIGONOTAMS"]),
-                            $("<p> ").text(row["DESCRIPCION"]),
-                            $("<p> ").text(row["DESCRIPCION1"]),
-                            $("<p> ").text(row["DESCRIPCION2"]),
-                            $("<p> ").text(row["DESCRIPCION3"]),
-                            $("<p> ").text(row["DESCRIPCION4"]),
-                            $("<p> ").text(row["DESCRIPCION5"]),
-                            $("<p> ").text(row["DESCRIPCION6"]),
-                            $("<p> ").text(row["DESCRIPCION7"]),
-                            $("<p> ").text(row["DESCRIPCION8"]),
-                            $("<p> ").text(row["DESCRIPCION9"]))
-
-                            .appendTo("#tbDetalleNotams tbody");
-                    })
-                    $("#tbDetalleEventos tbody").html("");
-                    $.each(e.oDetalleEventosAtc, function (i, row) {
-
-                        $("<tr>").append(
-                            $("<td >").text(row["HORAUTC"]),
-                            $("<td >").text(row["CODIGOEVENTO"]),
-                            $("<td >").text(row["DESCRIPCION"]),
-                            $("<td >").text(row["USUARIO"]))
-                          
-
-                            .appendTo("#tbDetalleEventos tbody");
-                    })
-                },
-                error: function (errormessage) {
-                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
-                }
             });
 
+            function modalAdjunto() {
+                $('#FormModal').modal('show');
+            }
 
-            $('#largeModal').modal('show');
-        }
 
 
-    </script>
-}
+            function Consultar(Lugar, Dependencia, Fechaelab, Turno) {
+
+
+                //$("#Lic").val("");
+                $("#Lugar").val("");
+                $("#Dependencia").val("");
+                $("#Fechaelab").val("");
+                $("#Turno").val("");
+                $("#Licresponsable").val("");
+                $("#Nombreresponsable").val("");
+                $("#Licturnosaliente").val("");
+                $("#Nombreresponsablesal").val("");
+                $("#IFRDEP").val("");
+                $("#IFRARR").val("");
+                $("#VFRDEP").val("");
+                $("#VFRARR").val("");
+                $("#OVR").val("");
+                $("#TGL").val("");
+                $("#SOBREVUELO").val("");
+                $("#TOTAL").val("");
+
+
+                $("#TOTALIFR").val("");
+                $("#TOTALVFR").val("");
+                $("#TOTALDEP").val("");
+                $("#TOTALARR").val("");
+                $("#TOTALGENERAL").val("");
+
+
+                $.ajax({
+                    url: $.MisUrls.url._DetalleControladorAtcDiario,
+                    type: "GET",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    data: { Lugar: Lugar, Dependencia: Dependencia, Fechaelab: Fechaelab, Turno: Turno },
+                    success: function (e) {
+
+                        $("#Lugar").val(e.LUGAR);
+                        $("#Dependencia").val(e.DEPENDENCIA);
+                        $("#Fechaelab").val(e.FECHAELABORACION);
+                        $("#Turno").val(e.TURNO);
+                        $("#Licresponsable").val(e.LICENCIARESPONSABLE);
+                        $("#Nombreresponsable").val(e.NOMBRERESPONSABLE);
+                        $("#Licturnosaliente").val(e.LICENCIARESPSALIEN);
+                        $("#Nombreresponsablesal").val(e.NOMBRERESSALIDA);
+                        $("#IFRDEP").val(e.IFRDEP);
+                        $("#IFRARR").val(e.IFRARR);
+                        $("#VFRDEP").val(e.VFRDEP);
+                        $("#VFRARR").val(e.VFRARR);
+                        $("#OVR").val(e.OVR);
+                        $("#TGL").val(e.TGL);
+                        $("#TOTALIFR").val(e.TOTALIFR);
+                        $("#TOTALVFR").val(e.TOTALVFR);
+                        $("#TOTALDEP").val(e.TOTALDEP);
+                        $("#TOTALARR").val(e.TOTALARR);
+                        $("#TOTALGENERAL").val(e.TOTALGENERAL);
+                        $("#SOBREVUELOS").val(e.SOBSEGU);
+                        $("#TOTAL").val(e.TOTGENSEGU);
+
+                        $("#tbDetalleControladores tbody").html("");
+                        $.each(e.oDetalleControladorAtc, function (i, row) {
+
+                            $("<tr>").append(
+                                $("<td>").text(row["LICENCIACONTROLADOR"]),
+                                $("<td>").text(row["NOMBRECONTROLADOR"]),
+                                $("<td>").text(row["VIGENCIACEMAC"]),
+                                $("<td>").text(row["ESTADO"]))
+
+                                .appendTo("#tbDetalleControladores tbody");
+                        })
+
+                        $("#tbDetalleNotams tbody").html("");
+                        $.each(e.oDetalleNotamsAtc, function (i, row) {
+
+                            $("<tr>").append(
+                                $("<td >").text(row["CODIGONOTAMS"]),
+                                $("<p> ").text(row["DESCRIPCION"]),
+                                $("<p> ").text(row["DESCRIPCION1"]),
+                                $("<p> ").text(row["DESCRIPCION2"]),
+                                $("<p> ").text(row["DESCRIPCION3"]),
+                                $("<p> ").text(row["DESCRIPCION4"]),
+                                $("<p> ").text(row["DESCRIPCION5"]),
+                                $("<p> ").text(row["DESCRIPCION6"]),
+                                $("<p> ").text(row["DESCRIPCION7"]),
+                                $("<p> ").text(row["DESCRIPCION8"]),
+                                $("<p> ").text(row["DESCRIPCION9"]))
+
+                                .appendTo("#tbDetalleNotams tbody");
+                        })
+                        $("#tbDetalleEventos tbody").html("");
+                        $.each(e.oDetalleEventosAtc, function (i, row) {
+
+                            $("<tr>").append(
+                                $("<td >").text(row["HORAUTC"]),
+                                $("<td >").text(row["CODIGOEVENTO"]),
+                                $("<td >").text(row["DESCRIPCION"]),
+                                $("<td >").text(row["USUARIO"]))
+
+
+                                .appendTo("#tbDetalleEventos tbody");
+                        })
+                        if (e.LUGAR=="SEGU") {
+                            $("#costadisplay").show();
+                            $("#sierradisplay").hide();
+                        }
+                        else {
+                            
+                            $("#costadisplay").hide();
+                            $("#sierradisplay").show();
+                        }
+                    },
+                    error: function (errormessage) {
+                        Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                    }
+                });
+
+
+                $('#largeModal').modal('show');
+            }
+
+
+        </script>
+    }

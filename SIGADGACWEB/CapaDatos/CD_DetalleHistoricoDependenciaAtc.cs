@@ -29,7 +29,7 @@ namespace CapaDatos
             }
         }
 
-        public List<tbHistoricoDetalleDependenciaAtc> DetalleEventosAtc(string Licencia)
+        public List<tbHistoricoDetalleDependenciaAtc> HistoricoDetalleDependenciaAtc(string Licencia)
         {
             List<tbHistoricoDetalleDependenciaAtc> listarSolicitud = new List<tbHistoricoDetalleDependenciaAtc>();
             StringBuilder sbSol = new StringBuilder();

@@ -177,6 +177,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\LogUsuarioAirconController.cs" />
+    <Compile Include="Controllers\TotalesRecordController.cs" />
     <Compile Include="Controllers\HistoricoControlAtcController.cs" />
     <Compile Include="Controllers\ControlAtcDiarioController.cs" />
     <Compile Include="Controllers\ControlAtcController.cs" />
@@ -2519,6 +2521,8 @@
     <Content Include="Views\ControlAtc\ListadoAtc.cshtml" />
     <Content Include="Views\ControlAtcDiario\ListadoAtcDiario.cshtml" />
     <Content Include="Views\HistoricoControlAtc\ListadoHistoricoAtc.cshtml" />
+    <Content Include="Views\TotalesRecord\ListadoTotalesRecord.cshtml" />
+    <Content Include="Views\LogUsuarioAircon\ListadoUsuarioAircon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

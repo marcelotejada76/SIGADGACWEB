@@ -89,7 +89,12 @@ namespace CapaDatos
                         oSolicitud.Status = dr["OPHSTA"].ToString().Trim();
                         oSolicitud.Competencia_Lingüíst = dr["OPHCOM"].ToString().Trim();
                         oSolicitud.Caducidad_Certificado_Competencia_Lingui = dr["OPHCA1"].ToString().Trim();
-                        
+
+                        //LLENA DETALE DE dependencias
+                        oSolicitud.oDetalleHistoricoDependenciaAtc = CD_DetalleHistoricoDependenciaAtc.Instancia.HistoricoDetalleDependenciaAtc(oSolicitud.Licencia_ATC);
+
+                        //LLENA DETALE DE cursos
+                        oSolicitud.oDetalleHistoricoCursoAtc = CD_DetalleHistoricoCursosAtc.Instancia.HistoricoDetalleCursosAtc(oSolicitud.Licencia_ATC);
 
                         listarSolicitud.Add(oSolicitud);
                     }
@@ -165,6 +170,11 @@ namespace CapaDatos
                         oSolicitud.Status = dr["OPHSTA"].ToString().Trim();
                         oSolicitud.Competencia_Lingüíst = dr["OPHCOM"].ToString().Trim();
                         oSolicitud.Caducidad_Certificado_Competencia_Lingui = dr["OPHCA1"].ToString().Trim();
+                        //LLENA DETALE DE dependencias
+                        oSolicitud.oDetalleHistoricoDependenciaAtc = CD_DetalleHistoricoDependenciaAtc.Instancia.HistoricoDetalleDependenciaAtc(oSolicitud.Licencia_ATC);
+
+                        //LLENA DETALE DE cursos
+                        oSolicitud.oDetalleHistoricoCursoAtc = CD_DetalleHistoricoCursosAtc.Instancia.HistoricoDetalleCursosAtc(oSolicitud.Licencia_ATC);
 
 
                         listarSolicitud.Add(oSolicitud);
@@ -241,9 +251,13 @@ namespace CapaDatos
                         oSolicitud.Status = dr["OPHSTA"].ToString().Trim();
                         oSolicitud.Competencia_Lingüíst = dr["OPHCOM"].ToString().Trim();
                         oSolicitud.Caducidad_Certificado_Competencia_Lingui = dr["OPHCA1"].ToString().Trim();
+                        //LLENA DETALE DE dependencias
+                        oSolicitud.oDetalleHistoricoDependenciaAtc = CD_DetalleHistoricoDependenciaAtc.Instancia.HistoricoDetalleDependenciaAtc(oSolicitud.Licencia_ATC);
+
+                        //LLENA DETALE DE cursos
+                        oSolicitud.oDetalleHistoricoCursoAtc = CD_DetalleHistoricoCursosAtc.Instancia.HistoricoDetalleCursosAtc(oSolicitud.Licencia_ATC);
 
 
-                       
 
 
                         listarSolicitud = oSolicitud;
@@ -319,6 +333,12 @@ namespace CapaDatos
                         oSolicitud.Status = dr["OPHSTA"].ToString().Trim();
                         oSolicitud.Competencia_Lingüíst = dr["OPHCOM"].ToString().Trim();
                         oSolicitud.Caducidad_Certificado_Competencia_Lingui = dr["OPHCA1"].ToString().Trim();
+                        //LLENA DETALE DE dependencias
+                        oSolicitud.oDetalleHistoricoDependenciaAtc = CD_DetalleHistoricoDependenciaAtc.Instancia.HistoricoDetalleDependenciaAtc(oSolicitud.Licencia_ATC);
+
+                        //LLENA DETALE DE cursos
+                        oSolicitud.oDetalleHistoricoCursoAtc = CD_DetalleHistoricoCursosAtc.Instancia.HistoricoDetalleCursosAtc(oSolicitud.Licencia_ATC);
+
 
                         listarSolicitud.Add(oSolicitud);
                     }

@@ -55,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CD_LogUsuarioAircon.cs" />
+    <Compile Include="CD_TotalRecord.cs" />
+    <Compile Include="CD_DetalleHistoricoCursosAtc.cs" />
     <Compile Include="CD_DetalleHistoricoDependenciaAtc.cs" />
     <Compile Include="CD_HistoricoControlador.cs" />
     <Compile Include="CD_DetalleEventosAtc.cs" />

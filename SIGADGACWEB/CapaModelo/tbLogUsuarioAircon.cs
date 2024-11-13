@@ -16,7 +16,13 @@ namespace CapaModelo
 
         public string HoraIngreso { get; set; }
         public string HoraSalida { get; set; }
+        public string HorasEfectivas { get; set; }
 
+        public string Estacion { get; set; }
+        public string FechaArchivo { get; set; }
+        public string Posicion { get; set; }
         
+
+
     }
 }

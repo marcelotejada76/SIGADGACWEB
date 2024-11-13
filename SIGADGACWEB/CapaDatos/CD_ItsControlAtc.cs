@@ -36,7 +36,7 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPIARC ORDER BY OPILUG");
+                sbSol.Append("SELECT * FROM OPIARC ORDER BY opifec DESC");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -61,8 +61,14 @@ namespace CapaDatos
                         oSolicitud.NOMBRERESPONSABLE = dr["OPINOM"].ToString();
                         oSolicitud.LICENCIARESPSALIEN = dr["OPILI1"].ToString();
                         oSolicitud.NOMBRERESSALIDA = dr["OPINO1"].ToString();
+                        string Estado= dr["OPIEST"].ToString();
+                        if (Estado=="IM")
+                        {
+                            oSolicitud.ESTADOD = "IMPRESO";
+                        }
                         
-                                              
+
+
 
                         if (oSolicitud.LUGAR == "SEGU")
                         {
@@ -135,6 +141,11 @@ namespace CapaDatos
                         oSolicitud.LICENCIARESPSALIEN = dr["OPILI1"].ToString();
                         oSolicitud.NOMBRERESSALIDA = dr["OPINO1"].ToString();
 
+                        string Estado = dr["OPIEST"].ToString();
+                        if (Estado == "IM")
+                        {
+                            oSolicitud.ESTADOD = "IMPRESO";
+                        }
 
 
 
@@ -217,6 +228,12 @@ namespace CapaDatos
                         oSolicitud.NOMBRERESPONSABLE = dr["OPINOM"].ToString();
                         oSolicitud.LICENCIARESPSALIEN = dr["OPILI1"].ToString();
                         oSolicitud.NOMBRERESSALIDA = dr["OPINO1"].ToString();
+
+                        string Estado = dr["OPIEST"].ToString();
+                        if (Estado == "IM")
+                        {
+                            oSolicitud.ESTADOD = "IMPRESO";
+                        }
 
 
 

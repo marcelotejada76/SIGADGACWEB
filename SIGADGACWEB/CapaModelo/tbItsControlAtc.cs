@@ -31,6 +31,7 @@ namespace CapaModelo
         public Int32 TOTALDEP { get; set; }
         public Int32 TOTALARR { get; set; }
          public Int32 TOTALGENERAL { get; set; }
+        public String ESTADOD { get; set; }
         
 
 

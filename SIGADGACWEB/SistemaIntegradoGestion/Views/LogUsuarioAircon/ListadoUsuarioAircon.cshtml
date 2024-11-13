@@ -24,7 +24,7 @@
     {
         <div class="row mb-8">
             <div class="col-sm-3">
-                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>Estacion</label></div>
+                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>Estacion/Fecha/Posicion/NombreAtc</label></div>
             </div>
             <div class="col-sm-8 fv-row">
 
@@ -48,13 +48,16 @@
                     <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
                         <thead>
                             <tr>
-                                <th class="bg-gradient-info">Nombre Estacion</th>
+                                <th class="bg-gradient-info"> Estacion</th>
+                                <th class="bg-gradient-info"> FechaArchivo</th>
+                                <th class="bg-gradient-info"> Posicion</th>
                                 <th class="bg-gradient-info">Siglas</th>
                                 <th class="bg-gradient-info">Nombre Controlador</th>
                                 <th class="bg-gradient-info">Fecha Ingreso</th>
                                 <th class="bg-gradient-info">Hora Ingreso</th>
                                 <th class="bg-gradient-info">Fecha Salida</th>
                                 <th class="bg-gradient-info">Hora Salida</th>
+                                <th class="bg-gradient-info">Horas Efectivas</th>
 
                                 <th class=" control-label control-lab"></th>
                             </tr>
@@ -63,14 +66,17 @@
                             @foreach (var item in Model)
                             {
                             <tr>
-
-                                <td>@Html.DisplayFor(modelItem => item.NombreArchivo)</td>
+                               
+                                <td>@Html.DisplayFor(modelItem => item.Estacion)</td>
+                                <td>@Html.DisplayFor(modelItem => item.FechaArchivo)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Posicion)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Siglas)</td>
                                 <td>@Html.DisplayFor(modelItem => item.NombreControlador)</td>
                                 <td>@Html.DisplayFor(modelItem => item.FechaIngreso)</td>
                                 <td>@Html.DisplayFor(modelItem => item.HoraIngreso)</td>
                                 <td>@Html.DisplayFor(modelItem => item.FechaSalida)</td>
                                 <td>@Html.DisplayFor(modelItem => item.HoraSalida)</td>
+                                <td class="text-danger" , style="font-size:22px;background-color: #bbb8a6">@Html.DisplayFor(modelItem => item.HorasEfectivas)</td>
 
 
 

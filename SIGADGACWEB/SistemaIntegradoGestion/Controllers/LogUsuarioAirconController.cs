@@ -64,13 +64,17 @@ namespace SistemaIntegradoGestion.Controllers
 
             //tbAtc listado = new tbAtc();
             //Compania.ToUpper();
-            listado = CD_LogUsuarioAircon.Instancia.LogUsuarioEstacion(Archivo);
+            listado = CD_LogUsuarioAircon.Instancia.LogUsuarioAeropuerto(Archivo);
             if (listado.Count == 0)
             {
                 listado = CD_LogUsuarioAircon.Instancia.LogUsuarioFecha(Archivo);
                 if (listado.Count == 0)
                 {
                     listado = CD_LogUsuarioAircon.Instancia.LogUsuarioControlador(Archivo);
+                    if (listado.Count == 0)
+                    {
+                        listado = CD_LogUsuarioAircon.Instancia.LogUsuarioPosicion(Archivo);
+                    }
                 }
             }
             return View(listado);
@@ -96,10 +100,10 @@ namespace SistemaIntegradoGestion.Controllers
 
 
         //            var imagen = CargaImagenAtc(Licencia);
-                   
+
         //            DetalleDepsoito.Url = imagen;
 
-                  
+
         //            return Json(DetalleDepsoito, JsonRequestBehavior.AllowGet);
 
         //        }
@@ -120,19 +124,19 @@ namespace SistemaIntegradoGestion.Controllers
         //{
         //    Licencia = Licencia.ToUpper().TrimStart().TrimEnd();
         //    string url = @"\\172.20.19.55\TransitoAereo\imagenes\" + Licencia.Trim() + ".jpg";
-           
+
         //    // Convert image to byte array
         //    byte[] byteData = System.IO.File.ReadAllBytes(url);
         //    //Convert byte arry to base64string
         //    string imreBase64Data = Convert.ToBase64String(byteData);
         //    string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
 
-          
+
 
         //    return imgDataURL;
 
         //}
 
-       
+
     }
 }

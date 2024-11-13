@@ -40,7 +40,7 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPTAR3");
+                sbSol.Append("SELECT * FROM OPTAR3 ORDER BY OPTSTO DESC ");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -64,7 +64,7 @@ namespace CapaDatos
                         oSolicitud.TotalSalida = Convert.ToInt32(dr["OPTTO1"].ToString().Trim());
                         oSolicitud.TotalZZEntrada = Convert.ToInt32(dr["OPTTO2"].ToString().Trim());
                         oSolicitud.TotalZZSalida = Convert.ToInt32(dr["OPTTO3"].ToString().Trim());
-
+                        oSolicitud.TotalOperaciones = oSolicitud.TotalEntrada + oSolicitud.TotalSalida;
                         listarSolicitud.Add(oSolicitud);
                     }
 
@@ -114,6 +114,7 @@ namespace CapaDatos
                         oSolicitud.TotalSalida = Convert.ToInt32(dr["OPTTO1"].ToString().Trim());
                         oSolicitud.TotalZZEntrada = Convert.ToInt32(dr["OPTTO2"].ToString().Trim());
                         oSolicitud.TotalZZSalida = Convert.ToInt32(dr["OPTTO3"].ToString().Trim());
+                        oSolicitud.TotalOperaciones = oSolicitud.TotalEntrada + oSolicitud.TotalSalida;
 
                         listarSolicitud.Add(oSolicitud);
                     }

@@ -15,6 +15,7 @@ namespace CapaModelo
         public Int32 TotalSalida { get; set; }
         public Int32 TotalZZEntrada { get; set; }
         public Int32 TotalZZSalida { get; set; }
+        public Int32 TotalOperaciones { get; set; }
 
     }
 }

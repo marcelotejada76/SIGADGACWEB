@@ -53,8 +53,8 @@
                                 <th class="bg-gradient-info">Fecha Emision</th>
                                 <th class="bg-gradient-info">Total Entrada</th>
                                 <th class="bg-gradient-info">Total Salida</th>
-                                <th class="bg-gradient-info">Total ZZ Entrada</th>
-                                <th class="bg-gradient-info">Total ZZ Salida</th>
+                                <th class="bg-gradient-info">Total Operaciones</th>
+                                
                                 
                                 <th class=" control-label control-lab"></th>
                             </tr>
@@ -68,8 +68,8 @@
                                 <td >@Html.DisplayFor(modelItem => item.Fecha)</td>
                                 <td >@Html.DisplayFor(modelItem => item.TotalEntrada)</td>
                                 <td >@Html.DisplayFor(modelItem => item.TotalSalida)</td>
-                                <td>@Html.DisplayFor(modelItem => item.TotalZZEntrada)</td>
-                                <td>@Html.DisplayFor(modelItem => item.TotalZZSalida)</td>
+                                <td class="badge badge-primary text-wrap" style="width: 8rem">@Html.DisplayFor(modelItem => item.TotalOperaciones)</td>
+                                
 
                                
                                 @*<td>

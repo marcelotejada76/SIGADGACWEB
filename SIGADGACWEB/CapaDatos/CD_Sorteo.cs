@@ -80,6 +80,10 @@ namespace CapaDatos
                         {
                             oSolicitud.DESCRIPCION = "CASA VALORES";
                         }
+                        if (Tipo == "03")
+                        {
+                            oSolicitud.DESCRIPCION = "PERITOS CONTABLES";
+                        }
                         //listarSolicitud = oSolicitud;
                         listarSolicitud.Add(oSolicitud);
                     }

@@ -55,14 +55,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CD_LogUsuarioAircon.cs" />
+    <Compile Include="CD_TotalRecord.cs" />
+    <Compile Include="CD_DetalleHistoricoCursosAtc.cs" />
+    <Compile Include="CD_DetalleHistoricoDependenciaAtc.cs" />
+    <Compile Include="CD_HistoricoControlador.cs" />
+    <Compile Include="CD_DetalleEventosAtc.cs" />
+    <Compile Include="CD_DetalleNotamsAtc.cs" />
+    <Compile Include="CD_DetalleControladoresAtc.cs" />
+    <Compile Include="CD_ItsControlAtc.cs" />
     <Compile Include="CD_BancoRuminahui.cs" />
     <Compile Include="CD_CertificadoDigital.cs" />
     <Compile Include="CD_CursoEmpleado.cs" />
     <Compile Include="CD_DocumentoHabilitante.cs" />
     <Compile Include="CD_EntidadEducativa.cs" />
+    <Compile Include="CD_DetalleComprobanteDeposito.cs" />
     <Compile Include="CD_FacturasDetalleP5.cs" />
     <Compile Include="CD_FacturasP5.cs" />
     <Compile Include="CD_ActualizaContraseña.cs" />
+    <Compile Include="CD_Depositos.cs" />
+    <Compile Include="CD_Controlador.cs" />
     <Compile Include="CD_Sorteo.cs" />
     <Compile Include="CD_Tut.cs" />
     <Compile Include="CD_Fr3.cs" />

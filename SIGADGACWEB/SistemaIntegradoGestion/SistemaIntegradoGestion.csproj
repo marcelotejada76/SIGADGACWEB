@@ -45,11 +45,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CapaDatos">
+    <Reference Include="CapaDatos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CapaDatos\bin\Debug\CapaDatos.dll</HintPath>
     </Reference>
-    <Reference Include="CapaModelo">
-      <HintPath>..\CapaModelo\bin\Debug\CapaModelo.dll</HintPath>
+    <Reference Include="CapaModelo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CapaDatos\bin\Debug\CapaModelo.dll</HintPath>
     </Reference>
     <Reference Include="ClosedXML, Version=0.93.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.0.93.1\lib\net40\ClosedXML.dll</HintPath>
@@ -88,9 +90,6 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="QRCoder, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
-      <HintPath>..\packages\QRCoder.1.6.0\lib\net40\QRCoder.dll</HintPath>
-    </Reference>
     <Reference Include="ReportViewerForMvc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ReportViewerForMvc4.1.1.2\lib\net40\ReportViewerForMvc.dll</HintPath>
     </Reference>
@@ -178,6 +177,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\LogUsuarioAirconController.cs" />
+    <Compile Include="Controllers\TotalesRecordController.cs" />
+    <Compile Include="Controllers\HistoricoControlAtcController.cs" />
+    <Compile Include="Controllers\ControlAtcDiarioController.cs" />
+    <Compile Include="Controllers\ControlAtcController.cs" />
+    <Compile Include="Controllers\DepositosController.cs" />
     <Compile Include="Controllers\ModificacionPoaController.cs" />
     <Compile Include="Controllers\SorteoController.cs" />
     <Compile Include="Controllers\ConsultaTutController.cs" />
@@ -215,11 +220,7 @@
     <Compile Include="Utilitarios\Constantes.cs" />
     <Compile Include="Utilitarios\DocumentoFirmado.cs" />
     <Compile Include="Utilitarios\DocumentoFirmadoFirmaElectronica.cs" />
-    <Compile Include="Utilitarios\Certificado.cs" />
     <Compile Include="Utilitarios\ExportarArchivoExcel.cs" />
-    <Compile Include="Utilitarios\Firmante.cs" />
-    <Compile Include="Utilitarios\FirmaPDFConQR.cs" />
-    <Compile Include="Utilitarios\Notario.cs" />
     <Compile Include="Utilitarios\SeguridadEncriptar.cs" />
     <Compile Include="Utilitarios\Utilitario.cs" />
   </ItemGroup>
@@ -417,6 +418,7 @@
     <Content Include="Content\imganes\folderOpen.png" />
     <Content Include="Content\imganes\green.png" />
     <Content Include="Content\imganes\icons\deletedocument.ico" />
+    <Content Include="Content\imganes\icons\descargas.png" />
     <Content Include="Content\imganes\icons\dinersclub.png" />
     <Content Include="Content\imganes\icons\dinersclub2.png" />
     <Content Include="Content\imganes\icons\document-edit.ico" />
@@ -2421,7 +2423,6 @@
     <Content Include="Content\Plugins\summernote\summernote.js.map" />
     <Content Include="Content\Plugins\summernote\summernote.min.js.map" />
     <Content Include="Content\Plugins\toastr\toastr.js.map" />
-    <Content Include="libman.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Reporte\ReportViewer.aspx" />
@@ -2438,9 +2439,9 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Views\ConsultarSolicitud.js" />
     <Content Include="Scripts\Views\ConsultarSolicitudModificacionPoa.js" />
+    <Content Include="Scripts\Views\Depositos\SubirDepositos.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
     <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
-    <Content Include="Scripts\Views\listarVerificarPresupuestariaSin.js" />
     <Content Include="Scripts\Views\maestroPersonal.js" />
     <Content Include="Scripts\Views\operacionesAprueba.js" />
     <Content Include="Scripts\Views\RevisarAprobarSolicitudModificacionPOA.js" />
@@ -2513,7 +2514,15 @@
     <Content Include="Views\ModificacionPoa\SolModificacionPoaConAsignacionRecursos.cshtml" />
     <Content Include="Views\ModificacionPoa\SubirDocumentosHabilitantes.cshtml" />
     <Content Include="Views\ModificacionPoa\VerificaPresupuestariaSolicitud.cshtml" />
-    <Content Include="Views\SolicitarModificaciones\VisualizarDocumentos.cshtml" />
+    <Content Include="Views\Depositos\CargaDepositosClientes.cshtml" />
+    <Content Include="Views\Depositos\SubirDocumentosDepositos.cshtml" />
+    <Content Include="Views\Depositos\ConsultaDepositosClientes.cshtml" />
+    <Content Include="Views\Depositos\ConsultaDocumentosDepositos.cshtml" />
+    <Content Include="Views\ControlAtc\ListadoAtc.cshtml" />
+    <Content Include="Views\ControlAtcDiario\ListadoAtcDiario.cshtml" />
+    <Content Include="Views\HistoricoControlAtc\ListadoHistoricoAtc.cshtml" />
+    <Content Include="Views\TotalesRecord\ListadoTotalesRecord.cshtml" />
+    <Content Include="Views\LogUsuarioAircon\ListadoUsuarioAircon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

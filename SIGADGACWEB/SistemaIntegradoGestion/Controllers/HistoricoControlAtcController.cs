@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace SistemaIntegradoGestion.Controllers
 {
-    public class BancoRuminahuiController : Controller
+    public class HistoricoControlAtcController : Controller
     {
         /// <summary>
         /// cambio por github
@@ -34,60 +34,69 @@ namespace SistemaIntegradoGestion.Controllers
 
             return View();
         }
-
-        public ActionResult ListadoBancoRuminahui()
+        public ActionResult ListadoHistoricoAtc()
         {
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
 
-            List<tbBancoRuminahui> listado = new List<tbBancoRuminahui>();
+            List<tbHistoricoAtc> listado = new List<tbHistoricoAtc>();
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             // string cAnio = oSistema.FechaSistema.Substring(0, 4);
-            listado = CD_BancoRuminahui.Instancia.DetalleDepositos();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
+            listado = CD_HistoricoControlador.Instancia.ConsultaHistoricoControlador();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
             return View(listado);
         }
 
 
 
         [HttpPost]
-        public ActionResult ListadoBancoRuminahui(string Comprobante)
+        public ActionResult ListadoHistoricoAtc(string Licencia)
         {
-            Comprobante = Comprobante.ToUpper();
+            Licencia = Licencia.ToUpper().TrimStart().TrimEnd();
 
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
-            List<tbBancoRuminahui> listado = new List<tbBancoRuminahui>();
+            List<tbHistoricoAtc> listado = new List<tbHistoricoAtc>();
+
+            //tbAtc listado = new tbAtc();
             //Compania.ToUpper();
-            listado = CD_BancoRuminahui.Instancia.DetalleDepositoComprobante(Comprobante);
+            listado = CD_HistoricoControlador.Instancia.HistoricoControladorLicencia(Licencia);
             if (listado.Count == 0)
             {
-                listado = CD_BancoRuminahui.Instancia.DetalleDepositoFecha(Comprobante);
-                if (listado.Count == 0)
-                {
-                    listado = CD_BancoRuminahui.Instancia.DetalleDepositante(Comprobante);
-                }
+                listado = CD_HistoricoControlador.Instancia.HistoricoControladorLicenciaApellido(Licencia);
+                //if (listado.Count == 0)
+                //{
+                //    listado = CD_BancoRuminahui.Instancia.DetalleDepositante(Licencia);
+                //}
             }
             return View(listado);
         }
 
         [HttpGet]
-        public JsonResult CargaDetalleBanco(string FechaDeposito, string NumeroComprobante)
+        public JsonResult HistoricoCargaDetalleAtc(string Licencia)
         {
-            tbBancoRuminahui DetalleDepsoito = new tbBancoRuminahui();
+            tbHistoricoAtc DetalleDepsoito = new tbHistoricoAtc();
 
             if (Session["Usuario"] == null)
                 return Json(DetalleDepsoito, JsonRequestBehavior.AllowGet);
 
             try
             {
-                if (NumeroComprobante != "")
+                if (Licencia != "")
                 {
-                    DetalleDepsoito = CD_BancoRuminahui.Instancia.DetalleDepositoPorFecha(FechaDeposito, NumeroComprobante);
+                    DetalleDepsoito = CD_HistoricoControlador.Instancia.HistoricoConsultacControladorLicencia(Licencia);
 
+
+
+                    var imagen = CargaImagenAtc(Licencia);
+                   
+                    DetalleDepsoito.Url = imagen;
+
+                  
                     return Json(DetalleDepsoito, JsonRequestBehavior.AllowGet);
+
                 }
                 else
                     return Json(DetalleDepsoito, JsonRequestBehavior.AllowGet);
@@ -101,5 +110,24 @@ namespace SistemaIntegradoGestion.Controllers
         }
 
 
+
+        public string CargaImagenAtc(string Licencia)
+        {
+            Licencia = Licencia.ToUpper().TrimStart().TrimEnd();
+            string url = @"\\172.20.19.55\TransitoAereo\imagenes\" + Licencia.Trim() + ".jpg";
+           
+            // Convert image to byte array
+            byte[] byteData = System.IO.File.ReadAllBytes(url);
+            //Convert byte arry to base64string
+            string imreBase64Data = Convert.ToBase64String(byteData);
+            string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+
+          
+
+            return imgDataURL;
+
+        }
+
+       
     }
 }

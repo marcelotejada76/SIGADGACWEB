@@ -2290,7 +2290,7 @@ namespace SistemaIntegradoGestion.Controllers
                     nombreArchicoOnput = pathDirectorio + @"\" + authorsList[0] + "-signed.pdf";
                     nombreTemporalOnput = pathDirectorio + @"\" + authorsList[0] + "-temporal.pdf";
 
-                    var certificado = new Certificado(rutaCertificado1, SeguridadEncriptar.DesEncriptar(oCertificado.Contrasena));
+                    /*var certificado = new Certificado(rutaCertificado1, SeguridadEncriptar.DesEncriptar(oCertificado.Contrasena));
                     var firmante = new Firmante(certificado);
                     firmante.Firmar(@nombreArchicoInput, @nombreTemporalOnput);
 
@@ -2298,15 +2298,14 @@ namespace SistemaIntegradoGestion.Controllers
                     var certificado1 = new Certificado(rutaCertificado1, SeguridadEncriptar.DesEncriptar(oCertificado1.Contrasena));
                     var firmante1 = new Firmante(certificado1);
                     firmante1.Firmar(@nombreTemporalOnput, @nombreArchicoOnput);
-                    EliminaArchivoServidor(@nombreTemporalOnput);
+                    EliminaArchivoServidor(@nombreTemporalOnput);*/
 
-                    // DocumentoFirmadoFirmaElectronica.Instancia.PrimeraFirmarDocumentoPDFConQR(nombreArchicoInput, nombreTemporalOnput, ousuario, pathDirectorio);
+                     DocumentoFirmadoFirmaElectronica.Instancia.PrimeraFirmarDocumentoPDFConQR(nombreArchicoInput, nombreTemporalOnput, ousuario, pathDirectorio);
                     //Segunda Firmas
-
-                    /*if(DocumentoFirmadoFirmaElectronica.Instancia.SegundaFirmarDocumentoPDFConQR(nombreTemporalOnput, nombreArchicoOnput, oUsuarioDirector, pathDirectorio))
+                    if(DocumentoFirmadoFirmaElectronica.Instancia.SegundaFirmarDocumentoPDFConQR(nombreTemporalOnput, nombreArchicoOnput, oUsuarioDirector, pathDirectorio))
                     {
                         EliminaArchivoServidor(nombreTemporalOnput);
-                    }*/
+                    }
 
                     estado = true;
                 }

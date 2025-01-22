@@ -78,6 +78,21 @@ function descargarArchivo(onombreArchivo, odireccion) {
 
 }
 
+function FirmarPrueba(campo) {
+    var nombreRarchivo = $("#nombre-archivo").val();
+    var pathDirectorio = $("#Directory").val();
+    $.post($.MisUrls.url._imprmeSolicitudPOAEjemplo, { nombreArchivo: nombreRarchivo, pathDirectorio: pathDirectorio}, function (htmlPago) {
+        if (htmlPago == true) {
+            alert("SE GENERO EL ARCHIVO");
+        }
+        else {
+            document.location.href = $.MisUrls.url._FormularioLogin;
+        }
+    });
+
+    return false;
+}
+
 
 function mensajeGeneral(titulo, contenido) {
     Swal.fire({

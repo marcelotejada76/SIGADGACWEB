@@ -70,11 +70,21 @@
                                             {
                                                 if (item.ValOrigen == item.ValDestino)
                                                 {
-                                                    if (item.EstadoSolicitud == "NS" )
+                                                    if (item.EstadoSolicitud == "NS")
                                                     {
-                                                        <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SinAfectacionPresupuestaria" })">
-                                                            <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Adjuntar archivos
-                                                        </a>
+                                                        if (item.numeroDocumentoAdjunto > 0 && @Session["CodigoRol"].ToString().Equals("DIRE"))
+                                                        {
+                                                            <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SinAfectacionPresupuestaria" })">
+                                                                <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Enviar Sol. a Presupuesto
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SinAfectacionPresupuestaria" })">
+                                                                <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Adjuntar archivos
+                                                            </a>
+                                                        }
+
                                                     }
                                                     else if (item.numeroDocumentoAdjunto > 0 && @Session["CodigoRol"].ToString().Equals("DIRE"))
                                                     {

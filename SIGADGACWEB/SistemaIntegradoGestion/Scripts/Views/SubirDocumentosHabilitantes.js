@@ -3,14 +3,11 @@
     $('#documentFile').on('change', function () {
         if ($(this).val() != '') {
             //alert("La extensión es: " + ext);  
-            const fileSize = $(this)[0].files[0].size / 1024 / 1024; // in MiB 
-            if (fileSize > 2) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: "¡Precaución!",
-                    html: "El documento excede el tamaño máximo, se solicita un archivo no mayor a 2MB. Por favor verifica."
-                });
+            const fileSize = $(this)[0].files[0].size;
+            if (fileSize > 2097152) {
+                mensajeGeneralIcono("¡Precaución!", "El documento excede el tamaño máximo, se solicita un archivo no mayor a 2MB. Por favor verifica.", "warning")               
                 $(this).val('');
+                $('#documentFile').val("");
             }
         }
         $("#labelFile").html($('#documentFile').val());
@@ -72,9 +69,9 @@ function abrirArchivo(fileName) {
             $("#aprobarSolicitudPresupuesto").removeAttr('disabled');
             var texto = $.MisUrls.url._VisualizarDocumentoSinAfectacion + "?nombreArchivo=" + nombreArchivo + "&direccion=" + opathArchivo;
             setTimeout(function () {
-                $("#iframeCetificado").attr("src", texto);
-                $("#loadingBuscar").css("display", "none");
+                $("#iframeCetificado").attr("src", texto);                
             }, 2000);
+            $("#loadingBuscar").css("display", "none");
         }
         else {
             descargarArchivo(nombreArchivo, opathArchivo);

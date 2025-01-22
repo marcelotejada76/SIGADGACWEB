@@ -66,31 +66,28 @@
                                     <td>
                                         @if (item.ValOrigen > 0 && item.ValDestino > 0)
                                         {
-                                            if (item.ValOrigen == item.ValDestino)
+                                            if (item.EstadoSolicitud == "NS" && @Session["CodigoRol"].ToString() != "DIRE")
                                             {
-                                                if (item.EstadoSolicitud == "NS" && @Session["CodigoRol"].ToString() != "DIRE")
-                                                {
-                                                    <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAfectacionPresupuestaria" })">
-                                                        <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Adjuntar archivos
-                                                    </a>
-                                                }
-                                                else if (item.EstadoSolicitud == "NS" && @Session["CodigoRol"].ToString().Equals("DIRE"))
-                                                {
-                                                    <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAfectacionPresupuestaria" })">
-                                                        <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Solicitar verificación a prusupuesto
-                                                    </a>
-                                                }
-                                                else if (item.EstadoSolicitud == "SP" && item.EstadoVerificacionFinanciera == "VP" && @Session["CodigoRol"].ToString().Equals("DIRE"))
-                                                {
-                                                    <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAfectacionPresupuestaria" })">
-                                                        <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Aprobar/Enviar Sol a DPGE
-                                                    </a>
-                                                }
-                                                else if (item.numeroDocumentoAdjunto > 0)
-                                                { <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("ConsultarSolicitudModificacionPoa", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAfectacionPresupuestaria"})">
-                                                        <i><img src="~/Content/imganes/buscar.png" style="width:15px" /></i> Visualizar
-                                                    </a>
-                                                }
+                                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAfectacionPresupuestaria" })">
+                                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Adjuntar archivos
+                                                </a>
+                                            }
+                                            else if (item.EstadoSolicitud == "NS" && @Session["CodigoRol"].ToString().Equals("DIRE"))
+                                            {
+                                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAfectacionPresupuestaria" })">
+                                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Solicitar verificación a prusupuesto
+                                                </a>
+                                            }
+                                            else if (item.EstadoSolicitud == "SP" && item.EstadoVerificacionFinanciera == "VP" && @Session["CodigoRol"].ToString().Equals("DIRE"))
+                                            {
+                                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAfectacionPresupuestaria" })">
+                                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Aprobar/Enviar Sol a DPGE
+                                                </a>
+                                            }
+                                            else if (item.numeroDocumentoAdjunto > 0)
+                                            { <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("ConsultarSolicitudModificacionPoa", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAfectacionPresupuestaria"})">
+                                                    <i><img src="~/Content/imganes/buscar.png" style="width:15px" /></i> Visualizar
+                                                </a>
                                             }
                                         }
                                     </td>

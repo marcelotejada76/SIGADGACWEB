@@ -80,6 +80,7 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, cestSol, numSol, est
                     contentType: "application/json",
                     success: function (data) {
                         $('#lblDescripcionActividad').text(JSON.stringify(data.DescripcionActividadEjecutar));
+                        //Carga documentos habilitantes del POA
                         $.ajax({
                             url: $.MisUrls.url._DocumentosHabilitantes,
                             type: "GET",
@@ -95,16 +96,17 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, cestSol, numSol, est
                                             $("#btnGrabarEnviar").removeAttr('disabled');
                                         }
                                         else {
-                                            mensajeGeneral("Revisar y Aprobar Solicitud", "No hay documentos habilitantes adjuntos");    
+                                            mensajeGeneral("Revisar y Aprobar Solicitud", "No hay documentos habilitantes adjuntos");
                                         }
                                     }
                                     else {
-                                        mensajeGeneral("Revisar y Aprobar Solicitud", "Opción habilitada para Rol=Director");                                          
+                                        mensajeGeneral("Revisar y Aprobar Solicitud", "Opción habilitada para Rol=Director");
                                     }
                                 }
                                 else {
-                                    mensajeGeneral("Revisar y Aprobar Solicitud", "Solicitud ya está en trámite en DPGE");                                   
-                                }
+                                    mensajeGeneral("Revisar y Aprobar Solicitud", "Solicitud ya está en trámite en DPGE");
+                                };
+
                                 $.each(data, function (index, value) {
                                     $("#browser").append("<li><a href='#' onclick='abrirArchivo(" + JSON.stringify(value.NombreArchivo) + ")'>" + JSON.stringify(value.NombreArchivo) + "</a></li>");
                                 });
@@ -117,14 +119,40 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, cestSol, numSol, est
                 });
             }
             else {
-                mensajeGeneral("Firma electrónica", "No tiene cargado el certificado de la firma electrónica");               
+                mensajeGeneral("Firma electrónica", "No tiene cargado el certificado de la firma electrónica");
             }
         });
 
     }
     else {
-        mensajeGeneral("Datos adjuntos", "No existe información de la documentación.");       
+        mensajeGeneral("Datos adjuntos", "No existe información de la documentación.");
     }
+}
+
+function cargaDocumentosHabilitantes(codDireccion, canio, ctipo, numSol) {
+    var estado = false;
+    $('#browser').empty();
+    try {
+        //Carga documentos habilitantes del POA
+        $.ajax({
+            url: $.MisUrls.url._DocumentosHabilitantes,
+            type: "GET",
+            data: { "cdireccion": codDireccion, "canio": canio, "tipoSolicitud": ctipo, "numSolicitud": numSol },
+            datatype: "json",
+            contentType: "application/json",
+            success: function (data) {
+                $.each(data, function (index, value) {
+                    $("#browser").append("<li><a href='#' onclick='abrirArchivo(" + JSON.stringify(value.NombreArchivo) + ")'>" + JSON.stringify(value.NombreArchivo) + "</a></li>");
+                });
+                $('#formModalEnviar').modal('show');
+
+            }
+        });
+
+    } catch (e) {
+        estado = false;
+    }
+    return estado;
 }
 
 function cargaDocumentacionSolicitudCertificado(codDireccion, canio, ctipo, cestSol, numSol, estAut) {
@@ -172,11 +200,8 @@ function cargaDocumentacionSolicitudCertificado(codDireccion, canio, ctipo, cest
 
             }
         });
-
     }
-
 }
-
 
 
 
@@ -193,7 +218,7 @@ function abrirArchivo(fileName) {
         else {
             descargarArchivo(nombreArchivo, opathArchivo);
         }
-      
+
     }
 }
 
@@ -208,26 +233,37 @@ function descargarArchivo(onombreArchivo, odireccion) {
         }
         else {
             mensajeGeneral("Descargar archivo", "El nombre del archivo en blanco.");
-        }    
+        }
     } catch (e) {
         mensajeGeneral("Descargar archivo", "Hay un problema al descargar el archivo.");
     }
-    
+
 }
 
 function mensajeGeneral(titulo, contenido) {
     Swal.fire({
         icon: 'warning',
-        title: "<p style='width: 100 %;'>" + titulo +"</p>", 
-        html: "<ul class='text-left'>" + contenido+ "</ul>",
-        confirmButtonText: 'Aceptar'
+        title: "<p style='width: 100 %;'>" + titulo + "</p>",
+        html: "<ul class='text-left'>" + contenido + "</ul>",
+        confirmButtonText: 'Aceptar',
+        allowOutsideClick: false,
+    });
+}
+
+function mensajeSwalIco(titulo, contenido, icono) {
+    Swal.fire({
+        icon: icono,
+        title: titulo,
+        html: contenido,
+        confirmButtonText: 'Aceptar',
+        allowOutsideClick: false,
     });
 }
 
 function Guardar() {
     var canio = $('#codanio').val();
     var numSol = $('#numSolicitud').val();
-    $('#loadingBuscar').show();   
+    $('#loadingBuscar').show();
     Swal.fire({
         title: "Solicitud Certificación POA",
         text: "¿Está seguro de enviar aprobar la solicitud del certificación POA?",
@@ -237,6 +273,7 @@ function Guardar() {
         cancelButtonColor: "#d33",
         confirmButtonText: "Aprobar",
         cancelButtonText: "Cancelar",
+        allowOutsideClick: false,
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
@@ -248,25 +285,28 @@ function Guardar() {
                     if (result.resultado) {
                         $.post($.MisUrls.url._ObtieneSolicitudCertificadoPOAPorAnioNumeroSolicitud, { canio: canio, numSolicitud: numSol }, function (data) {
                             if (data.EstadoSolicitud == "SO") {
-                                FirmaCertificadoPOA(data.AnioSolicitud, data.NumeroSolicitud);
                                 $("#btnGrabarEnviar").attr('disabled', 'disabled');
+                                FirmaCertificadoPOA(data.AnioSolicitud, data.NumeroSolicitud);
+                                cargaDocumentosHabilitantes(data.CodigoDireccionPYGE, data.AnioSolicitud, data.TipoSolicitud, data.NumeroSolicitud);
+                              
                             }
+                            $('#loadingBuscar').hide();
                         });
                     }
                     else {
-                        Swal.fire("Solicitud Certificación POA", "No se puedo grabar." + errormessage, "warning");
-                        $('#loadingBuscar').hide();   
+                        $('#loadingBuscar').hide();
+                        mensajeSwalIco("Solicitud Certificación POA", "No se puedo grabar." + errormessage, "warning");
                     }
                 },
                 error: function (errormessage) {
-                    Swal.fire("Mensaje", "Error, Exportar el reporte" + errormessage, "warning");
-                    $('#loadingBuscar').hide(); 
+                    mensajeSwalIco("Error", "Exportar el reporte" + errormessage, "error");
+                    $('#loadingBuscar').hide();
                 }
             });
         }
         else if (result.dismiss === Swal.DismissReason.cancel) {
-            $('#loadingBuscar').hide();  
-            }
+            $('#loadingBuscar').hide();
+        }
 
     });
 }
@@ -280,24 +320,19 @@ function FirmaCertificadoPOA(canio, numSol) {
         data: { canio: canio, numSolicitud: parseInt(numSol) },
         success: function (result) {
             if (result.length > 0) {
+                //Carga todos los archivo 
                 abrirArchivo(result);
-                //setTimeout(function () {
-                //    frame = document.getElementById("iframeCetificado");
-                //    framedoc = frame.contentWindow;
-                //    framedoc.focus();
-                //    framedoc.print();
-                //}, 1000);
-                $('#loadingBuscar').hide();            
+                $('#loadingBuscar').hide();
             }
             else {
                 $('#loadingBuscar').hide();
-                mensajeGeneral("Solicitud del Certificado POA", "La Solicitud del Certificado POA, no se pudo generar el reporte.");
+                mensajeGeneral("Certificado POA", "La Solicitud del Certificado POA, no se pudo generar el reporte.");
             }
 
         },
         error: function (errormessage) {
-            mensajeGeneral("Solicitud del Certificado POA", "Error, Exportar el reporte" + errormessage);    
-            $('#loadingBuscar').hide(); 
+            mensajeSwalIco("Certificado POA", "Error, Exportar el reporte" + errormessage, "error");
+            $('#loadingBuscar').hide();
         }
     });
 }

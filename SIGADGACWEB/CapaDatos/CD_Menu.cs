@@ -43,7 +43,7 @@ namespace CapaDatos
             sb.Append(" ifnull(rtrim(ltrim(MENCOD)), '') AS CodigoMenu, ifnull(rtrim(ltrim(MENDE1)), '') AS DescripcionMenu, ifnull(rtrim(ltrim(MENTIP)), '') AS TipoOpcionMenu, ifnull(rtrim(ltrim(MENEST)), '') AS EstadoMenu,");
             sb.Append(" ifnull(rtrim(ltrim(MENUS2)), '') AS UsuarioCreacion, ifnull(rtrim(ltrim(MENFE2)), '') AS FechaCreacion, ifnull(rtrim(ltrim(MENHO2)), '') AS HoraCreacion, ifnull(rtrim(ltrim(MENDIS)), '') AS DispositivoCreacion,");
             sb.Append(" ifnull(rtrim(ltrim(MENUS3)), '') AS UsuarioModificacion, ifnull(rtrim(ltrim(MENFE3)), '') AS FechaModificacion, ifnull(rtrim(ltrim(MENHO3)), '') AS HoraModificacion,");
-            sb.Append(" ifnull(rtrim(ltrim(MENDI1)), '') AS DispositivoModificacion");            
+            sb.Append(" ifnull(rtrim(ltrim(MENDI1)), '') AS DispositivoModificacion, ifnull(rtrim(ltrim(MENAU1)), '') as codigoServidorReport, ifnull(rtrim(ltrim(MENAU1)), '') as codigoServidorReport, ifnull((select rtrim(ltrim(VALDES)) FROM DGACSYS.TXDGAC where VALDDS = 'MENAU1' and VALVAL = MENAU1), '') as DescripcionServidorReport ");            
             sb.Append(" FROM USUARC ");
             sb.Append(" INNER JOIN ROLAR2 ON(USUCO1 = ROLCO2 AND USUCO2 = ROLCO3 AND USUCO3 = ROLCO4 AND USUCO4 = ROLCO1)");
             sb.Append(" INNER JOIN MENAR1 ON(MENCO1 = ROLCO2 AND MENCO2 = ROLCO3 AND MENCO3 = ROLCO4 AND MENCO4 = ROLCO1)");
@@ -78,8 +78,9 @@ namespace CapaDatos
                         oMenu.UsuarioModificacion = dr["UsuarioModificacion"].ToString();
                         oMenu.FechaModificacion = dr["FechaModificacion"].ToString();
                         oMenu.HoraModificacion = dr["HoraModificacion"].ToString();
-                        oMenu.DispositivoModificacion = dr["DispositivoModificacion"].ToString();
-                        //oMenu.oSubMenu = CD_SubMenu.Instancia.GetSubMenuPorCodigo(codigoUsuario, oMenu.CodigoMenu);
+                        oMenu.DispositivoModificacion = dr["DispositivoModificacion"].ToString();  
+                        oMenu.codigoServidorReport = dr["codigoServidorReport"].ToString();
+                        oMenu.DescripcionServidorReport = dr["DescripcionServidorReport"].ToString();
                         listarMenu.Add(oMenu);
                     }
                     dr.Close();

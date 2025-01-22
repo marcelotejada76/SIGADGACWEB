@@ -39,25 +39,25 @@
                 <div class="col-12">
                     <table id="tbDetalle" class="table table-bordered table-hover table-sm display" style="width:100%">
                         <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <th>Año</th>
-                                <th>Unidad Ejecución</th>
+                                <th>Unidad<br />Ejecución</th>
                                 <th>Dirección</th>
-                                <th>Número Solicitud</th>
-                                <th>Tipo Solicitud</th>
-                                <th>Fecha Solicitud</th>
-                                <th>Fecha Revisión</th>
-                                <th>Estado Autorizado</th>
-                                <th>Fecha Aprobación</th>
-                                <th>Actividad</th>
-                                <th>Certificado_Actual</th>
+                                <th>Número<br />Solicitud</th>
+                                <th>Tipo<br />Solicitud</th>
+                                <th>Fecha<br />Solicitud</th>
+                                <th>Fecha<br /> Revisión</th>
+                                <th>Estado<br /> Autorizado</th>
+                                <th>Fecha<br />Aprobación</th>
+                                <th>Núm.<br />Act.POA</th>
+                                <th>Núm.<br />Certific/Actualiz</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
+                                <tr class="text-center">
                                     <td>@Html.DisplayFor(modelItem => item.AnioSolicitud)</td>
                                     <td>@Html.DisplayFor(modelItem => item.CodigoUnidadEjecucion)</td>
                                     <td>@Html.DisplayFor(modelItem => item.CodigoDireccionPYGE)</td>

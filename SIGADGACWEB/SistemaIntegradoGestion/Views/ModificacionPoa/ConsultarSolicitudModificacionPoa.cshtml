@@ -50,7 +50,7 @@
                                         {
                                             <tr>
                                                 <td>
-                                                    <a href="#" onclick="abrirArchivo(JSON.stringify('@item.NombreArchivo'));"> @item.NombreArchivo</a>
+                                                    <a href="#" onclick="abrirArchivo(JSON.stringify('@item.NombreArchivo'));">@item.NombreArchivo</a>
                                                 </td>
                                             </tr>
                                         }
@@ -67,6 +67,8 @@
                                     <div class="form-horizontal">
                                         <div class="card-footer">
                                             <a class="btn btn-outline-secondary" href="@Url.Action(@Session["ActionResul"].ToString(), "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
+
+                                            @*<a class="btn btn-outline-primary " href="#" onclick="FirmarPrueba(this);"><i><img src="~/Content/imganes/printer.png" style="width:25px" /></i> Firmar-prueba </a>*@
                                         </div>
                                     </div>
 

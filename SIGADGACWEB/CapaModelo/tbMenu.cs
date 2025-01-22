@@ -24,6 +24,8 @@ namespace CapaModelo
         public string FechaModificacion { get; set; }
         public string HoraModificacion { get; set; }
         public string DispositivoModificacion { get; set; }
+        public string codigoServidorReport { get; set; }
+        public string DescripcionServidorReport { get; set; }
         public List<tbSubMenu> oSubMenu { get; set; }
     }
 }

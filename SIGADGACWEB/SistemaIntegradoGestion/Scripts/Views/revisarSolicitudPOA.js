@@ -16,7 +16,7 @@ function loadDataTable() {
         scrollCollapse: true,
         paging: false,
         fixedHeader: true,
-        "order": [[0, 'desc'], [1, 'desc'], [2, 'desc'], [3, 'desc']],
+        "order": [[0, 'desc'], [3, 'desc']],
         "language": {
             "decimal": "",
             "emptyTable": "No hay información",
@@ -69,7 +69,7 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, numSol) {
                 if (data.EstadoAutorizacion == "AP" || data.EstadoAutorizacion == "RN") {
                     $("#apruebaRevision").css("display", "none");
                     $("#btnAprobar").attr("disabled", true);
-                    mensajeGeneral("Revisar Solicitud Certificado POA", " Solicitud fue Aprobada por Director (a)");
+                    //mensajeGeneralIco("Revisar Solicitud de Certificado POA", " Solicitud fue Aprobada por Director (a)", "success");
                 }
                 else {
                     $("#apruebaRevision").css("display", "block");
@@ -105,7 +105,7 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, numSol) {
 
     }
     else {
-        mensajeGeneral("Revisar Solicitud Certificado POA", "Los campos de buesqueda están en blanco");
+        mensajeGeneral("Revisar Solicitud de Certificado POA", "Los campos de buesqueda están en blanco");
     }
 
 }
@@ -172,22 +172,22 @@ function ExportaToPDF() {
             contentType: "application/json;charset=UTF-8",
             success: function (result) {
                 if (result.resultado == true) {
-                    mensajeGeneral("Revisar Solicitud del Certificado POA", "La operación fue realizada con exito.");
+                    mensajeGeneralIco("Revisar Solicitud de Certificado POA", "La operación fue realizada con exito.", "success");
                 }
                 else {
                     $('#loadingBuscar').hide();
-                    mensajeGeneral("Revisar Solicitud del Certificado POA", "No puedo grabar el registro");
+                    mensajeGeneralIco("Revisar Solicitud de Certificado POA", "No puedo grabar el registro", "warning");
                 }
                 $('#loadingBuscar').hide();
             },
             error: function (errormessage) {
                 $('#loadingBuscar').hide();
-                mensajeGeneral("Revisar Solicitud del Certificado POA", "Error, " + errormessage);
+                mensajeGeneralIco("Revisar Solicitud de Certificado POA", "Error, " + errormessage, "error");
             }
         });
     }
     else {
-        mensajeGeneral("Revisar Solicitud Certificado POA", "Debe seleccionar el estado");
+        mensajeGeneral("Revisar Solicitud de Certificado POA", "Debe seleccionar el estado");
     }
     return false;
 }
@@ -210,13 +210,22 @@ function CargaTodosDocumentosDirectorio(opathArchivo, nombreArchivo) {
             })
         },
         error: function (errormessage) {
-            mensajeGeneral("Documentos adjuntos", "Hay un problema al cargar los archivos." + errormessage);
+            mensajeGeneralIco("Documentos adjuntos", "Hay un problema al cargar los archivos." + errormessage, "error");
         }
     });
 }
 function mensajeGeneral(titulo, contenido) {
     Swal.fire({
         icon: 'warning',
+        title: "<p style='width: 100 %;'>" + titulo + "</p>",
+        html: "<ul >" + contenido + "</ul>",
+        confirmButtonText: 'Aceptar'
+    });
+}
+
+function mensajeGeneralIco(titulo, contenido, _ico) {
+    Swal.fire({
+        icon: _ico,
         title: "<p style='width: 100 %;'>" + titulo + "</p>",
         html: "<ul >" + contenido + "</ul>",
         confirmButtonText: 'Aceptar'

@@ -173,7 +173,7 @@ namespace CapaDatos
                 + " ' como consta en el POA, misma que se encuentra registrada en el POA ' || SOLAN1 || ' de la DGAC.'as DescripcionSolicitud2,"
                 + " TRIM(LINAC1 || LINAC2 || LINAC3 || LINAC4 || LINAC5) as Actividad,   SOLAN1 as anio,  'Atenamente' as Atentamente, ('DIRECTOR(A) DE' || ' ' || TRIM(DIRDES)) as Direccion "
                 + " FROM solar1 join LINARC on SOLAN1 = LINAN1 and SOLNU3 = LINNU1"
-                + " join dgacdat.DIRARC ON SOLCO4 = DIRCO1 AND SOLCO5 = DIRCO3"
+                + " join DIRARC ON SOLCO4 = DIRCO1 AND SOLCO5 = DIRCO3"
                 + " WHERE SOLAN1 = '" + cAnio + "' AND SOLNU3 = " + numSolicitud;
 
                 iDB2Command cmd;
@@ -313,7 +313,7 @@ namespace CapaDatos
                         + " (SELECT CASE WHEN M.MODEST = 'ORIGEN' THEN(MM.MODCO5 - MM.MODMON) ELSE(MM.MODCO5 + MM.MODMON) END AS Noviembre FROM MODAR4 AS MM WHERE MM.MODOI2 = M.MODOI1 AND MM.MODME3 = '11'), "
                         + " (SELECT CASE WHEN M.MODEST = 'ORIGEN' THEN(MM.MODCO5 - MM.MODMON) ELSE(MM.MODCO5 + MM.MODMON) END AS Diciembre FROM MODAR4 AS MM WHERE MM.MODOI2 = M.MODOI1 AND MM.MODME3 = '12'), "
                         + " M.MODC08 AS OEI, M.MODCE1 AS Valor_Certifcado, CASE WHEN M.MODEST = 'ORIGEN' THEN(M.MODVAL - M.MODMO3 - M.MODCE1) ELSE(M.MODVAL + M.MODMO3 - M.MODCE1) END AS Saldo_por_Certificar "
-                        + "  FROM MODAR3 AS M LEFT JOIN DGACDAT.SOLAR1 AS S ON S.SOLAN1 = M.MODAN2 AND S.SOLNU3 = M.MODNU3 "
+                        + "  FROM MODAR3 AS M LEFT JOIN SOLAR1 AS S ON S.SOLAN1 = M.MODAN2 AND S.SOLNU3 = M.MODNU3 "
                         + " LEFT JOIN DIRARC AS D ON M.MODC15 = D.DIRCO1  AND M.MODC16 = D.DIRCO3 "
                         + " LEFT JOIN PROAR1 AS P ON M.MODC10 = P.PROCO6 "
                         + " LEFT JOIN ITEARC AS I ON I.ITECO1 = M.MODCO8 AND I.ITECO2 = M.MODCO9 AND I.ITECO3 = M.MODC01 AND M.MODC02 = I.ITECOD "
@@ -603,7 +603,7 @@ namespace CapaDatos
                 sbSol.Append("SELECT ifnull(rtrim(ltrim(SOLAN1)), '') as AnioSolicitud, ifnull(SOLNU3, 0) as NumeroSolicitud, ifnull(rtrim(ltrim(SOLFE6)), '') as FechaSolicitud, ifnull(rtrim(ltrim(SOLTIP)), '') as TipoSolicitud, ifnull(rtrim(ltrim(SOLES6)), '') AS EstadoSolicitud, ");
                 sbSol.Append(" ifnull(rtrim(ltrim(SOLFE9)), '') as FechaRevision,  ifnull(rtrim(ltrim(SOLES7)), '') as EstadoAutorizacion, ifnull(rtrim(ltrim(SOLF01)), '') as FechaAprobacion, ifnull(SOLNU6, 0) as NumeroModificacion, ifnull(rtrim(ltrim(SOLCO4)), '') as CodigoUnidadEjecucion ,  ifnull(rtrim(ltrim(SOLCO5)), '') as CodigoDireccionPYGE, ");
                 sbSol.Append(" ifnull(SOLSEC, 0) as SecuenciaActividad, ifnull(PLANU2, 0) AS NumeroCertificadoPOA , ifnull(ACTSEC, 0) AS SecuencialActualizacion,  case rtrim(ltrim(SOLES9)) when '' then '.' else rtrim(ltrim(SOLES9)) end AS EstadoVerificacionFinanciera,   ifnull(rtrim(ltrim(SOLF06)), '')  as FechaCreacionFIN_PRES, ");
-                sbSol.Append(" (SELECT  ifnull(SUM(LINMO8), 0) FROM DGACDAT.LINAR2 WHERE LINES4 = 'DESTINO' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALDESTINO,  (SELECT  ifnull(SUM(LINMO8), 0) FROM DGACDAT.LINAR2 WHERE LINES4 = 'ORIGEN' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALORIGEN");
+                sbSol.Append(" (SELECT  ifnull(SUM(LINMO8), 0) FROM LINAR2 WHERE LINES4 = 'DESTINO' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALDESTINO,  (SELECT  ifnull(SUM(LINMO8), 0) FROM LINAR2 WHERE LINES4 = 'ORIGEN' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALORIGEN");
                 sbSol.Append(" FROM SOLAR1 left join ACTAR1 on (SOLAN1 = ACTAN2 and SOLNU3 = ACTNU2) LEFT JOIN PLAARC ON(SOLCO4 = PLACO2 AND SOLCO5 = PLACO3 AND SOLAN1 = PLAANI AND  SOLSEC = PLANUM)");
                 sbSol.Append(" WHERE  SOLCO5 = '" + cdireccion + "'");
                 if (canio.Trim().Length > 0)
@@ -664,6 +664,59 @@ namespace CapaDatos
                 sbSol.Append(" ifnull(SOLSEC, 0) as SecuenciaActividad, ifnull(PLANU2, 0) AS NumeroCertificadoPOA , ifnull(ACTSEC, 0) AS SecuencialActualizacion,  case rtrim(ltrim(SOLES9)) when '' then '.' else rtrim(ltrim(SOLES9)) end AS EstadoVerificacionFinanciera, ifnull(rtrim(ltrim(SOLF06)), '')  as FechaCreacionFIN_PRES, ifnull(rtrim(ltrim(SOLES8)), '') AS EstadoActualizacionPOA ");
                 sbSol.Append(" FROM SOLAR1 left join ACTAR1 on (SOLAN1 = ACTAN2 and SOLNU3 = ACTNU2) LEFT JOIN PLAARC ON(SOLCO4 = PLACO2 AND SOLCO5 = PLACO3 AND SOLAN1 = PLAANI AND  SOLSEC = PLANUM)");
                 sbSol.Append(" WHERE (SOLTIP = 'MOD' OR SOLTIP = 'MDP' OR SOLTIP = 'MAR') AND SOLES6 <> 'NS' ");
+                sbSol.Append(" ORDER BY SOLAN1, SOLNU3 DESC");
+                query = sbSol.ToString();
+                iDB2Command cmd;
+
+                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                {
+                    cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+                    iDB2DataReader dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
+                        oSolicitud.AnioSolicitud = dr["AnioSolicitud"].ToString();
+                        oSolicitud.NumeroSolicitud = Int32.Parse(dr["NumeroSolicitud"].ToString());
+                        oSolicitud.FechaSolicitud = dr["FechaSolicitud"].ToString();
+                        oSolicitud.TipoSolicitud = dr["TipoSolicitud"].ToString();
+                        oSolicitud.EstadoSolicitud = dr["EstadoSolicitud"].ToString();
+                        oSolicitud.FechaRevision = dr["FechaRevision"].ToString();
+                        oSolicitud.EstadoAutorizacion = dr["EstadoAutorizacion"].ToString();
+                        oSolicitud.FechaAprobacion = dr["FechaAprobacion"].ToString();
+                        oSolicitud.EstadoVerificacionFinanciera = campoNull(dr["EstadoVerificacionFinanciera"].ToString());
+                        oSolicitud.NumeroModificacion = Int32.Parse(dr["NumeroModificacion"].ToString());
+                        oSolicitud.CodigoUnidadEjecucion = dr["CodigoUnidadEjecucion"].ToString();
+                        oSolicitud.CodigoDireccionPYGE = dr["CodigoDireccionPYGE"].ToString();
+                        oSolicitud.SecuenciaActividad = Int32.Parse(dr["SecuenciaActividad"].ToString());
+                        oSolicitud.NumeroCertificadoPOA = Int32.Parse(dr["NumeroCertificadoPOA"].ToString());
+                        oSolicitud.SecuencialActualizacion = Int32.Parse(dr["SecuencialActualizacion"].ToString());
+                        oSolicitud.EstadoActualizacionPOA = dr["EstadoActualizacionPOA"].ToString();
+                        oSolicitud.FechaCreacionFIN_PRES = dr["FechaCreacionFIN_PRES"].ToString();
+                        listarSolicitud.Add(oSolicitud);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return listarSolicitud;
+        }
+
+        public List<tbSolicitudPOA> ModificacionPOAParaVerificacionEnPresupuesto(string codSubsistema)
+        {
+            List<tbSolicitudPOA> listarSolicitud = new List<tbSolicitudPOA>();
+            StringBuilder sbSol = new StringBuilder();
+            string query = string.Empty;
+            try
+            {
+                sbSol.Append("SELECT ifnull(rtrim(ltrim(SOLAN1)), '') as AnioSolicitud, ifnull(SOLNU3, 0) as NumeroSolicitud, ifnull(rtrim(ltrim(SOLFE6)), '') as FechaSolicitud, ifnull(rtrim(ltrim(SOLTIP)), '') as TipoSolicitud, ifnull(rtrim(ltrim(SOLES6)), '') AS EstadoSolicitud, ");
+                sbSol.Append(" ifnull(rtrim(ltrim(SOLFE9)), '') as FechaRevision,  ifnull(rtrim(ltrim(SOLES7)), '') as EstadoAutorizacion, ifnull(rtrim(ltrim(SOLF01)), '') as FechaAprobacion, ifnull(SOLNU6, 0) as NumeroModificacion, ifnull(rtrim(ltrim(SOLCO4)), '') as CodigoUnidadEjecucion ,  ifnull(rtrim(ltrim(SOLCO5)), '') as CodigoDireccionPYGE, ");
+                sbSol.Append(" ifnull(SOLSEC, 0) as SecuenciaActividad, ifnull(PLANU2, 0) AS NumeroCertificadoPOA , ifnull(ACTSEC, 0) AS SecuencialActualizacion,  case rtrim(ltrim(SOLES9)) when '' then '.' else rtrim(ltrim(SOLES9)) end AS EstadoVerificacionFinanciera, ifnull(rtrim(ltrim(SOLF06)), '')  as FechaCreacionFIN_PRES, ifnull(rtrim(ltrim(SOLES8)), '') AS EstadoActualizacionPOA ");
+                sbSol.Append(" FROM SOLAR1 left join ACTAR1 on (SOLAN1 = ACTAN2 and SOLNU3 = ACTNU2) LEFT JOIN PLAARC ON(SOLCO4 = PLACO2 AND SOLCO5 = PLACO3 AND SOLAN1 = PLAANI AND  SOLSEC = PLANUM)");
+                sbSol.Append(" WHERE (SOLTIP = 'MOD' OR SOLTIP = 'MDP' OR SOLTIP = 'MAR') AND SOLES6 <> 'NS' AND SOLCO5 = '" + codSubsistema + "'");
                 sbSol.Append(" ORDER BY SOLAN1, SOLNU3 DESC");
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -1068,7 +1121,7 @@ namespace CapaDatos
                 sbSol.Append("SELECT ifnull(rtrim(ltrim(SOLAN1)), '') as AnioSolicitud, ifnull(SOLNU3, 0) as NumeroSolicitud, ifnull(rtrim(ltrim(SOLFE6)), '') as FechaSolicitud, ifnull(rtrim(ltrim(SOLTIP)), '') as TipoSolicitud, ifnull(rtrim(ltrim(SOLES6)), '') AS EstadoSolicitud, ");
                 sbSol.Append(" ifnull(rtrim(ltrim(SOLFE9)), '') as FechaRevision,  ifnull(rtrim(ltrim(SOLES7)), '') as EstadoAutorizacion, ifnull(rtrim(ltrim(SOLF01)), '') as FechaAprobacion, ifnull(SOLNU6, 0) as NumeroModificacion, ifnull(rtrim(ltrim(SOLCO4)), '') as CodigoUnidadEjecucion ,  ifnull(rtrim(ltrim(SOLCO5)), '') as CodigoDireccionPYGE, ");
                 sbSol.Append(" ifnull(SOLSEC, 0) as SecuenciaActividad, ifnull(PLANU2, 0) AS NumeroCertificadoPOA , ifnull(ACTSEC, 0) AS SecuencialActualizacion,  case rtrim(ltrim(SOLES9)) when '' then '.' else rtrim(ltrim(SOLES9)) end AS EstadoVerificacionFinanciera,   ifnull(rtrim(ltrim(SOLF06)), '')  as FechaCreacionFIN_PRES, ");
-                sbSol.Append(" (SELECT  ifnull(SUM(LINMO8), 0) FROM DGACDAT.LINAR2 WHERE LINES4 = 'DESTINO' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALDESTINO,  (SELECT  ifnull(SUM(LINMO8), 0) FROM DGACDAT.LINAR2 WHERE LINES4 = 'ORIGEN' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALORIGEN");
+                sbSol.Append(" (SELECT  ifnull(SUM(LINMO8), 0) FROM LINAR2 WHERE LINES4 = 'DESTINO' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALDESTINO,  (SELECT  ifnull(SUM(LINMO8), 0) FROM LINAR2 WHERE LINES4 = 'ORIGEN' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALORIGEN");
                 sbSol.Append(" FROM SOLAR1 left join ACTAR1 on (SOLAN1 = ACTAN2 and SOLNU3 = ACTNU2) LEFT JOIN PLAARC ON(SOLCO4 = PLACO2 AND SOLCO5 = PLACO3 AND SOLAN1 = PLAANI AND  SOLSEC = PLANUM)");
                 sbSol.Append(" WHERE  SOLCO5 = '" + cdireccion + "'");
                 if (canio.Trim().Length > 0)
@@ -1137,7 +1190,7 @@ namespace CapaDatos
                 sbSol.Append("SELECT ifnull(rtrim(ltrim(SOLAN1)), '') as AnioSolicitud, ifnull(SOLNU3, 0) as NumeroSolicitud, ifnull(rtrim(ltrim(SOLFE6)), '') as FechaSolicitud, ifnull(rtrim(ltrim(SOLTIP)), '') as TipoSolicitud, ifnull(rtrim(ltrim(SOLES6)), '') AS EstadoSolicitud, ");
                 sbSol.Append(" ifnull(rtrim(ltrim(SOLFE9)), '') as FechaRevision,  ifnull(rtrim(ltrim(SOLES7)), '') as EstadoAutorizacion, ifnull(rtrim(ltrim(SOLF01)), '') as FechaAprobacion, ifnull(SOLNU6, 0) as NumeroModificacion, ifnull(rtrim(ltrim(SOLCO4)), '') as CodigoUnidadEjecucion ,  ifnull(rtrim(ltrim(SOLCO5)), '') as CodigoDireccionPYGE, ");
                 sbSol.Append(" ifnull(SOLSEC, 0) as SecuenciaActividad, ifnull(PLANU2, 0) AS NumeroCertificadoPOA , ifnull(ACTSEC, 0) AS SecuencialActualizacion,  case rtrim(ltrim(SOLES9)) when '' then '.' else rtrim(ltrim(SOLES9)) end AS EstadoVerificacionFinanciera,   ifnull(rtrim(ltrim(SOLF06)), '')  as FechaCreacionFIN_PRES, ");
-                sbSol.Append(" (SELECT  ifnull(SUM(LINMO8), 0) FROM DGACDAT.LINAR2 WHERE LINES4 = 'DESTINO' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALDESTINO,  (SELECT  ifnull(SUM(LINMO8), 0) FROM DGACDAT.LINAR2 WHERE LINES4 = 'ORIGEN' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALORIGEN");
+                sbSol.Append(" (SELECT  ifnull(SUM(LINMO8), 0) FROM LINAR2 WHERE LINES4 = 'DESTINO' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALDESTINO,  (SELECT  ifnull(SUM(LINMO8), 0) FROM LINAR2 WHERE LINES4 = 'ORIGEN' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALORIGEN");
                 sbSol.Append(" FROM SOLAR1 left join ACTAR1 on (SOLAN1 = ACTAN2 and SOLNU3 = ACTNU2) LEFT JOIN PLAARC ON(SOLCO4 = PLACO2 AND SOLCO5 = PLACO3 AND SOLAN1 = PLAANI AND  SOLSEC = PLANUM)");
                 sbSol.Append(" WHERE  SOLCO5 = '" + cdireccion + "'");
                 if (canio.Trim().Length > 0)
@@ -1203,7 +1256,7 @@ namespace CapaDatos
                 sbSol.Append("SELECT ifnull(rtrim(ltrim(SOLAN1)), '') as AnioSolicitud, ifnull(SOLNU3, 0) as NumeroSolicitud, ifnull(rtrim(ltrim(SOLFE6)), '') as FechaSolicitud, ifnull(rtrim(ltrim(SOLTIP)), '') as TipoSolicitud, ifnull(rtrim(ltrim(SOLES6)), '') AS EstadoSolicitud, ");
                 sbSol.Append(" ifnull(rtrim(ltrim(SOLFE9)), '') as FechaRevision,  ifnull(rtrim(ltrim(SOLES7)), '') as EstadoAutorizacion, ifnull(rtrim(ltrim(SOLF01)), '') as FechaAprobacion, ifnull(SOLNU6, 0) as NumeroModificacion, ifnull(rtrim(ltrim(SOLCO4)), '') as CodigoUnidadEjecucion ,  ifnull(rtrim(ltrim(SOLCO5)), '') as CodigoDireccionPYGE, ");
                 sbSol.Append(" ifnull(SOLSEC, 0) as SecuenciaActividad, ifnull(PLANU2, 0) AS NumeroCertificadoPOA , ifnull(ACTSEC, 0) AS SecuencialActualizacion,  case rtrim(ltrim(SOLES9)) when '' then '.' else rtrim(ltrim(SOLES9)) end AS EstadoVerificacionFinanciera,   ifnull(rtrim(ltrim(SOLF06)), '')  as FechaCreacionFIN_PRES, ");
-                sbSol.Append(" (SELECT  ifnull(SUM(LINMO8), 0) FROM DGACDAT.LINAR2 WHERE LINES4 = 'DESTINO' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALDESTINO,  (SELECT  ifnull(SUM(LINMO8), 0) FROM DGACDAT.LINAR2 WHERE LINES4 = 'ORIGEN' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALORIGEN");
+                sbSol.Append(" (SELECT  ifnull(SUM(LINMO8), 0) FROM LINAR2 WHERE LINES4 = 'DESTINO' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALDESTINO,  (SELECT  ifnull(SUM(LINMO8), 0) FROM LINAR2 WHERE LINES4 = 'ORIGEN' AND LINAN6 = SOLAN1 AND LINNU7 = SOLNU3) AS VALORIGEN");
                 sbSol.Append(" FROM SOLAR1 left join ACTAR1 on (SOLAN1 = ACTAN2 and SOLNU3 = ACTNU2) LEFT JOIN PLAARC ON(SOLCO4 = PLACO2 AND SOLCO5 = PLACO3 AND SOLAN1 = PLAANI AND  SOLSEC = PLANUM)");
                 sbSol.Append(" WHERE  SOLCO5 = '" + cdireccion + "'");
                 if (canio.Trim().Length > 0)

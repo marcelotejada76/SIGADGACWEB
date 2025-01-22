@@ -70,7 +70,7 @@ namespace SistemaIntegradoGestion.Controllers
 
             }
 
-            VieqBagCombos("SE", oMaestroPersonal.CodigoProviencia, oMaestroPersonal.CodigoCanton, oMaestroPersonal.CodigoParroquia);
+           // VieqBagCombos("SE", oMaestroPersonal.CodigoProviencia, oMaestroPersonal.CodigoCanton, oMaestroPersonal.CodigoParroquia);
 
             return Json(new { data = oListarMaestroPersonal }, JsonRequestBehavior.AllowGet);
         }

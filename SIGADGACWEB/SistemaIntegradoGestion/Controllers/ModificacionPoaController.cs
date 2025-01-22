@@ -21,14 +21,16 @@ using System.Security.Cryptography.X509Certificates;
 using Org.BouncyCastle.X509;
 using Org.BouncyCastle.Crypto;
 using System.Net;
-
+using System.Threading;
 
 namespace SistemaIntegradoGestion.Controllers
 {
     public class ModificacionPoaController : Controller
     {
+        //private static string SesionControlador = "ModificacionPoa";        
         private static string ssrsurl = ConfigurationManager.AppSettings["SSRSRReportsUrl"].ToString();
         private static tbUsuario SesionUsuario;
+        private static tbMenu SesionMenu;        
         // GET: ModificacionPoa
         public ActionResult SinAfectacionPresupuestaria()
         {
@@ -40,9 +42,12 @@ namespace SistemaIntegradoGestion.Controllers
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             string cAnio = oSistema.FechaSistema.Substring(0, 4);
 
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
-            Session["Controlador"] = "ModificacionPoa";
-            Session["ActionResul"] = "SinAfectacionPresupuestaria";
+            Session["ActionResul"] = actionName;
+            Session["Controlador"] = controllerName;
             Session["CodigoRol"] = SesionUsuario.CodigoRol;
             listado = CD_SolicitudPOA.Instancia.SolicitudModificacionSinAfectacionPresupetariaListarDireccionAnio(SesionUsuario.CodigoSubsistema, cAnio);
             //Verifica que si ya tiene subido los archivos
@@ -408,6 +413,8 @@ namespace SistemaIntegradoGestion.Controllers
 
         public ActionResult EnviaSolicitudVerificacionPresupuestario(string canio, Int32 numSolicitud)
         {
+         
+
             string FilePathReturn = string.Empty;
             string direccionDirectory = string.Empty;
             tbSolicitudPOA oSolicitudPoa = new tbSolicitudPOA();
@@ -424,7 +431,7 @@ namespace SistemaIntegradoGestion.Controllers
                     return Json(new { Message = "La seccion del usuario esta caducado actualice la pagina.", JsonRequestBehavior.AllowGet });
 
                 SesionUsuario = (tbUsuario)Session["Usuario"];
-
+                SesionMenu = (tbMenu)Session["MenuMaster"];
                 oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + canio + @"\" + numSolicitud;
                 if (CD_SolicitudPOA.Instancia.EnviaSolictudVerificacionPresupuestaria(oSolicitudPoa.AnioSolicitud, oSolicitudPoa.NumeroSolicitud, oSolicitudPoa.CodigoUnidadEjecucion, oSolicitudPoa.CodigoDireccionPYGE, SesionUsuario.CodigoUsuario))
@@ -434,7 +441,7 @@ namespace SistemaIntegradoGestion.Controllers
                     viewer.SizeToReportContent = true;
                     viewer.AsyncRendering = true;
                     viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
-                    viewer.ServerReport.ReportPath = "/Report Project1/ModificacionPOA";
+                    viewer.ServerReport.ReportPath = "/"+ SesionMenu .DescripcionServidorReport+ "/ModificacionPOA";
                     ReportParameter[] reportParameter = new ReportParameter[2];
                     reportParameter[0] = new ReportParameter("anio", canio);
                     reportParameter[1] = new ReportParameter("solicitud", numSolicitud.ToString());
@@ -509,6 +516,9 @@ namespace SistemaIntegradoGestion.Controllers
             byte[] bytes;
             try
             {
+
+                SesionMenu = (tbMenu)Session["MenuMaster"];
+
                 oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + canio + @"\" + numSolicitud;
 
@@ -516,13 +526,12 @@ namespace SistemaIntegradoGestion.Controllers
                 viewer.SizeToReportContent = true;
                 viewer.AsyncRendering = true;
                 viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
-                viewer.ServerReport.ReportPath = "/Report Project1/ModificacionPOA";
+                viewer.ServerReport.ReportPath = "/"+ SesionMenu.DescripcionServidorReport + "/ModificacionPOA";
                 ReportParameter[] reportParameter = new ReportParameter[2];
                 reportParameter[0] = new ReportParameter("anio", canio);
                 reportParameter[1] = new ReportParameter("solicitud", numSolicitud.ToString());
                 viewer.ServerReport.SetParameters(reportParameter);
                 string nombreArchivo = string.Empty;
-
 
                 //viewer.ServerReport.Refresh();
 
@@ -544,8 +553,6 @@ namespace SistemaIntegradoGestion.Controllers
                         FilePath = urlReporteElectronico + @"\" + nombreArchivo + "_" + secuencial + ".pdf";
                         nombreReporte = nombreArchivo + "_" + secuencial + ".pdf";
                     }
-
-
 
                     PdfReader reader = new PdfReader(bytes);
                     FileStream output = new FileStream(FilePath, FileMode.Create);
@@ -606,7 +613,7 @@ namespace SistemaIntegradoGestion.Controllers
                     return Json(new { Message = "La seccion del usuario esta caducado actualice la pagina.", JsonRequestBehavior.AllowGet });
 
                 SesionUsuario = (tbUsuario)Session["Usuario"];
-
+                SesionMenu = (tbMenu)Session["MenuMaster"];
                 oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + canio + @"\" + numSolicitud;
                 #region "Generar el reporte"     
@@ -614,7 +621,7 @@ namespace SistemaIntegradoGestion.Controllers
                 viewer.SizeToReportContent = true;
                 viewer.AsyncRendering = true;
                 viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
-                viewer.ServerReport.ReportPath = "/Report Project1/AnalisisViabilidadPOA";
+                viewer.ServerReport.ReportPath = "/"+ SesionMenu .DescripcionServidorReport + "/AnalisisViabilidadPOA";
                 ReportParameter[] reportParameter = new ReportParameter[2];
                 reportParameter[0] = new ReportParameter("AnioSolictud", canio);
                 reportParameter[1] = new ReportParameter("NumSolicitud", numSolicitud.ToString());
@@ -702,6 +709,7 @@ namespace SistemaIntegradoGestion.Controllers
             try
             {
                 SesionUsuario = (tbUsuario)Session["Usuario"];
+                SesionMenu= (tbMenu)Session["MenuMaster"];
 
                 oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + canio + @"\" + numSolicitud;
@@ -710,7 +718,7 @@ namespace SistemaIntegradoGestion.Controllers
                 viewer.SizeToReportContent = true;
                 viewer.AsyncRendering = true;
                 viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
-                viewer.ServerReport.ReportPath = "/Report Project1/AnalisisViabilidadPOA";
+                viewer.ServerReport.ReportPath = "/"+ SesionMenu .DescripcionServidorReport + "/AnalisisViabilidadPOA";
                 ReportParameter[] reportParameter = new ReportParameter[2];
                 reportParameter[0] = new ReportParameter("AnioSolictud", canio);
                 reportParameter[1] = new ReportParameter("NumSolicitud", numSolicitud.ToString());
@@ -799,6 +807,7 @@ namespace SistemaIntegradoGestion.Controllers
             try
             {
                 SesionUsuario = (tbUsuario)Session["Usuario"];
+                SesionMenu = (tbMenu)Session["MenuMaster"];
 
                 oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 #region "Generar el reporte"     
@@ -806,7 +815,7 @@ namespace SistemaIntegradoGestion.Controllers
                 viewer.SizeToReportContent = true;
                 viewer.AsyncRendering = true;
                 viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
-                viewer.ServerReport.ReportPath = "/Report Project1/AnalisisViabilidadPOA";
+                viewer.ServerReport.ReportPath = "/"+ SesionMenu.DescripcionServidorReport  + "/AnalisisViabilidadPOA";
                 ReportParameter[] reportParameter = new ReportParameter[2];
                 reportParameter[0] = new ReportParameter("AnioSolictud", canio);
                 reportParameter[1] = new ReportParameter("NumSolicitud", numSolicitud.ToString());
@@ -964,7 +973,7 @@ namespace SistemaIntegradoGestion.Controllers
             Session["Controlador"] = "ModificacionPoa";
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
 
-            listado = CD_SolicitudPOA.Instancia.ModificacionPOAParaVerificacionEnPresupuesto();
+            listado = CD_SolicitudPOA.Instancia.ModificacionPOAParaVerificacionEnPresupuesto(SesionUsuario.CodigoSubsistema);
             return View(listado);
         }
 
@@ -978,9 +987,14 @@ namespace SistemaIntegradoGestion.Controllers
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             string cAnio = oSistema.FechaSistema.Substring(0, 4);
 
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
-            Session["Controlador"] = "ModificacionPoa";
-            Session["ActionResul"] = "SolicitudModificacionPOA";
+            Session["ActionResul"] = actionName;
+            Session["Controlador"] = controllerName;
+
+
             Session["CodigoRol"] = SesionUsuario.CodigoRol;
             listado = CD_SolicitudPOA.Instancia.SolicitudesModificacionPOA();
             return View(listado);
@@ -1492,30 +1506,30 @@ namespace SistemaIntegradoGestion.Controllers
 
                             //funcion busca una palabra
                             modelPagina = ObtieneNumeroLineaBuscada(urlDocumento, "Total");
-                            
+
                             // Crear un objeto de escritura para el documento modificado
                             using (var newFileStream = new FileStream(urlDocumentoNuevo, FileMode.Create))
                             {
                                 // Crear un escritor de PDF
                                 var pdfStamper = new PdfStamper(pdfReader, newFileStream);
 
-                                
+
                                 // Obtener la cantidad de páginas en el documento
                                 int pageCount = pdfReader.NumberOfPages;
                                 // Obtener la última página del documento
                                 // var lastPage = pdfReader.GetPageN(pageCount);
 
                                 //Agrega una nueva pagina
-                                if(modelPagina.LineaActual > 55)
+                                if (modelPagina.LineaActual > 55)
                                 {
                                     //x = 350; // Posición X de la esquina inferior izquierda
                                     y = 750; // Posición Y de la esquina inferior izquierda
                                     pdfStamper.InsertPage(pageCount + 1, pdfReader.GetPageSizeWithRotation(1));
                                     pageCount = pageCount + 1;
                                 }
-                                
 
-                                 //Firma primera
+
+                                //Firma primera
                                 textoQRCodeFirma = "Firmado por." + aliasAnalista + "\n Date: " + DateTime.Parse(fechaFirma);
                                 barcodeQRCodeFirmaAera = new BarcodeQRCode(textoQRCodeFirma, 1000, 1000, null);
                                 codeQRImageFirmaAera = barcodeQRCodeFirmaAera.GetImage();
@@ -1871,9 +1885,12 @@ namespace SistemaIntegradoGestion.Controllers
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             string cAnio = oSistema.FechaSistema.Substring(0, 4);
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
-            Session["Controlador"] = "ModificacionPoa";
-            Session["ActionResul"] = "ListarConAsignacionRecursos";
+            Session["ActionResul"] = actionName;
+            Session["Controlador"] = controllerName;
             Session["CodigoRol"] = SesionUsuario.CodigoRol;
 
             listSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitudModificacionPoaConAsignacionRecursosListar(SesionUsuario.CodigoSubsistema, cAnio);
@@ -2066,7 +2083,7 @@ namespace SistemaIntegradoGestion.Controllers
             ViewBag.DireccionDirectory = Constantes.poaURL + @"\" + direccionDirectory;
             oSolicitudPoa.CodigoRolPYGE = SesionUsuario.CodigoRol;
             oSolicitudPoa.oModelArchivo = GetObtenerTodosArchivosPath(Constantes.poaURL + @"\" + direccionDirectory);
-            
+
             if (oSolicitudPoa.oModelArchivo.Count() > 0)
             {
                 oSolicitudPoa.numeroDocumentoAdjunto = 1;
@@ -2155,8 +2172,7 @@ namespace SistemaIntegradoGestion.Controllers
 
 
 
-        #endregion
-
+        #endregion       
 
         private string campoNull(string campo)
         {
@@ -2230,7 +2246,7 @@ namespace SistemaIntegradoGestion.Controllers
                                 {
                                     modelPagina.PaginaActual = page;
                                     modelPagina.LineaActual = numeroLinea;
-                                   // Console.WriteLine($"La palabra '{palabraBuscar}' se encontró en la página {page}, línea {numeroLinea}:");
+                                    // Console.WriteLine($"La palabra '{palabraBuscar}' se encontró en la página {page}, línea {numeroLinea}:");
                                     //Console.WriteLine(linea);
                                     break;
                                 }
@@ -2245,5 +2261,76 @@ namespace SistemaIntegradoGestion.Controllers
             }
             return modelPagina;
         }
+
+        [HttpPost]
+        public JsonResult ImprmeSolicitudPOAEjemplo(string nombreArchivo, string pathDirectorio)
+        {
+            bool estado = false;
+            string mensajeFirma = string.Empty;
+            
+            string rutaCertificado1 = Constantes.ReporteElectronicoPOAURL;
+            string rutaCertificado2 = Constantes.ReporteElectronicoPOAURL;
+            string nombreArchicoInput = string.Empty;
+            string nombreArchicoOnput = string.Empty;
+            string nombreTemporalOnput = string.Empty;
+            try
+            {
+                var ousuario = (tbUsuario)Session["Usuario"];
+                var oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
+                if (oCertificado.CodigoUsuario != null)
+                {                  
+                    var oUsuarioDirector = CD_Usuario.Instancia.GetUsuarioPorCodigo("PRUEBA8");
+
+                    var oCertificado1 = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(oUsuarioDirector.CodigoUsuario);
+                    
+                    rutaCertificado1 = rutaCertificado1 + @"\" + oCertificado.CodigoUsuario + @"\" + oCertificado.PathDocumento;
+                    rutaCertificado2 = rutaCertificado2 + @"\" + oCertificado1.CodigoUsuario + @"\" + oCertificado1.PathDocumento;
+                    string[] authorsList = nombreArchivo.Split('.');
+                    nombreArchicoInput = pathDirectorio + @"\" + nombreArchivo;
+                    nombreArchicoOnput = pathDirectorio + @"\" + authorsList[0] + "-signed.pdf";
+                    nombreTemporalOnput = pathDirectorio + @"\" + authorsList[0] + "-temporal.pdf";
+
+                    var certificado = new Certificado(rutaCertificado1, SeguridadEncriptar.DesEncriptar(oCertificado.Contrasena));
+                    var firmante = new Firmante(certificado);
+                    firmante.Firmar(@nombreArchicoInput, @nombreTemporalOnput);
+
+                    //Segunda Firma
+                    var certificado1 = new Certificado(rutaCertificado1, SeguridadEncriptar.DesEncriptar(oCertificado1.Contrasena));
+                    var firmante1 = new Firmante(certificado1);
+                    firmante1.Firmar(@nombreTemporalOnput, @nombreArchicoOnput);
+                    EliminaArchivoServidor(@nombreTemporalOnput);
+
+                    // DocumentoFirmadoFirmaElectronica.Instancia.PrimeraFirmarDocumentoPDFConQR(nombreArchicoInput, nombreTemporalOnput, ousuario, pathDirectorio);
+                    //Segunda Firmas
+
+                    /*if(DocumentoFirmadoFirmaElectronica.Instancia.SegundaFirmarDocumentoPDFConQR(nombreTemporalOnput, nombreArchicoOnput, oUsuarioDirector, pathDirectorio))
+                    {
+                        EliminaArchivoServidor(nombreTemporalOnput);
+                    }*/
+
+                    estado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                estado = false;
+                mensajeFirma = ex.Message;
+            }
+
+            return Json(new { resultado = estado, mensaje = mensajeFirma }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult ComprobarSession()
+        {
+            bool respuesta = true;
+            if (Session["Usuario"] == null)
+                respuesta = false;
+
+            return Json(respuesta, JsonRequestBehavior.AllowGet);
+
+
+        }
+
     }
 }

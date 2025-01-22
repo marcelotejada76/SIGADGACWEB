@@ -88,6 +88,9 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.6.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="ReportViewerForMvc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ReportViewerForMvc4.1.1.2\lib\net40\ReportViewerForMvc.dll</HintPath>
     </Reference>
@@ -212,7 +215,11 @@
     <Compile Include="Utilitarios\Constantes.cs" />
     <Compile Include="Utilitarios\DocumentoFirmado.cs" />
     <Compile Include="Utilitarios\DocumentoFirmadoFirmaElectronica.cs" />
+    <Compile Include="Utilitarios\Certificado.cs" />
     <Compile Include="Utilitarios\ExportarArchivoExcel.cs" />
+    <Compile Include="Utilitarios\Firmante.cs" />
+    <Compile Include="Utilitarios\FirmaPDFConQR.cs" />
+    <Compile Include="Utilitarios\Notario.cs" />
     <Compile Include="Utilitarios\SeguridadEncriptar.cs" />
     <Compile Include="Utilitarios\Utilitario.cs" />
   </ItemGroup>
@@ -2414,6 +2421,7 @@
     <Content Include="Content\Plugins\summernote\summernote.js.map" />
     <Content Include="Content\Plugins\summernote\summernote.min.js.map" />
     <Content Include="Content\Plugins\toastr\toastr.js.map" />
+    <Content Include="libman.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Reporte\ReportViewer.aspx" />
@@ -2428,13 +2436,24 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Views\ConsultarSolicitud.js" />
+    <Content Include="Scripts\Views\ConsultarSolicitudModificacionPoa.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
     <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
+    <Content Include="Scripts\Views\listarVerificarPresupuestariaSin.js" />
     <Content Include="Scripts\Views\maestroPersonal.js" />
     <Content Include="Scripts\Views\operacionesAprueba.js" />
+    <Content Include="Scripts\Views\RevisarAprobarSolicitudModificacionPOA.js" />
     <Content Include="Scripts\Views\revisarAprobarSolicitudPOA.js" />
     <Content Include="Scripts\Views\revisarSolicitudPOA.js" />
+    <Content Include="Scripts\Views\sinAfectacionPresupuestaria.js" />
     <Content Include="Scripts\Views\solicitarCertificadoPOA.js" />
+    <Content Include="Scripts\Views\SolicitudModificacionPOA.js" />
+    <Content Include="Scripts\Views\SolModificacionPoaConAfectacionPresupuestaria.js" />
+    <Content Include="Scripts\Views\SolModificacionPoaConAsignacionRecursos.js" />
+    <Content Include="Scripts\Views\SubirDocumentosHabilitantes.js" />
+    <Content Include="Scripts\Views\verificaPresupuestariaSolicitud.js" />
+    <Content Include="Scripts\Views\visualizarDocumentos.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2494,6 +2513,7 @@
     <Content Include="Views\ModificacionPoa\SolModificacionPoaConAsignacionRecursos.cshtml" />
     <Content Include="Views\ModificacionPoa\SubirDocumentosHabilitantes.cshtml" />
     <Content Include="Views\ModificacionPoa\VerificaPresupuestariaSolicitud.cshtml" />
+    <Content Include="Views\SolicitarModificaciones\VisualizarDocumentos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -24,8 +24,10 @@ namespace SistemaIntegradoGestion.Controllers
 
     public class SolicitarModificacionesController : Controller
     {
+        private static string SesionControlador = "SolicitarModificaciones";
         private static string ssrsurl = ConfigurationManager.AppSettings["SSRSRReportsUrl"].ToString();
         private static tbUsuario SesionUsuario;
+        private static tbMenu SesionMenu;        
 
         #region "Certificado POA"
 
@@ -68,8 +70,12 @@ namespace SistemaIntegradoGestion.Controllers
             string cAnio = oSistema.FechaSistema.Substring(0, 4);
 
             listado = CD_SolicitudPOA.Instancia.SolicitarCertificadoSoloPOA(cAnio, SesionUsuario.CodigoSubsistema);
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+
             Session["Rol"] = SesionUsuario.CodigoRol;
-            Session["ActionResul"] = "EnviarSolicitarCertificadoPOA";
+            Session["ActionResul"] = actionName;
+            Session["Controlador"] = controllerName;
             Session["TituloActionResul"] = "Enviar Solicitud Certificación POA";
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
 
@@ -88,7 +94,9 @@ namespace SistemaIntegradoGestion.Controllers
             string cAnio = oSistema.FechaSistema.Substring(0, 4);
 
             listado = CD_SolicitudPOA.Instancia.SolicitarCertificadoSoloPOA(cAnio, SesionUsuario.CodigoSubsistema);
-            Session["ActionResul"] = "SolicitarCertificadoPOA";
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            Session["Controlador"] = controllerName;
+            Session["ActionResul"] = "SolicitarCertificadoPOA";           
             Session["TituloActionResul"] = "Solicitar Certificación POA";
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
 
@@ -106,6 +114,8 @@ namespace SistemaIntegradoGestion.Controllers
             string cAnio = ""; // oSistema.FechaSistema.Substring(0, 4);
 
             listado = CD_SolicitudPOA.Instancia.RevisarAutualizarSolicitudCertificadoPOA(cAnio);
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            Session["Controlador"] = controllerName;
             Session["ActionResul"] = "RevisarAprobarSolicitudCertificado";
             Session["TituloActionResul"] = "Revisar o Aprobar Solicitud Certificación POA";
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
@@ -126,6 +136,8 @@ namespace SistemaIntegradoGestion.Controllers
             string cAnio = ""; // oSistema.FechaSistema.Substring(0, 4);
 
             listado = CD_SolicitudPOA.Instancia.RevisarAutualizarSolicitudCertificadoPOA(cAnio);
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            Session["Controlador"] = controllerName;
             Session["ActionResul"] = "RevisarSolicitudCertificado";
             Session["TituloActionResul"] = "Revisar Solicitud Certificación POA";
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
@@ -418,6 +430,7 @@ namespace SistemaIntegradoGestion.Controllers
             try
             {
                 var ousuario = (tbUsuario)Session["Usuario"];
+                SesionMenu = (tbMenu)Session["MenuMaster"];
 
                 if (CD_SolicitudPOA.Instancia.ApruebaSolicitudCertificadoPOA(canio, numSolicitud, estAut, ousuario.CodigoUsuario, cobservacion, cobservacion1))
                 {
@@ -425,7 +438,7 @@ namespace SistemaIntegradoGestion.Controllers
                     viewer.SizeToReportContent = true;
                     viewer.AsyncRendering = true;
                     viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
-                    viewer.ServerReport.ReportPath = "/Report Project1/CertificadoPOA";
+                    viewer.ServerReport.ReportPath = "/" + SesionMenu.DescripcionServidorReport + "/CertificadoPOA";
                     ReportParameter[] reportParameter = new ReportParameter[2];
                     reportParameter[0] = new ReportParameter("AñoSolicitud", canio);
                     reportParameter[1] = new ReportParameter("NoSolictud", numSolicitud.ToString());
@@ -492,14 +505,14 @@ namespace SistemaIntegradoGestion.Controllers
             try
             {
                 var ousuario = (tbUsuario)Session["Usuario"];
-
+                SesionMenu = (tbMenu)Session["MenuMaster"];
                 if (CD_SolicitudPOA.Instancia.ApruebaSolicitudCertificadoPOA(canio, numSolicitud, estAut, ousuario.CodigoUsuario, cobservacion, cobservacion1))
                 {
                     viewer.ProcessingMode = ProcessingMode.Remote;
                     viewer.SizeToReportContent = true;
                     viewer.AsyncRendering = true;
                     viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
-                    viewer.ServerReport.ReportPath = "/Report Project1/CertificadoPOA";
+                    viewer.ServerReport.ReportPath = "/" + SesionMenu.DescripcionServidorReport + "/CertificadoPOA";
                     ReportParameter[] reportParameter = new ReportParameter[2];
                     reportParameter[0] = new ReportParameter("AñoSolicitud", canio);
                     reportParameter[1] = new ReportParameter("NoSolictud", numSolicitud.ToString());
@@ -679,6 +692,7 @@ namespace SistemaIntegradoGestion.Controllers
                         {
                             if (InsertaCertificadoDocumentoFirmado(FileName, FileNameFirmado, cdireccion, 1))
                             {
+                                FilePathReturn = FileNameFirmado;
                                 EliminaArchivoServidor(FilePath);
                             }
                         }
@@ -726,7 +740,7 @@ namespace SistemaIntegradoGestion.Controllers
             try
             {
                 var ousuario = (tbUsuario)Session["Usuario"];
-
+                SesionMenu = (tbMenu)Session["MenuMaster"];
                 oSolicitud = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
                 if (oSolicitud.NumeroSolicitud > 0)
@@ -735,7 +749,7 @@ namespace SistemaIntegradoGestion.Controllers
                     viewer.SizeToReportContent = true;
                     viewer.AsyncRendering = true;
                     viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
-                    viewer.ServerReport.ReportPath = "/Report Project1/SolicitudCertificadoPOA";
+                    viewer.ServerReport.ReportPath = "/" + SesionMenu.DescripcionServidorReport + "/SolicitudCertificadoPOA";
                     reportParameter = new ReportParameter[2];
                     reportParameter[0] = new ReportParameter("AñoSolicitud", canio);
                     reportParameter[1] = new ReportParameter("NoSolictud", numSolicitud.ToString());
@@ -908,6 +922,7 @@ namespace SistemaIntegradoGestion.Controllers
             model.Ruc = ousuario.CedulaUsuario;
             model.Contrasena = "";
             ViewBag.Vista = Session["ActionResul"].ToString();
+            ViewBag.Controlador = Session["Controlador"].ToString();
             return View(model);
         }
 
@@ -1123,7 +1138,8 @@ namespace SistemaIntegradoGestion.Controllers
                     }
                 }
 
-
+                ViewBag.Vista = Session["ActionResul"].ToString();
+                ViewBag.Controlador = Session["Controlador"].ToString();
             }
             catch (Exception ex)
             {

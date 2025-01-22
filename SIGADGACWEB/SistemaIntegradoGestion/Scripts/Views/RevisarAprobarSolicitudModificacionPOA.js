@@ -33,7 +33,7 @@ $(document).ready(function () {
                     success: function (result) {
                         if (result == "ok") {
                             Swal.fire({
-                                title: 'Revisar/Aprobar (Eleborar informe de  viabilidad Modificacion POA)',
+                                title: 'Revisar/Aprobar (Elaborar informe de  viabilidad Modificacion POA)',
                                 text: "La operación fue realizada con éxito",
                                 icon: 'success',
                                 showCancelButton: false,

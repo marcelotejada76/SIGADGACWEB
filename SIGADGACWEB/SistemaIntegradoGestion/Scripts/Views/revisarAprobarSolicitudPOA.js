@@ -16,7 +16,7 @@ function loadDataTable() {
         scrollCollapse: true,
         paging: false,
         fixedHeader: true,
-        "order": [[0, 'desc'], [1, 'desc']],
+        "order": [[0, 'desc'], [3, 'desc']],
         "language": {
             "decimal": "",
             "emptyTable": "No hay información",
@@ -165,7 +165,7 @@ function mensajeGeneral(titulo, contenido) {
     Swal.fire({
         icon: 'warning',
         title: "<p style='width: 100 %;'>" + titulo + "</p>",
-        html: "<ul class='text-left'>" + contenido + "</ul>",
+        html:  contenido,
         confirmButtonText: 'Aceptar'
     });
 }
@@ -219,18 +219,13 @@ function ExportaToPDF() {
                 error: function (errormessage) {
                     $('#loadingBuscar').hide();
                     $("#btnAprobar").attr('disabled', 'disabled');  
-                    mensajeGeneral("Certificado electronico", "Error, " + errormessage);
+                    mensajeGeneralIco("Certificado electronico", "Error, " + errormessage, "error");
                 }
             });
         }
         else {
             $('#loadingBuscar').hide();
-            Swal.fire({
-                icon: 'warning',
-                title: "<p style='width: 100 %; font-size: 14px;'>Revisar o Aprobar Solicitud</p>",
-                html: "<ul class='text-danger text-left'>Opción habilitada para Rol=Director DPGE</ul>",
-                confirmButtonText: 'Aceptar'
-            });
+            mensajeGeneral("Revisar o Aprobar Solicitud", "Opción habilitada para Rol=Director DPGE");            
         }
     }
     else if (_EstadoAprobado == "0") {
@@ -274,12 +269,6 @@ function FirmaCertificadoPOA(canio, numSol, opathArchivo, estaut, observacion, o
         success: function (result) {
             if (result.length > 0) {
                 abrirArchivo(result);
-                //setTimeout(function () {
-                //    frame = document.getElementById("frmPDF");
-                //    framedoc = frame.contentWindow;
-                //    framedoc.focus();
-                //    framedoc.print();
-                //}, 1000);
                 //Carga todos os archivos 
                 $.ajax({
                     url: $.MisUrls.url._CargaTodosArchivosDirectory,
@@ -295,19 +284,27 @@ function FirmaCertificadoPOA(canio, numSol, opathArchivo, estaut, observacion, o
                         })
                     },
                     error: function (errormessage) {
-                        Swal.fire("Mensaje", "Error, Exportar el reporte" + errormessage, "warning");
+                        mensajeGeneralIco("Mensaje", "Error, Exportar el reporte" + errormessage, "warning"); 
                     }
                 });
             }
             else {
                 $('#loadingBuscar').hide();
-                Swal.fire("Mensaje", "No se pudo firmar la Solicitud del Certificado POA", "warning");
+                mensajeGeneralIco("Mensaje", "No se pudo firmar la Solicitud del Certificado POA", "warning");                  
             }
 
         },
         error: function (errormessage) {
-            Swal.fire("Mensaje", "Error, Exportar el reporte" + errormessage, "warning");
+            mensajeGeneralIco("Mensaje", "Error, Exportar el reporte" + errormessage, "warning");           
         }
     });
 }
 
+function mensajeGeneralIco(titulo, contenido, _ico) {
+    Swal.fire({
+        icon: _ico,
+        title: "<p style='width: 100 %;'>" + titulo + "</p>",
+        html: contenido,
+        confirmButtonText: 'Aceptar'
+    });
+}

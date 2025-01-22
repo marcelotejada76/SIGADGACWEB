@@ -316,7 +316,8 @@ function cargaDatosEmpleado() {
         },
         error: function (error) {
             $('.loadingBuscar').hide();
-            console.log(error)
+            alert(error)
+           //console.log(error)
         },
         beforeSend: function () {
            // $('.loadingBuscar').hide();

@@ -62,6 +62,7 @@
     <Compile Include="tbModelArchivo.cs" />
     <Compile Include="tbAtc.cs" />
     <Compile Include="tbLogUsuarioAircon.cs" />
+    <Compile Include="tbDocumentosDescarga.cs" />
     <Compile Include="tbTotalesRecord.cs" />
     <Compile Include="tbSubirDepositos.cs" />
     <Compile Include="tbSorteo.cs" />

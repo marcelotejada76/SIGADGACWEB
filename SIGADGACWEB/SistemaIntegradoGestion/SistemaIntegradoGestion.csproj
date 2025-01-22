@@ -177,7 +177,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\DocumentosDescargaCartasController.cs" />
+    <Compile Include="Controllers\DocumentosDescargaManualesController.cs" />
+    <Compile Include="Controllers\DocumentosDescargaFormulariosController.cs" />
+    <Compile Include="Controllers\DocumentosDescargaProcedimientosController.cs" />
+    <Compile Include="Controllers\DocumentosDescargaInstruccionesController.cs" />
     <Compile Include="Controllers\LogUsuarioAirconController.cs" />
+    <Compile Include="Controllers\DocumentosDescargaController.cs" />
     <Compile Include="Controllers\TotalesRecordController.cs" />
     <Compile Include="Controllers\HistoricoControlAtcController.cs" />
     <Compile Include="Controllers\ControlAtcDiarioController.cs" />
@@ -2523,6 +2529,12 @@
     <Content Include="Views\HistoricoControlAtc\ListadoHistoricoAtc.cshtml" />
     <Content Include="Views\TotalesRecord\ListadoTotalesRecord.cshtml" />
     <Content Include="Views\LogUsuarioAircon\ListadoUsuarioAircon.cshtml" />
+    <Content Include="Views\DocumentosDescarga\ListadoDocumentosDescarga.cshtml" />
+    <Content Include="Views\DocumentosDescargaInstrucciones\ListadoDocumentosDescargaInstrucciones.cshtml" />
+    <Content Include="Views\DocumentosDescargaProcedimientos\ListadoDocumentosDescargaProcedimientos.cshtml" />
+    <Content Include="Views\DocumentosDescargaCartas\ListadoDocumentosDescargaCartas.cshtml" />
+    <Content Include="Views\DocumentosDescargaManuales\ListadoDocumentosDescargaManuales.cshtml" />
+    <Content Include="Views\DocumentosDescargaFormularios\ListadoDocumentosDescargaFormularios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

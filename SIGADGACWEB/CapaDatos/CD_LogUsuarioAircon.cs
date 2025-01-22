@@ -34,13 +34,18 @@ namespace CapaDatos
 
         public List<tbLogUsuarioAircon> ConsultaLogUsuarioAircon()
         {
+            
+            int diaproceso = (-2);
+            
+            string fechaProceso = DateTime.Now.AddDays(diaproceso).ToString("yyyyMMdd").ToUpper();
+            
 
             List<tbLogUsuarioAircon> listarSolicitud = new List<tbLogUsuarioAircon>();
             StringBuilder sbSol = new StringBuilder();
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPRARC ORDER BY OPRFE2 DESC ,OPREST");
+                sbSol.Append("SELECT * FROM OPRARC  WHERE OPRFE2 >= '"+fechaProceso+"'  ORDER BY OPRFE2 DESC ,OPREST");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -155,7 +160,8 @@ namespace CapaDatos
             try
             {
                 //sbSol.Append("SELECT * FROM OPRARC  WHERE oprest ='" + Estacion + "'");
-                sbSol.Append("SELECT * FROM OPRARC  WHERE OPRPOS LIKE ('%" + Posicion + "%')  ORDER BY OPRFE2 DESC ");
+                sbSol.Append("SELECT * FROM OPRARC  WHERE OPRPOS = '" + Posicion + "'  ORDER BY OPRFE2 DESC ");
+                //sbSol.Append("SELECT * FROM OPRARC  WHERE OPRPOS LIKE ('%" + Posicion + "%')  ORDER BY OPRFE2 DESC ");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;

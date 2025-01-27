@@ -1443,7 +1443,8 @@ namespace SistemaIntegradoGestion.Controllers
 
                         var tbl = new PdfPTable(new float[] { 10f, 80f }) { WidthPercentage = 100f };
                         var c1 = new PdfPCell(logo) { Rowspan = 3 };
-                        var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL DEL ECUADOR", negrita10));
+                        //var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL DEL ECUADOR", negrita10));
+                        var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL", negrita10));
 
                         c1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;                        
                         c2.HorizontalAlignment = PdfPCell.ALIGN_MIDDLE;
@@ -1632,7 +1633,8 @@ namespace SistemaIntegradoGestion.Controllers
 
                         var tbl = new PdfPTable(new float[] { 10f, 80f }) { WidthPercentage = 100f };
                         var c1 = new PdfPCell(logo) { Rowspan = 3 };
-                        var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL DEL ECUADOR", negrita12));
+                        //var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL DEL ECUADOR", negrita12));
+                        var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL", negrita12));
                         c1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                         c2.HorizontalAlignment = PdfPCell.ALIGN_MIDDLE;
                         c2.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
@@ -1655,7 +1657,7 @@ namespace SistemaIntegradoGestion.Controllers
                         paraAsunto.Clear();
                         pdfDoc.Add(Chunk.NEWLINE);
                         paraAsunto.Font = negrita12;
-                        paraAsunto.Add("Certificación POA No." + dr["CERTIFICACION_POA_NO"].ToString());
+                        paraAsunto.Add("Certificación POA "+ canio + " No." + dr["CERTIFICACION_POA_NO"].ToString());
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
                         pdfDoc.Add(paraAsunto);
                         paraAsunto.Clear();

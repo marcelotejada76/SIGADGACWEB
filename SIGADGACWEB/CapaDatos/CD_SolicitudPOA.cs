@@ -716,7 +716,15 @@ namespace CapaDatos
                 sbSol.Append(" ifnull(rtrim(ltrim(SOLFE9)), '') as FechaRevision,  ifnull(rtrim(ltrim(SOLES7)), '') as EstadoAutorizacion, ifnull(rtrim(ltrim(SOLF01)), '') as FechaAprobacion, ifnull(SOLNU6, 0) as NumeroModificacion, ifnull(rtrim(ltrim(SOLCO4)), '') as CodigoUnidadEjecucion ,  ifnull(rtrim(ltrim(SOLCO5)), '') as CodigoDireccionPYGE, ");
                 sbSol.Append(" ifnull(SOLSEC, 0) as SecuenciaActividad, ifnull(PLANU2, 0) AS NumeroCertificadoPOA , ifnull(ACTSEC, 0) AS SecuencialActualizacion,  case rtrim(ltrim(SOLES9)) when '' then '.' else rtrim(ltrim(SOLES9)) end AS EstadoVerificacionFinanciera, ifnull(rtrim(ltrim(SOLF06)), '')  as FechaCreacionFIN_PRES, ifnull(rtrim(ltrim(SOLES8)), '') AS EstadoActualizacionPOA ");
                 sbSol.Append(" FROM SOLAR1 left join ACTAR1 on (SOLAN1 = ACTAN2 and SOLNU3 = ACTNU2) LEFT JOIN PLAARC ON(SOLCO4 = PLACO2 AND SOLCO5 = PLACO3 AND SOLAN1 = PLAANI AND  SOLSEC = PLANUM)");
-                sbSol.Append(" WHERE (SOLTIP = 'MOD' OR SOLTIP = 'MDP' OR SOLTIP = 'MAR') AND SOLES6 <> 'NS' AND SOLCO5 = '" + codSubsistema + "'");
+                if (codSubsistema.Equals("SZOL"))
+                {
+                    sbSol.Append(" WHERE (SOLTIP = 'MOD' OR SOLTIP = 'MDP' OR SOLTIP = 'MAR') AND SOLES6 <> 'NS' AND SOLCO5 = '" + codSubsistema + "'");
+                }
+                else
+                {
+                    sbSol.Append(" WHERE (SOLTIP = 'MOD' OR SOLTIP = 'MDP' OR SOLTIP = 'MAR') AND SOLES6 <> 'NS' AND SOLCO5 != 'SZOL'");
+                }
+                
                 sbSol.Append(" ORDER BY SOLAN1, SOLNU3 DESC");
                 query = sbSol.ToString();
                 iDB2Command cmd;

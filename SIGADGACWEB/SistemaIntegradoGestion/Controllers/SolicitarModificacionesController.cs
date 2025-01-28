@@ -657,6 +657,18 @@ namespace SistemaIntegradoGestion.Controllers
 
         }
 
+        //[HttpGet]
+        //public JsonResult PruebaReporteCertificadoPOA(string canio, Int32 numSolicitud)
+        //{
+        //    Document dctoCertificado = new Document();
+        //    bool respuesta = false;
+        //    dctoCertificado = GenerarCertificadoPOA(canio, numSolicitud);
+        //    if(dctoCertificado != null)
+        //        respuesta = true;
+
+        //    return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
+        //}
+
         public ActionResult ExportaServerReportAPDF(string canio, Int32 numSolicitud)
         {
             tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
@@ -1612,8 +1624,11 @@ namespace SistemaIntegradoGestion.Controllers
                     {
 
                         pathCertificado = Utilitarios.Utilitario.certificadoPOAUrl + ousuario.CodigoUsuario;
+                        //directorio = oSolicitud.CodigoDireccionPYGE + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud.ToString();
+                        //nombreArchivo = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
                         directorio = oSolicitud.CodigoDireccionPYGE + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud.ToString();
-                        nombreArchivo = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
+                        nombreArchivo = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroCertificadoPOA.ToString();
+
 
                         pathSolcitud = Constantes.poaURL + @"\" + directorio;
 
@@ -1727,7 +1742,13 @@ namespace SistemaIntegradoGestion.Controllers
                         tableEstructura.AddCell(celle1);
                         tableEstructura.AddCell(celle2);
                         celle1 = new PdfPCell(new Phrase("Monto Total:", negrita12));
-                        celle2 = new PdfPCell(new Phrase("$" + Convert.ToDecimal(dr["MONTO_TOTAL_USD"].ToString()), tituloNormal12));
+                        celle2 = new PdfPCell(new Phrase("$" + String.Format("{0:#,##0.00}", Convert.ToDecimal(dr["MONTO_TOTAL_USD"])), tituloNormal12));
+                        celle1.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
+                        celle2.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
+                        tableEstructura.AddCell(celle1);
+                        tableEstructura.AddCell(celle2);
+                        celle1 = new PdfPCell(new Phrase("Proyecto:", negrita12));
+                        celle2 = new PdfPCell(new Phrase(dr["DESCRIPCIONPROYECTO"].ToString().Trim(), tituloNormal12));
                         celle1.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
                         celle2.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
                         tableEstructura.AddCell(celle1);

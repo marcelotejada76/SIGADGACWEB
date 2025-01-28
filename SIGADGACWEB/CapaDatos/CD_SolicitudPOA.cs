@@ -169,7 +169,7 @@ namespace CapaDatos
             {
                 query = "SELECT ('Solicitud de ' || ifnull(rtrim(ltrim((SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP))), '') || ' No: ' || (SOLAN1 || '-' || SOLNU3)) AS TituloSolicitud,"
                 + " (SOLAN1 || '-' || SOLNU3) as anioSolicitud, ifnull(rtrim(ltrim(SOLFE6)), '') as FechaSolicitud,"
-                + " 'Con la finalidad de cumplir con las actividades programadas en el POA ' ||SOLAN1 || ' de la Dirección ' ||  TRIM(DIRDES) || ' para la consecución de los Objetivos Estratégicos Insititucionales de la DGAC, agradeceré disponer a quien corresponda se emita la Certificación POA de la actividad ' as DescripcionSolicitud1,"
+                + " 'Con la finalidad de cumplir con las actividades programadas en el POA ' ||SOLAN1 || ' de la Dirección ' ||  TRIM(DIRDES) || ' para la consecución de los Objetivos Estratégicos Insititucionales de la DGAC, agradeceré disponer a quien corresponda se emita la Actualización de la Certificación POA de la actividad ' as DescripcionSolicitud1,"
                 + " ' como consta en el POA, misma que se encuentra registrada en el POA ' || SOLAN1 || ' de la DGAC.'as DescripcionSolicitud2,"
                 + " TRIM(LINAC1 || LINAC2 || LINAC3 || LINAC4 || LINAC5) as Actividad,   SOLAN1 as anio,  'Atenamente' as Atentamente, ('DIRECTOR(A) DE' || ' ' || TRIM(DIRDES)) as Direccion "
                 + " FROM solar1 join LINARC on SOLAN1 = LINAN1 and SOLNU3 = LINNU1"
@@ -213,7 +213,8 @@ namespace CapaDatos
                     + " (L.LINC42 || ' ' || T.TIPDE2) AS TIPO_ADQUISICION, (L.LINAC1 || L.LINAC2 || L.LINAC3 || L.LINAC4 || L.LINAC5) AS ACTIVIDAD_POA,"
                     + " (L.LINC31 || L.LINC32 || L.LINC33 || L.LINC34) AS PARTIDA_PRESUPUESTARIA, L.LINMON AS MONTO_TOTAL_USD, "
                     + " RTRIM(S.SOLUS6)|| '-' ||YEAR(DATE(TO_DATE(S.SOLFE6,'YYYY/MM/DD')))|| '-' ||INTEGER(L.LINNU1)  AS USUARIO, RTRIM(S.SOLUS6)  AS USUARIO1,"
-                    + " (SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP) AS DescripcionTipoSolicitud"
+                    + " (SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP) AS DescripcionTipoSolicitud,"
+                    + " (ifnull(rtrim(ltrim(PY.PROCO7)), '')  || ' '  || ifnull(rtrim(ltrim(PY.PRODE2)), '')) AS DescripcionProyecto"
                     + " FROM LINARC L"
                     + " JOIN CERAR2 C ON (L.LINAN1=C.CERANI AND L.LINNU1=C.CERNU4)"
                     + " JOIN SOLAR1 S ON (S.SOLAN1=L.LINAN1 AND S.SOLNU3=L.LINNU1)"
@@ -221,6 +222,7 @@ namespace CapaDatos
                     + " JOIN ACTARC A ON (A.ACTCOD=L.LINACT)"
                     + " JOIN PROAR1 P ON (P.PROCO6=L.LINC43)"
                     + " JOIN TIPAR2 T ON (T.TIPCO1=L.LINC42)"
+                    + " JOIN PROAR2 PY ON L.LINC43 = PY.PROCO8 AND L.LINC44 = PY.PROCO9 AND L.LINC45 = PY.PROCO7"
                     + " WHERE SUBSTRING(S.SOLFE6, 1, 4) = '" + cAnio + "' AND L.LINNU1 = " + numSolicitud;
 
                 iDB2Command cmd;

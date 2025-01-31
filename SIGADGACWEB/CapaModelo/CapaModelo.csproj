@@ -42,6 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tbDocumentosAtoInt.cs" />
+    <Compile Include="tbDocumentosAtoDescarga.cs" />
+    <Compile Include="tbDocumentosGestionInterna.cs" />
+    <Compile Include="tbDocumentosDsnaDescarga.cs" />
+    <Compile Include="tbDocumentosDsna.cs" />
     <Compile Include="tbHistoricoDetalleCursoAtc.cs" />
     <Compile Include="tbHistoricoDetalleDependenciaAtc.cs" />
     <Compile Include="tbHistoricoAtc.cs" />

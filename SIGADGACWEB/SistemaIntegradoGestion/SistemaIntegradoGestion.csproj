@@ -177,7 +177,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\DocumentosAeropuertosNacionalesController.cs" />
     <Compile Include="Controllers\DocumentosDescargaCartasController.cs" />
+    <Compile Include="Controllers\DocumentosAeropuertosInternacionalesController.cs" />
+    <Compile Include="Controllers\DocumentosSeguridadOperacionalController.cs" />
+    <Compile Include="Controllers\DocumentosGestionInternaController.cs" />
+    <Compile Include="Controllers\DocumentosDsnaController.cs" />
     <Compile Include="Controllers\DocumentosDescargaManualesController.cs" />
     <Compile Include="Controllers\DocumentosDescargaFormulariosController.cs" />
     <Compile Include="Controllers\DocumentosDescargaProcedimientosController.cs" />
@@ -2520,7 +2525,6 @@
     <Content Include="Views\ModificacionPoa\SolModificacionPoaConAsignacionRecursos.cshtml" />
     <Content Include="Views\ModificacionPoa\SubirDocumentosHabilitantes.cshtml" />
     <Content Include="Views\ModificacionPoa\VerificaPresupuestariaSolicitud.cshtml" />
-    <Content Include="Views\Depositos\CargaDepositosClientes.cshtml" />
     <Content Include="Views\Depositos\SubirDocumentosDepositos.cshtml" />
     <Content Include="Views\Depositos\ConsultaDepositosClientes.cshtml" />
     <Content Include="Views\Depositos\ConsultaDocumentosDepositos.cshtml" />
@@ -2535,6 +2539,13 @@
     <Content Include="Views\DocumentosDescargaCartas\ListadoDocumentosDescargaCartas.cshtml" />
     <Content Include="Views\DocumentosDescargaManuales\ListadoDocumentosDescargaManuales.cshtml" />
     <Content Include="Views\DocumentosDescargaFormularios\ListadoDocumentosDescargaFormularios.cshtml" />
+    <Content Include="Views\DocumentosSeguridadOperacional\ListadoDocumentosSeguridadOperacional.cshtml" />
+    <Content Include="Views\DocumentosGestionInterna\ListadoDocumentosGestionInterna.cshtml" />
+    <Content Include="Views\DocumentosAeropuertosInternacionales\ListadoDocumentosAeropuertosInternacionales.cshtml" />
+    <Content Include="Views\Depositos\CargaDepositosClientes.cshtml" />
+    <Content Include="Views\DocumentosAeropuertosNacionales\ListadoDocumentosAeropuertosNacionales.cshtml" />
+    <Content Include="Views\DocumentosDsna\ListadoDocumentosDsna.cshtml" />
+    <Content Include="Views\DocumentosDsna\VerPdf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

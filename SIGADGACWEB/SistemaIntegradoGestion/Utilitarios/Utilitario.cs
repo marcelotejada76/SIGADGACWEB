@@ -95,10 +95,18 @@ namespace SistemaIntegradoGestion.Utilitarios
                 return "";
         }
 
+        //URL SIGEPOA
+        //url Produccion
+        public const string certificadoPOAUrl = @"\\172.20.16.90\Sigpoa\Certificado\";
+        //url Desarrollo
+        //public const string certificadoPOAUrl = @"\\172.20.16.90\Sigpoad\Certificado\";
+
+
+        //url para charter
         public const string charterURL = @"\\172.20.16.90\vuelos_charter\AdjuntosCharter";
         public const string certificadoURL = @"\\172.20.16.90\vuelos_charter\AdjuntoCertificado\";
         public const string autorizacionURL = @"\\172.20.16.90\vuelos_charter\AdjuntoAutorizacion\";
-        public const string certificadoPOAUrl = @"\\172.20.16.90\Sigpoa\Certificado\";
+        
 
         public string llenaCero(string numero)
         {

@@ -603,6 +603,7 @@ namespace SistemaIntegradoGestion.Controllers
             tbCertificadoDigital oCertificado = new tbCertificadoDigital();
             tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
             Document dctoCertificado = new Document();
+            string numeroCertificadoPOA = string.Empty;
             try
             {
                 var ousuario = (tbUsuario)Session["Usuario"];
@@ -617,9 +618,17 @@ namespace SistemaIntegradoGestion.Controllers
                         //Verifica si existe la carpeta creada si no lo crear
                         if (!System.IO.Directory.Exists(urlReporteElectronico))
                             System.IO.Directory.CreateDirectory(urlReporteElectronico);
-                        
-                        string FileName = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString() + ".pdf";
-                        FileNameFirmado =  "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString() + "-signed.pdf";
+
+                        //Verifica si existe una actalización y lo concatena el numero certificado + secuencial
+                        if (oSolicitud.SecuencialActualizacion > 0)
+                            numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString() + "_" + oSolicitud.SecuencialActualizacion.ToString();
+                        else
+                            numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString();
+
+
+                        string FileName = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA + ".pdf";
+                        //FileNameFirmado =  "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString() + "-signed.pdf";
+                        FileNameFirmado = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA + "-signed.pdf";
                         string FilePath = urlReporteElectronico + @"\" + FileName;
 
                         dctoCertificado = GenerarCertificadoPOA(canio, numSolicitud);
@@ -657,17 +666,68 @@ namespace SistemaIntegradoGestion.Controllers
 
         }
 
-        //[HttpGet]
-        //public JsonResult PruebaReporteCertificadoPOA(string canio, Int32 numSolicitud)
-        //{
-        //    Document dctoCertificado = new Document();
-        //    bool respuesta = false;
-        //    dctoCertificado = GenerarCertificadoPOA(canio, numSolicitud);
-        //    if(dctoCertificado != null)
-        //        respuesta = true;
+        [HttpGet]
+        public JsonResult PruebaReporteCertificadoPOA(string canio, Int32 numSolicitud)
+        {
+            Document dctoCertificado = new Document();
+            tbCertificadoDigital oCertificado = new tbCertificadoDigital();
+            tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
+            string FilePathReturn = string.Empty;
+            string FileNameFirmado = string.Empty;
+            string cdireccion = string.Empty;
+            bool respuesta = false;
+            string numeroCertificadoPOA = string.Empty;
 
-        //    return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
-        //}
+            var ousuario = (tbUsuario)Session["Usuario"];
+
+
+            oSolicitud = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+            oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
+            if (oSolicitud.NumeroSolicitud > 0)
+            {
+                //Verifica si existe una actalización y lo concatena el numero certificado + secuencial
+                if (oSolicitud.SecuencialActualizacion > 0)
+                    numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString() + "_" + oSolicitud.SecuencialActualizacion.ToString();
+                else
+                    numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString();
+
+                //"/" + codDireccion + "/" + canio + "/" + ctipo + "/" + numSol
+                cdireccion = @"\\" + oSolicitud.CodigoDireccionPYGE + @"\\" + oSolicitud.AnioSolicitud + @"\\" + oSolicitud.TipoSolicitud + @"\\" + oSolicitud.NumeroSolicitud;
+                string urlReporteElectronico = Constantes.poaURL + cdireccion;
+                //Verifica si existe la carpeta creada si no lo crear
+                if (!System.IO.Directory.Exists(urlReporteElectronico))
+                    System.IO.Directory.CreateDirectory(urlReporteElectronico);
+
+                string FileName = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA + ".pdf";
+                FileNameFirmado = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA + "-signed.pdf";
+                string FilePath = urlReporteElectronico + @"\" + FileName;
+
+                dctoCertificado = GenerarCertificadoPOA(canio, numSolicitud);
+                if (dctoCertificado.Left > 0)
+                {
+                    if (oCertificado.TipoArchivo.Equals("A"))
+                    {
+                        if (InsertaCertificadoDocumentoFirmado(FileName, FileNameFirmado, cdireccion, 1))
+                        {
+                            EliminaArchivoServidor(FilePath);
+                        }
+                        //if (InsertaFirmaCertificadoPOADocumento(FileName, FileNameFirmado, cdireccion, 1))
+                        //{
+                        //    EliminaArchivoServidor(FilePath);
+                        //}
+
+
+                    }
+                    else
+                    {
+                        FileNameFirmado = FileName;
+                    }
+                }
+                respuesta = true;
+            }
+
+            return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult ExportaServerReportAPDF(string canio, Int32 numSolicitud)
         {
@@ -1581,6 +1641,8 @@ namespace SistemaIntegradoGestion.Controllers
             var FontColour = new BaseColor(35, 31, 32, 25);
             string referenciaCertificado = string.Empty;
             string respectoCertificado = string.Empty;
+            string numeroCertificadoPOA = string.Empty;
+            DataSet dsDatosCertificadoPOA = new DataSet();
             //CultureInfo cultures = new CultureInfo("en-US");
             BaseFont bfTimes = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1250, false);
             iTextSharp.text.Font negrita13 = new iTextSharp.text.Font(bfTimes, 13f, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
@@ -1612,9 +1674,13 @@ namespace SistemaIntegradoGestion.Controllers
                 var ousuario = (tbUsuario)Session["Usuario"];
                 oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
                 oSolicitud = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
-                DataSet dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.CertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+                if(oSolicitud.TipoSolicitud.Equals("ACT"))
+                       dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.ActualizacionPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+                else
+                    dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.CertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
 
                 var oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
+
                 store = storeCertificado(oCertificado, ousuario);
 
                 //AsymmetricKeyEntry keyEntry = keyEntryCertificado(oCertificado, ousuario); //store.GetKey(alias);
@@ -1624,10 +1690,16 @@ namespace SistemaIntegradoGestion.Controllers
                     {
 
                         pathCertificado = Utilitarios.Utilitario.certificadoPOAUrl + ousuario.CodigoUsuario;
-                        //directorio = oSolicitud.CodigoDireccionPYGE + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud.ToString();
-                        //nombreArchivo = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
                         directorio = oSolicitud.CodigoDireccionPYGE + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud.ToString();
-                        nombreArchivo = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroCertificadoPOA.ToString();
+                        //Verifica si existe una actalización y lo concatena el numero certificado + secuencial
+                        if (oSolicitud.SecuencialActualizacion > 0)
+                            numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString() + "_" + oSolicitud.SecuencialActualizacion.ToString();
+                        else
+                            numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString();
+
+
+                        //nombre del archivo con que se va a generar el documento.
+                        nombreArchivo = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA;
 
 
                         pathSolcitud = Constantes.poaURL + @"\" + directorio;
@@ -2091,12 +2163,19 @@ namespace SistemaIntegradoGestion.Controllers
         private String fechaDateAs400(string ofecha)
         {
             string odate = string.Empty;
-            if (ofecha.Trim().Length > 0)
+            if (ofecha.Trim().Length < 9)
             {
                 odate = ofecha.Substring(6, 2) + "/" + ofecha.Substring(4, 2) + "/" + ofecha.Substring(0, 4);
             }
+            else if (ofecha.Trim().Length > 8)
+            {
+                DateTime ofechaForato = Convert.ToDateTime(ofecha);
 
-            
+                odate = ofechaForato.ToString("yyyy/MM/dd");
+            }
+            else
+                odate = ofecha;
+
             return odate;
         }
 

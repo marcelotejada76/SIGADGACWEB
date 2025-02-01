@@ -257,12 +257,14 @@ namespace CapaDatos
             try
             {
                 query = "SELECT (L.LINAN1 || '-' ||char(L.LINNU1)) AS NO_SOLICITUD,   CAST(L.LINNU1 AS INT) AS N_SOLICITUD, CAST(L.LINAN1 AS INT) AS ANIO_SOLICITUD, S.SOLFE6 AS FECHA_SOLICITUD,"
-                    + " (SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP) AS DescripcionTipoSolicitud,  (trim(CHAR(A.ACTNUM)) || ' / ' ||trim(CHAR (A.ACTSEC))) AS CERTIFICACION_ACTUALIZACON_POA_NO,"
+                    + " (SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP) AS DescripcionTipoSolicitud,  (trim(CHAR(A.ACTNUM)) || ' / ' ||trim(CHAR (A.ACTSEC))) AS CERTIFICACION_POA_NO,"
                     + " DATE(TO_DATE(S.SOLF01,'YYYY/MM/DD')) AS FECHAAPRBCERTIFICADO, D.DIRDES AS DIRECCION_SOLICITANTE,"
                     + " (L.LINACT) AS ACTIVIDAD_P, (L.LINACT || ' ' || AC.ACTDES) AS ACTIVIDAD_PRESUPUESTARIA,  (L.LINC43 || ' ' || P.PRODE1) AS PROGRAMA, L.LINC35 AS GEOGRAFICO, (L.LINC42 || ' ' || T.TIPDE2) AS TIPO_ADQUISICION,"
                     + " (L.LINAC1 || L.LINAC2 || L.LINAC3 || L.LINAC4 || L.LINAC5) AS ACTIVIDAD_POA,"
                     + " (L.LINC31 || L.LINC32 || L.LINC33 || L.LINC34) AS PARTIDA_PRESUPUESTARIA, L.LINMON AS MONTO_TOTAL_USD,"
-                    + " RTRIM(S.SOLUS6)|| '-' ||YEAR(DATE(TO_DATE(S.SOLFE6,'YYYY/MM/DD')))|| '-' ||INTEGER(L.LINNU1) AS USUARIO1"
+                    + " RTRIM(S.SOLUS6)|| '-' ||YEAR(DATE(TO_DATE(S.SOLFE6,'YYYY/MM/DD')))|| '-' ||INTEGER(L.LINNU1) AS USUARIO1,"
+                    + " RTRIM(S.SOLUS6)|| '-' ||YEAR(DATE(TO_DATE(S.SOLFE6,'YYYY/MM/DD')))|| '-' ||INTEGER(L.LINNU1) AS USUARIO,"
+                    + " (ifnull(rtrim(ltrim(PROCO7)), '')  || ' '  || ifnull(rtrim(ltrim(PRODE2)), '')) AS DescripcionProyecto "
                     + " FROM LINARC L"
                     + " JOIN SOLAR1 AS S ON (S.SOLAN1=LINAN1 AND S.SOLNU3=L.LINNU1)"
                     + " JOIN ACTAR1 AS A ON (A.ACTAN2=L.LINAN1 AND A.ACTNU2=L.LINNU1)"
@@ -270,6 +272,7 @@ namespace CapaDatos
                     + " JOIN ACTARC AS AC ON (AC.ACTCOD=L.LINACT)"
                     + " JOIN PROAR1 AS P ON (P.PROCO6=L.LINC43)"
                     + " JOIN TIPAR2 AS T ON (T.TIPCO1=L.LINC42)"
+                    + " JOIN PROAR2 PY ON L.LINC43 = PY.PROCO8 AND L.LINC44 = PY.PROCO9 AND L.LINC45 = PY.PROCO7 "
                     + " WHERE SUBSTRING(S.SOLFE6, 1, 4) = '" + cAnio + "' AND L.LINNU1 = " + numSolicitud;
 
                 iDB2Command cmd;

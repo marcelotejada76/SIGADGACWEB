@@ -300,7 +300,7 @@ function FirmaCertificadoPOA(canio, numSol, opathArchivo, estaut, observacion, o
     });
 }
 
-/*function ExportaToPDFPrueba() {
+function ExportaToPDFPrueba() {
     var canio = $('#codanio').val();
     var numSol = $('#numSolicitud').val();
     if (canio != "" && parseInt(numSol)) {
@@ -326,7 +326,7 @@ function FirmaCertificadoPOA(canio, numSol, opathArchivo, estaut, observacion, o
             },
         });
     }
-}*/
+}
 
 
 function mensajeGeneralIco(titulo, contenido, _ico) {

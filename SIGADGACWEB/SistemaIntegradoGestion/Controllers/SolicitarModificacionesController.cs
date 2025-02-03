@@ -603,6 +603,7 @@ namespace SistemaIntegradoGestion.Controllers
             tbCertificadoDigital oCertificado = new tbCertificadoDigital();
             tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
             Document dctoCertificado = new Document();
+            string numeroCertificadoPOA = string.Empty;
             try
             {
                 var ousuario = (tbUsuario)Session["Usuario"];
@@ -617,9 +618,17 @@ namespace SistemaIntegradoGestion.Controllers
                         //Verifica si existe la carpeta creada si no lo crear
                         if (!System.IO.Directory.Exists(urlReporteElectronico))
                             System.IO.Directory.CreateDirectory(urlReporteElectronico);
-                        
-                        string FileName = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString() + ".pdf";
-                        FileNameFirmado =  "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString() + "-signed.pdf";
+
+                        //Verifica si existe una actalización y lo concatena el numero certificado + secuencial
+                        if (oSolicitud.SecuencialActualizacion > 0)
+                            numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString() + "_" + oSolicitud.SecuencialActualizacion.ToString();
+                        else
+                            numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString();
+
+
+                        string FileName = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA + ".pdf";
+                        //FileNameFirmado =  "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString() + "-signed.pdf";
+                        FileNameFirmado = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA + "-signed.pdf";
                         string FilePath = urlReporteElectronico + @"\" + FileName;
 
                         dctoCertificado = GenerarCertificadoPOA(canio, numSolicitud);
@@ -655,6 +664,69 @@ namespace SistemaIntegradoGestion.Controllers
             }
             return Content(FilePathReturn);
 
+        }
+
+        [HttpGet]
+        public JsonResult PruebaReporteCertificadoPOA(string canio, Int32 numSolicitud)
+        {
+            Document dctoCertificado = new Document();
+            tbCertificadoDigital oCertificado = new tbCertificadoDigital();
+            tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
+            string FilePathReturn = string.Empty;
+            string FileNameFirmado = string.Empty;
+            string cdireccion = string.Empty;
+            bool respuesta = false;
+            string numeroCertificadoPOA = string.Empty;
+
+            var ousuario = (tbUsuario)Session["Usuario"];
+
+
+            oSolicitud = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+            oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
+            if (oSolicitud.NumeroSolicitud > 0)
+            {
+                //Verifica si existe una actalización y lo concatena el numero certificado + secuencial
+                if (oSolicitud.SecuencialActualizacion > 0)
+                    numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString() + "_" + oSolicitud.SecuencialActualizacion.ToString();
+                else
+                    numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString();
+
+                //"/" + codDireccion + "/" + canio + "/" + ctipo + "/" + numSol
+                cdireccion = @"\\" + oSolicitud.CodigoDireccionPYGE + @"\\" + oSolicitud.AnioSolicitud + @"\\" + oSolicitud.TipoSolicitud + @"\\" + oSolicitud.NumeroSolicitud;
+                string urlReporteElectronico = Constantes.poaURL + cdireccion;
+                //Verifica si existe la carpeta creada si no lo crear
+                if (!System.IO.Directory.Exists(urlReporteElectronico))
+                    System.IO.Directory.CreateDirectory(urlReporteElectronico);
+
+                string FileName = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA + ".pdf";
+                FileNameFirmado = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA + "-signed.pdf";
+                string FilePath = urlReporteElectronico + @"\" + FileName;
+
+                dctoCertificado = GenerarCertificadoPOA(canio, numSolicitud);
+                if (dctoCertificado.Left > 0)
+                {
+                    if (oCertificado.TipoArchivo.Equals("A"))
+                    {
+                        if (InsertaCertificadoDocumentoFirmado(FileName, FileNameFirmado, cdireccion, 1))
+                        {
+                            EliminaArchivoServidor(FilePath);
+                        }
+                        //if (InsertaFirmaCertificadoPOADocumento(FileName, FileNameFirmado, cdireccion, 1))
+                        //{
+                        //    EliminaArchivoServidor(FilePath);
+                        //}
+
+
+                    }
+                    else
+                    {
+                        FileNameFirmado = FileName;
+                    }
+                }
+                respuesta = true;
+            }
+
+            return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ExportaServerReportAPDF(string canio, Int32 numSolicitud)
@@ -1443,7 +1515,8 @@ namespace SistemaIntegradoGestion.Controllers
 
                         var tbl = new PdfPTable(new float[] { 10f, 80f }) { WidthPercentage = 100f };
                         var c1 = new PdfPCell(logo) { Rowspan = 3 };
-                        var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL DEL ECUADOR", negrita10));
+                        //var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL DEL ECUADOR", negrita10));
+                        var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL", negrita10));
 
                         c1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;                        
                         c2.HorizontalAlignment = PdfPCell.ALIGN_MIDDLE;
@@ -1568,6 +1641,8 @@ namespace SistemaIntegradoGestion.Controllers
             var FontColour = new BaseColor(35, 31, 32, 25);
             string referenciaCertificado = string.Empty;
             string respectoCertificado = string.Empty;
+            string numeroCertificadoPOA = string.Empty;
+            DataSet dsDatosCertificadoPOA = new DataSet();
             //CultureInfo cultures = new CultureInfo("en-US");
             BaseFont bfTimes = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1250, false);
             iTextSharp.text.Font negrita13 = new iTextSharp.text.Font(bfTimes, 13f, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
@@ -1599,9 +1674,13 @@ namespace SistemaIntegradoGestion.Controllers
                 var ousuario = (tbUsuario)Session["Usuario"];
                 oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
                 oSolicitud = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
-                DataSet dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.CertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+                if(oSolicitud.TipoSolicitud.Equals("ACT"))
+                       dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.ActualizacionPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+                else
+                    dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.CertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
 
                 var oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
+
                 store = storeCertificado(oCertificado, ousuario);
 
                 //AsymmetricKeyEntry keyEntry = keyEntryCertificado(oCertificado, ousuario); //store.GetKey(alias);
@@ -1612,7 +1691,16 @@ namespace SistemaIntegradoGestion.Controllers
 
                         pathCertificado = Utilitarios.Utilitario.certificadoPOAUrl + ousuario.CodigoUsuario;
                         directorio = oSolicitud.CodigoDireccionPYGE + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud.ToString();
-                        nombreArchivo = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
+                        //Verifica si existe una actalización y lo concatena el numero certificado + secuencial
+                        if (oSolicitud.SecuencialActualizacion > 0)
+                            numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString() + "_" + oSolicitud.SecuencialActualizacion.ToString();
+                        else
+                            numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString();
+
+
+                        //nombre del archivo con que se va a generar el documento.
+                        nombreArchivo = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA;
+
 
                         pathSolcitud = Constantes.poaURL + @"\" + directorio;
 
@@ -1632,7 +1720,8 @@ namespace SistemaIntegradoGestion.Controllers
 
                         var tbl = new PdfPTable(new float[] { 10f, 80f }) { WidthPercentage = 100f };
                         var c1 = new PdfPCell(logo) { Rowspan = 3 };
-                        var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL DEL ECUADOR", negrita12));
+                        //var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL DEL ECUADOR", negrita12));
+                        var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL", negrita12));
                         c1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                         c2.HorizontalAlignment = PdfPCell.ALIGN_MIDDLE;
                         c2.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
@@ -1655,7 +1744,7 @@ namespace SistemaIntegradoGestion.Controllers
                         paraAsunto.Clear();
                         pdfDoc.Add(Chunk.NEWLINE);
                         paraAsunto.Font = negrita12;
-                        paraAsunto.Add("Certificación POA No." + dr["CERTIFICACION_POA_NO"].ToString());
+                        paraAsunto.Add("Certificación POA "+ canio + " No." + dr["CERTIFICACION_POA_NO"].ToString());
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
                         pdfDoc.Add(paraAsunto);
                         paraAsunto.Clear();
@@ -1725,7 +1814,13 @@ namespace SistemaIntegradoGestion.Controllers
                         tableEstructura.AddCell(celle1);
                         tableEstructura.AddCell(celle2);
                         celle1 = new PdfPCell(new Phrase("Monto Total:", negrita12));
-                        celle2 = new PdfPCell(new Phrase("$" + Convert.ToDecimal(dr["MONTO_TOTAL_USD"].ToString()), tituloNormal12));
+                        celle2 = new PdfPCell(new Phrase("$" + String.Format("{0:#,##0.00}", Convert.ToDecimal(dr["MONTO_TOTAL_USD"])), tituloNormal12));
+                        celle1.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
+                        celle2.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
+                        tableEstructura.AddCell(celle1);
+                        tableEstructura.AddCell(celle2);
+                        celle1 = new PdfPCell(new Phrase("Proyecto:", negrita12));
+                        celle2 = new PdfPCell(new Phrase(dr["DESCRIPCIONPROYECTO"].ToString().Trim(), tituloNormal12));
                         celle1.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
                         celle2.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
                         tableEstructura.AddCell(celle1);
@@ -2068,12 +2163,19 @@ namespace SistemaIntegradoGestion.Controllers
         private String fechaDateAs400(string ofecha)
         {
             string odate = string.Empty;
-            if (ofecha.Trim().Length > 0)
+            if (ofecha.Trim().Length < 9)
             {
                 odate = ofecha.Substring(6, 2) + "/" + ofecha.Substring(4, 2) + "/" + ofecha.Substring(0, 4);
             }
+            else if (ofecha.Trim().Length > 8)
+            {
+                DateTime ofechaForato = Convert.ToDateTime(ofecha);
 
-            
+                odate = ofechaForato.ToString("yyyy/MM/dd");
+            }
+            else
+                odate = ofecha;
+
             return odate;
         }
 

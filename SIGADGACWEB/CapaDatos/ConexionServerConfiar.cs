@@ -8,9 +8,7 @@ namespace CapaDatos
 {
     class ConexionServerConfiar
     {
-       // public static string Conexion = "Data Source=win-sqlserv-01;Initial Catalog=iFIS;User ID=adminsql;Password=sistema*-!;";
-
-       
+       // public static string Conexion = "Data Source=win-sqlserv-01;Initial Catalog=iFIS;User ID=adminsql;Password=sistema*-!;";       
 
         static string cadenaConexion = "Data Source=WIN-SQLSERV-02;Initial Catalog=COMFIAR;;Integrated Security=True;";
 

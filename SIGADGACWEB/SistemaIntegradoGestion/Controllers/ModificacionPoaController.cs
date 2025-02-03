@@ -419,7 +419,7 @@ namespace SistemaIntegradoGestion.Controllers
             string direccionDirectory = string.Empty;
             tbSolicitudPOA oSolicitudPoa = new tbSolicitudPOA();
             ReportViewer viewer = new ReportViewer();
-            string mimeType, encoding, filenameExtension;
+            string mimeType, encoding, filenameExtension;           
             byte[] bytes;
             Warning[] warnings;
             string[] streamids;
@@ -431,7 +431,13 @@ namespace SistemaIntegradoGestion.Controllers
                     return Json(new { Message = "La seccion del usuario esta caducado actualice la pagina.", JsonRequestBehavior.AllowGet });
 
                 SesionUsuario = (tbUsuario)Session["Usuario"];
-                SesionMenu = (tbMenu)Session["MenuMaster"];
+                var listMenu  = (List<tbMenu>)Session["MenuMaster"];
+                foreach (var item in listMenu)
+                {
+                    SesionMenu = item;
+                }
+
+               
                 oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + canio + @"\" + numSolicitud;
                 if (CD_SolicitudPOA.Instancia.EnviaSolictudVerificacionPresupuestaria(oSolicitudPoa.AnioSolicitud, oSolicitudPoa.NumeroSolicitud, oSolicitudPoa.CodigoUnidadEjecucion, oSolicitudPoa.CodigoDireccionPYGE, SesionUsuario.CodigoUsuario))
@@ -441,7 +447,7 @@ namespace SistemaIntegradoGestion.Controllers
                     viewer.SizeToReportContent = true;
                     viewer.AsyncRendering = true;
                     viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
-                    viewer.ServerReport.ReportPath = "/"+ SesionMenu .DescripcionServidorReport+ "/ModificacionPOA";
+                    viewer.ServerReport.ReportPath = "/"+ SesionMenu .DescripcionServidorReport + "/ModificacionPOA";
                     ReportParameter[] reportParameter = new ReportParameter[2];
                     reportParameter[0] = new ReportParameter("anio", canio);
                     reportParameter[1] = new ReportParameter("solicitud", numSolicitud.ToString());
@@ -517,7 +523,12 @@ namespace SistemaIntegradoGestion.Controllers
             try
             {
 
-                SesionMenu = (tbMenu)Session["MenuMaster"];
+                //SesionMenu = (tbMenu)Session["MenuMaster"];
+                var listMenu = (List<tbMenu>)Session["MenuMaster"];
+                foreach (var item in listMenu)
+                {
+                    SesionMenu = item;
+                }
 
                 oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + canio + @"\" + numSolicitud;
@@ -613,7 +624,13 @@ namespace SistemaIntegradoGestion.Controllers
                     return Json(new { Message = "La seccion del usuario esta caducado actualice la pagina.", JsonRequestBehavior.AllowGet });
 
                 SesionUsuario = (tbUsuario)Session["Usuario"];
-                SesionMenu = (tbMenu)Session["MenuMaster"];
+                //SesionMenu = (tbMenu)Session["MenuMaster"];
+                var listMenu = (List<tbMenu>)Session["MenuMaster"];
+                foreach (var item in listMenu)
+                {
+                    SesionMenu = item;
+                }
+
                 oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + canio + @"\" + numSolicitud;
                 #region "Generar el reporte"     
@@ -709,7 +726,13 @@ namespace SistemaIntegradoGestion.Controllers
             try
             {
                 SesionUsuario = (tbUsuario)Session["Usuario"];
-                SesionMenu= (tbMenu)Session["MenuMaster"];
+                //SesionMenu= (tbMenu)Session["MenuMaster"];
+
+                var listMenu = (List<tbMenu>)Session["MenuMaster"];
+                foreach (var item in listMenu)
+                {
+                    SesionMenu = item;
+                }
 
                 oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 direccionDirectory = @oSolicitudPoa.CodigoDireccionPYGE + @"\" + @oSolicitudPoa.TipoSolicitud + @"\" + canio + @"\" + numSolicitud;
@@ -807,7 +830,13 @@ namespace SistemaIntegradoGestion.Controllers
             try
             {
                 SesionUsuario = (tbUsuario)Session["Usuario"];
-                SesionMenu = (tbMenu)Session["MenuMaster"];
+                //SesionMenu = (tbMenu)Session["MenuMaster"];
+
+                var listMenu = (List<tbMenu>)Session["MenuMaster"];
+                foreach (var item in listMenu)
+                {
+                    SesionMenu = item;
+                }
 
                 oSolicitudPoa = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 #region "Generar el reporte"     

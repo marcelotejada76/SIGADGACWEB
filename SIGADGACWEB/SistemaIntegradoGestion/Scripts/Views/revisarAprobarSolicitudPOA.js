@@ -300,6 +300,35 @@ function FirmaCertificadoPOA(canio, numSol, opathArchivo, estaut, observacion, o
     });
 }
 
+function ExportaToPDFPrueba() {
+    var canio = $('#codanio').val();
+    var numSol = $('#numSolicitud').val();
+    if (canio != "" && parseInt(numSol)) {
+        jQuery.ajax({
+            url: $.MisUrls.url._PruebaReporteCertificadoPOA,
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: { canio: canio, numSolicitud: parseInt(numSol)},
+            success: function (data) {
+
+                if (data.resultado) {
+                    tabladata.ajax.reload();
+                } else {
+                    Swal.fire("Mensaje", "No se pudo eliminar el rol", "warning")
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            },
+            beforeSend: function () {
+
+            },
+        });
+    }
+}
+
+
 function mensajeGeneralIco(titulo, contenido, _ico) {
     Swal.fire({
         icon: _ico,

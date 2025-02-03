@@ -7,7 +7,8 @@ $(document).ready(function () {
     });
 
     $('#documentFile').on('change', function () {
-        $("#documentFile").html($('#FileCertificadoOperador').val());    
+        $("#documentFile").html($('#FileCertificadoOperador').val());   
+        $(".custom-file-label").html($('#documentFile').val());
     });
 
 });

@@ -32,7 +32,7 @@ namespace CapaDatos
 
 
 
-        public List<tbDocumentosAtoInt> ConsultaDocumentosAeropuertosNac()
+        public List<tbDocumentosAtoInt> ConsultaDocumentosAeropuertosNac(string usuario, string ciudad)
         {
 
             List< tbDocumentosAtoInt  > listarSolicitud = new List<tbDocumentosAtoInt>();
@@ -40,10 +40,20 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT opnco7 AS CODIGO,OPNCO8 AS CODGRUPO,OPNCO9 AS CODNIVEL,OPNCO6 AS CODSUBNIVEL,OPNNOM AS GRUPO, OPNNO1 AS NIVEL," +
+                if (ciudad == "SEQM" || ciudad == "SEGU")
+                {
+                    sbSol.Append("SELECT opnco7 AS CODIGO,OPNCO8 AS CODGRUPO,OPNCO9 AS CODNIVEL,OPNCO6 AS CODSUBNIVEL,OPNNOM AS GRUPO, OPNNO1 AS NIVEL," +
                     "OPNNO2 AS SUBNIVEL,OPNEX2 AS ESTADO, OPNC01 AS SECUENCIA FROM OPNAR3 INNER JOIN OPNAR1 ON OPNCO2 = OPNCO7 AND OPNCO1 = OPNCO8 " +
                     "INNER JOIN OPNAR2 ON OPNCO4 = OPNCO7 AND OPNCO5 = OPNCO8 AND OPNCO3 = OPNCO9 WHERE OPNCO7 = 5 ");
+                }
+                else
+                {
 
+
+                    sbSol.Append("SELECT opnco7 AS CODIGO,OPNCO8 AS CODGRUPO,OPNCO9 AS CODNIVEL,OPNCO6 AS CODSUBNIVEL,OPNNOM AS GRUPO, OPNNO1 AS NIVEL," +
+                        "OPNNO2 AS SUBNIVEL,OPNEX2 AS ESTADO, OPNC01 AS SECUENCIA FROM OPNAR3 INNER JOIN OPNAR1 ON OPNCO2 = OPNCO7 AND OPNCO1 = OPNCO8 " +
+                        "INNER JOIN OPNAR2 ON OPNCO4 = OPNCO7 AND OPNCO5 = OPNCO8 AND OPNCO3 = OPNCO9 WHERE OPNCO7 = 5  and OPNNOM= '" + ciudad + "' ");
+                }
                 query = sbSol.ToString();
                 iDB2Command cmd;
 
@@ -64,11 +74,13 @@ namespace CapaDatos
                         oSolicitud.NombreSubnivel = dr["SUBNIVEL"].ToString().Trim();
                         if (oSolicitud.NombreNivel== oSolicitud.NombreSubnivel)
                         {
-                            oSolicitud.Carpeta = dr["GRUPO"].ToString().Trim() + " / " + dr["NIVEL"].ToString().Trim();
+                            oSolicitud.Carpeta =  " / " + dr["NIVEL"].ToString().Trim();
+                            //oSolicitud.Carpeta = dr["GRUPO"].ToString().Trim() + " / " + dr["NIVEL"].ToString().Trim();
                         }
                         else
                         {
-                            oSolicitud.Carpeta = dr["GRUPO"].ToString().Trim() + " / " + dr["NIVEL"].ToString().Trim() + " /" + dr["SUBNIVEL"].ToString().Trim();
+                            oSolicitud.Carpeta =  " / " + dr["NIVEL"].ToString().Trim() + " /" + dr["SUBNIVEL"].ToString().Trim();
+                            //oSolicitud.Carpeta = dr["GRUPO"].ToString().Trim() + " / " + dr["NIVEL"].ToString().Trim() + " /" + dr["SUBNIVEL"].ToString().Trim();
                         }
                         
 
@@ -77,7 +89,7 @@ namespace CapaDatos
                         oSolicitud.Grupo = Convert.ToInt16(dr["CODGRUPO"].ToString().Trim());
                         oSolicitud.Nivel = Convert.ToInt16(dr["CODNIVEL"].ToString().Trim());
                         oSolicitud.Subnivel = Convert.ToInt16(dr["CODSUBNIVEL"].ToString().Trim());
-                        oSolicitud.Secuencia = Convert.ToInt16(dr["SECUENCIA"].ToString().Trim());
+                        oSolicitud.Secuencia = Convert.ToInt32(dr["SECUENCIA"].ToString().Trim());
 
                         if (oSolicitud.Estado == "N")
                         {

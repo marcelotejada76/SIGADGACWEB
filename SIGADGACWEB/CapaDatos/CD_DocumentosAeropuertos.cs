@@ -32,7 +32,7 @@ namespace CapaDatos
 
 
 
-        public List<tbDocumentosAtoInt> ConsultaDocumentosAeropuertos()
+        public List<tbDocumentosAtoInt> ConsultaDocumentosAeropuertos( string Ciudad)
         {
 
             List< tbDocumentosAtoInt  > listarSolicitud = new List<tbDocumentosAtoInt>();
@@ -40,10 +40,19 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT opnco7 AS CODIGO,OPNCO8 AS CODGRUPO,OPNCO9 AS CODNIVEL,OPNCO6 AS CODSUBNIVEL,OPNNOM AS GRUPO, OPNNO1 AS NIVEL," +
-                    "OPNNO2 AS SUBNIVEL,OPNEX2 AS ESTADO, OPNC01 AS SECUENCIA FROM OPNAR3 INNER JOIN OPNAR1 ON OPNCO2 = OPNCO7 AND OPNCO1 = OPNCO8 " +
-                    "INNER JOIN OPNAR2 ON OPNCO4 = OPNCO7 AND OPNCO5 = OPNCO8 AND OPNCO3 = OPNCO9 WHERE OPNCO7 = 4  ");
+                if (Ciudad == "SEQM" || Ciudad == "SEGU")
+                {
+                    sbSol.Append("SELECT opnco7 AS CODIGO,OPNCO8 AS CODGRUPO,OPNCO9 AS CODNIVEL,OPNCO6 AS CODSUBNIVEL,OPNNOM AS GRUPO, OPNNO1 AS NIVEL," +
+                     "OPNNO2 AS SUBNIVEL,OPNEX2 AS ESTADO, OPNC01 AS SECUENCIA FROM OPNAR3 INNER JOIN OPNAR1 ON OPNCO2 = OPNCO7 AND OPNCO1 = OPNCO8 " +
+                     "INNER JOIN OPNAR2 ON OPNCO4 = OPNCO7 AND OPNCO5 = OPNCO8 AND OPNCO3 = OPNCO9 WHERE OPNCO7 = 4  ");
+                }
+                else
+                {
 
+                    sbSol.Append("SELECT opnco7 AS CODIGO,OPNCO8 AS CODGRUPO,OPNCO9 AS CODNIVEL,OPNCO6 AS CODSUBNIVEL,OPNNOM AS GRUPO, OPNNO1 AS NIVEL," +
+                    "OPNNO2 AS SUBNIVEL,OPNEX2 AS ESTADO, OPNC01 AS SECUENCIA FROM OPNAR3 INNER JOIN OPNAR1 ON OPNCO2 = OPNCO7 AND OPNCO1 = OPNCO8 " +
+                    "INNER JOIN OPNAR2 ON OPNCO4 = OPNCO7 AND OPNCO5 = OPNCO8 AND OPNCO3 = OPNCO9 WHERE OPNCO7 = 4  AND OPNNOM = '" + Ciudad + "' ");
+                }
                 query = sbSol.ToString();
                 iDB2Command cmd;
 
@@ -77,7 +86,7 @@ namespace CapaDatos
                         oSolicitud.Grupo = Convert.ToInt16(dr["CODGRUPO"].ToString().Trim());
                         oSolicitud.Nivel = Convert.ToInt16(dr["CODNIVEL"].ToString().Trim());
                         oSolicitud.Subnivel = Convert.ToInt16(dr["CODSUBNIVEL"].ToString().Trim());
-                        oSolicitud.Secuencia = Convert.ToInt16(dr["SECUENCIA"].ToString().Trim());
+                        oSolicitud.Secuencia = Convert.ToInt32(dr["SECUENCIA"].ToString().Trim());
 
                         if (oSolicitud.Estado == "N")
                         {

@@ -44,7 +44,7 @@ namespace SistemaIntegradoGestion.Controllers
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             // string cAnio = oSistema.FechaSistema.Substring(0, 4);
-            listado = CD_DocumentosAeropuertosNac.Instancia.ConsultaDocumentosAeropuertosNac();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
+            listado = CD_DocumentosAeropuertosNac.Instancia.ConsultaDocumentosAeropuertosNac(SesionUsuario.CodigoUsuario, SesionUsuario.CodigoCiudad);// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
             return View(listado);
         }
 

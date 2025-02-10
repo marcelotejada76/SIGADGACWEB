@@ -59,6 +59,7 @@
     <Reference Include="DocumentFormat.OpenXml, Version=2.8.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.8.0\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="EPPlus, Version=6.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CapaDatos\librerias\EPPlus.dll</HintPath>
@@ -177,6 +178,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\DocumentosAeropuertosNacionalesController.cs" />
     <Compile Include="Controllers\DocumentosDescargaCartasController.cs" />
     <Compile Include="Controllers\DocumentosAeropuertosInternacionalesController.cs" />
@@ -2453,6 +2455,7 @@
     <Content Include="Scripts\Views\Depositos\SubirDepositos.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
     <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
+    <Content Include="Scripts\Views\Curriculum.js" />
     <Content Include="Scripts\Views\maestroPersonal.js" />
     <Content Include="Scripts\Views\operacionesAprueba.js" />
     <Content Include="Scripts\Views\RevisarAprobarSolicitudModificacionPOA.js" />
@@ -2546,6 +2549,9 @@
     <Content Include="Views\DocumentosAeropuertosNacionales\ListadoDocumentosAeropuertosNacionales.cshtml" />
     <Content Include="Views\DocumentosDsna\ListadoDocumentosDsna.cshtml" />
     <Content Include="Views\DocumentosDsna\VerPdf.cshtml" />
+    <Content Include="Views\Curriculum\ListadoCurriculum.cshtml" />
+    <Content Include="Views\Curriculum\Crear.cshtml" />
+    <Content Include="Views\Curriculum\ListadoCurriculum - Copia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

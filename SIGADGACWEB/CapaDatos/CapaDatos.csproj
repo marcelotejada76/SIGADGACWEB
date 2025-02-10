@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +43,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>librerias\IBM.Data.DB2.iSeries.dll</HintPath>
     </Reference>
+    <Reference Include="linq2db, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e41013125f9e410a, processorArchitecture=MSIL">
+      <HintPath>..\packages\linq2db.5.4.1\lib\net45\linq2db.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -61,6 +66,7 @@
     <Compile Include="CD_DocumentosSeguridadOperacional.cs" />
     <Compile Include="CD_DocumentosGestionInterna.cs" />
     <Compile Include="CD_DocumentosDsna.cs" />
+    <Compile Include="CD_Curriculum.cs" />
     <Compile Include="CD_LogUsuarioAircon.cs" />
     <Compile Include="CD_DocumentosDescarga.cs" />
     <Compile Include="CD_TotalRecord.cs" />

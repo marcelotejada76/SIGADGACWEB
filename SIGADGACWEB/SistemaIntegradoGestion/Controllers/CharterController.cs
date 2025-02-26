@@ -20,7 +20,7 @@ namespace SistemaIntegradoGestion.Controllers
 
 
             List<tbSolictudVuelo> listSolicitud = new List<tbSolictudVuelo>();
-            var oSistema = CapaDatos.CD_Sistema.Instancia.GetFechaHoraSistema();
+            var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             var ousuario = (tbUsuario)Session["Usuario"];
             if (ousuario.CodigoCiudad != "")
             {

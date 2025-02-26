@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CapaDatos
+namespace CapaModelo
 {
-  public  class tbSecuencialAppP5
+   public class tbSecuencialAppP5
     {
         public int Oid { get; set; }
         public string Tabla { get; set; }

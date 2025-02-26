@@ -43,8 +43,7 @@ namespace CapaModelo
         public string NumeroAleatorio { get; set; }
         public string NombreCorto { get; set; }
         public string Cargo { get; set; }
-
-
-        public tbRol oRol { get; set; }        
+        public tbRol oRol { get; set; }
+        public tbHorioAtencion oHorarioAtencion { get; set; }
     }
 }

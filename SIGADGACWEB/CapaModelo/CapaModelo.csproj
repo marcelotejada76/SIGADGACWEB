@@ -32,7 +32,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,30 +42,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD
-    <Compile Include="tbAdjuntoCiaAviacion.cs" />
-    <Compile Include="tbCompaniaAviacion.cs" />
-    <Compile Include="tbCompaniaAviacionTemporal.cs" />
-    <Compile Include="tbControlFR3.cs" />
-    <Compile Include="tbControlFR3Detalle.cs" />
-    <Compile Include="tbDetalleAdjunto.cs" />
-    <Compile Include="tbDetalleAeronave.cs" />
-    <Compile Include="tbDetalleRuta.cs" />
-    <Compile Include="tbDeudor.cs" />
-=======
     <Compile Include="tbDocumentosAtoInt.cs" />
     <Compile Include="tbDocumentosAtoDescarga.cs" />
     <Compile Include="tbDocumentosGestionInterna.cs" />
     <Compile Include="tbDocumentosDsnaDescarga.cs" />
     <Compile Include="tbDocumentosDsna.cs" />
->>>>>>> c6c810f5a1f7fd1d66d8c123eae8e64225d622b6
     <Compile Include="tbHistoricoDetalleCursoAtc.cs" />
     <Compile Include="tbHistoricoDetalleDependenciaAtc.cs" />
     <Compile Include="tbHistoricoAtc.cs" />
     <Compile Include="tbDetalleEventosAtc.cs" />
     <Compile Include="tbDetalleNotamsAtc.cs" />
     <Compile Include="tbDetalleControladoresAtc.cs" />
-    <Compile Include="tbHorioAtencion.cs" />
     <Compile Include="tbItsControlAtc.cs" />
     <Compile Include="tbDetalleComprobantesDeposito.cs" />
     <Compile Include="tbBancoRuminahui.cs" />
@@ -78,14 +64,10 @@
     <Compile Include="tbEntidadEducativa.cs" />
     <Compile Include="tbFacturasDetalleP5.cs" />
     <Compile Include="tbFacturasP5.cs" />
-    <Compile Include="tbCabeceraCurriculum.cs" />
     <Compile Include="tbModelArchivo.cs" />
     <Compile Include="tbAtc.cs" />
     <Compile Include="tbLogUsuarioAircon.cs" />
     <Compile Include="tbDocumentosDescarga.cs" />
-    <Compile Include="tbPagoSolicitud.cs" />
-    <Compile Include="tbServiciosDgac.cs" />
-    <Compile Include="tbSolictudVuelo.cs" />
     <Compile Include="tbTotalesRecord.cs" />
     <Compile Include="tbSubirDepositos.cs" />
     <Compile Include="tbSorteo.cs" />
@@ -107,7 +89,6 @@
     <Compile Include="tbSolicitudPOA.cs" />
     <Compile Include="tbSubMenu.cs" />
     <Compile Include="tbTituloCurso.cs" />
-    <Compile Include="tbUbicacionUsuario.cs" />
     <Compile Include="tbUsuario.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

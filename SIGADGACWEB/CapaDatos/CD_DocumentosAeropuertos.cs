@@ -32,10 +32,10 @@ namespace CapaDatos
 
 
 
-        public List<tbDocumentosAtoInt> ConsultaDocumentosAeropuertos( string Ciudad)
+        public List<tbDocumentosAtoInt> ConsultaDocumentosAeropuertos(string Ciudad)
         {
 
-            List< tbDocumentosAtoInt  > listarSolicitud = new List<tbDocumentosAtoInt>();
+            List<tbDocumentosAtoInt> listarSolicitud = new List<tbDocumentosAtoInt>();
             StringBuilder sbSol = new StringBuilder();
             string query = string.Empty;
             try
@@ -123,7 +123,7 @@ namespace CapaDatos
         }
 
 
-        public List<tbDocumentosAtoDescarga> DetalleAtoDescarga( int Codigo, int Grupo, int Nivel, int Subnivel)
+        public List<tbDocumentosAtoDescarga> DetalleAtoDescarga(int Codigo, int Grupo, int Nivel, int Subnivel)
         {
 
             List<tbDocumentosAtoDescarga> listarSolicitud = new List<tbDocumentosAtoDescarga>();
@@ -131,7 +131,7 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPAAR1 where OPAES1='0' AND OPACO2 = " + Codigo+ " and OPACO3="+Grupo+ " and OPACO4 = "+Nivel + " and OPACO5 =" +Subnivel +"");
+                sbSol.Append("SELECT * FROM OPAAR1 where OPAES1='0' AND OPACO2 = " + Codigo + " and OPACO3=" + Grupo + " and OPACO4 = " + Nivel + " and OPACO5 =" + Subnivel + "");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -148,12 +148,12 @@ namespace CapaDatos
                     while (dr.Read())
                     {
                         tbDocumentosAtoDescarga oSolicitud = new tbDocumentosAtoDescarga();
-                        oSolicitud.GestionDocumental= Convert.ToInt16(dr["OPACO2"].ToString().Trim());
+                        oSolicitud.GestionDocumental = Convert.ToInt16(dr["OPACO2"].ToString().Trim());
                         oSolicitud.GrupoGestion = Convert.ToInt16(dr["OPACO3"].ToString().Trim());
                         oSolicitud.NivelGestion = Convert.ToInt16(dr["OPACO4"].ToString().Trim());
                         oSolicitud.SubNivelGestion = Convert.ToInt16(dr["OPACO5"].ToString().Trim());
                         oSolicitud.NombreArchivo = dr["OPANO3"].ToString().Trim();
-                        
+
                         listarSolicitud.Add(oSolicitud);
                     }
 

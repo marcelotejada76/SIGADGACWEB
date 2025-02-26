@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CapaModelo">
-      <HintPath>..\CapaModelo\bin\Debug\CapaModelo.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -55,8 +52,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CD_AdjuntoCiaAviacion.cs" />
+    <Compile Include="CD_Compania.cs" />
+    <Compile Include="CD_ControlFR3.cs" />
+    <Compile Include="CD_DetalleAdjuntocs.cs" />
+    <Compile Include="CD_DetalleAeronave.cs" />
+    <Compile Include="CD_DetalleRuta.cs" />
+    <Compile Include="CD_HorarioAtencion.cs" />
     <Compile Include="CD_LogUsuarioAircon.cs" />
     <Compile Include="CD_DocumentosDescarga.cs" />
+    <Compile Include="CD_PagoSolicitud.cs" />
+    <Compile Include="CD_SecuencialAppP5.cs" />
+    <Compile Include="CD_Servicios.cs" />
+    <Compile Include="CD_SolicitudVueloCharter.cs" />
     <Compile Include="CD_TotalRecord.cs" />
     <Compile Include="CD_DetalleHistoricoCursosAtc.cs" />
     <Compile Include="CD_DetalleHistoricoDependenciaAtc.cs" />
@@ -92,6 +100,7 @@
     <Compile Include="CD_SubMenu.cs" />
     <Compile Include="CD_TalentoHumano.cs" />
     <Compile Include="CD_TituloCurso.cs" />
+    <Compile Include="CD_UbicacionUsuario.cs" />
     <Compile Include="CD_Usuario.cs" />
     <Compile Include="Comprobante.cs">
       <DependentUpon>ModelConfiar.tt</DependentUpon>
@@ -117,8 +126,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelConfiar.edmx</DependentUpon>
     </Compile>
+    <Compile Include="NumLetra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="tbListaValor.cs" />
+    <Compile Include="tbSecuencialAppP5.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -156,6 +166,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CapaModelo\CapaModelo.csproj">
+      <Project>{ba03efd6-4928-4e2d-9b62-e282f2903ff0}</Project>
+      <Name>CapaModelo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

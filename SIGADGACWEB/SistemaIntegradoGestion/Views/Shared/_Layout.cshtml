@@ -237,8 +237,44 @@
         $.MisUrls.urls({ _DownloadFileDeposito: '@Url.Action("DownloadFileDeposito", "Depositos")' });
         $.MisUrls.urls({ _EliminaDepositoServidor: '@Url.Action("EliminarDepositoServidor", "Depositos")' });
 
+         //CONTROLADOR CHARTER NACIONAL
+        $.MisUrls.urls({ _FormularioConsultaSolicitud: '@Url.Action("SolicitudVuelo", "Charter")' });
+        $.MisUrls.urls({ _FormularioCargaSolicitudVuelo: '@Url.Action("CargaSolicitudVuelo", "Charter")' });
+        $.MisUrls.urls({ _FormularioObtenerAprobacionComboBox: '@Url.Action("ObtenerAprobacionComboBox", "Charter")' });
+        $.MisUrls.urls({ _ObtenerEstadoAutorizacionComboBox: '@Url.Action("ObtenerEstadoAutorizacionComboBox", "Charter")' });
+        $.MisUrls.urls({ _AutorizaFinancieroActualizaSolicitud: '@Url.Action("FinancieroActualizaSolicitud", "Charter")' });
+        $.MisUrls.urls({ _AutorizaOperacionesActualizaSolicitud: '@Url.Action("OperacionesActualizaSolicitud", "Charter")' });
+        $.MisUrls.urls({ _AutorizaTransorteAereoActualizaSolicitud: '@Url.Action("TransorteAereoActualizaSolicitud", "Charter")' });        
+        $.MisUrls.urls({ _AutorizaDirectorSolicitud: '@Url.Action("ActualizaSolicitudDirector", "Charter")' });
+        $.MisUrls.urls({ _AutorizaAdministradorAto: '@Url.Action("ResponsableAtoActualizaSolicitud", "Charter")' });
+        $.MisUrls.urls({ _SolicitudesCharterEspecialEnviadas: '@Url.Action("SolicitudCharterEspecialEnviadas", "Charter")' });
+        $.MisUrls.urls({ _SolicitudesCharterEspecialEnviadasTipo: '@Url.Action("SolicitudCharterEspecialEnviadasTipo", "Charter")' });
+        $.MisUrls.urls({ _SolicitudesCharterEspecialAprobadas: '@Url.Action("SolicitudCharterEspecialAprobadas", "Charter")' });
+        $.MisUrls.urls({ _SolicitudesCharterEspecialAprobadasTipo: '@Url.Action("SolicitudCharterEspecialAprobadasTipo", "Charter")' });
+        $.MisUrls.urls({ _CertificadoFirmaElectronicaDirectorExiste: '@Url.Action("CertificadoFirmaElectronicaDirectorExiste", "Charter")' });
+        $.MisUrls.urls({ _HabilitaNuevaAutorizacionTransorteAereo: '@Url.Action("HabilitaNuevaAutorizacionTransorteAereo", "Charter")' });
+        $.MisUrls.urls({ _adjuntoDocumentacionTecnicaCiaAviacion: '@Url.Action("AdjuntoDocumentacionTecnicaCiaAviacion", "Charter")' });
+        $.MisUrls.urls({ _visualizarArchivoAdjunto: '@Url.Action("VisualizarArchivoAdjunto", "Charter")' });
+        $.MisUrls.urls({ _visualizarSupervisorAto: '@Url.Action("SupervisorAto", "Charter")' });
+        $.MisUrls.urls({ _operacionesAprueba: '@Url.Action("OperacionesAprueba", "Charter")' });
+        $.MisUrls.urls({ _financieroAprueba: '@Url.Action("FinancieroAprueba", "Charter")' });
+        $.MisUrls.urls({ _transporteAereoAprueba: '@Url.Action("TransporteAereoAprueba", "Charter")' });
+        $.MisUrls.urls({ _visualizarAutorizacionAdjunto: '@Url.Action("VisualizarAutorizacionAdjunto", "Charter")' });
+
+        
+        $.MisUrls.urls({ _DownloadAutorizacion: '@Url.Action("DownloadAutorizacion", "Charter")' });
+         $.MisUrls.urls({ _FormularioImprimir: '@Url.Action("ReporteAutorizacion", "Charter")' });
+        $.MisUrls.urls({ _VisualizarDocumento: '@Url.Action("ContactListPDF2", "Charter")' });
+        $.MisUrls.urls({ _ImprimirSolicitudCharter: '@Url.Action("ImprimirSolicitudCharter", "Charter")' });
+        
+
+        //Descarga el archvo
+        $.MisUrls.urls({ _downloadDocumento: '@Url.Action("DownloadFile", "Charter")' });
+
         //Fin Maestro empleado
 
+        //Session
+        $.MisUrls.urls({ _comprobarSessionCharter: '@Url.Action("ComprobarSession", "Charter")' });
 
           //Login
          $.MisUrls.urls({ _FormularioLogin: '@Url.Action("login", "Login")' });

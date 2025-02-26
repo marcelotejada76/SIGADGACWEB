@@ -902,13 +902,14 @@ namespace SistemaIntegradoGestion.Controllers
             {
                 if (subirArchivo != null)
                 {
-                    string ruta = Server.MapPath("~/Content/CertificadoDigital");
+                    var ousuario = (tbUsuario)Session["Usuario"];
+                    string ruta = Constantes.ReporteElectronicoPOAURL+ ousuario.CodigoUsuario;  //Server.MapPath(Constantes.ReporteElectronicoPOAURL);
 
                     // Si el directorio no existe, crearlo
                     if (!Directory.Exists(ruta))
                         Directory.CreateDirectory(ruta);
 
-                    path = Path.Combine(Server.MapPath("~/Content/CertificadoDigital"), Path.GetFileName(subirArchivo.FileName));
+                    path = Path.Combine(ruta, Path.GetFileName(subirArchivo.FileName));
                     if (!System.IO.File.Exists(path))
                     {
                         subirArchivo.SaveAs(path);

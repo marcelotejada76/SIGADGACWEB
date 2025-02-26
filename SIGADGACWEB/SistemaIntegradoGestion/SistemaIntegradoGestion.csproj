@@ -51,6 +51,7 @@
     <Reference Include="DocumentFormat.OpenXml, Version=2.8.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.8.0\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="EPPlus, Version=6.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CapaDatos\librerias\EPPlus.dll</HintPath>
@@ -169,8 +170,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\CharterController.cs" />
+=======
+    <Compile Include="Controllers\CurriculumController.cs" />
+    <Compile Include="Controllers\DocumentosAeropuertosNacionalesController.cs" />
+>>>>>>> c6c810f5a1f7fd1d66d8c123eae8e64225d622b6
     <Compile Include="Controllers\DocumentosDescargaCartasController.cs" />
+    <Compile Include="Controllers\DocumentosAeropuertosInternacionalesController.cs" />
+    <Compile Include="Controllers\DocumentosSeguridadOperacionalController.cs" />
+    <Compile Include="Controllers\DocumentosGestionInternaController.cs" />
+    <Compile Include="Controllers\DocumentosDsnaController.cs" />
     <Compile Include="Controllers\DocumentosDescargaManualesController.cs" />
     <Compile Include="Controllers\DocumentosDescargaFormulariosController.cs" />
     <Compile Include="Controllers\DocumentosDescargaProcedimientosController.cs" />
@@ -2442,6 +2452,7 @@
     <Content Include="Scripts\Views\Depositos\SubirDepositos.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
     <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
+    <Content Include="Scripts\Views\Curriculum.js" />
     <Content Include="Scripts\Views\maestroPersonal.js" />
     <Content Include="Scripts\Views\operacionesAprueba.js" />
     <Content Include="Scripts\Views\RevisarAprobarSolicitudModificacionPOA.js" />
@@ -2514,7 +2525,6 @@
     <Content Include="Views\ModificacionPoa\SolModificacionPoaConAsignacionRecursos.cshtml" />
     <Content Include="Views\ModificacionPoa\SubirDocumentosHabilitantes.cshtml" />
     <Content Include="Views\ModificacionPoa\VerificaPresupuestariaSolicitud.cshtml" />
-    <Content Include="Views\Depositos\CargaDepositosClientes.cshtml" />
     <Content Include="Views\Depositos\SubirDocumentosDepositos.cshtml" />
     <Content Include="Views\Depositos\ConsultaDepositosClientes.cshtml" />
     <Content Include="Views\Depositos\ConsultaDocumentosDepositos.cshtml" />
@@ -2529,7 +2539,20 @@
     <Content Include="Views\DocumentosDescargaCartas\ListadoDocumentosDescargaCartas.cshtml" />
     <Content Include="Views\DocumentosDescargaManuales\ListadoDocumentosDescargaManuales.cshtml" />
     <Content Include="Views\DocumentosDescargaFormularios\ListadoDocumentosDescargaFormularios.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Charter\FinancieroAprueba.cshtml" />
+=======
+    <Content Include="Views\DocumentosSeguridadOperacional\ListadoDocumentosSeguridadOperacional.cshtml" />
+    <Content Include="Views\DocumentosGestionInterna\ListadoDocumentosGestionInterna.cshtml" />
+    <Content Include="Views\DocumentosAeropuertosInternacionales\ListadoDocumentosAeropuertosInternacionales.cshtml" />
+    <Content Include="Views\Depositos\CargaDepositosClientes.cshtml" />
+    <Content Include="Views\DocumentosAeropuertosNacionales\ListadoDocumentosAeropuertosNacionales.cshtml" />
+    <Content Include="Views\DocumentosDsna\ListadoDocumentosDsna.cshtml" />
+    <Content Include="Views\DocumentosDsna\VerPdf.cshtml" />
+    <Content Include="Views\Curriculum\ListadoCurriculum.cshtml" />
+    <Content Include="Views\Curriculum\Crear.cshtml" />
+    <Content Include="Views\Curriculum\ListadoCurriculum - Copia.cshtml" />
+>>>>>>> c6c810f5a1f7fd1d66d8c123eae8e64225d622b6
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -61,6 +61,10 @@ namespace SistemaIntegradoGestion.Controllers
             return View(listado);
         }
 
+
+        
+
+
         //consulta
         public ActionResult ConsultaDepositosClientes()
 

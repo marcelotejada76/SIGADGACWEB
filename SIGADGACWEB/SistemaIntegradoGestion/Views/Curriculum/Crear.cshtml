@@ -1,0 +1,146 @@
+﻿@model IEnumerable<CapaModelo.tbCabeceraCurriculum>
+@{
+    ViewBag.Title = "ListadoTasas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewData["Title"] = "Crear Currículum";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Crear Currículum</h2>
+    <form asp-action="Create" method="post" class="row g-3 needs-validation" novalidate>
+        <!-- Cedula -->
+        <div class="col-md-6">
+            <label for="Cedula" class="form-label">Cedula</label>
+            <input asp-for="CEDULA" type="text" class="form-control" id="CEDULA" placeholder="Ingresa su cedula" required>
+            <div class="invalid-feedback">
+                Por favor, ingrese su numero de Cedula.
+            </div>
+        </div>
+        <!-- Nombre -->
+
+        <div class="col-md-6">
+            <label for="Nombre" class="form-label">Nombre</label>
+            <input asp-for="NOMBRES" type="text" class="form-control" id="NOMBRES" placeholder="Ingresa tu nombre" required>
+            <div class="invalid-feedback">
+                Por favor, ingresa tu nombre.
+            </div>
+        </div>
+        <!-- Apellido -->
+        <div class="col-md-6">
+            <label for="Apellido" class="form-label">Apellido</label>
+            <input asp-for="APELLIDOS" type="text" class="form-control" id="APELLIDOS" placeholder="Ingresa tu apellido" required>
+            <div class="invalid-feedback">
+                Por favor, ingresa tu apellido.
+            </div>
+        </div>
+        <!-- Email -->
+        <div class="col-md-6">
+            <label for="Email" class="form-label">Email</label>
+            <input asp-for="EMAIL" type="email" class="form-control" id="EMAIL" placeholder="ejemplo@correo.com" required>
+            <div class="invalid-feedback">
+                Por favor, ingresa un email válido.
+            </div>
+        </div>
+        <!-- Teléfono -->
+        @*<div class="col-md-6">
+                <label for="Telefono" class="form-label">Teléfono</label>
+                <input asp-for="CELULAR" type="tel" class="form-control" id="CELULAR" placeholder="+57 300 123 4567" pattern="[0-9]{10}" required>
+                <div class="invalid-feedback">
+                    Por favor, ingresa un número de teléfono válido.
+                </div>
+            </div>*@
+        <!-- Experiencia Laboral -->
+        <div class="col-12">
+            <label for="ExperienciaLaboral" class="form-label">Experiencia Laboral</label>
+            <textarea asp-for="ExperienciaLaboral" class="form-control" id="ExperienciaLaboral" rows="4" placeholder="Describe tu experiencia laboral"></textarea>
+        </div>
+        <!-- Educación -->
+        <div class="col-12">
+            <label for="Educacion" class="form-label">Educación</label>
+            <textarea asp-for="Educacion" class="form-control" id="Educacion" rows="4" placeholder="Describe tu educación"></textarea>
+        </div>
+        <!-- Botón de Envío -->
+        <div class="col-12 text-center">
+            <button type="submit" id="guardar" class="btn btn-primary btn-lg">Guardar</button>
+        </div>
+    </form>
+</div>
+
+
+
+<script>
+    // Validación del formulario
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();</script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#guardar").click(function (e) {
+
+            //debugger
+            e.preventDefault();
+            var _CEDULA = $("#CEDULA").val();
+            var _NOMBRES = $("#NOMBRES").val();
+            var _APELLIDOS = $("#APELLIDOS").val();
+            var _EMAIL = $("#EMAIL").val();
+
+            var jsonObject = {
+                "CEDULA": _CEDULA, "NOMBRES": _NOMBRES, "APELLIDOS": _APELLIDOS, "EMAIL": _EMAIL
+            };
+
+            //InicioGrabar
+            $.ajax({
+                url: $.MisUrls.url._CreaCurriculum,
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: JSON.stringify(jsonObject),
+                success: function (result) {
+                    if (result.Success) {
+                        cargaDatosEmpleado();
+                        Swal.fire("Curriculum", result.Message, "warning");
+                    }
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", errormessage, "warning");
+                }
+            });
+            //FinGrabar
+
+        });
+
+        function Create() {
+            alert("ingresa");
+
+            $('#largeModal').modal('show');
+        }
+
+
+
+    });
+
+</script>
+
+@*@section scripts{
+
+    
+
+
+    <script src="@Url.Content("~/Scripts/Views/Curriculum.js")" type="text/javascript"></script>
+}*@

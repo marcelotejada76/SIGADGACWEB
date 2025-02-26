@@ -1,0 +1,358 @@
+﻿+
+@model IEnumerable<CapaModelo.tbFr3>
+@{
+    ViewBag.Title = "CalculoFr3";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Datos Fr3</title>
+</head>
+<body>
+    @using (Html.BeginForm("DatosFr3", "CalculoFr3", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="fs-6 fw-bold mt-2 mb-3" style=" font-size:18px; color: blue"><label>CALCULO FR3</label></div>
+
+            </div>
+
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:16px; color: blue"><label>INGRESE PARAMETROS DE CALCULO</label></div>
+
+            </div>
+
+        </div>
+
+       
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>Aeropuerto Cobro</label></div>
+
+                <select id="Ato" style="font-size:12px" class="form-select" aria-label="Aeropuerto Cobro">
+
+                    <option value="SECA"> CATAMAYO</option>
+                    <option value="SECO">FRANCISCO DE ORELLANA</option>
+                    <option value="SECU">MARISCAL LAMAR CUENCA</option>
+                    <option value="SEGS">SEYMOUR GALAPAGOS</option>
+                    <option value="SEGU">JOSE JOAQUIN OLMEDO INTERNACIONAL</option>
+                    <option value="SEJD">JUMANDY TENA</option>
+                    <option value="SEII">ISABELA GALAPAGOS</option>
+                    <option value="SELT">INTERNACIONAL COTOPAXI</option>
+                    <option value="SEMC">CRNEL. EDMUNDO CARVAJAL SHELL MERA</option>
+                    <option value="SEMT">INTERNACIONAL ELOY ALFARO MANTA</option>
+                    <option value="SEQM">AEROPUERTO INTERNACIONAL DE QUITO</option>
+                    <option value="SERO">REGIONAL SANTA ROSA</option>
+                    <option value="SESA">GENERAL ULPIANO PAEZ</option>
+                    <option value="SESM">RIO AMAZONAS</option>
+                    <option value="SEST">SAN CRISTOBAL GALAPAGOS</option>
+                    <option value="SETN">CRNEL. CARLOS CONCHA TORRES ESMERALDAS</option>
+                    <option value="SETU">TCRN.LUIS A. MANTILLA TULCAN</option>
+
+                </select>
+
+                @*<input type="text" style="font-size:12px;text-transform:uppercase" class="form-control form-control-solid" id="Ato" name="Ato" />*@
+            </div>
+            <div class="col-4">
+                <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>Matricula</label></div>
+                <input style="font-size:12px;text-transform:uppercase " class="form-control form-control-sm" id="Matricula" name="Matricula" />
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>Aerovia</label></div>
+        </div>
+        <div class="row justify-content-center">
+
+            <div class="col-2">
+
+                <input style="font-size:12px;text-transform:uppercase" class="form-control form-control-sm" id="Origen" name="Origen" />
+            </div>
+
+            <div class="col-2">
+                <input style="font-size:12px;text-transform:uppercase " class="form-control form-control-sm" id="Destino" name="Destino" />
+
+            </div>
+            <div class="col-2">
+                <input style="font-size:12px;text-transform:uppercase" class="form-control form-control-sm" id="Destino1" name="Destino1" />
+
+            </div>
+            <div class="col-2">
+                <input style="font-size:12px;text-transform:uppercase " class="form-control form-control-sm" id="Destino2" name="Destino2" />
+
+
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Ingresa Plataforma</label></div>
+                <input type="date" style="font-size:12px;text-transform:uppercase" class="form-control form-control-sm" id="FechaI" name="FechaI" />
+            </div>
+            <div class="col-4">
+                <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Salida Plataforma</label></div>
+                <input type="date" style="font-size:12px;text-transform:uppercase " class="form-control form-control-sm" id="FechaF" name="FechaF" />
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>Hora Ingresa Plataforma</label></div>
+                <input type="time" style="font-size:12px;text-transform:uppercase" class="form-control form-control-sm" id="HoraI" name="HoraI" />
+            </div>
+            <div class="col-4">
+                <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>Hora Salida Plataforma</label></div>
+                <input type="time" style="font-size:12px;text-transform:uppercase " class="form-control form-control-sm" id="HoraF" name="HoraF" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div>
+
+                <button type="button" class="btn btn-sm btn-success" onclick="Consultar()" data-dismiss="modal">Calcular </button>
+
+
+            </div>
+        </div>
+
+
+
+    }
+
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header bg-gradient-primary text-white">
+                    <h6 class="modal-title text-white" id="modalLabel"> CALCULO FR3</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="card-body border-top p-9">
+
+                            <div class="container">
+
+                                <div class="row justify-content-start">
+                                    <div class="col-4">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>AEROPUERTO COBRO</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="AtoM" readonly="readonly" />
+                                    </div>
+                                    <div class="col-4">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>MATRICULA</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="MatriculaM" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="row justify-content-start">
+                                    <div class="col-6">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>RUTA</label></div>
+
+                                    </div>
+                                </div>
+                                <div class="row justify-content-start">
+                                    <div class="col-3">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="OrigenM" readonly="readonly" />
+                                    </div>
+                                    <div class="col-3">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="DestinoM" readonly="readonly" />
+                                    </div>
+                                    <div class="col-3">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Destino1M" readonly="readonly" />
+                                    </div>
+                                    <div class="col-3">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Destino2M" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="row justify-content-start">
+                                    <div class="col-4">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>FECHA ING. PLATAFORMA</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="FechaIM" readonly="readonly" />
+                                    </div>
+                                    <div class="col-4">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>FECHA SAL. PLATAFORMA</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="FechaFM" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="row justify-content-start">
+                                    <div class="col-4">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>HORA ING. PLATAFORMA</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="HoraIM" readonly="readonly" />
+                                    </div>
+                                    <div class="col-4">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>HORA SAL. PLATAFORMA</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="HoraFM" readonly="readonly" />
+                                    </div>
+                                </div>
+
+                                <hr />
+
+                                <div class="input-group mb-3">
+                                    <div class="col-4">
+                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>DERECHO ESTACIONAMIENTO</label></div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Estacionamiento" readonly="readonly" />
+                                    </div>
+                                    <div class="col-3">
+                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>PERIODOS</label></div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Periodos" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="col-4">
+                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>DERECHO ATERR DIURNO</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Aterrizaje" readonly="readonly" />
+                                    </div>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="col-4">
+                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>ILUMINACION DE PISTA</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Iluminacion" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="col-4">
+                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>CHARTER</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Charter" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="col-4">
+                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>DERECHO PROT VLO</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Proteccion" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="col-4">
+                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>DER.PROT.ANTES Y DESPUES DE RUTA</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="ProteccionAntes" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="col-4">
+                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL</label></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Total" readonly="readonly" />
+                                    </div>
+                                </div>
+
+
+                                <hr />
+                                <div style="font-size:10px;color:orangered " class="fs-6 fw-bold mt-2 mb-3"><label>NOTA: El Valor de Iluminacion de Pista aplica por Aeropuerto y Horario de puesta del Sol</label></div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+
+        function Consultar() {
+
+            var _Ato = $('#Ato').val();
+            var _Matricula = $('#Matricula').val();
+            var _Origen = $('#Origen').val();
+            var _Destino = $('#Destino').val();
+            var _Destino1 = $('#Destino1').val();
+            var _Destino2 = $('#Destino2').val();
+            var _FechaI = $('#FechaI').val();
+            var _FechaF = $('#FechaF').val();
+            var _HoraI = $('#HoraI').val();
+            var _HoraF = $('#HoraF').val();
+
+            $("#Estacionamiento").val("");
+            $("#Aterrizaje").val("");
+            $("#Iluminacion").val("");
+            $("#Charter").val("");
+            $("#Proteccion").val("");
+            $("#ProteccionAntes").val("");
+            $("#Total").val("");
+            $("#Periodos").val("");
+
+            $.ajax({
+                url: $.MisUrls.url._DetalleFr3,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Ato: _Ato, Matricula: _Matricula, Origen: _Origen, Destino: _Destino, Destino1: _Destino1, Destino2: _Destino2, FechaI: _FechaI, FechaF: _FechaF, HoraI: _HoraI, HoraF: _HoraF },
+                success: function (e) {
+
+                    $("#AtoM").val(e.AEROPUERTO);
+                    $("#MatriculaM").val(e.MATRICULA);
+                    $("#OrigenM").val(e.ORIGEN);
+                    $("#DestinoM").val(e.DESTINO);
+                    $("#Destino1M").val(e.DESTINO1);
+                    $("#Destino2M").val(e.DESTINO2);
+                    $("#FechaIM").val(e.FECHAINGRESOPLATAFORMA);
+                    $("#FechaFM").val(e.FECHASALIDAPLATAFORMA);
+                    $("#HoraIM").val(e.HORAINGRESOPLATAFORMA);
+                    $("#HoraFM").val(e.HORASALIDAPLATAFORMA);
+
+
+                    $("#Estacionamiento").val(e.DERECHOESTACIONAMIENTO);
+                    $("#Aterrizaje").val(e.DERECHOATERRIZAJEDIURNO);
+                    $("#Iluminacion").val(e.DERECHOILUMINACION);
+                    $("#Charter").val(e.CHARTER);
+                    $("#Proteccion").val(e.DERECHOPROTVLO);
+                    $("#ProteccionAntes").val(e.DERECHOPROTANTESYDESPUES);
+                    $("#Total").val(e.TOTAL);
+                    $("#Periodos").val(e.PERIODO);
+
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>
+}

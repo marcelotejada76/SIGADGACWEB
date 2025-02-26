@@ -1,0 +1,113 @@
+﻿@model IEnumerable<CapaModelo.tbDocumentosGestionInterna>
+@*@model IEnumerable<CapaModelo.tbDocumentosDsnaDescarga>*@
+
+@{
+    ViewBag.Title = "ListadoDocumentosDescarga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cabecera-Detalle</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .detalle {
+            display: none; /* Ocultar detalles inicialmente */
+            margin-left: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .cabecera-row {
+            cursor: pointer;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+
+        .titulo {
+            cursor: pointer;
+            background-color: #7f99b2;
+            color: aliceblue;
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .cabecera-row:hover {
+            background-color: #d7dbdd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            color: #429d9a;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="titulo">
+        <h1>GESTIÓN INTERNA ATM </h1>
+    </div>
+
+    @foreach (var cabecera in Model)
+    {
+        <div class="cabecera-row" data-id="@cabecera.Gestion">
+            <strong>@cabecera.NombreArchivo</strong>
+        </div>
+
+
+        <!-- Tabla de detalles -->
+        <div class="detalle" id="detalle-@cabecera.Gestion">
+            <table>
+
+                <tbody>
+                    @foreach (var detalle in cabecera.oDetalleDocumentosDescargaDsna)
+                    {
+                        <tr>
+                            <td class="cabecera-row">@detalle.NombreArchivo</td>
+                            <td>
+                                <a id="Descarga" class="btn btn-outline-primary " href="@Url.Action("DescargaDcto", "DocumentosGestionInterna", new {Nombre= detalle.NombreArchivo,cabecera=cabecera.NombreArchivo})">
+                                    
+                                        <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Descargar
+                                    </a>
+                            </td>
+                            @*<td>@detalle.Descripcion</td>
+                                <td>@detalle.Cantidad</td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Al hacer clic en una fila de cabecera, mostrar/ocultar el detalle correspondiente
+            $(".cabecera-row").click(function () {
+                var cabeceraId = $(this).data("id");
+                $("#detalle-" + cabeceraId).toggle(); // Alternar visibilidad del detalle
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="COMFIARModelStoreContainer" CdmEntityContainer="COMFIAREntities">
+    <EntitySetMapping Name="Comprobante">
+      <EntityTypeMapping TypeName="COMFIARModel.Comprobante">
+        <MappingFragment StoreEntitySet="Comprobante">
+          <ScalarProperty Name="TransaccionId" ColumnName="TransaccionId" />
+          <ScalarProperty Name="CuitId" ColumnName="CuitId" />
+          <ScalarProperty Name="PuntoDeVentaId" ColumnName="PuntoDeVentaId" />
+          <ScalarProperty Name="TipoComprobanteId" ColumnName="TipoComprobanteId" />
+          <ScalarProperty Name="NroCbte" ColumnName="NroCbte" />
+          <ScalarProperty Name="TipoDocCliente" ColumnName="TipoDocCliente" />
+          <ScalarProperty Name="NroDocCliente" ColumnName="NroDocCliente" />
+          <ScalarProperty Name="Imp_Total" ColumnName="Imp_Total" />
+          <ScalarProperty Name="FechaCbte" ColumnName="FechaCbte" />
+          <ScalarProperty Name="Cae" ColumnName="Cae" />
+          <ScalarProperty Name="FechaVto" ColumnName="FechaVto" />
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+          <ScalarProperty Name="Error" ColumnName="Error" />
+          <ScalarProperty Name="ErrorDesc" ColumnName="ErrorDesc" />
+          <ScalarProperty Name="RazonSocialCliente" ColumnName="RazonSocialCliente" />
+          <ScalarProperty Name="CodigoCliente" ColumnName="CodigoCliente" />
+          <ScalarProperty Name="RequestAFIPId" ColumnName="RequestAFIPId" />
+          <ScalarProperty Name="MonedaId" ColumnName="MonedaId" />
+          <ScalarProperty Name="RolEmisorId" ColumnName="RolEmisorId" />
+          <ScalarProperty Name="RolReceptorId" ColumnName="RolReceptorId" />
+          <ScalarProperty Name="FechaProceso" ColumnName="FechaProceso" />
+          <ScalarProperty Name="TipoDeCambio" ColumnName="TipoDeCambio" />
+          <ScalarProperty Name="CuitRolReceptorId" ColumnName="CuitRolReceptorId" />
+          <ScalarProperty Name="IdentificacionReceptorComfiar" ColumnName="IdentificacionReceptorComfiar" />
+          <ScalarProperty Name="TipoIdentificacionReceptorComfiar" ColumnName="TipoIdentificacionReceptorComfiar" />
+          <ScalarProperty Name="EstadoEmision" ColumnName="EstadoEmision" />
+          <ScalarProperty Name="UsuarioAnulacion" ColumnName="UsuarioAnulacion" />
+          <ScalarProperty Name="FechaAnulacion" ColumnName="FechaAnulacion" />
+          <ScalarProperty Name="MotivoAnulacion" ColumnName="MotivoAnulacion" />
+          <ScalarProperty Name="Indice" ColumnName="Indice" />
+          <ScalarProperty Name="TipoCodigoAutorizacion" ColumnName="TipoCodigoAutorizacion" />
+          <ScalarProperty Name="TransaccionResumenAnulacion" ColumnName="TransaccionResumenAnulacion" />
+          <ScalarProperty Name="EstadoTransaccionResumen" ColumnName="EstadoTransaccionResumen" />
+          <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+          <ScalarProperty Name="UsuarioAprobacion" ColumnName="UsuarioAprobacion" />
+          <ScalarProperty Name="AprobacionParcial" ColumnName="AprobacionParcial" />
+          <ScalarProperty Name="FechaFirmado" ColumnName="FechaFirmado" />
+          <ScalarProperty Name="EstadoPublicacionId" ColumnName="EstadoPublicacionId" />
+          <ScalarProperty Name="AceptacionRechazoProcesado" ColumnName="AceptacionRechazoProcesado" />
+          <ScalarProperty Name="Xml" ColumnName="Xml" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EstadoPublicacion">
+      <EntityTypeMapping TypeName="COMFIARModel.EstadoPublicacion">
+        <MappingFragment StoreEntitySet="EstadoPublicacion">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Cod" ColumnName="Cod" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+          <ScalarProperty Name="PathPDF" ColumnName="PathPDF" />
+          <ScalarProperty Name="ErrorPDF" ColumnName="ErrorPDF" />
+          <ScalarProperty Name="ErrorPDFMotivo" ColumnName="ErrorPDFMotivo" />
+          <ScalarProperty Name="TransaccionId" ColumnName="TransaccionId" />
+          <ScalarProperty Name="CuitId" ColumnName="CuitId" />
+          <ScalarProperty Name="PuntoDeVentaId" ColumnName="PuntoDeVentaId" />
+          <ScalarProperty Name="TipoComprobanteId" ColumnName="TipoComprobanteId" />
+          <ScalarProperty Name="NroCbte" ColumnName="NroCbte" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

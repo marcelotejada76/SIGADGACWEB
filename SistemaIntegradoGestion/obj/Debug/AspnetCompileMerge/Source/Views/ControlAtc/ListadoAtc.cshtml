@@ -1,0 +1,274 @@
+﻿@model IEnumerable<CapaModelo.tbAtc>
+@{
+    ViewBag.Title = "ListadoControladoresATC";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p class="text-blue">LISTADO CONTROLADORES ATC</p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoAtc", "ControlAtc", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row mb-8">
+            <div class="col-sm-3">
+                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>LICENCIA/APELLIDO</label></div>
+            </div>
+            <div class="col-sm-8 fv-row">
+
+                <input style="text-transform:uppercase" class="form-control form-control-solid" id="Licencia" name="Licencia" />
+            </div>
+            <div>
+
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>
+
+
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Licencia</th>
+                                <th>Nombres</th>
+                                <th>Institución</th>
+                                <th>Dependencia</th>
+                                <th>Vigencia Cemac</th>
+                                <th>Estado</th>
+
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+
+                                <td>@Html.DisplayFor(modelItem => item.Licencia)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ApellidoNombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Institucion)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Dependencia)</td>
+                                <td>@Html.DisplayFor(modelItem => item.VigenciaCemac)</td>
+                                
+                                <td>
+                                    @if (item.Estado == "ACTIVO")
+                                    {
+
+                                        <p class="text-danger" , style="font-size:16px;color: aquamarine">   @Html.DisplayFor(modelItem => item.Estado)</p>
+
+                                    }
+                                    @if (item.Estado == "NO ACTIVO")
+                                    {
+
+                                        <p class="text-gray" , style="font-size:16px;color: crimson">   @Html.DisplayFor(modelItem => item.Estado)</p>
+
+                                    }
+                                    @if (item.Estado == "ENTRENAMIENTO")
+                                    {
+
+                                        <p class="text-gray" , style="font-size:16px;color: coral">   @Html.DisplayFor(modelItem => item.Estado)</p>
+
+                                    }
+
+                                </td>
+
+                                <td>
+                                    <a id="Consultar" href="#" onclick="Consultar(@item.Licencia)">
+                                        <i>
+                                            <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                        </i>
+                                        Consulta
+                                    </a>
+
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> CONTROLADOR ATC</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+                            <div class="text-right">
+                                <img id="imgControlador" style="width:90px; height:90px" />
+                            </div>
+
+                          
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>LICENCIA</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="Lic" readonly="readonly" />
+                                </div>
+                                <div class="col-7">
+
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>APELLIDO NOMBRES</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="Nombres" readonly="readonly" />
+
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="row justify-content-start">
+
+                                <div class="col-md-12">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>INSTITUCION</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="Institucion" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+
+                                <div class="col-md-12">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>DEPENDENCIA</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="Dependencia" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+
+                                <div class="col-md-12">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>CODIGO DEPENDENCIA</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="CodigoDependencia" readonly="readonly" />
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-start">
+
+                                <div class="col-md-12">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>CIUDAD</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="Ciudad" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>VIGENCIA CEMAC</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="Vigencia" readonly="readonly" />
+                                </div>
+                                <div class="col-8">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>ESTADO</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="Estado" readonly="readonly" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr />
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+
+        function Consultar(Licencia) {
+
+
+            //$("#Lic").val("");
+            $("#Nombres").val("");
+            $("#Institucion").val("");
+            $("#Dependencia").val("");
+            $("#Ciudad").val("");
+            $("#Vigencia").val("");
+            $("#Estado").val("");
+            $("#CodigoDependencia").val("");
+
+            
+
+            $.ajax({
+                url: $.MisUrls.url._DetalleControladorAtc,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Licencia: Licencia },
+                success: function (e) {
+                                 
+                    $("#Lic").val(e.Licencia);
+                    $("#Nombres").val(e.ApellidoNombre);
+                    $("#Institucion").val(e.Institucion);
+                    $("#Dependencia").val(e.Dependencia);
+                    $("#Ciudad").val(e.Ciudad);
+                    $("#Vigencia").val(e.VigenciaCemac);
+                    $("#Estado").val(e.Estado);
+                    $("#CodigoDependencia").val(e.CodigoDependencia);
+                    $('#imgControlador').attr('src', e.Url);
+                   
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>
+}

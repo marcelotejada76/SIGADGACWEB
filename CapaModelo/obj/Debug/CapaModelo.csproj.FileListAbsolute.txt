@@ -1,0 +1,15 @@
+D:\PROYECTOS_DAG\SIGADGACWEB\CapaModelo\bin\Debug\CapaModelo.dll
+D:\PROYECTOS_DAG\SIGADGACWEB\CapaModelo\bin\Debug\CapaModelo.pdb
+D:\PROYECTOS_DAG\SIGADGACWEB\CapaModelo\obj\Debug\CapaModelo.csproj.CoreCompileInputs.cache
+D:\PROYECTOS_DAG\SIGADGACWEB\CapaModelo\obj\Debug\CapaModelo.dll
+D:\PROYECTOS_DAG\SIGADGACWEB\CapaModelo\obj\Debug\CapaModelo.pdb
+D:\proyectos\SIGADGACWEB\CapaModelo\bin\Debug\CapaModelo.dll
+D:\proyectos\SIGADGACWEB\CapaModelo\bin\Debug\CapaModelo.pdb
+D:\proyectos\SIGADGACWEB\CapaModelo\obj\Debug\CapaModelo.csproj.CoreCompileInputs.cache
+D:\proyectos\SIGADGACWEB\CapaModelo\obj\Debug\CapaModelo.dll
+D:\proyectos\SIGADGACWEB\CapaModelo\obj\Debug\CapaModelo.pdb
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\bin\Debug\CapaModelo.dll
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\bin\Debug\CapaModelo.pdb
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\obj\Debug\CapaModelo.csproj.CoreCompileInputs.cache
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\obj\Debug\CapaModelo.dll
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\obj\Debug\CapaModelo.pdb

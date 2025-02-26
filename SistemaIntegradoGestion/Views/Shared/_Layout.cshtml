@@ -1,0 +1,293 @@
+﻿﻿<!DOCTYPE html>
+<html>
+<head lang="es-ec">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/imganes/logo2.jpg" />
+    <title>@ViewBag.Title - DGAC</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/PluginsCSS")
+</head>
+<body class="hold-transition sidebar-mini pace-primary layout-navbar-fixed">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><img src="~/Content/assets/imganes/align.png" /> </a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <p class="nav-link">
+                        Dirección General de Aviciación Civil del Ecuador
+                    </p>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="~/Content/imganes/user.png" style="width:30px" alt="user" class="profile-pic" />
+                        @if (Session["name"] != null)
+                        {
+                            <span>@Session["name"].ToString()</span>
+                        }
+
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <a href="#" class="dropdown-item">
+                            <!-- Message Start -->
+                            <div class="media">
+                                <img src="~/Content/imganes/user.png" alt="User" style="width:30px" class="img-size-50 mr-3 img-circle">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                        @if (Session["name"] != null)
+                                        {
+                                            <p class="text-sm"> @Session["name"].ToString() </p>
+                                        }
+                                    </h3>
+
+                                    @if (Session["correo"] != null)
+                                    {
+                                        <p class="text-sm">@Session["correo"].ToString()</p>
+                                    }
+                                </div>
+                            </div>
+                            <!-- Message End -->
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="@Url.Action("Salir", "Home")" class="dropdown-item">
+                            <!-- Message Start -->
+                            <div class="media">
+                                <img src="~/Content/imganes/power.png" alt="User" style="width:30px" class=" mr-3 img-circle">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                        Cerrar sesión
+                                    </h3>
+                                </div>
+                            </div>
+                            <!-- Message End -->
+                        </a>
+                    </div>
+                </li>
+            </ul>
+
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-secondary elevation-4">
+            <!-- Brand Logo -->
+            <a href="#" class="brand-link">
+                <img src="~/Content/imganes/logo2.jpg" alt="Dirección General Aviación Civil - Ecuador" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light form-control-sm">DGAC</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user (optional) -->
+                @if (Session["Usuario"] != null)
+                {
+                    var userLogin = (CapaModelo.tbUsuario)Session["Usuario"];
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="info form-control-sm">
+                            <a class="d-block">@userLogin.CodigoUsuario</a>
+
+                        </div>
+                    </div>
+                }
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    @Html.Partial("_MenuBar")
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <br />
+                @RenderBody()
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 1.1.
+            </div>
+            <strong>Derechos de autor &copy; 2022 <a href="https://www.aviacioncivil.gob.ec/">Dirección Aviación Civil-DGAC</a>.</strong> Reservados todos los derechos.
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/PluginsJS")
+    <script type="text/javascript">
+
+        $.extend({ MisUrls: { url: {}, urls: function (a) { $.extend($.MisUrls.url, a); } } });
+
+
+
+          $.MisUrls.urls({ _DetalleFacturaP5: '@Url.Action("CargaDetalleFacturaP5", "FacturasP5")' });
+
+        $.MisUrls.urls({ _DetalleFacturaP5Confiar: '@Url.Action("DetalleFacturaP5Confiar", "FacturasP5")' });
+        $.MisUrls.urls({ _DetalleMatriculaP5: '@Url.Action("CargaDetalleMatriculaP5", "Matriculas")' });
+         $.MisUrls.urls({ _DetalleFr3: '@Url.Action("CargaDetalleFr3", "CalculoFr3")' });
+
+        $.MisUrls.urls({ _DetalleMatriculaDeudor: '@Url.Action("CargaDetalleMatricula", "MatriculasAdeudadas")' });
+        $.MisUrls.urls({ _DetalleBancoRuminahui: '@Url.Action("CargaDetalleBanco", "BancoRuminahui")' });
+        $.MisUrls.urls({ _CargaDetalleFr3Datos: '@Url.Action("CargaDetalleFr3Datos", "ConsultaFr3")' });
+        $.MisUrls.urls({ _CargaDetalleTutDatos: '@Url.Action("CargaDetalleTutDatos", "ConsultaTut")' });
+        $.MisUrls.urls({ _DetalleControladorAtc: '@Url.Action("CargaDetalleAtc", "ControlAtc")' });
+        $.MisUrls.urls({ _DetalleHistoricoControladorAtc: '@Url.Action("HistoricoCargaDetalleAtc", "HistoricoControlAtc")' });
+        
+        $.MisUrls.urls({ _DetalleControladorAtcDiario: '@Url.Action("CargaDetalleAtcDiario", "ControlAtcDiario")' });
+         //sorteo
+        $.MisUrls.urls({ _Sorteo: '@Url.Action("Resultado", "Sorteo")' });
+        $.MisUrls.urls({ _CreaCurriculum: '@Url.Action("Crear", "Curriculum")' });
+        
+        $.MisUrls.urls({ _CargaDetalleCurriculum: '@Url.Action("CargaDetalleCedula", "Curriculum")' });
+
+        //lenguaje español datatable
+        $.MisUrls.urls({ _datatable_spanish: '@Url.Content("~/Content/plugins/datatables/datatable_spanish.json")' });
+
+
+        //Editar Empleado
+        $.MisUrls.urls({ _EditarMaestroPersonal: '@Url.Action("Editar_Maestro_Personal", "TalentoHumano")' });
+        $.MisUrls.urls({ _ObtenerMaestroPersonal: '@Url.Action("ObtenerMaestroPersonal", "TalentoHumano")' });
+        $.MisUrls.urls({ _DatosEmpleadoActualizar: '@Url.Action("DatosEmpleadoActualizar", "TalentoHumano")' });
+
+
+
+ //Inicio de Maestro empleado
+        $.MisUrls.urls({ _DatosAdicionalesMaestroPersonal: '@Url.Action("DatosAdicionalesMaestroPersonal", "TalentoHumano")' });
+        $.MisUrls.urls({ _CursoEmpleadoPorDocumentoCodigo: '@Url.Action("CursoEmpleadoPorDocumentoCodigo", "TalentoHumano")' });
+
+        $.MisUrls.urls({ _GetSelectListCantonesList: '@Url.Action("GetSelectListCantonesList", "TalentoHumano")' });
+        $.MisUrls.urls({ _GetSelectListParroquiasList: '@Url.Action("GetSelectListParroquiasList", "TalentoHumano")' });
+
+        //Solicitud Certificado POA
+        $.MisUrls.urls({ _EnviaAprobarSolicitudCertificadoPOA: '@Url.Action("EnviaAprobarSolicitudCertificadoPOA", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _CargaSolicitudCertificado: '@Url.Action("CargaSolicitudCertificado", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _RevisaSolicitudCertificadoPOA: '@Url.Action("RevisaSolicitudCertificadoPOA", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _AbrirCertificadoPOA: '@Url.Action("CrearCertificado", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _VerificaExisteFirmaElectronica: '@Url.Action("VerificaExisteFirmaElectronica", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _ObtieneSolicitudCertificadoPOAPorAnioNumeroSolicitud: '@Url.Action("ObtieneSolicitudCertificadoPOAPorAnioNumeroSolicitud", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _ExportaServerReportAPDF: '@Url.Action("ExportaServerReportAPDF", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _DescargarArchivo: '@Url.Action("DownloadFile", "SolicitarModificaciones")' });
+         $.MisUrls.urls({ _EliminaArchivo: '@Url.Action("EliminarDocumento", "SolicitarModificaciones")' });
+
+        //Modificacion POA Sin afectacion presupuestaria
+        $.MisUrls.urls({ _DescargarArchivoSinAfectacion: '@Url.Action("DownloadFileSinAfectacionPresupuestaria", "ModificacionPoa")' });
+        $.MisUrls.urls({ _VisualizarDocumentoSinAfectacion: '@Url.Action("VisualizarFileSinAfectacion", "ModificacionPoa")' });
+        $.MisUrls.urls({ _EliminaArchivoSinAfectacion: '@Url.Action("EliminarDocumentoSinAfectacion", "ModificacionPoa")' });
+        $.MisUrls.urls({ _EnviaSolicitudVerificacionPresupuestario: '@Url.Action("EnviaSolicitudVerificacionPresupuestario", "ModificacionPoa")' });
+        $.MisUrls.urls({ _VerificaExisteFirmasElectronicas: '@Url.Action("VerificaExisteFirmasElectronicas", "ModificacionPoa")' });
+        $.MisUrls.urls({ _EnviaAprobarSolicitudModificacionPOAaDPGE: '@Url.Action("EnviaAprobarSolicitudModificacionPOAaDPGE", "ModificacionPoa")' });
+        $.MisUrls.urls({ _ElaborarInformeViabilidadModificacionPOA: '@Url.Action("ElaborarInformeViabilidadModificacionPOA", "ModificacionPoa")' });
+        $.MisUrls.urls({ _AprobarInformeViabilidadModificacionPao: '@Url.Action("AprobarInformeViabilidadModificacionPao", "ModificacionPoa")' });
+        $.MisUrls.urls({ _RevisarAprobarSolicitudModificacionPoaEstadoAutorizado: '@Url.Action("RevisarAprobarSolicitudModificacionPoaEstadoAutorizado", "ModificacionPoa")' });
+        $.MisUrls.urls({ _ActualizarPoa: '@Url.Action("ActualizarPoa", "ModificacionPoa")' });
+        $.MisUrls.urls({ _ImprimirPoaPropuestoInformeViabilidad: '@Url.Action("ImprimirPoaPropuestoInformeViabilidad", "ModificacionPoa")' });
+        $.MisUrls.urls({ _LegalizaModificacionNegada: '@Url.Action("LegalizaModificacionNegada", "ModificacionPoa")' });
+
+
+        //Modificacion POA Con Afectacion Presupuestaria
+        $.MisUrls.urls({ _VisualizarArchivo: '@Url.Action("VisualizarArchivo", "ModificacionPoa")' });
+         $.MisUrls.urls({ _DescargarArchivo: '@Url.Action("DescargarArchivo", "ModificacionPoa")' });
+
+
+
+            //Obtiene el docuemnto del curso
+        $.MisUrls.urls({ _CursoEmpleado: '@Url.Action("CursoEmpleado", "TalentoHumano")' });
+        $.MisUrls.urls({ _DocumentoCurso: '@Url.Action("DocumentoCurso", "TalentoHumano")' });
+        $.MisUrls.urls({ _ObtenerCursosPorCedula: '@Url.Action("ObtenerCursosPorCedula", "TalentoHumano")' });
+        $.MisUrls.urls({ _GetSelectListTitulosCurso: '@Url.Action("GetSelectListTitulosCurso", "TalentoHumano")' });
+        $.MisUrls.urls({ _GetSelectListEntinidadEducativa: '@Url.Action("GetSelectListEntinidadEducativa", "TalentoHumano")' });
+        $.MisUrls.urls({ _GetSelectListaValores: '@Url.Action("GetSelectListaValores", "TalentoHumano")' });
+        $.MisUrls.urls({ _GetSelectListCiudad: '@Url.Action("GetSelectListCiudad", "TalentoHumano")' });
+
+
+
+
+        $.MisUrls.urls({ _DocumentosHabilitantes: '@Url.Action("CargaTodosArchivos", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _GeneraReportePDF: '@Url.Action("ExportToPDF", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _VerificaExisteCertificadoFirma: '@Url.Action("VerificaExisteCertificadoFirma", "SolicitarModificaciones")' });
+        //Metodo de prueba  hay que brrar
+        
+        $.MisUrls.urls({ _PruebaReporteCertificadoPOA: '@Url.Action("PruebaReporteCertificadoPOA", "SolicitarModificaciones")' });
+
+        $.MisUrls.urls({ _VisualizarDocumento: '@Url.Action("VisualizarFile", "SolicitarModificaciones")' });
+        $.MisUrls.urls({ _CargaTodosArchivosDirectory: '@Url.Action("CargaTodosArchivosDirectory", "SolicitarModificaciones")' });
+
+        //visualizar depositos marcelo tejada
+        $.MisUrls.urls({ _VisualizarDepositos: '@Url.Action("VisualizarDepositos", "Depositos")' });
+        $.MisUrls.urls({ _DownloadFileDeposito: '@Url.Action("DownloadFileDeposito", "Depositos")' });
+        $.MisUrls.urls({ _EliminaDepositoServidor: '@Url.Action("EliminarDepositoServidor", "Depositos")' });
+
+         //CONTROLADOR CHARTER NACIONAL
+        $.MisUrls.urls({ _FormularioConsultaSolicitud: '@Url.Action("SolicitudVuelo", "Charter")' });
+        $.MisUrls.urls({ _FormularioCargaSolicitudVuelo: '@Url.Action("CargaSolicitudVuelo", "Charter")' });
+        $.MisUrls.urls({ _FormularioObtenerAprobacionComboBox: '@Url.Action("ObtenerAprobacionComboBox", "Charter")' });
+        $.MisUrls.urls({ _ObtenerEstadoAutorizacionComboBox: '@Url.Action("ObtenerEstadoAutorizacionComboBox", "Charter")' });
+        $.MisUrls.urls({ _AutorizaFinancieroActualizaSolicitud: '@Url.Action("FinancieroActualizaSolicitud", "Charter")' });
+        $.MisUrls.urls({ _AutorizaOperacionesActualizaSolicitud: '@Url.Action("OperacionesActualizaSolicitud", "Charter")' });
+        $.MisUrls.urls({ _AutorizaTransorteAereoActualizaSolicitud: '@Url.Action("TransorteAereoActualizaSolicitud", "Charter")' });        
+        $.MisUrls.urls({ _AutorizaDirectorSolicitud: '@Url.Action("ActualizaSolicitudDirector", "Charter")' });
+        $.MisUrls.urls({ _AutorizaAdministradorAto: '@Url.Action("ResponsableAtoActualizaSolicitud", "Charter")' });
+        $.MisUrls.urls({ _SolicitudesCharterEspecialEnviadas: '@Url.Action("SolicitudCharterEspecialEnviadas", "Charter")' });
+        $.MisUrls.urls({ _SolicitudesCharterEspecialEnviadasTipo: '@Url.Action("SolicitudCharterEspecialEnviadasTipo", "Charter")' });
+        $.MisUrls.urls({ _SolicitudesCharterEspecialAprobadas: '@Url.Action("SolicitudCharterEspecialAprobadas", "Charter")' });
+        $.MisUrls.urls({ _SolicitudesCharterEspecialAprobadasTipo: '@Url.Action("SolicitudCharterEspecialAprobadasTipo", "Charter")' });
+        $.MisUrls.urls({ _CertificadoFirmaElectronicaDirectorExiste: '@Url.Action("CertificadoFirmaElectronicaDirectorExiste", "Charter")' });
+        $.MisUrls.urls({ _HabilitaNuevaAutorizacionTransorteAereo: '@Url.Action("HabilitaNuevaAutorizacionTransorteAereo", "Charter")' });
+        $.MisUrls.urls({ _adjuntoDocumentacionTecnicaCiaAviacion: '@Url.Action("AdjuntoDocumentacionTecnicaCiaAviacion", "Charter")' });
+        $.MisUrls.urls({ _visualizarArchivoAdjunto: '@Url.Action("VisualizarArchivoAdjunto", "Charter")' });
+        $.MisUrls.urls({ _visualizarSupervisorAto: '@Url.Action("SupervisorAto", "Charter")' });
+        $.MisUrls.urls({ _operacionesAprueba: '@Url.Action("OperacionesAprueba", "Charter")' });
+        $.MisUrls.urls({ _financieroAprueba: '@Url.Action("FinancieroAprueba", "Charter")' });
+        $.MisUrls.urls({ _transporteAereoAprueba: '@Url.Action("TransporteAereoAprueba", "Charter")' });
+        $.MisUrls.urls({ _visualizarAutorizacionAdjunto: '@Url.Action("VisualizarAutorizacionAdjunto", "Charter")' });
+
+        
+        $.MisUrls.urls({ _DownloadAutorizacion: '@Url.Action("DownloadAutorizacion", "Charter")' });
+         $.MisUrls.urls({ _FormularioImprimir: '@Url.Action("ReporteAutorizacion", "Charter")' });
+        $.MisUrls.urls({ _VisualizarDocumento: '@Url.Action("ContactListPDF2", "Charter")' });
+        $.MisUrls.urls({ _ImprimirSolicitudCharter: '@Url.Action("ImprimirSolicitudCharter", "Charter")' });
+        
+
+        //Descarga el archvo
+        $.MisUrls.urls({ _downloadDocumento: '@Url.Action("DownloadFile", "Charter")' });
+
+        //Fin Maestro empleado
+
+        //Session
+        $.MisUrls.urls({ _comprobarSessionCharter: '@Url.Action("ComprobarSession", "Charter")' });
+
+          //Login
+         $.MisUrls.urls({ _FormularioLogin: '@Url.Action("login", "Login")' });
+        function nobackbutton() {
+            window.location.hash = "no-back-button";
+            window.location.hash = "Again-No-back-button"
+            window.onhashchange = function () { window.location.hash = "no-back-button"; }
+        }
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

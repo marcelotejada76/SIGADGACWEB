@@ -1,0 +1,229 @@
+﻿@model IEnumerable<CapaModelo.tbCabeceraCurriculum>
+@{
+    ViewBag.Title = "ListadoTasas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p class="text-blue">LISTADO DE DOCUMENTOS TUT</p>
+                    </h4>
+                </div>
+
+            </div>
+            <td>
+            <a id="Create" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("Crear", "Curriculum", new { })">
+                <i><img src="~/Content/imganes/adjunto.png" style="width:12px" /></i>Crear
+            </a>
+        </td>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoCurriculum", "Curriculum", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        @*<div class="row mb-8">
+            <div class="col-sm-3">
+                <div class="fs-3 fw-bold mt-2 mb-2"><label>FECHA DE EMISION</label></div>
+            </div>
+            <div class="col-sm-4 fv-row">
+
+            
+                <input type="date" class="form-control form-control-solid" name="FechaEmision">
+
+            </div>
+            <div>
+            
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>*@
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" style="font-size:14px" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>CEDULA</th>
+                                <th>APELLIDOS</th>
+                                <th>NOMBRES</th>
+                                <th>EMAIL</th>
+                                
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.CEDULA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.APELLIDOS)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NOMBRES)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EMAIL)</td>
+                                    
+
+                                    <td>
+                                        <a id="Consultar" href="#" onclick="Consultar(@item.CEDULA)">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:12px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>
+                                    </td>
+                                    @*<td>
+                                        <a id="Descarga" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DescargaTasa", "ConsultaTut", new {NumeroTasa= item.NUMEROTASA, Ato =item.ATO, FechaEmision = item.FECHAEMISION, Ruc = item.RUC.ToString() })">
+                                            <i><img src="~/Content/imganes/adjunto.png" style="width:12px" /></i>Descargar
+                                        </a>
+                                    </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> DATOS TUT</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container  mt-5">
+
+                            
+
+                            <div class="row justify-content-start">
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>CEDULA</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="CEDULA" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-3">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>APELLIDOS</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="APELLIDOS" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>NOMBRES</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NOMBRES" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="row justify-content-start">
+                                <div class="col-3">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>EMAIL</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="EMAIL" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+        //function DescargaTasa(NumeroFr3, Ato, Ano, FechaEmision, Ruc) {
+
+
+        //    $.ajax({
+        //        url: $.MisUrls.url._DescargaTasa,
+        //        type: "GET",
+        //        contentType: "application/json;charset=UTF-8",
+        //        dataType: "json",
+        //        data: { NumeroFr3: NumeroFr3, Ato: Ato, Ano: Ano, FechaEmision: FechaEmision, Ruc: Ruc },
+
+        //    });
+
+        //    alert("Archivo descargado en la ruta C:\\TUTPdf");
+
+        //}
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+        function Consultar(Cedula) {
+
+
+            $.ajax({
+                url: $.MisUrls.url._CargaDetalleCurriculum,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Cedula: Cedula },
+                success: function (e) {
+
+                    $("#CEDULA").val(e.CEDULA);
+                    $("#APELLIDOS").val(e.APELLIDOS);
+                    $("#NOMBRES").val(e.NOMBRES);
+                    $("#EMAIL").val(e.EMAIL);
+                    
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>
+}

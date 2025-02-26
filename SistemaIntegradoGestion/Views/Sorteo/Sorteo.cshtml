@@ -1,0 +1,229 @@
+﻿+
+@model IEnumerable<CapaModelo.tbSorteo>
+@{
+    ViewBag.Title = "Sorteo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PROCESO SORTEOS DIRECCION GENERAL DE AVIACION CIVIL</title>
+</head>
+<body>
+    @using (Html.BeginForm("Resultado", "Sorteo", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="fs-6 fw-bold mt-2 fs-6" style=" font-size:18px; color: blue"><label> DIRECCION GENERAL DE AVIACION CIVIL</label></div>
+
+
+            </div>
+          
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="fs-6 fw-bold mt-2 fs-6" style=" font-size:18px; color: saddlebrown"><label> PROCESO SORTEOS</label></div>
+
+
+            </div>
+            @*<div class="col-6">
+
+                    <div class="fs-6 fw-bold mt-2 justify-content-center" style=" font-size:18px; color: brown"><label>PROCESO SORTEOS </label></div>
+
+                </div>*@
+
+        </div>
+        @*<div class="row justify-content-center">
+            <div class="col-4">
+                <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:16px; color: black"><label>INGRESE PARAMETROS DE SORTEO</label></div>
+
+            </div>
+
+        </div>*@
+
+
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div style="font-size:14px" class="fs-6 fw-bold mt-2 mb-3"><label>Tipo Sorteo</label></div>
+
+                <select id="Tipo" style="font-size:12px" class="form-select" aria-label="Tipo Sorteo">
+
+                    <option value="01"> SORTEO PERITOS AERONAUTICOS</option>
+                    <option value="02">CASA VALORES</option>
+                    <option value="03">PERITOS CONTABLES</option>
+
+                </select>
+
+                @*<input type="text" style="font-size:12px;text-transform:uppercase" class="form-control form-control-solid" id="Ato" name="Ato" />*@
+            </div>
+
+            <div class="col-4">
+                <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label> </label></div>
+
+
+
+                @*<input type="text" style="font-size:12px;text-transform:uppercase" class="form-control form-control-solid" id="Ato" name="Ato" />*@
+            </div>
+
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div>
+
+                <button type="button" class="btn btn-sm btn-success" onclick="Consultar()" data-dismiss="modal">Proceder Sorteo </button>
+
+
+            </div>
+        </div>
+
+
+
+    }
+
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header bg-gradient-primary text-white">
+                    <h6 class="modal-title text-white" id="modalLabel">  DIRECCION GENERAL DE AVIACION CIVIL</h6>
+                    @*<h5 class="modal-title text-white" id="modalLabel">            PROCESO DE SORTEOS </h5>*@
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="card-body border-top p-9">
+
+                            <div class="container">
+
+                                <div class="row justify-content-center">
+                                    <div class="col-4">
+
+                                        <div style="font-size:18px; color: blue" class="fs-6 fw-bold mt-2 mb-3"><label>DATOS DEL GANADOR</label></div>
+
+                                    </div>
+
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-4">
+                                        
+                                        <input style="font-size:14px;color:brown;background-color:bisque" class="form-control form-control-sm" id="Descripcion" readonly="readonly" />
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-4">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>CEDULA</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Cedula" readonly="readonly" />
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row justify-content-center">
+
+                                    <div class="col-4">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>NOMBRE</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Nombre" readonly="readonly" />
+                                    </div>
+
+                                </div>
+                                <div class="row justify-content-center">
+
+                                    <div class="col-4">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>CORREO</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Correo" readonly="readonly" />
+                                    </div>
+
+                                </div>
+                                <div class="row justify-content-center">
+
+                                    <div class="col-4">
+                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>CELULAR</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Celular" readonly="readonly" />
+                                    </div>
+
+                                </div>
+
+                                <hr />
+                                @*<div style="font-size:10px;color:orangered " class="fs-6 fw-bold mt-2 mb-3"><label>NOTA: El Valor de Iluminacion de Pista aplica por Aeropuerto y Horario de puesta del Sol</label></div>*@
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+        function Consultar() {           
+            var _Cedula = $('#Cedula').val();
+            var _Nombre = $('#Nombre').val();
+            var _Correo = $('#Correo').val();
+            var _Celular = $('#Celular').val();
+            var _Tipo = $('#Tipo').val();
+            var _Descripcion = $('#Descripcion').val();
+
+            $("#Cedula").val("");
+            $("#Nombre").val("");
+            $("#Correo").val("");
+            $("#Celular").val("");
+            $("#Descripcion").val("");
+            console.log(_Tipo); 
+            
+            $.ajax({
+                url: $.MisUrls.url._Sorteo,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Cedula: _Cedula, Nombre: _Nombre, Correo: _Correo, Celular: _Celular, Tipo: _Tipo, Descripcion: _Descripcion },
+                success: function (e) {
+
+                    $("#Cedula").val(e.CEDULARUC);
+                    $("#Nombre").val(e.NOMBRE);
+                    $("#Correo").val(e.CORREO);
+                    $("#Celular").val(e.CELULAR);
+                    $("#Descripcion").val(e.DESCRIPCION);
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>
+}

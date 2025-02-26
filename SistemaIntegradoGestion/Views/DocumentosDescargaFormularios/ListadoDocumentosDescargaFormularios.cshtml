@@ -1,0 +1,80 @@
+﻿@model IEnumerable<CapaModelo.tbDocumentosDescarga>
+@{
+    ViewBag.Title = "ListadoDocumentosDescarga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row" align='center'>
+                <div class="col-md-12">
+                    <h4>
+                        
+                            <p class="text-blue" align='center'> DOCUMENTOS FORMULARIOS ATM</p>
+                        
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoDocumentosDescargaFormularios", "DocumentosDescargaFormularios", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        @*<div class="row mb-8">
+            <div class="col-sm-3">
+                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>NOMBRE</label></div>
+            </div>
+            <div class="col-sm-8 fv-row">
+                <input type="text" name="Nombre" id="Nombre" class="form-control form-control-solid" required>
+                
+            </div>
+            <div>
+
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>*@
+
+
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="bg-gradient-info">Nombre Archivo</th>
+                                
+                                
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+
+                                <td>@Html.DisplayFor(modelItem => item.NombreArchivo)</td>
+
+                                <td>
+                                    <a id="Descarga" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DescargaDcto", "DocumentosDescargaFormularios", new {Nombre= item.NombreArchivo})">
+                                        <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Descargar
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+}

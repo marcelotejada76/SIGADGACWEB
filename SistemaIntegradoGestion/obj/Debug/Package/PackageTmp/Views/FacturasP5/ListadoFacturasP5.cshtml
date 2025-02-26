@@ -1,0 +1,297 @@
+﻿@model IEnumerable<CapaModelo.tbFacturasP5>
+@{
+    ViewBag.Title = "ListadoFacturasP5";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<style>
+        p {
+            color: blue;
+            text-align: center;
+        }
+    </style>*@
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p class="text-blue">LISTADO DE FACTURAS</p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoFacturasP5", "FacturasP5", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row mb-8">
+            <div class="col-sm-2">
+                <div class="fs-3 fw-bold mt-2 mb-2"><label>CLIENTE/FACTURA</label></div>
+            </div>
+            <div class="col-sm-8 fv-row">
+
+                <input style="text-transform:uppercase" class="form-control form-control-solid" id="NombreCliente" name="NombreCliente" />
+            </div>
+            <div>
+                @*<a class="btn btn-success" href="ListadoFacturasP5">Buscar</a>*@
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>
+
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nombre Cliente</th>
+                                <th>Cedula Ruc</th>
+                                <th>Factura</th>
+                                <th>Valor</th>
+                                <th>Fecha Creacion</th>
+
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.NOMBRECLIENTE)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CEDULA_RUC)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMEROFACTURA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.VALORFACTURA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHACREA)</td>
+
+
+                                    <td>
+                                        <a id="Consultar" href="#" onclick="Consultar(@item.OIDFACTURA)">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>
+                                        @*<a id="ConsultarPdf" href="#" onclick="ConsultarPdf(@item.NUMEROFACTURA)">
+                                                <i>
+                                                    <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                                </i>
+                                                PDF
+                                            </a>*@
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> FACTURA</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Compañia</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="NOMBRECLIENTE" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Cedula Ruc</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="CEDULA_RUC" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Estado</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="ESTADO" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Numero Factura</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="NUMEROFACTURA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Valor factura</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="VALORFACTURA" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+
+                            <hr />
+
+
+
+                            <p class="text-blue" style="font-size:14px">DETALLE FACTURA</p>
+
+
+
+                            <table id="tbDetalleFactura" class="table table-bordered table-hover table-sm" style="width:100%; font-size:13px">
+                                <thead>
+                                    <tr>
+                                        <th>CODIGO CONTABLE</th>
+                                        <th>CONCEPTO</th>
+                                        <th>VALOR</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size:12px"></tbody>
+
+
+                            </table>
+                            <hr />
+
+
+                            <p class="text-blue" style="font-size:14px">DETALLE RECAUDACION</p>
+
+                            <table id="tbDetalleRecaudacion" class="table table-bordered table-hover table-sm" style="width:100%; font-size:13px">
+                                <thead>
+                                    <tr>
+                                        <th>FECHA CR </th>
+                                        <th>FECHA ANULACION</th>
+                                        <th>CODIGO</th>
+                                        <th>CONCEPTO</th>
+                                        <th>VALOR RECAUDADO</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size:12px"></tbody>
+
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+        //function OnButtonClick() {
+        //    var nombre = $('#NombreCliente').val();
+        //    var data = {
+        //        TextBox: TextBox.GetValue()
+        //    };
+        //    var PostData = data.TextBox;
+
+        //    window.location.href = "FacturasP5/ListadoFacturasP5/?NombreCliente=" + nombre;
+        //}
+
+        function Consultar(Oid) {
+            $.ajax({
+                url: $.MisUrls.url._DetalleFacturaP5,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { OidFactura: Oid },
+                success: function (e) {
+                    $("#NOMBRECLIENTE").val(e.NOMBRECLIENTE);
+                    $("#CEDULA_RUC").val(e.CEDULA_RUC);
+                    $("#ESTADO").val(e.ESTADO);
+                    $("#NUMEROFACTURA").val(e.NUMEROFACTURA);
+                    $("#CODIGO").val(e.CODIGO);
+                    $("#VALORFACTURA").val(e.VALORFACTURA);
+                    $("#tbDetalleFactura tbody").html("");
+                    $.each(e.oDetalleFactura, function (i, row) {
+
+                        $("<tr>").append(
+                            $("<td>").text(row["CODIGOCONTABLE"]),
+                            $("<td>").text(row["DESCRIPCION"]),
+                            $("<td class='text-right'>").text(row["VALOR"]))
+                            .appendTo("#tbDetalleFactura tbody");
+                    })
+                    $("#tbDetalleRecaudacion tbody").html("");
+                    $.each(e.oDetalleRecaudacion, function (i, row) {
+
+                        $("<tr>").append(
+                            $("<td>").text(row["FECHARECAUDACION"]),
+                            $("<td>").text(row["FECHAANULACION"]),
+                            $("<td>").text(row["CODIGO"]),
+                            $("<td>").text(row["CONCEPTO"]),
+                            $("<td class='text-right'>").text(row["VALORRECAUDADO"]))
+                            .appendTo("#tbDetalleRecaudacion tbody");
+                    })
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+        function ConsultarPdf(Oid) {
+            $.ajax({
+                url: $.MisUrls.url._DetalleFacturaP5Confiar,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { NumeroFactura: Oid },
+                success: function (e) {
+                    $("#NOMBRECLIENTE").val(e.NOMBRECLIENTE);
+                    $("#CEDULA_RUC").val(e.CEDULA_RUC);
+                    $("#ESTADO").val(e.ESTADO);
+                    $("#NUMEROFACTURA").val(e.NUMEROFACTURA);
+                    $("#CODIGO").val(e.CODIGO);
+                    $("#VALORFACTURA").val(e.VALORFACTURA);
+                    $("#tbDetalleFactura tbody").html("");
+                    $("#tbDetalleRecaudacion tbody").html("");
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+    </script>
+}

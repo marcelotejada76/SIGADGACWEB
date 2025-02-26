@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="COMFIARModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Comprobante">
+    <Key>
+      <PropertyRef Name="TransaccionId" />
+      <PropertyRef Name="CuitId" />
+      <PropertyRef Name="PuntoDeVentaId" />
+      <PropertyRef Name="TipoComprobanteId" />
+      <PropertyRef Name="NroCbte" />
+    </Key>
+    <Property Name="TransaccionId" Type="int" Nullable="false" />
+    <Property Name="CuitId" Type="bigint" Nullable="false" />
+    <Property Name="PuntoDeVentaId" Type="int" Nullable="false" />
+    <Property Name="TipoComprobanteId" Type="int" Nullable="false" />
+    <Property Name="NroCbte" Type="int" Nullable="false" />
+    <Property Name="TipoDocCliente" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="NroDocCliente" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Imp_Total" Type="float" Nullable="false" />
+    <Property Name="FechaCbte" Type="datetime" Nullable="false" />
+    <Property Name="Cae" Type="varchar" MaxLength="120" />
+    <Property Name="FechaVto" Type="datetime" />
+    <Property Name="Resultado" Type="varchar" MaxLength="50" />
+    <Property Name="Motivo" Type="varchar" MaxLength="50" />
+    <Property Name="Error" Type="int" />
+    <Property Name="ErrorDesc" Type="varchar" MaxLength="550" />
+    <Property Name="RazonSocialCliente" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="CodigoCliente" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="RequestAFIPId" Type="bigint" />
+    <Property Name="MonedaId" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="RolEmisorId" Type="varchar" MaxLength="50" />
+    <Property Name="RolReceptorId" Type="varchar" MaxLength="50" />
+    <Property Name="FechaProceso" Type="datetime" />
+    <Property Name="TipoDeCambio" Type="float" />
+    <Property Name="CuitRolReceptorId" Type="bigint" />
+    <Property Name="IdentificacionReceptorComfiar" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="TipoIdentificacionReceptorComfiar" Type="int" Nullable="false" />
+    <Property Name="EstadoEmision" Type="int" Nullable="false" />
+    <Property Name="UsuarioAnulacion" Type="varchar" MaxLength="50" />
+    <Property Name="FechaAnulacion" Type="datetime" />
+    <Property Name="MotivoAnulacion" Type="varchar(max)" />
+    <Property Name="Indice" Type="int" />
+    <Property Name="TipoCodigoAutorizacion" Type="varchar" MaxLength="4" />
+    <Property Name="TransaccionResumenAnulacion" Type="int" />
+    <Property Name="EstadoTransaccionResumen" Type="int" />
+    <Property Name="FechaAprobacion" Type="datetime" />
+    <Property Name="UsuarioAprobacion" Type="varchar" MaxLength="50" />
+    <Property Name="AprobacionParcial" Type="bit" />
+    <Property Name="FechaFirmado" Type="datetime" />
+    <Property Name="EstadoPublicacionId" Type="int" />
+    <Property Name="AceptacionRechazoProcesado" Type="bit" />
+    <Property Name="Xml" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="EstadoPublicacion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Cod" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+    <Property Name="Motivo" Type="varchar" MaxLength="255" />
+    <Property Name="PathPDF" Type="varchar" MaxLength="255" />
+    <Property Name="ErrorPDF" Type="bit" Nullable="false" />
+    <Property Name="ErrorPDFMotivo" Type="varchar" MaxLength="255" />
+    <Property Name="TransaccionId" Type="int" />
+    <Property Name="CuitId" Type="bigint" />
+    <Property Name="PuntoDeVentaId" Type="int" />
+    <Property Name="TipoComprobanteId" Type="int" />
+    <Property Name="NroCbte" Type="int" />
+  </EntityType>
+  <EntityContainer Name="COMFIARModelStoreContainer">
+    <EntitySet Name="Comprobante" EntityType="Self.Comprobante" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EstadoPublicacion" EntityType="Self.EstadoPublicacion" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

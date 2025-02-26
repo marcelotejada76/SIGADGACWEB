@@ -1,0 +1,13 @@
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\bin\Release\CapaDatos.dll.config
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\bin\Release\CapaDatos.dll
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\bin\Release\CapaDatos.pdb
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\bin\Release\CapaModelo.dll
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\bin\Release\EntityFramework.dll
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\bin\Release\IBM.Data.DB2.iSeries.dll
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\bin\Release\CapaModelo.pdb
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\bin\Release\EntityFramework.xml
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\obj\Release\CapaDatos.csprojAssemblyReference.cache
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\obj\Release\CapaDatos.csproj.CoreCompileInputs.cache
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\obj\Release\CapaDatos.csproj.CopyComplete
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\obj\Release\CapaDatos.dll
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaDatos\obj\Release\CapaDatos.pdb

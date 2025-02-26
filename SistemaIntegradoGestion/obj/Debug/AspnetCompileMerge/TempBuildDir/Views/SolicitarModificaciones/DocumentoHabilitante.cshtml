@@ -1,0 +1,170 @@
+﻿@model IEnumerable<CapaModelo.tbModelArchivo>
+@{
+    ViewBag.Title = "DocumentoHabilitante";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/TreeView/jquery.treeview.css" rel="stylesheet" />
+<link href="~/Content/TreeView/screen.css" rel="stylesheet" />
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Cargar/Descarga Documentos Habilitantes</h1>
+                <label id="lblDescripcionActividad" class="col-form-label text-lg text-blue">@Session["DireccionActividad"].ToString()</label>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="@Url.Action("SolicitarCertificadoPOA", "SolicitarModificaciones")">@Session["TituloActionResul"]</a></li>
+                    <li class="breadcrumb-item active">DocumentoHabilitante</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<div class="container-fluid">
+    @using (Html.BeginForm("DocumentoHabilitante", "SolicitarModificaciones", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-body p-0">
+                            @if (ViewBag.DireccionDirectory != null)
+                            {
+                                <input type="hidden" id="Directory" name="Directory" value="@ViewBag.DireccionDirectory" />
+                                <input type="hidden" id="canio" name="canio" value="@ViewBag.canio" />
+                                <input type="hidden" id="numSolicitud" name="numSolicitud" value="@ViewBag.numSolcitud" />
+                            }
+                            @if (Session["ActionResul"] != null && Session["TituloActionResul"] != null)
+                            {
+                                <input type="hidden" id="actionResul" name="actionResul" value="@Session["ActionResul"].ToString()" />
+                                <input type="hidden" id="tituloActionResul" name="tituloActionResul" value="@Session["TituloActionResul"].ToString()" />
+                            }
+
+                                <ul id="browser" class="nav nav-pills flex-column filetree treeview-famfamfam">
+                                    <li class="nav-item active">
+                                        @if (Session["DireccionSubSistema"] != null)
+                                        {
+                                            <span class="text-blue">@Session["DireccionSubSistema"].ToString()</span>
+                                        }
+                                    </li>
+                                    <li class="nav-item active">
+                                        @if (ViewBag.DireccionDirectory != null)
+                                        {
+                                            <span class="folder">@ViewBag.DireccionDirectory</span>
+                                        }
+                                    </li>
+                                    @if (ViewBag.EstadoAutorizado != null || ViewBag.EstadoAutorizado != "")
+                                    {
+                                        string[] EstadosAutoArray = { "AP", "RA", "RN" };
+                                        if (!EstadosAutoArray.Any(x => x == ViewBag.EstadoAutorizado) || ViewBag.EstadoAutorizado == "RA")
+                                        {
+                                            <li class="nav-item">
+                                                <div class="form-group row">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" id="documentFile" name="documentFile">
+                                                        <label class="custom-file-label" for="documentFile">No se ha seleccionado ningún archivo.</label>
+                                                    </div>
+                                                    <div class="text-sm text-info">
+                                                        <p style="text-align:justify">
+                                                            Tamaño máximo de archivo 4 MB
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="nav-item active">
+                                                <div class="form-group col-12">
+                                                    <a class="btn btn-outline-secondary" href="@Url.Action(@Session["ActionResul"].ToString(), "SolicitarModificaciones")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
+                                                    <button type="button" id="btnEnviar" class="btn btn-outline-primary float-right"><i><img src="~/Content/imganes/save.png" style="width:20px" /></i> Grabar anexo </button>
+
+                                                </div>
+                                            </li>
+                                        }
+                                        else
+                                        {                                          
+                                            <li class="nav-item active">
+                                                <div class="form-group col-12">
+                                                    <a class="btn btn-outline-secondary float-right" href="@Url.Action(@Session["ActionResul"].ToString(), "SolicitarModificaciones")">Regresar</a>
+                                                </div>
+                                            </li>
+                                        }
+
+                                    }
+
+                                </ul>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-body">
+                        <table id="tbExploradorArchivos" class="table table-bordered table-hover table-sm" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Fecha de modificación</th>
+                                    <th>Tipo</th>
+                                    <th>Tamaño</th>
+                                    <th colspan="2"> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NombreArchivo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FechaModificacion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Tipo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Tamano)
+                                        </td>
+                                        <td>
+                                            @if (ViewBag.EstadoAutorizado != null)
+                                            {
+                                                string[] EstadosAutoArray = { "AP", "RA", "RN" };
+                                                if (ViewBag.EstadoAutorizado != "AP" && ViewBag.EstadoAutorizado != "RA" && ViewBag.EstadoAutorizado != "RN")
+                                                {
+                                                    <a id="eliminar" href="#" onclick="eliminar('@item.NombreArchivo');">
+                                                        <i>
+                                                            <img src="~/Content/imganes/eliminar1.png" style="width:25px" />
+                                                        </i>
+                                                        Eliminar
+                                                    </a>}
+                                            }
+                                        </td>
+                                        <td>
+                                            <a id="descargar" href="@Url.Action("DownloadFile", "SolicitarModificaciones", new {nombreArchivo=@item.NombreArchivo, direccion = @ViewBag.DireccionDirectory})">
+                                                <i>
+                                                    <img src="~/Content/imganes/dowload1.png" style="width:25px" />
+                                                </i>
+                                                Descargar
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Views/documentoHabilitante.js")" type="text/javascript"></script>
+}
+

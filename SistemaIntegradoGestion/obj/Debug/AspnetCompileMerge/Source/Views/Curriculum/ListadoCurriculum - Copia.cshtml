@@ -1,0 +1,250 @@
+﻿@model IEnumerable<CapaModelo.tbCabeceraCurriculum>
+@{
+    ViewBag.Title = "ListadoTasas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Currículums</h2>
+@*<td>
+    <a id="Create" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("Crear", "Curriculum", new { })">
+        <i><img src="~/Content/imganes/adjunto.png" style="width:12px" /></i>Crear
+    </a>
+</td>*@
+
+
+<div class="card card-default">
+    <div class="card-body">
+        <div class="row">
+            <table id="tbDetalle" style="font-size:14px" class="table table-bordered table-hover table-sm" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>CEDULA</th>
+                        <th>APELLIDOS</th>
+                        <th>NOMBRES</th>
+                        <th>EMAIL</th>
+
+                        <th class=" control-label control-lab"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.CEDULA)</td>
+                            <td>@Html.DisplayFor(modelItem => item.APELLIDOS)</td>
+                            <td>@Html.DisplayFor(modelItem => item.NOMBRES)</td>
+                            <td>@Html.DisplayFor(modelItem => item.EMAIL)</td>
+
+
+                            <td>
+                                <a id="Consultar" href="#" onclick="Consultar(@item.CEDULA">
+                                    <i>
+                                        <img src="~/Content/imganes/consultar-documento.png" style="width:12px" />
+
+                                    </i>
+                                    Consulta
+                                </a>
+                            </td>
+                            @*<td>
+                                    <a id="Descarga" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DescargaTasa", "ConsultaTut", new {NumeroTasa= item.NUMEROTASA, Ato =item.ATO, FechaEmision = item.FECHAEMISION, Ruc = item.RUC.ToString() })">
+                                        <i><img src="~/Content/imganes/adjunto.png" style="width:12px" /></i>Descargar
+                                    </a>
+                                </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> DATOS TUT</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container mt-5">
+                            <h2 class="text-center mb-4">Crear Currículum</h2>
+                            <form asp-action="Create" method="post" class="row g-3 needs-validation" novalidate>
+                                <!-- Cedula -->
+                                <div class="col-md-6">
+                                    <label for="Cedula" class="form-label">Cedula</label>
+                                    <input asp-for="CEDULA" type="text" class="form-control" id="CEDULA" placeholder="Ingresa su cedula" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese su numero de Cedula.
+                                    </div>
+                                </div>
+                                <!-- Nombre -->
+                                <div class="col-md-6">
+                                    <label for="Nombre" class="form-label">Nombre</label>
+                                    <input asp-for="NOMBRES" type="text" class="form-control" id="NOMBRES" placeholder="Ingresa tu nombre" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingresa tu nombre.
+                                    </div>
+                                </div>
+                                <!-- Apellido -->
+                                <div class="col-md-6">
+                                    <label for="Apellido" class="form-label">Apellido</label>
+                                    <input asp-for="APELLIDOS" type="text" class="form-control" id="APELLIDOS" placeholder="Ingresa tu apellido" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingresa tu apellido.
+                                    </div>
+                                </div>
+                                <!-- Email -->
+                                <div class="col-md-6">
+                                    <label for="Email" class="form-label">Email</label>
+                                    <input asp-for="EMAIL" type="email" class="form-control" id="EMAIL" placeholder="ejemplo@correo.com" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingresa un email válido.
+                                    </div>
+                                </div>
+                                <!-- Teléfono -->
+                                @*<div class="col-md-6">
+                                        <label for="Telefono" class="form-label">Teléfono</label>
+                                        <input asp-for="CELULAR" type="tel" class="form-control" id="CELULAR" placeholder="+57 300 123 4567" pattern="[0-9]{10}" required>
+                                        <div class="invalid-feedback">
+                                            Por favor, ingresa un número de teléfono válido.
+                                        </div>
+                                    </div>*@
+                                <!-- Experiencia Laboral -->
+                                <div class="col-12">
+                                    <label for="ExperienciaLaboral" class="form-label">Experiencia Laboral</label>
+                                    <textarea asp-for="ExperienciaLaboral" class="form-control" id="ExperienciaLaboral" rows="4" placeholder="Describe tu experiencia laboral"></textarea>
+                                </div>
+                                <!-- Educación -->
+                                <div class="col-12">
+                                    <label for="Educacion" class="form-label">Educación</label>
+                                    <textarea asp-for="Educacion" class="form-control" id="Educacion" rows="4" placeholder="Describe tu educación"></textarea>
+                                </div>
+                                <!-- Botón de Envío -->
+                                <div class="col-12 text-center">
+                                    <button type="submit" id="guardar" class="btn btn-primary btn-lg">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+
+                    <hr />
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+        </div>
+    </div>
+</div>
+
+
+
+@*<script>
+    // Validación del formulario
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();</script>*@
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+        //function DescargaTasa(NumeroFr3, Ato, Ano, FechaEmision, Ruc) {
+
+
+        //    $.ajax({
+        //        url: $.MisUrls.url._DescargaTasa,
+        //        type: "GET",
+        //        contentType: "application/json;charset=UTF-8",
+        //        dataType: "json",
+        //        data: { NumeroFr3: NumeroFr3, Ato: Ato, Ano: Ano, FechaEmision: FechaEmision, Ruc: Ruc },
+
+        //    });
+
+        //    alert("Archivo descargado en la ruta C:\\TUTPdf");
+
+        //}
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+        function Create() {
+
+
+            $.ajax({
+                //url: $.MisUrls.url._CargaDetalleTutDatos,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                //data: { NumeroTut: NumeroTut, Ato: Ato, Ano: Ano },
+                success: function (e) {
+
+
+                   
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+        function Consultar(Cedula) {
+
+            alert(Cedula);
+            $.ajax({
+                url: $.MisUrls.url._CargaDetalleCurriculum,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Cedula: cedula },
+                success: function (e) {
+
+                    $("#CEDULA").val(e.CEDULA);
+                    $("#APELLIDOS").val(e.APELLIDOS);
+                    $("#NOMBRES").val(e.NOMBRES);
+                    $("#EMAIL").val(e.EMAIL);
+                  
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+    </script>
+}

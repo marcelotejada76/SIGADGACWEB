@@ -1,0 +1,79 @@
+﻿@model SistemaIntegradoGestion.Models.ModelLogin
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/imganes/logo2.jpg" />
+    <title>DGAC | Login</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="~/Content/Plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/Content/logincontainer.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="container login-container">
+        <div class="row">
+            <div class="col-md-5 login-form-2">
+                <div class="form-group">
+                    <div class="col-12">
+                        <img src="~/Content/assets/imganes/avion1.png" style="width:100%; height:auto; max-width:100%" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 login-form-1">
+                <div class="media-body">
+                    <img src="~/Content/imganes/logodgac.jpg" style="width:105px; height:auto; max-width:100%" />
+                    <h3 class="text-center">Login del Usuario</h3>
+                </div>
+                
+                @using (Html.BeginForm("login", "Login", FormMethod.Post, new { id = "loginForm", enctype = "multipart/form-data", }))
+                {
+                    <div class="form-group">
+                        <label for="Usuario" class="col-form-label">Usuario *</label>
+                        @Html.TextBoxFor(model => model.Usuario, new { @class = "form-control form-control-sm text-uppercase", autocomplete = "off", maxlength = "10" })
+
+                    </div>
+                    <div class="form-group">
+                        <label for="Clave" class="col-form-label">Contraseña *</label>
+                        @Html.TextBoxFor(model => model.Clave, new { @class = "form-control form-control-sm text-uppercase", @type = "password", autocomplete = "off", maxlength = "10" })
+
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary  float-right">Ingresar</button>
+                    </div>
+
+                    if (Model.Mensaje != null)
+                    {
+                        if (Model.Mensaje.Length > 0)
+                        {
+                            <script type="text/javascript">
+                                window.onload = function () {
+                                    Swal.fire("Login-Usuario", set(@Html.Raw(Json.Encode(Model.Mensaje))), "warning");
+                                };
+                                function set(value) {
+                                    return value;
+                                }
+                            </script>
+                        }
+
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/Plugins/sweetalert2/sweetalert2.min.js"></script>
+</body>
+</html>
+
+
+

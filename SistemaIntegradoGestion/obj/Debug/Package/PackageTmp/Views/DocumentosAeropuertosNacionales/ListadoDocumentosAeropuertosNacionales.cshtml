@@ -1,0 +1,124 @@
+﻿@model IEnumerable<CapaModelo.tbDocumentosAtoInt>
+
+
+@{
+    ViewBag.Title = "ListadoDocumentosDescarga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cabecera-Detalle</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .detalle {
+            display: none; /* Ocultar detalles inicialmente */
+            margin-left: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .cabecera-row {
+            cursor: pointer;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+
+        .titulo {
+            cursor: pointer;
+            background-color: #7f99b2;
+            color: aliceblue;
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .cabecera-row:hover {
+            background-color: #d7dbdd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            color: #429d9a;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="titulo">
+        <h1>AEROPUERTOS NACIONALES</h1>
+    </div>
+
+    @foreach (var cabecera in Model)
+    {
+    <div class="cabecera-row" data-id="@cabecera.Secuencia">
+
+        @if (cabecera.NombreNivel == "MADE")
+        {
+            <strong style="color: red; background-color:yellow;  font-weight: bold;">@cabecera.NombreGrupo </strong> <strong> @cabecera.Carpeta</strong>
+        }
+        else
+        {
+            <strong style="color: black; font-weight: bold;">@cabecera.NombreGrupo </strong> <strong> @cabecera.Carpeta</strong>
+        }
+
+
+        @*<strong style="color: black; font-weight: bold;">@cabecera.NombreGrupo </strong> <strong> @cabecera.Carpeta</strong>*@
+        @*<strong style="color: red; font-weight: bold;">@cabecera.NombreGrupo </strong> <strong> @cabecera.Carpeta</strong>*@
+    </div>
+
+
+        <!-- Tabla de detalles -->
+        <div class="detalle" id="detalle-@cabecera.Secuencia">
+            <table>
+
+                <tbody>
+                    @foreach (var detalle in cabecera.oDetalleDocumentosDescargaAto)
+                    {
+                        <tr>
+                            <td class="cabecera-row">@detalle.NombreArchivo</td>
+                            <td>
+                                <a id="Descarga" class="btn btn-outline-primary " href="@Url.Action("DescargaDcto", "DocumentosAeropuertosNacionales",
+                                                     new {Nombre= detalle.NombreArchivo,Grupo=cabecera.NombreGrupo,nivel=cabecera.NombreNivel,subnivel=cabecera.NombreSubnivel})">
+
+
+                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Descargar
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Al hacer clic en una fila de cabecera, mostrar/ocultar el detalle correspondiente
+            $(".cabecera-row").click(function () {
+                var cabeceraId = $(this).data("id");
+                $("#detalle-" + cabeceraId).toggle(); // Alternar visibilidad del detalle
+            });
+        });
+    </script>
+</body>
+</html>
+

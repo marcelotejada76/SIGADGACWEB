@@ -1,0 +1,6 @@
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\bin\Release\CapaModelo.dll
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\bin\Release\CapaModelo.pdb
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\obj\Release\CapaModelo.csprojAssemblyReference.cache
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\obj\Release\CapaModelo.csproj.CoreCompileInputs.cache
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\obj\Release\CapaModelo.dll
+D:\proyectos\SIGADGACWEB\SIGADGACWEB\CapaModelo\obj\Release\CapaModelo.pdb

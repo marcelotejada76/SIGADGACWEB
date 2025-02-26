@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="COMFIARModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Comprobante">
+    <Key>
+      <PropertyRef Name="TransaccionId" />
+      <PropertyRef Name="CuitId" />
+      <PropertyRef Name="PuntoDeVentaId" />
+      <PropertyRef Name="TipoComprobanteId" />
+      <PropertyRef Name="NroCbte" />
+    </Key>
+    <Property Name="TransaccionId" Type="Int32" Nullable="false" />
+    <Property Name="CuitId" Type="Int64" Nullable="false" />
+    <Property Name="PuntoDeVentaId" Type="Int32" Nullable="false" />
+    <Property Name="TipoComprobanteId" Type="Int32" Nullable="false" />
+    <Property Name="NroCbte" Type="Int32" Nullable="false" />
+    <Property Name="TipoDocCliente" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NroDocCliente" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Imp_Total" Type="Double" Nullable="false" />
+    <Property Name="FechaCbte" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Cae" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="FechaVto" Type="DateTime" Precision="3" />
+    <Property Name="Resultado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Motivo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Error" Type="Int32" />
+    <Property Name="ErrorDesc" Type="String" MaxLength="550" FixedLength="false" Unicode="false" />
+    <Property Name="RazonSocialCliente" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CodigoCliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="RequestAFIPId" Type="Int64" />
+    <Property Name="MonedaId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="RolEmisorId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="RolReceptorId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FechaProceso" Type="DateTime" Precision="3" />
+    <Property Name="TipoDeCambio" Type="Double" />
+    <Property Name="CuitRolReceptorId" Type="Int64" />
+    <Property Name="IdentificacionReceptorComfiar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TipoIdentificacionReceptorComfiar" Type="Int32" Nullable="false" />
+    <Property Name="EstadoEmision" Type="Int32" Nullable="false" />
+    <Property Name="UsuarioAnulacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FechaAnulacion" Type="DateTime" Precision="3" />
+    <Property Name="MotivoAnulacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Indice" Type="Int32" />
+    <Property Name="TipoCodigoAutorizacion" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="TransaccionResumenAnulacion" Type="Int32" />
+    <Property Name="EstadoTransaccionResumen" Type="Int32" />
+    <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+    <Property Name="UsuarioAprobacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AprobacionParcial" Type="Boolean" />
+    <Property Name="FechaFirmado" Type="DateTime" Precision="3" />
+    <Property Name="EstadoPublicacionId" Type="Int32" />
+    <Property Name="AceptacionRechazoProcesado" Type="Boolean" />
+    <Property Name="Xml" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="EstadoPublicacion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Cod" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Motivo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="PathPDF" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ErrorPDF" Type="Boolean" Nullable="false" />
+    <Property Name="ErrorPDFMotivo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="TransaccionId" Type="Int32" />
+    <Property Name="CuitId" Type="Int64" />
+    <Property Name="PuntoDeVentaId" Type="Int32" />
+    <Property Name="TipoComprobanteId" Type="Int32" />
+    <Property Name="NroCbte" Type="Int32" />
+  </EntityType>
+  <EntityContainer Name="COMFIAREntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Comprobante" EntityType="Self.Comprobante" />
+    <EntitySet Name="EstadoPublicacion" EntityType="Self.EstadoPublicacion" />
+  </EntityContainer>
+</Schema>

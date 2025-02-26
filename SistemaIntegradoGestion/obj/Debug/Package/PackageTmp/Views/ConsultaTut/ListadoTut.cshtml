@@ -1,0 +1,399 @@
+﻿@model IEnumerable<CapaModelo.tbTut>
+@{
+    ViewBag.Title = "ListadoTasas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p class="text-blue">LISTADO DE DOCUMENTOS TUT</p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoTut", "ConsultaTut", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row mb-8">
+            <div class="col-sm-3">
+                <div class="fs-3 fw-bold mt-2 mb-2"><label>FECHA DE EMISION</label></div>
+            </div>
+            <div class="col-sm-4 fv-row">
+
+                @*<input style="text-transform:uppercase" class="form-control form-control-solid" id="FechaEmision" name="FechaEmision" />*@
+                <input type="date" class="form-control form-control-solid" name="FechaEmision">
+
+            </div>
+            <div>
+                @*<a class="btn btn-success" href="ListadoFacturasP5">Buscar</a>*@
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" style="font-size:14px" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Num. TUT</th>
+                                <th>Fecha Emision</th>
+                                <th>Aeropuerto</th>
+                                <th>Matricula</th>
+                                <th>Factura</th>
+                                <th>Documento RE</th>
+                                <th>Valor</th>
+                                <th>Estado</th>
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMEROTASA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAEMISION)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AEROPUERTO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.MATRICULA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMEROFACTURA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.RECAUDACION)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TOTAL)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.ESTADO)</td>
+                                    <td>
+                                        @if (item.IMPRESO == "S" && item.ESTADO == "PROCESADO")
+                                        {
+
+                                            <p class="text-danger" , style="font-size:16px;background-color: #bbb8a6"> No Impresa</p>
+
+                                        }
+                                        else
+                                        {
+
+
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <a id="Consultar" href="#" onclick="Consultar(@item.NUMEROTASA,'@item.ATO','@item.AÑO')">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:12px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a id="Descarga" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DescargaTasa", "ConsultaTut", new {NumeroTasa= item.NUMEROTASA, Ato =item.ATO, FechaEmision = item.FECHAEMISION, Ruc = item.RUC.ToString() })">
+                                            <i><img src="~/Content/imganes/adjunto.png" style="width:12px" /></i>Descargar
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> DATOS TUT</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Numero Tasa</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NUMEROTASA" readonly="readonly" />
+                                </div>
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Emision</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="FECHAEMISION" readonly="readonly" />
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Aeropuerto</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="AEROPUERTO" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-3">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Matricula</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="MATRICULA" readonly="readonly" />
+                                </div>
+
+
+                                <div class="col-3">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Nacional/Internacional</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NACINT" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Ruta</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="ORIGEN" readonly="readonly" />
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="DESTINO" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="row justify-content-start">
+                                <div class="col-3">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Ruc</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="RUC" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Razon Social</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="RAZONSOCIAL" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+                            <div class="row justify-content-start">
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Forma Pago</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="FORMAPAGO" readonly="readonly" />
+                                </div>
+                                <div class="col-3">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Banco</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="BANCO" readonly="readonly" />
+                                </div>
+                                <div class="col-3">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Transferencia</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="TRANSFERENCIA" readonly="readonly" />
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Numero Factura</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NUMEROFACTURA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Codigo Recaudacion</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="RECAUDACION" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Estado</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="ESTADO" readonly="readonly" />
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Email</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="EMAIL" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Observaciones</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="OBSERVACION" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <table class="table table-striped table-dark">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size:14px;color:brown">Descripción</th>
+                                        <th style="font-size:14px;color:brown">Valor</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Tasa TUT</label></div>
+                                        </td>
+                                        <td>
+                                            <div class="col-5">
+                                                <input style="font-size:14px" class="form-control form-control-sm" id="TASATUT" readonly="readonly" />
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Tasa WT</label></div> </td>
+                                        <td>
+                                            <div class="col-5">
+                                                <input style="font-size:14px" class="form-control form-control-sm" id="TASAWT" readonly="readonly" />
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Tasa CFR</label></div> </td>
+
+                                        <td>
+                                            <div class="col-5">
+                                                <input style="font-size:14px" class="form-control form-control-sm" id="TASACFR" readonly="readonly" />
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>  <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:14px "><label>TOTAL</label></div> </td>
+                                        <td>
+                                            <div class="col-5">
+                                                <input style="font-size:14px;color:blue" class="form-control form-control-sm" id="TOTAL" readonly="readonly" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Usuario Crea</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="USUARIOCREA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Crea</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="FECHACREA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Hora Crea</label></div>
+                                    <input style="font-size:14px" class="form-control form-control-sm" id="HORACREA" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="row justify-content-start">
+                                <input style="font-size:14px;color:blue" class="form-control form-control-sm" id="NOMBREUSUARIO" readonly="readonly" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+        function DescargaTasa(NumeroFr3, Ato, Ano, FechaEmision, Ruc) {
+
+
+            $.ajax({
+                url: $.MisUrls.url._DescargaTasa,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { NumeroFr3: NumeroFr3, Ato: Ato, Ano: Ano, FechaEmision: FechaEmision, Ruc: Ruc },
+
+            });
+
+            alert("Archivo descargado en la ruta C:\\TUTPdf");
+
+        }
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+        function Consultar(NumeroTut, Ato, Ano) {
+
+
+            $.ajax({
+                url: $.MisUrls.url._CargaDetalleTutDatos,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { NumeroTut: NumeroTut, Ato: Ato, Ano: Ano },
+                success: function (e) {
+
+                    $("#NUMEROTASA").val(e.NUMEROTASA);
+                    $("#FECHAEMISION").val(e.FECHAEMISION);
+                    $("#AEROPUERTO").val(e.AEROPUERTO);
+                    $("#AÑO").val(e.AÑO);
+                    $("#NACINT").val(e.NACINT);
+                    $("#RUTA").val(e.RUTA);
+                    $("#ORIGEN").val(e.ORIGEN);
+                    $("#DESTINO").val(e.DESTINO);
+                    $("#MATRICULA").val(e.MATRICULA);
+
+                    $("#ESTADO").val(e.ESTADO);
+                    $("#RUC").val(e.RUC);
+                    $("#RAZONSOCIAL").val(e.RAZONSOCIAL);
+                    $("#FORMAPAGO").val(e.FORMAPAGO);
+                    $("#BANCO").val(e.BANCO);
+                    $("#TRANSFERENCIA").val(e.TRANSFERENCIA);
+                    $("#NUMEROFACTURA").val(e.NUMEROFACTURA);
+                    $("#RECAUDACION").val(e.RECAUDACION);
+                    $("#USO").val(e.USO);
+                    $("#EMAIL").val(e.EMAIL);
+                    $("#OBSERVACION").val(e.OBSERVACION);
+
+                    $("#FECHACREA").val(e.FECHACREA);
+                    $("#USUARIOCREA").val(e.USUARIOCREA);
+                    $("#HORACREA").val(e.HORACREA);
+                    $("#FECHAMODIFICA").val(e.FECHAMODIFICA);
+                    $("#USUARIOMODIFICA").val(e.USUARIOMODIFICA);
+                    $("#TASATUT").val(e.TASATUT);
+                    $("#TASAWT").val(e.TASAWT);
+                    $("#TASACFR").val(e.TASACFR);
+                    $("#TOTAL").val(e.TOTAL);
+                    $("#NOMBREUSUARIO").val(e.NOMBREUSUARIO);
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>
+}

@@ -1,0 +1,107 @@
+﻿@model IEnumerable<CapaModelo.tbSolicitudPOA>
+@{
+    ViewBag.Title = "SolModificacionPoaConAsignacionRecursos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2>SIGPOA: Modificación POA con Asignación de Recursos</h2>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Inicio </a></li>
+                    <li class="breadcrumb-item active">Solicitud modificación POA</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<div class="container-fluid">
+    <div class="card card-default">
+        <div class="card-body">
+            <div class="card-header bg-gradient-lightblue">
+                <strong class="text-md-left">@Session["DireccionSubSistema"].ToString()</strong>
+                <a href="@Url.Action("CrearCertificado", "SolicitarModificaciones")" class="text-white float-sm-right"> Certificado digital <i class="fas"><img src="~/Content/imganes/icons/icon-next.png" style="width:5px" /></i></a>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <input type="hidden" id="rol" name="rol" value="@Session["CodigoRol"].ToString()" />
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm display" style="width:100%">
+                        <thead>
+                            <tr class="text-sm text-center">
+                                <th style="">Año</th>
+                                <th><p>Número<br />Solicitud</p></th>
+                                <th><p>Tipo<br />Solicitud</p></th>
+                                <th><p>Estado<br />Solicitud</p></th>
+                                <th><p>Fecha<br />Solicitud</p></th>
+                                <th><p>Estado<br />Presup</p></th>
+                                <th><p>Fecha<br />VerPresup</p></th>
+                                <th><p>Fecha<br />Revisión</p></th>
+                                <th><p>Fecha<br /> Aprobación</p></th>
+                                <th><p>Estado<br /> Aprobación</p></th>
+                                <th><p>Número<br /> Modificación</p></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="text-sm text-center">
+                                    <td>@Html.DisplayFor(modelItem => item.AnioSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NumeroSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TipoSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EstadoSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaSolicitud)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EstadoVerificacionFinanciera)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaCreacionFIN_PRES)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaRevision)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.EstadoAutorizacion)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaAprobacion)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NumeroModificacion)</td>
+                                    <td>
+                                        @if (item.ValOrigen > 0 || item.ValDestino > 0)
+                                        {
+                                            if (item.EstadoSolicitud == "NS" && @Session["CodigoRol"].ToString() != "DIRE")
+                                            {
+                                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAsignacionRecursos" })">
+                                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Adjuntar archivos
+                                                </a>
+                                            }
+                                            else if (item.EstadoSolicitud == "NS" && @Session["CodigoRol"].ToString().Equals("DIRE"))
+                                            {
+                                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAsignacionRecursos" })">
+                                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Solicitar verificación a prusupuesto
+                                                </a>
+                                            }
+                                            else if (item.EstadoSolicitud == "SP" && item.EstadoVerificacionFinanciera == "VP" && @Session["CodigoRol"].ToString().Equals("DIRE"))
+                                            {
+                                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosHabilitantes", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAsignacionRecursos" })">
+                                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Aprobar/Enviar Sol a DPGE
+                                                </a>
+                                            }
+                                            else if (item.numeroDocumentoAdjunto > 0)
+                                            { <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("ConsultarSolicitudModificacionPoa", "ModificacionPoa", new {canio =item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista="SolModificacionPoaConAsignacionRecursos"})">
+                                                    <i><img src="~/Content/imganes/buscar.png" style="width:15px" /></i> Visualizar
+                                                </a>
+                                            }
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Views/SolModificacionPoaConAsignacionRecursos.js")" type="text/javascript"></script>
+}

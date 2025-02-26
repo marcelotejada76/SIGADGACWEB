@@ -1,0 +1,54 @@
+﻿@model IEnumerable<CapaModelo.tbMaestroPersonal>
+@{
+    ViewBag.Title = "Detalle Empleado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<div class="card">
+    <div class="card-header">
+        <table style="width:100%">
+            <tr>
+                <td class="text-center text-blue">
+                    <h6>DIRECCIÓN GENERAL DE AVIACIÓN CIVIL</h6>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center text-blue">
+                    <h6>GESTION DE TALENTO HUMANO</h6>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center text-blue">
+                    <h6>DETALLE MAESTRO PERSONAL</h6>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="card-body">
+        <table id="tbDetalleCharter" class="table table-bordered table-hover table-sm" style="width:100%; font-size:small">
+            <thead class="text-center">
+                <tr>
+                    <th>DOCUMENTO IDENTIFICACION</th>
+                    <th>NOMBRE EMPLEADO</th>
+                    <th>FECHA NACIMIENTO </th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.DocumentoIdentificacion)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.NombreCompleto)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.FechaNacimiento)</td>
+                    <td class="text-center"><a href="@Url.Action("Editar_Maestro_Personal", "TalentoHumano", new { cedula = item.DocumentoIdentificacion } )"><i><img src="~/Content/imganes/lapiz.png" /> Actualir datos</i> </a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

@@ -1,0 +1,522 @@
+﻿@model IEnumerable<CapaModelo.tbHistoricoAtc>
+@{
+    ViewBag.Title = "ListadoHistoricoControladoresATC";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p class="text-blue">HISTORICO CONTROLADORES ATC</p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoHistoricoAtc", "HistoricoControlAtc", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row mb-8">
+            <div class="col-sm-3">
+                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>LICENCIA/APELLIDO</label></div>
+            </div>
+            <div class="col-sm-8 fv-row">
+
+                <input style="text-transform:uppercase" class="form-control form-control-solid" id="Licencia" name="Licencia" />
+            </div>
+            <div>
+
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>
+
+
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Licencia</th>
+                                <th>Nombres</th>
+                                <th>Institución</th>
+                                <th>Dependencia</th>
+                                <th>Fecha Ingreso DGAC</th>
+
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>@Html.DisplayFor(modelItem => item.Licencia_ATC)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Nombres)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Institucion)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Dependencia_actual)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Fecha_ingreso_DGAC)</td>
+
+                                    @*<td>
+                                            @if (item.Estado == "ACTIVO")
+                                            {
+
+                                                <p class="text-danger" , style="font-size:16px;color: aquamarine">   @Html.DisplayFor(modelItem => item.Estado)</p>
+
+                                            }
+                                            @if (item.Estado == "NO ACTIVO")
+                                            {
+
+                                                <p class="text-gray" , style="font-size:16px;color: crimson">   @Html.DisplayFor(modelItem => item.Estado)</p>
+
+                                            }
+                                            @if (item.Estado == "ENTRENAMIENTO")
+                                            {
+
+                                                <p class="text-gray" , style="font-size:16px;color: coral">   @Html.DisplayFor(modelItem => item.Estado)</p>
+
+                                            }
+
+                                        </td>*@
+
+                                    <td>
+                                        <a id="Consultar" href="#" onclick="Consultar(@item.Licencia_ATC)">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> CONTROLADOR ATC</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+                            <div class="text-right">
+                                <img id="imgControlador" style="width:90px; height:90px" />
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>LICENCIA ATC</label></div>
+                                    <input type="text" class="form-control" id="Lic" readonly="readonly">
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>INSTITUCION</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control" id="Institucion" readonly="readonly">
+                                </div>
+                                @*<div class="col">
+                <div class="fs-6 fw-bold mt-2 mb-3"><label>APELLIDO PATERNO</label></div>
+                <input type="text" class="form-control" id="ApellidoPaterno" readonly="readonly">
+            </div>*@
+                            </div>
+
+
+                            @*<div class="row justify-content-start">*@
+                            <div class="form-row">
+
+                                <div class="col">
+
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>APELLIDO PATERNO</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control" id="ApellidoPaterno" readonly="readonly" />
+
+                                </div>
+                                <div class="col">
+
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>APELLIDO MATERNO</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control" id="ApellidoMaterno" readonly="readonly" />
+
+                                </div>
+                                <div class="col">
+
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>NOMBRES</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="Nombres" readonly="readonly" />
+
+                                </div>
+
+                                @*<div class="col-3">
+
+                <div class="fs-6 fw-bold mt-2 mb-3"><label>APELLIDO PATERNO</label></div>
+                <input style="font-size:14px" class="form-control form-control-sm" id="ApellidoPaterno" readonly="readonly" />
+
+            </div>
+            <div class="col-3">
+
+                <div class="fs-6 fw-bold mt-2 mb-3"><label>APELLIDO MATERNO</label></div>
+                <input style="font-size:14px" class="form-control form-control-sm" id="ApellidoMaterno" readonly="readonly" />
+
+            </div>
+            <div class="col-4">
+
+                <div class="fs-6 fw-bold mt-2 mb-3"><label>NOMBRES</label></div>
+                <input style="font-size:14px" class="form-control form-control-sm" id="Nombres" readonly="readonly" />
+
+            </div>*@
+
+                            </div>
+                            @*<div class="row justify-content-start">*@
+                            <div class="form-row">
+
+                                <div class="col">
+
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>FECHA INGRESO DGAC</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="FechaIngreso" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>AÑOS DE SERVICIO</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="AñosServicio" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>MESES</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="Meses" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>FECHA NACIMIENTO </label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="FechaNacimiento" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>CEDULA</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="Cedula" readonly="readonly" />
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>DIRECCION DOMICILIO</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="DireccionDomicilio" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>TELEFONO DOMICILIO</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="TelefonoDomicilio" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>CIUDAD DOMICILIO</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="CiudadDomicilio" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>CELULAR</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="Celular" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>EMAIL EMPRESA</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="EmailEmpresa" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>EMAIL PARTICULAR</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="EmailPersonal" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>ESTADO CIVIL</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="EstadoCivil" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>CONYUGUE</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="Conyugue" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>CARGO ACTUAL</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="CargoActual" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>DEPENDENCIA ACTUAL</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="DependenciaActual" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>AEROPUERTO</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="Aeropuerto" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>REGION</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="Region" readonly="readonly" />
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+
+
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>HABILITACION</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="Habilitacion" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>FECHA HABILITACION</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="FechaHabilitacion" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>VIGENCIA CEMAC </label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="VigenciaCemac" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>STATUS</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="Status" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>COMPETENCIA LINGUISTICA</label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="CompetenciaLinguistica" readonly="readonly" />
+                                </div>
+                                <div class="col">
+                                    <div style="font-size:12px" class="fs-6 fc-widget-header"><label>CADUCIDAD COMPTENCIA LINGUISTICA </label></div>
+                                    <input style="font-size:12px" type="text" class="form-control " id="CaducidadCompetencia" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+
+                            <hr />
+                            <p class="bg-success " align='center' style="font-size:14px">HISTORICO DETALLE DEPENDENCIAS ATC</p>
+
+
+
+                            <table id="tbDetalleDependencias" class="table table-bordered table-hover table-sm" style="width:100% ; font-size:11px">
+                                <thead>
+                                    <tr>
+
+                                        <th>DEPENDENCIA</th>
+                                        <th>VIGENCIA DESDE</th>
+                                        <th>VIGENCIA HASTA</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size:12px"></tbody>
+
+
+                            </table>
+                            <hr />
+                            <p class="bg-success " align='center' style="font-size:14px">HISTORICO CURSOS REALIZADOS ATC</p>
+
+
+
+                            <table id="tbDetalleCursos" class="table table-bordered table-hover table-sm" style="width:100% ; font-size:11px">
+                                <thead>
+                                    <tr>
+
+                                        <th>CURSO</th>
+                                        <th>CENTRO CAPACITACION</th>
+                                        <th>CIUDAD</th>
+                                        <th>VIGENCIA DESDE</th>
+                                        <th>VIGENCIA HASTA</th>
+                                        <th>TITUTLO</th>
+                                        <th>CERTIFICADO</th>
+                                        <th>DURACION</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size:12px"></tbody>
+
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+        function Consultar(Licencia) {
+
+
+            //$("#Lic").val("");
+            $("#Lic").val("");
+            $("#ApellidoPaterno").val("");
+            $("#ApellidoMaterno").val("");
+            $("#Nombres").val("");
+            $("#FechaIngreso").val("");
+            $("#AñosServicio").val("");
+            $("#FechaNacimiento").val("");
+
+            $("#Cedula").val("");
+            $("#DireccionDomicilio").val("");
+            $("#TelefonoDomicilio").val("");
+            $("#CiudadDomicilio").val("");
+            $("#Celular").val("");
+            $("#EmailEmpresa").val("");
+            $("#EmailPersonal").val("");
+            $("#EstadoCivil").val("");
+            $("#Conyugue").val("");
+            $("#CargoActual").val("");
+            $("#DependenciaActual").val("");
+            $("#Aeropuerto").val("");
+            $("#Region").val("");
+            $("#Habilitacion").val("");
+            $("#FechaHabilitacion").val("");
+            $("#VigenciaCemac").val("");
+            $("#Status").val("");
+            $("#CompetenciaLinguistica").val("");
+            $("#CaducidadCompetencia").val("");
+            $("#Meses").val("");
+            $("#Institucion").val("");
+
+
+            $.ajax({
+                url: $.MisUrls.url._DetalleHistoricoControladorAtc,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Licencia: Licencia },
+                success: function (e) {
+
+                    $("#Lic").val(e.Licencia_ATC);
+                    $("#Institucion").val(e.Institucion);
+                    $("#ApellidoPaterno").val(e.Apellido_Paterno);
+                    $("#ApellidoMaterno").val(e.Apellido_Materno);
+                    $("#Nombres").val(e.Nombres);
+                    $("#FechaIngreso").val(e.Fecha_ingreso_DGAC);
+                    $("#AñosServicio").val(e.años);
+                    $("#Meses").val(e.meses);
+                    $("#FechaNacimiento").val(e.Nacimiento);
+                    $("#Cedula").val(e.Cédula);
+                    $("#DireccionDomicilio").val(e.Dirección_Domicilio);
+                    $("#TelefonoDomicilio").val(e.Teléfono_Domicilio);
+                    $("#CiudadDomicilio").val(e.Ciudad_Domilicio);
+                    $("#Celular").val(e.Teléfono_Celular);
+                    $("#EmailEmpresa").val(e.Email_Institucional);
+                    $("#EmailPersonal").val(e.Email_Particular);
+                    $("#EstadoCivil").val(e.Estado_Civil);
+                    $("#Conyugue").val(e.Conyugue);
+                    $("#CargoActual").val(e.Cargo_actual);
+                    $("#DependenciaActual").val(e.Dependencia_actual);
+                    $("#Aeropuerto").val(e.Aeropuerto);
+                    $("#Region").val(e.Región);
+                    $("#Habilitacion").val(e.Habilitación);
+                    $("#FechaHabilitacion").val(e.Fecha_Habilitación);
+                    $("#VigenciaCemac").val(e.Caducidad_CertifMedi);
+                    $("#Status").val(e.Status);
+                    $("#CompetenciaLinguistica").val(e.Competencia_Lingüíst);
+                    $("#CaducidadCompetencia").val(e.Caducidad_Certificado_Competencia_Lingui);
+                    $('#imgControlador').attr('src', e.Url);
+
+                    $("#tbDetalleDependencias tbody").html("");
+                    $.each(e.oDetalleHistoricoDependenciaAtc, function (i, row) {
+
+                        $("<tr>").append(
+                            $("<td>").text(row["Dependencia"]),
+                            $("<td>").text(row["Fecha_Desde"]),
+                            $("<td>").text(row["Fecha_Hasta"]))
+                            
+
+                            .appendTo("#tbDetalleDependencias tbody");
+                    })
+                    $("#tbDetalleCursos tbody").html("");
+                    $.each(e.oDetalleHistoricoCursoAtc, function (i, row) {
+
+                        $("<tr>").append(
+                            $("<td>").text(row["Nombre_Curso"]),
+                            $("<td>").text(row["Centro_Capacitación"]),
+                            $("<td>").text(row["Ciudad"]),
+                            $("<td>").text(row["Fecha_Desde"]),
+                            $("<td>").text(row["Fecha_Hasta"]),
+                            $("<td>").text(row["Titulo"]),
+                            $("<td>").text(row["Certificado"]),
+                            $("<td>").text(row["Duracion"])                        )
+
+                            .appendTo("#tbDetalleCursos tbody");
+                    })
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>
+}

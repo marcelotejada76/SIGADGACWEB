@@ -1,0 +1,210 @@
+﻿@model IEnumerable<CapaModelo.tbSolicitudPOA>
+
+@{
+    ViewBag.Title = "Aprobar Solicitud Certificación POA";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2>Detalle Solicitar Certificado POA</h2>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Inicio </a></li>
+                    <li class="breadcrumb-item active">Solicitar Certificado POA</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<div class="container-fluid">
+    <div class="card card-default">
+        <div class="card-body">
+            <div class="card-header bg-gradient-lightblue">
+                <strong>@Session["DireccionSubSistema"].ToString()</strong>
+            </div>
+            <br />
+            <div class="row">
+                <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Año</th>                            
+                            <th>Unidad Ejecución</th>
+                            <th>Dirección</th>
+                            <th>Número Solicitud</th>
+                            <th>Tipo Solicitud</th>
+                            <th>Estado Solicitud</th>
+                            <th>Fecha Solicitud</th>
+                            <th>Fecha Revision</th>
+                            <th>Estado Autorizado</th>
+                            <th>Fecha Aprobacion</th>
+                            <th>Actividad</th>
+                            <th>Certificado_Actual</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.AnioSolicitud)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CodigoUnidadEjecucion)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CodigoDireccionPYGE)</td>
+                            <td>@Html.DisplayFor(modelItem => item.NumeroSolicitud)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TipoSolicitud)</td>
+                            <td>@Html.DisplayFor(modelItem => item.EstadoSolicitud)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FechaSolicitud)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FechaRevision)</td>
+                            <td>@Html.DisplayFor(modelItem => item.EstadoAutorizacion)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FechaAprobacion)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SecuenciaActividad)</td>
+                            <td>@Html.DisplayFor(modelItem => item.NumeroCertificadoPOA)</td>
+                            <td>
+                                <a id="imprimir" href="@Url.Action("DocumentoHabilitante", "SolicitarModificaciones", new {cdireccion= item.CodigoDireccionPYGE, canio =item.AnioSolicitud, tipoSolicitud = item.TipoSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), estadoAutorizado = item.EstadoAutorizacion.ToString() })">
+                                    <i>
+                                        <img src="~/Content/imganes/adjunto.png" style="width:15px" />
+                                    </i>
+                                    Adjuntar
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="FormModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6>DOCUMENTOS HABILITANTES</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="font-size:12px">
+                <div class="card">
+                    <form class="form-horizontal">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <h3 class="card-title text-primary">Información de los documentos habilitantes</h3>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <nav class="mt-3">
+                                    <ul class="nav nav-treeview nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="nav-icon fas fa-book"></i>
+                                                <p>
+                                                    DTIC
+                                                    <i class="fas fa-angle-left right"></i>
+                                                </p>
+                                            </a>
+                                            <ul class="nav nav-treeview">
+                                                <li class="nav-item">
+                                                    <a href="pages/examples/invoice.html" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Invoice</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="pages/examples/profile.html" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Profile</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="pages/examples/e-commerce.html" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>E-commerce</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="pages/examples/projects.html" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Projects</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="pages/examples/project-add.html" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Project Add</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="pages/examples/project-edit.html" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Project Edit</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="pages/examples/project-detail.html" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Project Detail</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="pages/examples/contacts.html" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Contacts</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="pages/examples/faq.html" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>FAQ</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="pages/examples/contact-us.html" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Contact us</p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+
+                                </nav>
+                            </div>
+
+
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><img src='~/Content/imganes/cancel.png' style='width:20px' />Cerrar </button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="Guardar()"><img src='~/Content/imganes/save.png' style='width:20px' /> Guardar </button>
+                    </div>
+                </div>
+                <div id="loadImagen" style="display: none;">
+                    <img src="~/Content/imganes/Loading.gif" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+    </script>
+}
+
+
+
+

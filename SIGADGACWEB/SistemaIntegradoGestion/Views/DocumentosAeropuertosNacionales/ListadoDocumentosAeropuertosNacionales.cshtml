@@ -66,9 +66,21 @@
 
     @foreach (var cabecera in Model)
     {
-        <div class="cabecera-row" data-id="@cabecera.Secuencia">
-            <strong style="color: red; font-weight: bold;">@cabecera.NombreGrupo </strong> <strong> @cabecera.Carpeta</strong>
-        </div>
+    <div class="cabecera-row" data-id="@cabecera.Secuencia">
+
+        @if (cabecera.NombreNivel == "MADE")
+        {
+            <strong style="color: red; background-color:yellow;  font-weight: bold;">@cabecera.NombreGrupo </strong> <strong> @cabecera.Carpeta</strong>
+        }
+        else
+        {
+            <strong style="color: black; font-weight: bold;">@cabecera.NombreGrupo </strong> <strong> @cabecera.Carpeta</strong>
+        }
+
+
+        @*<strong style="color: black; font-weight: bold;">@cabecera.NombreGrupo </strong> <strong> @cabecera.Carpeta</strong>*@
+        @*<strong style="color: red; font-weight: bold;">@cabecera.NombreGrupo </strong> <strong> @cabecera.Carpeta</strong>*@
+    </div>
 
 
         <!-- Tabla de detalles -->

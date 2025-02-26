@@ -71,15 +71,26 @@ namespace CapaDatos
                         oSolicitud.NombreGrupo = dr["GRUPO"].ToString().Trim();
                         oSolicitud.NombreNivel = dr["NIVEL"].ToString().Trim();
                         oSolicitud.NombreSubnivel = dr["SUBNIVEL"].ToString().Trim();
-                        if (oSolicitud.NombreNivel== oSolicitud.NombreSubnivel)
+                        //if (oSolicitud.NombreNivel== oSolicitud.NombreSubnivel)
+                        //{
+                        //    oSolicitud.Carpeta = dr["GRUPO"].ToString().Trim() + " / " + dr["NIVEL"].ToString().Trim();
+                        //}
+                        //else
+                        //{
+                        //    oSolicitud.Carpeta = dr["GRUPO"].ToString().Trim() + " / " + dr["NIVEL"].ToString().Trim() + " /" + dr["SUBNIVEL"].ToString().Trim();
+                        //}
+
+
+                        if (oSolicitud.NombreNivel == oSolicitud.NombreSubnivel)
                         {
-                            oSolicitud.Carpeta = dr["GRUPO"].ToString().Trim() + " / " + dr["NIVEL"].ToString().Trim();
+                            oSolicitud.Carpeta = " / " + dr["NIVEL"].ToString().Trim();
+                            //oSolicitud.Carpeta = dr["GRUPO"].ToString().Trim() + " / " + dr["NIVEL"].ToString().Trim();
                         }
                         else
                         {
-                            oSolicitud.Carpeta = dr["GRUPO"].ToString().Trim() + " / " + dr["NIVEL"].ToString().Trim() + " /" + dr["SUBNIVEL"].ToString().Trim();
+                            oSolicitud.Carpeta = " / " + dr["NIVEL"].ToString().Trim() + " /" + dr["SUBNIVEL"].ToString().Trim();
+                            //oSolicitud.Carpeta = dr["GRUPO"].ToString().Trim() + " / " + dr["NIVEL"].ToString().Trim() + " /" + dr["SUBNIVEL"].ToString().Trim();
                         }
-                        
 
                         oSolicitud.Estado = dr["ESTADO"].ToString().Trim();
                         oSolicitud.Codigo = Convert.ToInt16(dr["CODIGO"].ToString().Trim());

@@ -14,7 +14,7 @@ function abrirArchivo(fileName) {
     if (nombreArchivo.trim().length > 0 && opathArchivo.trim().length > 0) {
         var _extensionArchivo = getExtensionArchivo(nombreArchivo);
         if (_extensionArchivo == "pdf" || _extensionArchivo == "PDF" ) {
-            var texto = $.MisUrls.url._VisualizarDocumento + "?nombreArchivo=" + nombreArchivo + "&direccion=" + opathArchivo;
+            var texto = $.MisUrls.url._VisualizarDocumentoPOA + "?nombreArchivo=" + nombreArchivo + "&direccion=" + opathArchivo;
              setTimeout(function () {
                  $("#iframeCetificado").attr("src", texto);
                  $("#loadingBuscar").css("display", "none");               

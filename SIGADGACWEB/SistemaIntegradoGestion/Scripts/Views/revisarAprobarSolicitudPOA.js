@@ -130,7 +130,7 @@ function abrirArchivo(fileName) {
     if (nombreArchivo.trim().length > 0 && opathArchivo.trim().length > 0) {
         var _extensionArchivo = getExtensionArchivo(nombreArchivo);
         if (_extensionArchivo == "pdf") {
-            var texto = $.MisUrls.url._VisualizarDocumento + "?nombreArchivo=" + nombreArchivo + "&direccion=" + opathArchivo;
+            var texto = $.MisUrls.url._VisualizarDocumentoPOA + "?nombreArchivo=" + nombreArchivo + "&direccion=" + opathArchivo;
             $("#iframeCetificado").attr("src", texto);
             $('#loadingBuscar').hide();
         }
@@ -299,6 +299,51 @@ function FirmaCertificadoPOA(canio, numSol, opathArchivo, estaut, observacion, o
         }
     });
 }
+
+function ReimprimirCertificadoPOA() {
+    var canio = $('#codanio').val();
+    var numSol = $('#numSolicitud').val();
+    var opathArchivo = $('#pathArchivo').text();
+
+    $.ajax({
+        url: $.MisUrls.url._reimprimirExportToPDF,
+        type: "GET",
+        contentType: "application/json;charset=UTF-8",
+        data: { canio: canio, numSolicitud: parseInt(numSol), cdireccion: opathArchivo},
+        success: function (result) {
+            if (result.length > 0) {
+                abrirArchivo(result);
+                //Carga todos os archivos 
+                $.ajax({
+                    url: $.MisUrls.url._CargaTodosArchivosDirectory,
+                    type: "GET",
+                    contentType: "application/json;charset=UTF-8",
+                    data: { direccionDirectory: opathArchivo },
+                    success: function (result) {
+                        $("#browser").html("");
+                        $.each(result, function (i, item) {
+                            if (item.NombreArchivo.length > 0) {
+                                $("#browser").append("<li><a href='#' onclick='abrirArchivo(" + JSON.stringify(item.NombreArchivo) + ")'>" + JSON.stringify(item.NombreArchivo) + "</a></li>");
+                            }
+                        })
+                    },
+                    error: function (errormessage) {
+                        mensajeGeneralIco("Mensaje", "Error, Exportar el reporte" + errormessage, "warning");
+                    }
+                });
+            }
+            else {
+                $('#loadingBuscar').hide();
+                mensajeGeneralIco("Mensaje", "No se pudo firmar la Solicitud del Certificado POA", "warning");
+            }
+
+        },
+        error: function (errormessage) {
+            mensajeGeneralIco("Mensaje", "Error, Exportar el reporte" + errormessage, "warning");
+        }
+    });
+}
+
 
 function ExportaToPDFPrueba() {
     var canio = $('#codanio').val();

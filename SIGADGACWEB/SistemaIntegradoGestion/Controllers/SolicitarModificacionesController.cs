@@ -666,6 +666,81 @@ namespace SistemaIntegradoGestion.Controllers
 
         }
 
+        public ActionResult ReimprimirExportToPDF(string canio, Int32 numSolicitud, string cdireccion)
+        {
+
+            string FilePathReturn = string.Empty;
+            string FileNameFirmado = string.Empty;
+
+
+            tbCertificadoDigital oCertificado = new tbCertificadoDigital();
+            tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
+            Document dctoCertificado = new Document();
+            string numeroCertificadoPOA = string.Empty;
+            try
+            {
+                var ousuario = (tbUsuario)Session["Usuario"];
+                oSolicitud = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+
+                if (oSolicitud.NumeroSolicitud > 0)
+                {
+                    
+                    oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
+                    if (oSolicitud.NumeroSolicitud > 0)
+                    {
+                        string urlReporteElectronico = Constantes.poaURL + cdireccion;
+                        //Verifica si existe la carpeta creada si no lo crear
+                        if (!System.IO.Directory.Exists(urlReporteElectronico))
+                            System.IO.Directory.CreateDirectory(urlReporteElectronico);
+
+                        //Verifica si existe una actalización y lo concatena el numero certificado + secuencial
+                        if (oSolicitud.SecuencialActualizacion > 0)
+                            numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString() + "_" + oSolicitud.SecuencialActualizacion.ToString();
+                        else
+                            numeroCertificadoPOA = oSolicitud.NumeroCertificadoPOA.ToString();
+
+
+                        string FileName = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA + ".pdf";
+                        //FileNameFirmado =  "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString() + "-signed.pdf";
+                        FileNameFirmado = "CertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + numeroCertificadoPOA + "-signed.pdf";
+                        string FilePath = urlReporteElectronico + @"\" + FileName;
+
+                        dctoCertificado = GenerarCertificadoPOA(canio, numSolicitud);
+                        if (dctoCertificado.Left > 0)
+                        {
+                            if (oCertificado.TipoArchivo.Equals("A"))
+                            {
+                                if (InsertaCertificadoDocumentoFirmado(FileName, FileNameFirmado, cdireccion, 1))
+                                {
+                                    EliminaArchivoServidor(FilePath);
+                                }
+                                //if (InsertaFirmaCertificadoPOADocumento(FileName, FileNameFirmado, cdireccion, 1))
+                                //{
+                                //    EliminaArchivoServidor(FilePath);
+                                //}
+
+
+                            }
+                            else
+                            {
+                                FileNameFirmado = FileName;
+                            }
+                        }
+                    }
+
+                    FilePathReturn = FileNameFirmado;
+                }
+                else { FilePathReturn = ""; }
+            }
+            catch (Exception ex)
+            {
+                FilePathReturn = "";
+            }
+            return Content(FilePathReturn);
+
+        }
+
+
         [HttpGet]
         public JsonResult PruebaReporteCertificadoPOA(string canio, Int32 numSolicitud)
         {

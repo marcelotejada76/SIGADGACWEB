@@ -1,6 +1,9 @@
 ﻿using CapaModelo;
 using IBM.Data.DB2.iSeries;
 using System;
+using CapaModelo;
+using IBM.Data.DB2.iSeries;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -169,7 +172,7 @@ namespace CapaDatos
             {
                 query = "SELECT ('Solicitud de ' || ifnull(rtrim(ltrim((SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP))), '') || ' No: ' || (SOLAN1 || '-' || SOLNU3)) AS TituloSolicitud,"
                 + " (SOLAN1 || '-' || SOLNU3) as anioSolicitud, ifnull(rtrim(ltrim(SOLFE6)), '') as FechaSolicitud,"
-                + " 'Con la finalidad de cumplir con las actividades programadas en el POA ' ||SOLAN1 || ' de la Dirección ' ||  TRIM(DIRDES) || ' para la consecución de los Objetivos Estratégicos Insititucionales de la DGAC, agradeceré disponer a quien corresponda se emita la Certificación POA de la actividad ' as DescripcionSolicitud1,"
+                + " 'Con la finalidad de cumplir con las actividades programadas en el POA ' ||SOLAN1 || ' de la Dirección ' ||  TRIM(DIRDES) || ' para la consecución de los Objetivos Estratégicos Insititucionales de la DGAC, agradeceré disponer a quien corresponda se emita la Actualización de la Certificación POA de la actividad ' as DescripcionSolicitud1,"
                 + " ' como consta en el POA, misma que se encuentra registrada en el POA ' || SOLAN1 || ' de la DGAC.'as DescripcionSolicitud2,"
                 + " TRIM(LINAC1 || LINAC2 || LINAC3 || LINAC4 || LINAC5) as Actividad,   SOLAN1 as anio,  'Atenamente' as Atentamente, ('DIRECTOR(A) DE' || ' ' || TRIM(DIRDES)) as Direccion "
                 + " FROM solar1 join LINARC on SOLAN1 = LINAN1 and SOLNU3 = LINNU1"
@@ -213,7 +216,8 @@ namespace CapaDatos
                     + " (L.LINC42 || ' ' || T.TIPDE2) AS TIPO_ADQUISICION, (L.LINAC1 || L.LINAC2 || L.LINAC3 || L.LINAC4 || L.LINAC5) AS ACTIVIDAD_POA,"
                     + " (L.LINC31 || L.LINC32 || L.LINC33 || L.LINC34) AS PARTIDA_PRESUPUESTARIA, L.LINMON AS MONTO_TOTAL_USD, "
                     + " RTRIM(S.SOLUS6)|| '-' ||YEAR(DATE(TO_DATE(S.SOLFE6,'YYYY/MM/DD')))|| '-' ||INTEGER(L.LINNU1)  AS USUARIO, RTRIM(S.SOLUS6)  AS USUARIO1,"
-                    + " (SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP) AS DescripcionTipoSolicitud"
+                    + " (SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP) AS DescripcionTipoSolicitud,"
+                    + " (ifnull(rtrim(ltrim(PY.PROCO7)), '')  || ' '  || ifnull(rtrim(ltrim(PY.PRODE2)), '')) AS DescripcionProyecto"
                     + " FROM LINARC L"
                     + " JOIN CERAR2 C ON (L.LINAN1=C.CERANI AND L.LINNU1=C.CERNU4)"
                     + " JOIN SOLAR1 S ON (S.SOLAN1=L.LINAN1 AND S.SOLNU3=L.LINNU1)"
@@ -221,6 +225,7 @@ namespace CapaDatos
                     + " JOIN ACTARC A ON (A.ACTCOD=L.LINACT)"
                     + " JOIN PROAR1 P ON (P.PROCO6=L.LINC43)"
                     + " JOIN TIPAR2 T ON (T.TIPCO1=L.LINC42)"
+                    + " JOIN PROAR2 PY ON L.LINC43 = PY.PROCO8 AND L.LINC44 = PY.PROCO9 AND L.LINC45 = PY.PROCO7"
                     + " WHERE SUBSTRING(S.SOLFE6, 1, 4) = '" + cAnio + "' AND L.LINNU1 = " + numSolicitud;
 
                 iDB2Command cmd;
@@ -255,12 +260,14 @@ namespace CapaDatos
             try
             {
                 query = "SELECT (L.LINAN1 || '-' ||char(L.LINNU1)) AS NO_SOLICITUD,   CAST(L.LINNU1 AS INT) AS N_SOLICITUD, CAST(L.LINAN1 AS INT) AS ANIO_SOLICITUD, S.SOLFE6 AS FECHA_SOLICITUD,"
-                    + " (SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP) AS DescripcionTipoSolicitud,  (trim(CHAR(A.ACTNUM)) || ' / ' ||trim(CHAR (A.ACTSEC))) AS CERTIFICACION_ACTUALIZACON_POA_NO,"
+                    + " (SELECT  VALDES FROM DGACSYS.TXDGAC WHERE VALDDS = 'SOLTIP' AND VALVAL = SOLTIP) AS DescripcionTipoSolicitud,  (trim(CHAR(A.ACTNUM)) || ' / ' ||trim(CHAR (A.ACTSEC))) AS CERTIFICACION_POA_NO,"
                     + " DATE(TO_DATE(S.SOLF01,'YYYY/MM/DD')) AS FECHAAPRBCERTIFICADO, D.DIRDES AS DIRECCION_SOLICITANTE,"
                     + " (L.LINACT) AS ACTIVIDAD_P, (L.LINACT || ' ' || AC.ACTDES) AS ACTIVIDAD_PRESUPUESTARIA,  (L.LINC43 || ' ' || P.PRODE1) AS PROGRAMA, L.LINC35 AS GEOGRAFICO, (L.LINC42 || ' ' || T.TIPDE2) AS TIPO_ADQUISICION,"
                     + " (L.LINAC1 || L.LINAC2 || L.LINAC3 || L.LINAC4 || L.LINAC5) AS ACTIVIDAD_POA,"
                     + " (L.LINC31 || L.LINC32 || L.LINC33 || L.LINC34) AS PARTIDA_PRESUPUESTARIA, L.LINMON AS MONTO_TOTAL_USD,"
-                    + " RTRIM(S.SOLUS6)|| '-' ||YEAR(DATE(TO_DATE(S.SOLFE6,'YYYY/MM/DD')))|| '-' ||INTEGER(L.LINNU1) AS USUARIO1"
+                    + " RTRIM(S.SOLUS6)|| '-' ||YEAR(DATE(TO_DATE(S.SOLFE6,'YYYY/MM/DD')))|| '-' ||INTEGER(L.LINNU1) AS USUARIO1,"
+                    + " RTRIM(S.SOLUS6)|| '-' ||YEAR(DATE(TO_DATE(S.SOLFE6,'YYYY/MM/DD')))|| '-' ||INTEGER(L.LINNU1) AS USUARIO,"
+                    + " (ifnull(rtrim(ltrim(PROCO7)), '')  || ' '  || ifnull(rtrim(ltrim(PRODE2)), '')) AS DescripcionProyecto "
                     + " FROM LINARC L"
                     + " JOIN SOLAR1 AS S ON (S.SOLAN1=LINAN1 AND S.SOLNU3=L.LINNU1)"
                     + " JOIN ACTAR1 AS A ON (A.ACTAN2=L.LINAN1 AND A.ACTNU2=L.LINNU1)"
@@ -268,6 +275,7 @@ namespace CapaDatos
                     + " JOIN ACTARC AS AC ON (AC.ACTCOD=L.LINACT)"
                     + " JOIN PROAR1 AS P ON (P.PROCO6=L.LINC43)"
                     + " JOIN TIPAR2 AS T ON (T.TIPCO1=L.LINC42)"
+                    + " JOIN PROAR2 PY ON L.LINC43 = PY.PROCO8 AND L.LINC44 = PY.PROCO9 AND L.LINC45 = PY.PROCO7 "
                     + " WHERE SUBSTRING(S.SOLFE6, 1, 4) = '" + cAnio + "' AND L.LINNU1 = " + numSolicitud;
 
                 iDB2Command cmd;
@@ -716,7 +724,15 @@ namespace CapaDatos
                 sbSol.Append(" ifnull(rtrim(ltrim(SOLFE9)), '') as FechaRevision,  ifnull(rtrim(ltrim(SOLES7)), '') as EstadoAutorizacion, ifnull(rtrim(ltrim(SOLF01)), '') as FechaAprobacion, ifnull(SOLNU6, 0) as NumeroModificacion, ifnull(rtrim(ltrim(SOLCO4)), '') as CodigoUnidadEjecucion ,  ifnull(rtrim(ltrim(SOLCO5)), '') as CodigoDireccionPYGE, ");
                 sbSol.Append(" ifnull(SOLSEC, 0) as SecuenciaActividad, ifnull(PLANU2, 0) AS NumeroCertificadoPOA , ifnull(ACTSEC, 0) AS SecuencialActualizacion,  case rtrim(ltrim(SOLES9)) when '' then '.' else rtrim(ltrim(SOLES9)) end AS EstadoVerificacionFinanciera, ifnull(rtrim(ltrim(SOLF06)), '')  as FechaCreacionFIN_PRES, ifnull(rtrim(ltrim(SOLES8)), '') AS EstadoActualizacionPOA ");
                 sbSol.Append(" FROM SOLAR1 left join ACTAR1 on (SOLAN1 = ACTAN2 and SOLNU3 = ACTNU2) LEFT JOIN PLAARC ON(SOLCO4 = PLACO2 AND SOLCO5 = PLACO3 AND SOLAN1 = PLAANI AND  SOLSEC = PLANUM)");
-                sbSol.Append(" WHERE (SOLTIP = 'MOD' OR SOLTIP = 'MDP' OR SOLTIP = 'MAR') AND SOLES6 <> 'NS' AND SOLCO5 = '" + codSubsistema + "'");
+                if (codSubsistema.Equals("SZOL"))
+                {
+                    sbSol.Append(" WHERE (SOLTIP = 'MOD' OR SOLTIP = 'MDP' OR SOLTIP = 'MAR') AND SOLES6 <> 'NS' AND SOLCO5 = '" + codSubsistema + "'");
+                }
+                else
+                {
+                    sbSol.Append(" WHERE (SOLTIP = 'MOD' OR SOLTIP = 'MDP' OR SOLTIP = 'MAR') AND SOLES6 <> 'NS' AND SOLCO5 != 'SZOL'");
+                }
+
                 sbSol.Append(" ORDER BY SOLAN1, SOLNU3 DESC");
                 query = sbSol.ToString();
                 iDB2Command cmd;

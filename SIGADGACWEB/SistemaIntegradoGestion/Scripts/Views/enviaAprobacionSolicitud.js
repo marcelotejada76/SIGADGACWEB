@@ -204,7 +204,6 @@ function cargaDocumentacionSolicitudCertificado(codDireccion, canio, ctipo, cest
 }
 
 
-
 function abrirArchivo(fileName) {
     var nombreArchivo = fileName;
     var opathArchivo = $('#pathArchivo').text();
@@ -212,7 +211,7 @@ function abrirArchivo(fileName) {
     if (nombreArchivo.trim().length > 0 && opathArchivo.trim().length > 0) {
         var _extensionArchivo = getExtensionArchivo(nombreArchivo);
         if (_extensionArchivo == "pdf") {
-            var texto = $.MisUrls.url._VisualizarDocumento + "?nombreArchivo=" + nombreArchivo + "&direccion=" + opathArchivo;
+            var texto = $.MisUrls.url._VisualizarDocumentoPOA + "?nombreArchivo=" + nombreArchivo + "&direccion=" + opathArchivo;
             $("#iframeCetificado").attr("src", texto);
         }
         else {

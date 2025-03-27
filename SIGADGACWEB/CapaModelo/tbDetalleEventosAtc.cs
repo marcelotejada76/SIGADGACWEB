@@ -8,6 +8,7 @@ namespace CapaModelo
 {
     public class tbDetalleEventosAtc
     {
+        //tabla
     
         public string CODIGOEVENTO { get; set; }
         public string HORAUTC { get; set; }

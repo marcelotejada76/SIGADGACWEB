@@ -447,7 +447,7 @@ namespace SistemaIntegradoGestion.Controllers
                     viewer.SizeToReportContent = true;
                     viewer.AsyncRendering = true;
                     viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
-                    viewer.ServerReport.ReportPath = "/"+ SesionMenu .DescripcionServidorReport + "/ModificacionPOA";
+                    viewer.ServerReport.ReportPath = "/"+ SesionMenu.DescripcionServidorReport + "/ModificacionPOA";
                     ReportParameter[] reportParameter = new ReportParameter[2];
                     reportParameter[0] = new ReportParameter("anio", canio);
                     reportParameter[1] = new ReportParameter("solicitud", numSolicitud.ToString());

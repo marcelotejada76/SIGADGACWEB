@@ -49,6 +49,7 @@
     <Compile Include="tbCompaniaAviacionTemporal.cs" />
     <Compile Include="tbControlFR3.cs" />
     <Compile Include="tbControlFR3Detalle.cs" />
+    <Compile Include="tbDetalleControlOperacionalCns.cs" />
     <Compile Include="tbDetalleAdjunto.cs" />
     <Compile Include="tbDetalleAeronave.cs" />
     <Compile Include="tbDetalleRuta.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="tbDetalleNotamsAtc.cs" />
     <Compile Include="tbDetalleControladoresAtc.cs" />
     <Compile Include="tbHorioAtencion.cs" />
+    <Compile Include="tbControlOperacionalCns.cs" />
     <Compile Include="tbItsControlAtc.cs" />
     <Compile Include="tbDetalleComprobantesDeposito.cs" />
     <Compile Include="tbBancoRuminahui.cs" />

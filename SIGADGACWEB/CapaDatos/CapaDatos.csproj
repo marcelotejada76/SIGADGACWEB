@@ -66,6 +66,7 @@
     <Compile Include="CD_DocumentosGestionInterna.cs" />
     <Compile Include="CD_DocumentosDsna.cs" />
     <Compile Include="CD_HorarioAtencion.cs" />
+    <Compile Include="CD_ControlOperacionalCns.cs" />
     <Compile Include="CD_LogUsuarioAircon.cs" />
     <Compile Include="CD_DocumentosDescarga.cs" />
     <Compile Include="CD_PagoSolicitud.cs" />

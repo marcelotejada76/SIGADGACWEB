@@ -170,6 +170,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
     <Compile Include="Controllers\CharterController.cs" />
+    <Compile Include="Controllers\EventosDocumentosCnsController.cs" />
+    <Compile Include="Controllers\ControlDocumentosCnsController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
     <Compile Include="Controllers\DocumentosAeropuertosNacionalesController.cs" />
     <Compile Include="Controllers\DocumentosDescargaCartasController.cs" />
@@ -2551,6 +2553,8 @@
     <Content Include="Views\Curriculum\Crear.cshtml" />
     <Content Include="Views\Curriculum\ListadoCurriculum - Copia.cshtml" />
     <Content Include="Views\Curriculum\ListadoCurriculum.cshtml" />
+    <Content Include="Views\EventosDocumentosCns\ListadoEventosCns.cshtml" />
+    <Content Include="Views\ControlDocumentosCns\ListadoDocumentosCns.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

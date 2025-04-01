@@ -1,0 +1,360 @@
+﻿@model IEnumerable<CapaModelo.tbControlOperacionalCns>
+@{
+    ViewBag.Title = "ListadoCheckListCna";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p class="text-blue">LISTADO CHECK LIST CNA</p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoDocumentosCns", "ControlDocumentosCns", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row mb-8">
+            <div class="col-sm-3">
+                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>FECHA ELABORACION</label></div>
+            </div>
+            <div class="col-sm-8 fv-row">
+
+                @*<input style="text-transform:uppercase" class="form-control form-control-solid" id="FechaElab" name="FechaElab" />*@
+
+                @*<input type="date" id="start"  name="FechaElab" value="2018-07-22" min="2018-01-01" max="2018-12-31" />*@
+
+                <input type="date" name="FechaElab" id="FechaElab" class="form-control form-control-solid" required>
+
+
+            </div>
+            <div>
+
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+
+                                <th class="bg-gradient-info">Fecha Elaboracion</th>
+                                <th class="bg-gradient-info">Codigo</th>
+                                <th class="bg-gradient-info">Turno</th>
+                                <th class="bg-gradient-info">Responsable Turno</th>
+                                <th class="bg-gradient-info">Estado</th>
+
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+
+                                    <td>@Html.DisplayFor(modelItem => item.FECHACONTROL)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TURNO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NOMBRETECNICO)</td>
+
+                                    <td>
+                                        @if (item.IMPRESO == "IMPRESO")
+                                        {
+
+                                            <p class="text-danger" , style="font-size:16px;color: aquamarine">   @Html.DisplayFor(modelItem => item.IMPRESO)</p>
+
+                                        }
+
+                                    </td>
+                                    @*<td class="btn-group btn-group-sm" role="group" aria-label="...">
+
+                                        <a id="Consultar" class="btn btn-lg btn-secondary" href="#" onclick="Consultar('@item.FECHACONTROL', '@item.TURNO')">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:14px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>
+
+                                    </td>*@
+
+                                    <td class="btn-group btn-group-sm" role="group" aria-label="...">
+
+                                        <a id="Descarga" class="btn btn-lg btn-primary" href="@Url.Action("DescargaCheckList", "ControlDocumentosCns", new { Fechaelab = item.FECHACONTROL, Turno = item.TURNO.ToString() })">
+                                            <i><img src="~/Content/imganes/descargas.png" style="width:14px" /></i> Descarga
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+
+
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <link href="~/Content/assets/css/dgac.css" rel="stylesheet" />
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> INFORME DIARIO ITS</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+
+                            <div class="row justify-content-start">
+
+                                <div class="col-4">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>FECHA ELABORACION</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="Fechaelab" readonly="readonly" />
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>TURNO</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="Turno" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>TECNICO RESPONSABLE TURNO</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsable" readonly="readonly" />
+                                </div>
+                            </div>
+
+
+                            <p class="bg-success " align='center' style="font-size:14px">SERVICIO DE TELECOMUNICACIONES DE SERVICIO FIJO AÉRONAÚTICO</p>
+
+                            <p class="bg-success " align='center' style="font-size:12px">SISTEMA DE COMUNICACIONES</p>
+
+
+                            <div class="row justify-content-start">
+                                <div class="col-1">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>EJ-01</label></div>
+                                    <input type="text" id="inputField" name="inputField" />
+                                </div>
+                                <div class="col-1">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>PL-01</label></div>
+                                    <input type="text" id="PL01" name="PL01" />
+                                </div>
+                                
+                                <div class="col-1">
+                                    <p style="background-color:red ">prueba</p>
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>EJ-02</label></div>
+                                    <input type="text" id="EJ02" name="EJ02" />
+
+                                </div>
+
+
+                            </div>
+
+                            <p class="bg-success " align='center' style="font-size:14px">DETALLE CONTROLADORES</p>
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+
+        }
+
+
+        function Consultar(Fechaelab, Turno) {
+
+
+            //$("#Lic").val("");
+            $("#EJ01").val("");
+            $("#PL01").val("");
+            $("#EJ02").val("");
+            $("#Fechaelab").val("");
+            $("#Turno").val("");
+            //$("#Licresponsable").val("");
+            $("#Nombreresponsable").val("");
+            //$("#Licturnosaliente").val("");
+
+
+
+            $.ajax({
+
+                url: $.MisUrls.url._DetalleDocumentosCns,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Fechaelab: Fechaelab, Turno: Turno },
+
+                success: function (e) {
+
+                    var inputField = $('#inputField');
+                   
+                    // Cambiar color según el estado
+                    inputField.css('background-color', e.COLORVCSINDRAUCS1EJ01);
+
+                    //if (e.VCSINDRAUCS1EJ01 === "1") {
+                    //    inputField.css('background-color', 'green');
+                    //} else if (e.VCSINDRAUCS1EJ01 === "2") {
+                    //    inputField.css('background-color', 'yellow');
+                    //} else if (e.VCSINDRAUCS1EJ01 === "3") {
+                    //    inputField.css('background-color', 'red');
+                    //}
+
+
+                    var PL01 = $('#PL01');
+                    alert(e.COLORVCSINDRAUCS1PL01);
+                    PL01.css('background-color', e.COLORVCSINDRAUCS1PL01);
+
+                    // Cambiar color según el estado
+                    //if (e.VCSINDRAUCS1PL01 === "1") {
+                    //    PL01.css('background-color', 'green');
+                    //} else if (e.VCSINDRAUCS1PL01 === "2") {
+                    //    PL01.css('background-color', 'yellow');
+                    //} else if (e.VCSINDRAUCS1PL01 === "3") {
+                    //    PL01.css('background-color', 'red');
+                    //}
+                    alert(e.COLORVCSINDRAUCS1EJ02);
+                    var EJ02 = $('#EJ02');
+                    //$("#EJ02").val(e.COLORVCSINDRAUCS1EJ02);
+                    EJ02.css('background-color:', e.COLORVCSINDRAUCS1EJ02);
+
+                    var PL02 = $('#PL02');
+                    $("#PL02").val(e.COLORVCSINDRAUCS1PL02);
+
+                    //var EJ02 = $('#EJ02');
+                    //$("#EJ02").val(e.VCSINDRAUCS1EJ02);
+                    //// Cambiar color según el estado
+                    //if (e.VCSINDRAUCS1EJ02 === "1") {
+                    //    EJ02.css('background-color', 'green');
+                    //} else if (e.VCSINDRAUCS1EJ02 === "2") {
+                    //    EJ02.css('background-color', 'yellow');
+                    //} else if (e.VCSINDRAUCS1EJ02 === "3") {
+                    //    EJ02.css('background-color', 'red');
+                    //}
+
+                    $("#Fechaelab").val(e.FECHACONTROL);
+                    $("#Turno").val(e.TURNO);
+                    //$("#Licresponsable").val(e.LICENCIARESPONSABLE);
+                    $("#Nombreresponsable").val(e.NOMBRETECNICO);
+                    //$("#Licturnosaliente").val(e.LICENCIARESPSALIEN);
+                    //$("#Nombreresponsablesal").val(e.NOMBRERESSALIDA);
+                    //$("#IFRDEP").val(e.IFRDEP);
+                    //$("#IFRARR").val(e.IFRARR);
+                    //$("#VFRDEP").val(e.VFRDEP);
+                    //$("#VFRARR").val(e.VFRARR);
+                    //$("#OVR").val(e.OVR);
+                    //$("#TGL").val(e.TGL);
+                    //$("#TOTALIFR").val(e.TOTALIFR);
+                    //$("#TOTALVFR").val(e.TOTALVFR);
+                    //$("#TOTALDEP").val(e.TOTALDEP);
+                    //$("#TOTALARR").val(e.TOTALARR);
+                    //$("#TOTALGENERAL").val(e.TOTALGENERAL);
+                    //$("#SOBREVUELOS").val(e.SOBSEGU);
+                    //$("#TOTAL").val(e.TOTGENSEGU);
+
+                    //$("#tbDetalleControladores tbody").html("");
+                    //$.each(e.oDetalleControladorAtc, function (i, row) {
+
+                    //    $("<tr>").append(
+                    //        $("<td>").text(row["LICENCIACONTROLADOR"]),
+                    //        $("<td>").text(row["NOMBRECONTROLADOR"]),
+                    //        $("<td>").text(row["VIGENCIACEMAC"]),
+                    //        $("<td>").text(row["ESTADO"]))
+
+                    //        .appendTo("#tbDetalleControladores tbody");
+                    //})
+
+                    //$("#tbDetalleNotams tbody").html("");
+                    //$.each(e.oDetalleNotamsAtc, function (i, row) {
+
+                    //    $("<tr>").append(
+                    //        $("<td >").text(row["CODIGONOTAMS"]),
+                    //        $("<p> ").text(row["DESCRIPCION"]),
+                    //        $("<p> ").text(row["DESCRIPCION1"]),
+                    //        $("<p> ").text(row["DESCRIPCION2"]),
+                    //        $("<p> ").text(row["DESCRIPCION3"]),
+                    //        $("<p> ").text(row["DESCRIPCION4"]),
+                    //        $("<p> ").text(row["DESCRIPCION5"]),
+                    //        $("<p> ").text(row["DESCRIPCION6"]),
+                    //        $("<p> ").text(row["DESCRIPCION7"]),
+                    //        $("<p> ").text(row["DESCRIPCION8"]),
+                    //        $("<p> ").text(row["DESCRIPCION9"]))
+
+                    //        .appendTo("#tbDetalleNotams tbody");
+                    //})
+                    //$("#tbDetalleEventos tbody").html("");
+                    //$.each(e.oDetalleEventosAtc, function (i, row) {
+
+                    //    $("<tr>").append(
+                    //        $("<td >").text(row["HORAUTC"]),
+                    //        $("<td >").text(row["CODIGOEVENTO"]),
+                    //        $("<td >").text(row["DESCRIPCION"]),
+                    //        $("<td >").text(row["USUARIO"]))
+
+
+                    //        .appendTo("#tbDetalleEventos tbody");
+                    //})
+                    //if (e.LUGAR == "SEGU") {
+                    //    $("#costadisplay").show();
+                    //    $("#sierradisplay").hide();
+                    //}
+                    //else {
+
+                    //    $("#costadisplay").hide();
+                    //    $("#sierradisplay").show();
+                    //}
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>
+    
+}

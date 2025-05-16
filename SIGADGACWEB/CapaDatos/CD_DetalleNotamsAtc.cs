@@ -66,6 +66,9 @@ namespace CapaDatos
                         oSolicitud.DESCRIPCION7 = dr["OPNDE7"].ToString().Trim();
                         oSolicitud.DESCRIPCION8 = dr["OPNDE8"].ToString().Trim();
                         oSolicitud.DESCRIPCION9 = dr["OPNDE9"].ToString().Trim();
+                        oSolicitud.DESCRIPCION10 = dr["OPNDE7"].ToString().Trim();
+                        oSolicitud.DESCRIPCION11 = dr["OPNDE8"].ToString().Trim();
+                        oSolicitud.DESCRIPCION12 = dr["OPNDE9"].ToString().Trim();
 
                         listarSolicitud.Add(oSolicitud);
                     }

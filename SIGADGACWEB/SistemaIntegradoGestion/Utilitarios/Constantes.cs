@@ -36,6 +36,7 @@ namespace SistemaIntegradoGestion.Utilitarios
 
 
         public const string DepositosURL = @"\\172.20.16.90\depositos\";
+        public const string Manifiesto = @"\\172.20.16.90\manifiesto_pax\";
         public const string MaestroPersonalURL = @"\\172.20.16.90\vuelos_charter\MaestroPersonal\";        
         public const string ConfiarUrl = @"\\172.20.16.149\d$\";
 

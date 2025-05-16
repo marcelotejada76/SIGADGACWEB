@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace SistemaIntegradoGestion.Controllers
 {
-    public class DepositosController : Controller
+    public class CargaManifiestoController : Controller
     {
         /// <summary>
         /// cambio por github
@@ -41,13 +41,13 @@ namespace SistemaIntegradoGestion.Controllers
         }
 
 
-        public ActionResult CargaDepositosClientes()
+        public ActionResult CargaManifiesto()
 
         {
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
-            List<tbSubirDepositos> listado = new List<tbSubirDepositos>();
+            List<tbSubirManifiesto> listado = new List<tbSubirManifiesto>();
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             string cAnio = oSistema.FechaSistema.Substring(0, 4);
@@ -56,7 +56,7 @@ namespace SistemaIntegradoGestion.Controllers
             Session["Controlador"] = "DepositosFinancieros";
             Session["ActionResul"] = "SubirDocumentosDepositos";
           //  Session["CodigoRol"] = SesionUsuario.CodigoRol;
-            listado = CD_Depositos.Instancia.DetalleDepositos(cAnio, SesionUsuario.NumeroRuc);
+            listado = CD_CargaManifiesto.Instancia.DetalleManifiesto(SesionUsuario.NumeroRuc);
 
             return View(listado);
         }
@@ -102,16 +102,15 @@ namespace SistemaIntegradoGestion.Controllers
 
             return View(CargaArchivo);
         }
-        public ActionResult SubirDocumentosDepositos(string Año, string Mes, string UsuarioRuc, string RazonSocial)
+        public ActionResult SubirManifiesto( string UsuarioRuc, string RazonSocial)
         {
             string direccionDirectory = string.Empty;
             //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
             //tbSubirDepositos oArchivo = new tbSubirDepositos();
-            tbSubirDepositos CargaArchivo = new tbSubirDepositos();
-            CargaArchivo.Año = Año;
-            CargaArchivo.Mes = Mes;
+            tbSubirManifiesto CargaArchivo = new tbSubirManifiesto();
+            
             CargaArchivo.UsuarioRuc = UsuarioRuc;
-            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
+            direccionDirectory =  @"\" + UsuarioRuc+""+RazonSocial;
             ViewBag.direccionDirectory = direccionDirectory;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
 
@@ -120,30 +119,29 @@ namespace SistemaIntegradoGestion.Controllers
 
         [HttpPost]
 
-        public ActionResult SubirDocumentosDepositos(string Año, string Mes, string UsuarioRuc,string RazonSocial, HttpPostedFileBase documentFile)
+        public ActionResult SubirManifiesto( string UsuarioRuc,string RazonSocial, HttpPostedFileBase documentFile)
         {
             string direccionDirectory = string.Empty;
             //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
             //tbSubirDepositos oArchivo = new tbSubirDepositos();
-            tbSubirDepositos CargaArchivo = new tbSubirDepositos();
-            CargaArchivo.Año = Año;
-            CargaArchivo.Mes = Mes;
+            tbSubirManifiesto CargaArchivo = new tbSubirManifiesto();
+            
             CargaArchivo.UsuarioRuc = UsuarioRuc;
-            guardarDocumento(Año, Mes, UsuarioRuc, RazonSocial, documentFile);
-            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
+            guardarDocumento(UsuarioRuc, RazonSocial, documentFile);
+            direccionDirectory =  UsuarioRuc+""+RazonSocial;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
             ViewBag.direccionDirectory = direccionDirectory;
 
             return View(CargaArchivo);
         }
-        public bool guardarDocumento(string Año, string Mes, string UsuarioRuc,string RazonSocial, HttpPostedFileBase documentFile)
+        public bool guardarDocumento(string UsuarioRuc,string RazonSocial, HttpPostedFileBase documentFile)
         {
             bool existearchivo = false;
-            string direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
+            string direccionDirectory =  @"\" + UsuarioRuc+""+RazonSocial;
             string nombreArchivo = "";
             if (documentFile != null && documentFile.ContentLength > 0)
             {
-                string urlDocumentos = Constantes.DepositosURL + @"\" + direccionDirectory;
+                string urlDocumentos = Constantes.Manifiesto + @"\" + direccionDirectory;
                 //Verifica si existe la carpeta creada si no lo crear
                 if (!System.IO.Directory.Exists(urlDocumentos))
                     System.IO.Directory.CreateDirectory(urlDocumentos);
@@ -160,9 +158,9 @@ namespace SistemaIntegradoGestion.Controllers
                     sArchivos = Directory.GetFiles(urlDocumentos);
 
                     //número de archivos en el directorio
-                    int registros = sArchivos.Length;
+                    //int registros = sArchivos.Length;
 
-                    CD_Depositos.Instancia.ActualizaRegistros(Año, SesionUsuario.NumeroRuc, Mes, registros);
+                    //CD_Depositos.Instancia.ActualizaRegistros(Año, SesionUsuario.NumeroRuc, Mes, registros);
                     existearchivo = true;
                 }
                 else
@@ -188,7 +186,7 @@ namespace SistemaIntegradoGestion.Controllers
 
                 ViewBag.DireccionDirectory = direccionDirectory;
 
-                urlDocumentos = Constantes.DepositosURL + @"\" + direccionDirectory;
+                urlDocumentos = Constantes.Manifiesto + @"\" + direccionDirectory;
 
                 if (!System.IO.Directory.Exists(urlDocumentos))
                     System.IO.Directory.CreateDirectory(urlDocumentos);
@@ -226,15 +224,15 @@ namespace SistemaIntegradoGestion.Controllers
 
 
 
-        public ActionResult VisualizarDepositos(string nombreArchivo, string direccion)
-        {
+        //public ActionResult VisualizarManifiesto(string nombreArchivo, string direccion)
+        //{
 
-            string fullName = Constantes.DepositosURL + @"\" + direccion.Trim() + @"\" + nombreArchivo.Trim();
+        //    string fullName = Constantes.Manifiesto + @"\" + direccion.Trim() + @"\" + nombreArchivo.Trim();
 
-            byte[] fileBytes = GetFile(fullName);
+        //    byte[] fileBytes = GetFile(fullName);
 
-            return new FileContentResult(fileBytes, "application/pdf");
-        }
+        //    return new FileContentResult(fileBytes, "application/pdf");
+        //}
 
         byte[] GetFile(string s)
         {
@@ -246,30 +244,30 @@ namespace SistemaIntegradoGestion.Controllers
             return data;
         }
 
-        public ActionResult DownloadFileDeposito(string nombreArchivo, string direccion)
-        {
-            try
-            {
-                string fullName = Constantes.DepositosURL + @"\" + direccion.Trim() + @"\" + nombreArchivo;
-                byte[] fileBytes = GetFile(fullName);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, nombreArchivo);
+        //public ActionResult DownloadFileManifiesto(string nombreArchivo, string direccion)
+        //{
+        //    try
+        //    {
+        //        string fullName = Constantes.Manifiesto + @"\" + direccion.Trim() + @"\" + nombreArchivo;
+        //        byte[] fileBytes = GetFile(fullName);
+        //        return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, nombreArchivo);
 
-            }
-            catch (FileNotFoundException ex)
-            {
-                throw new Exception("No se pudo presentar el archivo solicitado.");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Hay un problema al descargar el archivo.");
-            }
+        //    }
+        //    catch (FileNotFoundException ex)
+        //    {
+        //        throw new Exception("No se pudo presentar el archivo solicitado.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Hay un problema al descargar el archivo.");
+        //    }
 
-        }
+        //}
 
 
 
         [HttpGet]
-        public JsonResult EliminarDepositoServidor(string nombreArchivo, string direccion)
+        public JsonResult EliminarManifiestoServidor(string nombreArchivo, string direccion)
         {
             char[] delimiterChars = { '\\' };
 
@@ -302,7 +300,7 @@ namespace SistemaIntegradoGestion.Controllers
                 var ousuario = (tbUsuario)Session["Usuario"];
                 var osistema = CD_Sistema.Instancia.GetFechaHoraSistema();
                 fullPath = Constantes.Manifiesto + @"\" + direccion + @"\" + nombreArchivo;
-                respuesta = EliminarDeposito(fullPath,año ,mes, ruc);
+                respuesta = EliminarDeposito(fullPath, ruc);
             }
             else
             {
@@ -311,7 +309,7 @@ namespace SistemaIntegradoGestion.Controllers
 
             return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
         }
-        private bool EliminarDeposito(string path,string Año, string Mes, string Ruc)
+        private bool EliminarDeposito(string path, string Ruc)
         {
             // string path = Constantes.DepositosURL + @"\" + direccion.Trim() + @"\" + nombreArchivo;
             if (!System.IO.File.Exists(path)) return false;
@@ -323,7 +321,7 @@ namespace SistemaIntegradoGestion.Controllers
                 System.IO.File.Delete(path);
 
                 //graba en la tabla el numero de registros
-                string direccionDirectory =  Ruc;
+                string direccionDirectory =  @"\" + Ruc;
                 
                 string urlDocumentos = Constantes.Manifiesto + @"\" + direccionDirectory;
 
@@ -331,7 +329,7 @@ namespace SistemaIntegradoGestion.Controllers
                     string[] sArchivos; //array con los nombres de archivos y carpetas
                 sArchivos = Directory.GetFiles(urlDocumentos);
 
-                //número de archivos en el directorio
+                ////número de archivos en el directorio
                 //int registros = sArchivos.Length;
 
                 // CD_Depositos.Instancia.ActualizaRegistros(Año, Ruc,Mes, registros);

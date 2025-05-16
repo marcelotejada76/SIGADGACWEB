@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace SistemaIntegradoGestion.Controllers
 {
-    public class DepositosController : Controller
+    public class DepositosVistaController : Controller
     {
         /// <summary>
         /// cambio por github
@@ -40,7 +40,27 @@ namespace SistemaIntegradoGestion.Controllers
             return View();
         }
 
+        [HttpGet]
 
+        public ActionResult ListadoDepositosClientes()
+
+        {
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
+            List<tbSubirDepositos> listado = new List<tbSubirDepositos>();
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+            var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
+            //  string cAnio = oSistema.FechaSistema.Substring(0, 4);
+
+            Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
+            Session["Controlador"] = "DepositosFinancieros";
+            Session["ActionResul"] = "SubirDocumentosDepositos";
+            //  Session["CodigoRol"] = SesionUsuario.CodigoRol;
+            listado = CD_Depositos.Instancia.DetalleDepositosVista();
+
+            return View(listado);
+        }
         public ActionResult CargaDepositosClientes()
 
         {
@@ -50,19 +70,42 @@ namespace SistemaIntegradoGestion.Controllers
             List<tbSubirDepositos> listado = new List<tbSubirDepositos>();
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
-            string cAnio = oSistema.FechaSistema.Substring(0, 4);
+            //  string cAnio = oSistema.FechaSistema.Substring(0, 4);
 
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
             Session["Controlador"] = "DepositosFinancieros";
             Session["ActionResul"] = "SubirDocumentosDepositos";
-          //  Session["CodigoRol"] = SesionUsuario.CodigoRol;
-            listado = CD_Depositos.Instancia.DetalleDepositos(cAnio, SesionUsuario.NumeroRuc);
+            //  Session["CodigoRol"] = SesionUsuario.CodigoRol;
+            listado = CD_Depositos.Instancia.DetalleDepositosVista();
 
             return View(listado);
         }
 
 
-        
+
+        [HttpPost]
+        public ActionResult CargaDepositosClientes(string Cliente)
+        {
+            Cliente = Cliente.ToUpper().TrimStart().TrimEnd();
+
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
+            List<tbSubirDepositos> listado = new List<tbSubirDepositos>();
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+            var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
+            //  string cAnio = oSistema.FechaSistema.Substring(0, 4);
+
+            Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
+            Session["Controlador"] = "DepositosFinancieros";
+            Session["ActionResul"] = "SubirDocumentosDepositos";
+            //  Session["CodigoRol"] = SesionUsuario.CodigoRol;
+            listado = CD_Depositos.Instancia.DetalleDepositosVistaCliente(Cliente);
+
+            return View(listado);
+        }
+
+
 
 
         //consulta
@@ -87,7 +130,7 @@ namespace SistemaIntegradoGestion.Controllers
             return View(listado);
         }
 
-        public ActionResult ConsultaDocumentosDepositos(string Año, string Mes, string UsuarioRuc,string RazonSocial)
+        public ActionResult ConsultaDocumentosDepositos(string Año, string Mes, string UsuarioRuc, string RazonSocial)
         {
             string direccionDirectory = string.Empty;
             //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
@@ -96,7 +139,7 @@ namespace SistemaIntegradoGestion.Controllers
             CargaArchivo.Año = Año;
             CargaArchivo.Mes = Mes;
             CargaArchivo.UsuarioRuc = UsuarioRuc;
-            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
+            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc + "" + RazonSocial;
             ViewBag.direccionDirectory = direccionDirectory;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
 
@@ -111,7 +154,7 @@ namespace SistemaIntegradoGestion.Controllers
             CargaArchivo.Año = Año;
             CargaArchivo.Mes = Mes;
             CargaArchivo.UsuarioRuc = UsuarioRuc;
-            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
+            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc + "" + RazonSocial;
             ViewBag.direccionDirectory = direccionDirectory;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
 
@@ -120,7 +163,7 @@ namespace SistemaIntegradoGestion.Controllers
 
         [HttpPost]
 
-        public ActionResult SubirDocumentosDepositos(string Año, string Mes, string UsuarioRuc,string RazonSocial, HttpPostedFileBase documentFile)
+        public ActionResult SubirDocumentosDepositos(string Año, string Mes, string UsuarioRuc, string RazonSocial, HttpPostedFileBase documentFile)
         {
             string direccionDirectory = string.Empty;
             //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
@@ -130,16 +173,16 @@ namespace SistemaIntegradoGestion.Controllers
             CargaArchivo.Mes = Mes;
             CargaArchivo.UsuarioRuc = UsuarioRuc;
             guardarDocumento(Año, Mes, UsuarioRuc, RazonSocial, documentFile);
-            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
+            direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc + "" + RazonSocial;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
             ViewBag.direccionDirectory = direccionDirectory;
 
             return View(CargaArchivo);
         }
-        public bool guardarDocumento(string Año, string Mes, string UsuarioRuc,string RazonSocial, HttpPostedFileBase documentFile)
+        public bool guardarDocumento(string Año, string Mes, string UsuarioRuc, string RazonSocial, HttpPostedFileBase documentFile)
         {
             bool existearchivo = false;
-            string direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
+            string direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc + "" + RazonSocial;
             string nombreArchivo = "";
             if (documentFile != null && documentFile.ContentLength > 0)
             {
@@ -282,7 +325,7 @@ namespace SistemaIntegradoGestion.Controllers
             {
                 if (i == 0)
                 {
-                     año = words[i];
+                    año = words[i];
                 }
                 if (i == 1)
                 {
@@ -290,7 +333,7 @@ namespace SistemaIntegradoGestion.Controllers
                 }
                 if (i == 2)
                 {
-                     ruc = words[i];
+                    ruc = words[i];
                 }
 
             }
@@ -301,8 +344,8 @@ namespace SistemaIntegradoGestion.Controllers
             {
                 var ousuario = (tbUsuario)Session["Usuario"];
                 var osistema = CD_Sistema.Instancia.GetFechaHoraSistema();
-                fullPath = Constantes.Manifiesto + @"\" + direccion + @"\" + nombreArchivo;
-                respuesta = EliminarDeposito(fullPath,año ,mes, ruc);
+                fullPath = Constantes.DepositosURL + @"\" + direccion + @"\" + nombreArchivo;
+                respuesta = EliminarDeposito(fullPath, año, mes, ruc);
             }
             else
             {
@@ -311,7 +354,7 @@ namespace SistemaIntegradoGestion.Controllers
 
             return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
         }
-        private bool EliminarDeposito(string path,string Año, string Mes, string Ruc)
+        private bool EliminarDeposito(string path, string Año, string Mes, string Ruc)
         {
             // string path = Constantes.DepositosURL + @"\" + direccion.Trim() + @"\" + nombreArchivo;
             if (!System.IO.File.Exists(path)) return false;
@@ -323,18 +366,18 @@ namespace SistemaIntegradoGestion.Controllers
                 System.IO.File.Delete(path);
 
                 //graba en la tabla el numero de registros
-                string direccionDirectory =  Ruc;
-                
-                string urlDocumentos = Constantes.Manifiesto + @"\" + direccionDirectory;
+                string direccionDirectory = Año + @"\" + Mes + @"\" + Ruc;
+
+                string urlDocumentos = Constantes.DepositosURL + @"\" + direccionDirectory;
 
 
-                    string[] sArchivos; //array con los nombres de archivos y carpetas
+                string[] sArchivos; //array con los nombres de archivos y carpetas
                 sArchivos = Directory.GetFiles(urlDocumentos);
 
                 //número de archivos en el directorio
-                //int registros = sArchivos.Length;
+                int registros = sArchivos.Length;
 
-                // CD_Depositos.Instancia.ActualizaRegistros(Año, Ruc,Mes, registros);
+                CD_Depositos.Instancia.ActualizaRegistros(Año, Ruc, Mes, registros);
                 return true;
             }
             catch (Exception e)

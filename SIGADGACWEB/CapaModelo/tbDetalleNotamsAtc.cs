@@ -20,6 +20,10 @@ namespace CapaModelo
         public string DESCRIPCION7 { get; set; }
         public string DESCRIPCION8 { get; set; }
         public string DESCRIPCION9 { get; set; }
+        public string DESCRIPCION10 { get; set; }
+        public string DESCRIPCION11 { get; set; }
+        public string DESCRIPCION12 { get; set; }
+        public string DESCRIPCION13 { get; set; }
 
 
 

@@ -113,215 +113,216 @@
 </div>
 <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
 
+   
+    
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
 
-    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content">
+                <div class="modal-header bg-gradient-primary text-white">
+                    <h6 class="modal-title text-white" id="modalLabel"> INFORME DIARIO ITS</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="card-body border-top p-9">
 
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6 class="modal-title text-white" id="modalLabel"> INFORME DIARIO ITS</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="card-body border-top p-9">
+                            <div class="container">
+                                <div class="row justify-content-start">
+                                    <div class="col-4">
+                                        <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LUGAR</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Lugar" readonly="readonly" />
 
-                        <div class="container">
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LUGAR</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Lugar" readonly="readonly" />
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>DEPENDENCIA</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Dependencia" readonly="readonly" />
+                                    </div>
+
 
                                 </div>
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>DEPENDENCIA</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Dependencia" readonly="readonly" />
+                                <div class="row justify-content-start">
+
+                                    <div class="col-4">
+                                        <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>FECHA ELABORACION</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Fechaelab" readonly="readonly" />
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>TURNO</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Turno" readonly="readonly" />
+                                    </div>
                                 </div>
 
 
+                                <div class="row justify-content-start">
+
+                                    <div class="col-4">
+                                        <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LICENCIA RESPONSABLE TURNO</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Licresponsable" readonly="readonly" />
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ATCO RESPONSABLE TURNO</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsable" readonly="readonly" />
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-start">
+                                    <div class="col-4">
+                                        <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LICENCIA RESPOSABLE TURNO SALIENTE</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Licturnosaliente" readonly="readonly" />
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ATCO RESPONSABLE TURNO SALIENTE</label></div>
+                                        <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsablesal" readonly="readonly" />
+                                    </div>
+
+
+                                </div>
+
+                                <p class="bg-success " align='center' style="font-size:14px">DETALLE CONTROLADORES</p>
+
+
+
+                                <table id="tbDetalleControladores" class="table table-bordered table-hover table-sm" style="width:100% ; font-size:11px">
+                                    <thead>
+                                        <tr>
+                                            <th>LICENCIA </th>
+                                            <th>NOMBRE</th>
+                                            <th>VIGENCIA CEMAC</th>
+                                            <th>LESTADO</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:12px"></tbody>
+
+
+                                </table>
+
+                                <p class="bg-success " align='center' style="font-size:14px">DETALLE NOTAMS</p>
+
+                                <table id="tbDetalleNotams" class="table table-striped" style="width:100% ; font-size:10px">
+
+                                    <thead>
+                                        <tr class="table-secondary">
+
+                                            <th class="bg-info">CODIGO </th>
+                                            <th class="bg-info">DESCRIPCION</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:10px"></tbody>
+
+
+                                </table>
+
+
+
+                                <p class="bg-success " align='center' style="font-size:14px">DETALLE EVENTOS Y NOVEDADES</p>
+
+
+
+
+                                <table id="tbDetalleEventos" class="table table-striped" style="width:100%; font-size:10px ">
+                                    <thead>
+                                        <tr class="table-secondary">
+                                            <th class="bg-info">HORA UTC </th>
+                                            <th class="bg-info">EVENTOS</th>
+                                            <th class="bg-info">DESCRIPCION DE LA NOVEDAD</th>
+                                            <th class="bg-info">RESPONSABLE</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:10px"></tbody>
+
+
+                                </table>
+
+                                <p class="bg-success " align='center' style="font-size:14px">NUMERO DE OPERACIONES</p>
+
+
+
+                                <div class="row justify-content-start " id="costadisplay" style="display: none;">
+                                    <div class="col-5">
+                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>SOBREVUELOS </label></div>
+                                        <input style="font-size:12px;color:brown;background-color:#c1cedb" class="form-control form-control-sm" id="SOBREVUELOS" readonly="readonly" />
+                                    </div>
+                                    <div class="col-5">
+                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL </label></div>
+                                        <input style="font-size:12px;color:#aa87de;background-color:#c1cedb" class="form-control form-control-sm" fw id="TOTAL" readonly="readonly" />
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row justify-content-start " id="sierradisplay" style="display: none">
+
+
+                                    <div class="row justify-content-start ">
+                                        <div class="col-2">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>IFR DEP</label></div>
+                                            <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="IFRDEP" readonly="readonly" />
+                                        </div>
+                                        <div class="col-2">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>IFR ARR</label></div>
+                                            <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="IFRARR" readonly="readonly" />
+                                        </div>
+                                        <div class="col-2">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>VFR DEP</label></div>
+                                            <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="VFRDEP" readonly="readonly" />
+                                        </div>
+                                        <div class="col-2">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>VFR ARR</label></div>
+                                            <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="VFRARR" readonly="readonly" />
+                                        </div>
+                                        <div class="col-2">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>OVR</label></div>
+                                            <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="OVR" readonly="readonly" />
+                                        </div>
+                                        <div class="col-2">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TGL</label></div>
+                                            <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="TGL" readonly="readonly" />
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row justify-content-start ">
+                                        <div class="col-2">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL IFR </label></div>
+                                            <input style="font-size:12px;color:brown;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALIFR" readonly="readonly" />
+                                        </div>
+                                        <div class="col-2">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL VFR</label></div>
+                                            <input style="font-size:12px;color:#aa87de;background-color:#c1cedb" class="form-control form-control-sm" fw id="TOTALVFR" readonly="readonly" />
+                                        </div>
+                                        <div class="col-2">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL DEP</label></div>
+                                            <input style="font-size:12px;color:chocolate;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALDEP" readonly="readonly" />
+                                        </div>
+                                        <div class="col-2">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL ARR</label></div>
+                                            <input style="font-size:12px;color:#07390f;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALARR" readonly="readonly" />
+                                        </div>
+                                        <div class="col-6">
+                                            <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL GENERAL</label></div>
+                                            <input style="font-size:16px;color:#f3fb13;background-color:#32587d" class="form-control form-control-sm" id="TOTALGENERAL" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row justify-content-start">
 
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>FECHA ELABORACION</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Fechaelab" readonly="readonly" />
-                                </div>
-                                <div class="col-md-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>TURNO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Turno" readonly="readonly" />
-                                </div>
-                            </div>
-
-
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LICENCIA RESPONSABLE TURNO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Licresponsable" readonly="readonly" />
-                                </div>
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ATCO RESPONSABLE TURNO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsable" readonly="readonly" />
-                                </div>
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LICENCIA RESPOSABLE TURNO SALIENTE</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Licturnosaliente" readonly="readonly" />
-                                </div>
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ATCO RESPONSABLE TURNO SALIENTE</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsablesal" readonly="readonly" />
-                                </div>
-
-
-                            </div>
-
-                            <p class="bg-success " align='center' style="font-size:14px">DETALLE CONTROLADORES</p>
-
-
-
-                            <table id="tbDetalleControladores" class="table table-bordered table-hover table-sm" style="width:100% ; font-size:11px">
-                                <thead>
-                                    <tr>
-                                        <th>LICENCIA </th>
-                                        <th>NOMBRE</th>
-                                        <th>VIGENCIA CEMAC</th>
-                                        <th>LESTADO</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:12px"></tbody>
-
-
-                            </table>
-
-                            <p class="bg-success " align='center' style="font-size:14px">DETALLE NOTAMS</p>
-
-                            <table id="tbDetalleNotams" class="table table-striped" style="width:100% ; font-size:10px">
-
-                                <thead>
-                                    <tr class="table-secondary">
-
-                                        <th class="bg-info">CODIGO </th>
-                                        <th class="bg-info">DESCRIPCION</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:10px"></tbody>
-
-
-                            </table>
-
-
-
-                            <p class="bg-success " align='center' style="font-size:14px">DETALLE EVENTOS Y NOVEDADES</p>
-
-
-
-
-                            <table id="tbDetalleEventos" class="table table-striped" style="width:100%; font-size:10px ">
-                                <thead>
-                                    <tr class="table-secondary">
-                                        <th class="bg-info">HORA UTC </th>
-                                        <th class="bg-info">EVENTOS</th>
-                                        <th class="bg-info">DESCRIPCION DE LA NOVEDAD</th>
-                                        <th class="bg-info">RESPONSABLE</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:10px"></tbody>
-
-
-                            </table>
-
-                            <p class="bg-success " align='center' style="font-size:14px">NUMERO DE OPERACIONES</p>
-
-
-
-                            <div class="row justify-content-start " id="costadisplay" style="display: none;">
-                                <div class="col-5">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>SOBREVUELOS </label></div>
-                                    <input style="font-size:12px;color:brown;background-color:#c1cedb" class="form-control form-control-sm" id="SOBREVUELOS" readonly="readonly" />
-                                </div>
-                                <div class="col-5">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL </label></div>
-                                    <input style="font-size:12px;color:#aa87de;background-color:#c1cedb" class="form-control form-control-sm" fw id="TOTAL" readonly="readonly" />
-                                </div>
-
-                            </div>
-
-
-                            <div class="row justify-content-start " id="sierradisplay" style="display: none">
-
-
-                                <div class="row justify-content-start ">
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>IFR DEP</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="IFRDEP" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>IFR ARR</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="IFRARR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>VFR DEP</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="VFRDEP" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>VFR ARR</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="VFRARR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>OVR</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="OVR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TGL</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="TGL" readonly="readonly" />
-                                    </div>
-
-
-                                </div>
-                                <div class="row justify-content-start ">
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL IFR </label></div>
-                                        <input style="font-size:12px;color:brown;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALIFR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL VFR</label></div>
-                                        <input style="font-size:12px;color:#aa87de;background-color:#c1cedb" class="form-control form-control-sm" fw id="TOTALVFR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL DEP</label></div>
-                                        <input style="font-size:12px;color:chocolate;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALDEP" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL ARR</label></div>
-                                        <input style="font-size:12px;color:#07390f;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALARR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-6">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL GENERAL</label></div>
-                                        <input style="font-size:16px;color:#f3fb13;background-color:#32587d" class="form-control form-control-sm" id="TOTALGENERAL" readonly="readonly" />
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                     </div>
-
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
         </div>
+
+
     </div>
-
-
-</div>
 
 @section scripts{
     <script>
@@ -420,7 +421,10 @@
                             $("<p> ").text(row["DESCRIPCION6"]),
                             $("<p> ").text(row["DESCRIPCION7"]),
                             $("<p> ").text(row["DESCRIPCION8"]),
-                            $("<p> ").text(row["DESCRIPCION9"]))
+                            $("<p> ").text(row["DESCRIPCION9"]),
+                            $("<p> ").text(row["DESCRIPCION10"]),
+                            $("<p> ").text(row["DESCRIPCION11"]),
+                            $("<p> ").text(row["DESCRIPCION12"]))
 
                             .appendTo("#tbDetalleNotams tbody");
                     })

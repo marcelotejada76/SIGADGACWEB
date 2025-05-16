@@ -170,6 +170,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
     <Compile Include="Controllers\CharterController.cs" />
+    <Compile Include="Controllers\CargaManifiestoController.cs" />
+    <Compile Include="Controllers\DepositosVistaController.cs" />
     <Compile Include="Controllers\EventosDocumentosCnsController.cs" />
     <Compile Include="Controllers\ControlDocumentosCnsController.cs" />
     <Compile Include="Controllers\CurriculumController.cs" />
@@ -2452,6 +2454,7 @@
     <Content Include="Scripts\Views\ConsultarSolicitud.js" />
     <Content Include="Scripts\Views\ConsultarSolicitudModificacionPoa.js" />
     <Content Include="Scripts\Views\Curriculum.js" />
+    <Content Include="Scripts\Views\Depositos\SubirManifiesto.js" />
     <Content Include="Scripts\Views\Depositos\SubirDepositos.js" />
     <Content Include="Scripts\Views\documentoHabilitante.js" />
     <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
@@ -2555,6 +2558,15 @@
     <Content Include="Views\Curriculum\ListadoCurriculum.cshtml" />
     <Content Include="Views\EventosDocumentosCns\ListadoEventosCns.cshtml" />
     <Content Include="Views\ControlDocumentosCns\ListadoDocumentosCns.cshtml" />
+    <Content Include="Views\DepositosVista\CargaDepositosClientes.cshtml" />
+    <Content Include="Views\DepositosVista\ConsultaDepositosClientes.cshtml" />
+    <Content Include="Views\DepositosVista\ConsultaDocumentosDepositos.cshtml" />
+    <Content Include="Views\DepositosVista\SubirDocumentosDepositos.cshtml" />
+    <Content Include="Views\CargaManifiesto\CargaManifiesto.cshtml" />
+    <Content Include="Views\CargaManifiesto\ConsultaDepositosClientes.cshtml" />
+    <Content Include="Views\CargaManifiesto\ConsultaDocumentosDepositos.cshtml" />
+    <Content Include="Views\CargaManifiesto\SubirManifiestoback.cshtml" />
+    <Content Include="Views\CargaManifiesto\SubirManifiesto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

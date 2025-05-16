@@ -56,6 +56,7 @@
     <Compile Include="CD_Compania.cs" />
     <Compile Include="CD_ControlFR3.cs" />
     <Compile Include="CD_Curriculum.cs" />
+    <Compile Include="CD_CargaManifiesto.cs" />
     <Compile Include="CD_Depositos.cs" />
     <Compile Include="CD_DetalleAdjuntocs.cs" />
     <Compile Include="CD_DetalleAeronave.cs" />

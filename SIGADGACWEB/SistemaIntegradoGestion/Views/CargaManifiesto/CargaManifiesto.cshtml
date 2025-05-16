@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CapaModelo.tbSubirManifiesto>
+@{
+    ViewBag.Title = "CargaManifiesto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<div class="container-fluid">
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p class="text-blue">LISTADO PASAJEROS </p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <br />
+    @using (Html.BeginForm("CargaManifiesto", "CargaManifiesto", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row">
+
+            <div class="col-12">
+                <table id="tbDetalle" class="table table-bordered table-hover table-sm display" style="width:100%">
+                    <thead>
+                        <tr class="text-sm text-center">
+                            
+                            <th style="">Ruc</th>
+                            <th style="">Razon Social</th>
+                            
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr class="text-sm text-center">
+                            
+                            <td>@Html.DisplayFor(modelItem => item.UsuarioRuc)</td>
+                            <td>@Html.DisplayFor(modelItem => item.RazonSocial)</td>
+                           
+
+                            <td class="text-left">
+                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirManifiesto", "CargaManifiesto", new {UsuarioRuc= item.UsuarioRuc.ToString(),RazonSocial=item.RazonSocial.ToString()})">
+                                 
+                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Adjuntar archivos
+                                </a>
+                            </td>
+
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+</div>

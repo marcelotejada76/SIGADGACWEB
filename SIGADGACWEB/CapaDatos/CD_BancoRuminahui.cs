@@ -31,12 +31,16 @@ namespace CapaDatos
 
         public List<tbBancoRuminahui> DetalleDepositos()//(string canio, string cdireccion, string tipoSolicitud)
         {
+            DateTime fecha = DateTime.Now.AddDays(-120);
+            string fechaProceso = fecha.ToString("yyyyMMdd"); //fecha del sistema
+           
+
             List<tbBancoRuminahui> listarSolicitud = new List<tbBancoRuminahui>();
             StringBuilder sbSol = new StringBuilder();
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM FICARC ORDER BY FICFEC");
+                sbSol.Append("SELECT * FROM FICARC where FICFEC >='"+fechaProceso+"' ORDER BY FICFEC DESC ");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;

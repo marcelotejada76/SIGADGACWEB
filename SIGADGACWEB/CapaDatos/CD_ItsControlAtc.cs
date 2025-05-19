@@ -54,7 +54,7 @@ namespace CapaDatos
                     {
                         tbItsControlAtc oSolicitud = new tbItsControlAtc();
                         oSolicitud.LUGAR = dr["OPILUG"].ToString();
-                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString();
+                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString().Trim();
                         oSolicitud.FECHAELABORACION = dr["OPIFEC"].ToString();
                         oSolicitud.TURNO = dr["OPITUR"].ToString();
                         oSolicitud.LICENCIARESPONSABLE = dr["OPILIC"].ToString();
@@ -72,8 +72,29 @@ namespace CapaDatos
 
                         if (oSolicitud.LUGAR == "SEGU")
                         {
-                            oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
-                            oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            if (oSolicitud.DEPENDENCIA.Trim() == "TWR")
+                            {
+                                oSolicitud.IFRDEP = Int16.Parse(dr["OPIIFR"].ToString());
+                                oSolicitud.IFRARR = Int16.Parse(dr["OPIIF1"].ToString());
+                                oSolicitud.VFRDEP = Int16.Parse(dr["OPIVFR"].ToString());
+                                oSolicitud.VFRARR = Int16.Parse(dr["OPIVF1"].ToString());
+                                oSolicitud.OVR = Int16.Parse(dr["OPIOVR"].ToString());
+                                oSolicitud.TGL = Int16.Parse(dr["OPITGL"].ToString());
+
+                                oSolicitud.TOTALIFR = oSolicitud.IFRDEP + oSolicitud.IFRARR;
+                                oSolicitud.TOTALVFR = oSolicitud.VFRDEP + oSolicitud.VFRARR;
+                                oSolicitud.TOTALDEP = oSolicitud.IFRDEP + oSolicitud.VFRDEP;
+                                oSolicitud.TOTALARR = oSolicitud.IFRARR + oSolicitud.VFRARR;
+                                oSolicitud.TOTALGENERAL = oSolicitud.TOTALIFR + oSolicitud.TOTALVFR + oSolicitud.OVR + oSolicitud.TGL;
+
+                            }
+                            else
+                            {
+
+
+                                oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
+                                oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            }
                         }
                         else
                         {
@@ -133,7 +154,7 @@ namespace CapaDatos
                     {
                         tbItsControlAtc oSolicitud = new tbItsControlAtc();
                         oSolicitud.LUGAR = dr["OPILUG"].ToString();
-                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString();
+                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString().Trim();
                         oSolicitud.FECHAELABORACION = dr["OPIFEC"].ToString();
                         oSolicitud.TURNO = dr["OPITUR"].ToString();
                         oSolicitud.LICENCIARESPONSABLE = dr["OPILIC"].ToString();
@@ -151,8 +172,29 @@ namespace CapaDatos
 
                         if (oSolicitud.LUGAR == "SEGU")
                         {
-                            oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
-                            oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            if (oSolicitud.DEPENDENCIA.Trim() == "TWR")
+                            {
+                                oSolicitud.IFRDEP = Int16.Parse(dr["OPIIFR"].ToString());
+                                oSolicitud.IFRARR = Int16.Parse(dr["OPIIF1"].ToString());
+                                oSolicitud.VFRDEP = Int16.Parse(dr["OPIVFR"].ToString());
+                                oSolicitud.VFRARR = Int16.Parse(dr["OPIVF1"].ToString());
+                                oSolicitud.OVR = Int16.Parse(dr["OPIOVR"].ToString());
+                                oSolicitud.TGL = Int16.Parse(dr["OPITGL"].ToString());
+
+                                oSolicitud.TOTALIFR = oSolicitud.IFRDEP + oSolicitud.IFRARR;
+                                oSolicitud.TOTALVFR = oSolicitud.VFRDEP + oSolicitud.VFRARR;
+                                oSolicitud.TOTALDEP = oSolicitud.IFRDEP + oSolicitud.VFRDEP;
+                                oSolicitud.TOTALARR = oSolicitud.IFRARR + oSolicitud.VFRARR;
+                                oSolicitud.TOTALGENERAL = oSolicitud.TOTALIFR + oSolicitud.TOTALVFR + oSolicitud.OVR + oSolicitud.TGL;
+
+                            }
+                            else
+                            {
+
+
+                                oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
+                                oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            }
                         }
                         else
                         {
@@ -221,7 +263,7 @@ namespace CapaDatos
                     {
                         tbItsControlAtc oSolicitud = new tbItsControlAtc();
                         oSolicitud.LUGAR = dr["OPILUG"].ToString();
-                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString();
+                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString().Trim();
                         oSolicitud.FECHAELABORACION = dr["OPIFEC"].ToString();
                         oSolicitud.TURNO = dr["OPITUR"].ToString();
                         oSolicitud.LICENCIARESPONSABLE = dr["OPILIC"].ToString();
@@ -240,8 +282,30 @@ namespace CapaDatos
 
                         if (oSolicitud.LUGAR == "SEGU")
                         {
-                            oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
-                            oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            if (oSolicitud.DEPENDENCIA.Trim() == "TWR")
+                            {
+                                oSolicitud.IFRDEP = Int16.Parse(dr["OPIIFR"].ToString());
+                                oSolicitud.IFRARR = Int16.Parse(dr["OPIIF1"].ToString());
+                                oSolicitud.VFRDEP = Int16.Parse(dr["OPIVFR"].ToString());
+                                oSolicitud.VFRARR = Int16.Parse(dr["OPIVF1"].ToString());
+                                oSolicitud.OVR = Int16.Parse(dr["OPIOVR"].ToString());
+                                oSolicitud.TGL = Int16.Parse(dr["OPITGL"].ToString());
+
+                                oSolicitud.TOTALIFR = oSolicitud.IFRDEP + oSolicitud.IFRARR;
+                                oSolicitud.TOTALVFR = oSolicitud.VFRDEP + oSolicitud.VFRARR;
+                                oSolicitud.TOTALDEP = oSolicitud.IFRDEP + oSolicitud.VFRDEP;
+                                oSolicitud.TOTALARR = oSolicitud.IFRARR + oSolicitud.VFRARR;
+                                oSolicitud.TOTALGENERAL = oSolicitud.TOTALIFR + oSolicitud.TOTALVFR + oSolicitud.OVR + oSolicitud.TGL;
+
+                            }
+                            else
+                            {
+
+
+                                oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
+                                oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            }
+
                         }
                         else
                         {

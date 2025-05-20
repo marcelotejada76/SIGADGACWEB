@@ -16,7 +16,7 @@ namespace CapaModelo
         public Int32 PAXINF { get; set; }
         public Int32 PAXNIÑOS { get; set; }
         public Int32 TOTAL { get; set; }
-
+        public string RUC { get; set; }
         public List<tbDetallePasajerosManifiestoPax> oDetallePasajeroManifiesto { get; set; }
     }
 }

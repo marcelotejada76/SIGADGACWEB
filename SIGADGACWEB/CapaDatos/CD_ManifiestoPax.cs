@@ -32,7 +32,7 @@ namespace CapaDatos
 
 
 
-        public List<tbManifiestoPax> ConsultaManifiesto()
+        public List<tbManifiestoPax> ConsultaManifiesto(string Ruc,string Rol)
         {
             string fECHA = DateTime.Now.ToString("yyyyMMdd");
             List<tbManifiestoPax> listarSolicitud = new List<tbManifiestoPax>();
@@ -40,7 +40,15 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPVARC ");
+                if (Rol == "CIAS")
+                {
+                    sbSol.Append("SELECT * FROM OPVARC where OPVRUC='"+Ruc+"'  ");
+                }
+                else
+                {
+                    sbSol.Append("SELECT * FROM OPVARC  ");
+                }
+                //sbSol.Append("SELECT * FROM OPVARC ");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -82,7 +90,7 @@ namespace CapaDatos
             }
             return listarSolicitud;
         }
-        public List<tbManifiestoPax> ConsultaManifiestoPorFecha(string FECHA)
+        public List<tbManifiestoPax> ConsultaManifiestoPorFecha(string FECHA, string Ruc, string Rol)
         {
            
             List<tbManifiestoPax> listarSolicitud = new List<tbManifiestoPax>();
@@ -90,7 +98,17 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPVARC WHERE OPVOP1 = '" + FECHA + "'");
+
+                if (Rol == "CIAS")
+                {
+                    sbSol.Append("SELECT * FROM OPVARC where OPVRUC='" + Ruc + "' and OPVOP1 = '" + FECHA + "' ");
+                }
+                else
+                {
+                    sbSol.Append("SELECT * FROM OPVARC WHERE OPVOP1 = '" + FECHA + "'");
+                }
+
+                
 
                 query = sbSol.ToString();
                 iDB2Command cmd;

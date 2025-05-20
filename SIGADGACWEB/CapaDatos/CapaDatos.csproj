@@ -93,6 +93,7 @@
     <Compile Include="CD_ActualizaContraseña.cs" />
     <Compile Include="CD_Controlador.cs" />
     <Compile Include="CD_Sorteo.cs" />
+    <Compile Include="CD_ManifiestoPax.cs" />
     <Compile Include="CD_Tut.cs" />
     <Compile Include="CD_Fr3.cs" />
     <Compile Include="CD_ListaValor.cs" />

@@ -1,0 +1,297 @@
+﻿@model IEnumerable<CapaModelo.tbManifiestoPax>
+@{
+    ViewBag.Title = "ListadoTasas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!--begin::Container-->
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        <p class="text-blue">LISTADO MANIFIESTO PASAJEROS</p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoManifiestoPax", "ManifiestoPax", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row mb-8">
+            <div class="col-sm-3">
+                <div class="fs-3 fw-bold mt-2 mb-2"><label>FECHA DE EMISION</label></div>
+            </div>
+            <div class="col-sm-4 fv-row">
+
+                @*<input style="text-transform:uppercase" class="form-control form-control-solid" id="FechaEmision" name="FechaEmision" />*@
+                <input type="date" class="form-control form-control-solid" name="FechaEmision">
+
+            </div>
+            <div>
+                @*<a class="btn btn-success" href="ListadoFacturasP5">Buscar</a>*@
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" style="font-size:14px" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Numero Vlo</th>
+                                <th>Fecha Vlo</th>
+                                <th>Operador</th>
+                                <th>Pasajeros Adultos</th>
+                                <th>Pasajeros Niños</th>
+                                <th>Pasajeros Infantes</th>
+                                <th>Total</th>
+
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.VUELO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAVLO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.OPERADOR)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PAXADULTOS)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PAXNIÑOS)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PAXINF)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TOTAL)</td>
+
+                                    <td>
+                                        <a id="Consultar" class="btn btn-lg btn-secondary" href="#" onclick="Consultar('@item.VUELO','@item.FECHAVLO')">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:12px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> DATOS LISTADO PASAJEROS</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Numero Vuelo</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NumeroVlo" readonly="readonly" />
+                                </div>
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Vuelo</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="FechaVlo" readonly="readonly" />
+                                </div>
+
+                                <div class="col-8">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Operador</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="OPERADOR" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Total Adultos</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="PAXADULTOS" readonly="readonly" />
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Total Niños</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="PAXNIÑOS" readonly="readonly" />
+                                </div>
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Total Infantes</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="PAXINF" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Total Pasajero</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="TOTAL" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-start">
+                            </div>
+
+                                <p class="bg-success " align='center' style="font-size:14px">DETALLE PASAJEROS</p>
+
+
+
+                                <table id="tbDetallePasajeros" class="table table-bordered table-hover table-sm" style="width:100% ; font-size:11px">
+                                    <thead>
+                                        <tr>
+                                            <th>SECUENCIA </th>
+                                            <th>PASAJERO </th>
+                                            <th>TIPO</th>
+                                            <th>CLASE</th>
+                                            <th>ASIENTO</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:12px"></tbody>
+
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    <hr />
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+        function Consultar(NumeroVlo, FechaVlo) {
+
+
+            //$("#Lic").val("");
+            $("#NumeroVlo").val("");
+            $("#FechaVlo").val("");
+            $("#OPERADOR").val("");
+            $("#TOTAL").val("");
+            $("#PAXADULTOS").val("");
+            $("#PAXNIÑOS").val("");
+            $("#PAXINF").val("");
+
+           
+            $.ajax({
+                url: $.MisUrls.url._CargaDetallePasajerosManifiesto,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { NumeroVlo: NumeroVlo, FechaVlo: FechaVlo },
+
+                success: function (e) {
+
+                    $("#NumeroVlo").val(NumeroVlo);
+                    $("#FechaVlo").val(FechaVlo);
+                    $("#OPERADOR").val(e.OPERADOR);
+                    $("#TOTAL").val(e.TOTAL);
+                    $("#PAXADULTOS").val(e.PAXADULTOS);
+                    $("#PAXNIÑOS").val(e.PAXNIÑOS);
+                    $("#PAXINF").val(e.PAXINF);
+
+                    $("#tbDetallePasajeros tbody").html("");
+
+                    $.each(e.oDetallePasajeroManifiesto, function (i, row) {
+                        // Crear la fila
+                        const $row = $("<tr>");
+
+                        // Crear celdas
+                        const $tdsecuencia = $("<td>").text(i + 1);
+                        const $tdPasajero = $("<td>").text(row["PASAJERO"]);
+                        const $tdTipo = $("<td>").text(row["TIPO"]);
+                        const $tdClase = $("<td>").text(row["CLASE"]);
+                        const $tdAsiento = $("<td>").text(row["ASIENTO"]);
+
+                        // Cambiar color del <td> según una condición
+                        if (row["TIPO"] === "NIÑO") { // Cambia la condición según tu necesidad
+                           // $tdTipo.addClass("cell-highlight"); // Aplica clase CSS
+                            // Alternativa: estilo inline
+                            $tdPasajero.css("background-color", "#aed6f1");
+                            $tdTipo.css("background-color", "#aed6f1");
+                            $tdClase.css("background-color", "#aed6f1");
+                            $tdAsiento.css("background-color", "#aed6f1");
+                        }
+                        if (row["TIPO"] === "INFANTE") { // Cambia la condición según tu necesidad
+                            // $tdTipo.addClass("cell-highlight"); // Aplica clase CSS
+                            // Alternativa: estilo inline
+                            $tdPasajero.css("background-color", "#f9e79f");
+                            $tdTipo.css("background-color", "#f9e79f");
+                            $tdClase.css("background-color", "#f9e79f");
+                            $tdAsiento.css("background-color", "#f9e79f");
+                        }
+
+                        // Agregar celdas a la fila
+                        $row.append($tdsecuencia,$tdPasajero, $tdTipo, $tdClase, $tdAsiento);
+
+                        // Agregar la fila al tbody
+                        $row.appendTo("#tbDetallePasajeros tbody");
+                    });
+
+                    //$.each(e.oDetallePasajeroManifiesto, function (i, row) {
+                      
+                    //    $("<tr>").append(
+                    //        $("<td>").text(row["PASAJERO"]),
+                         
+                    //        $("<td>").text(row["TIPO"]),
+                    //        $("<td>").text(row["CLASE"]),
+                    //        $("<td>").text(row["ASIENTO"]))
+
+                    //        .appendTo("#tbDetallePasajeros tbody");
+                    //})
+
+                  
+
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+   
+
+    </script>
+}

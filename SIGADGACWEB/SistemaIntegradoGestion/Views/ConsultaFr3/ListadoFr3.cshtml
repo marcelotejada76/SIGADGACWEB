@@ -4,43 +4,88 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .material-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #5a5a5a;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    .material-input {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+        .material-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    .btn-modern {
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-modern i {
+            margin-right: 6px;
+        }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+</style>
 <div class="container-fluid">
-    <!--begin::Container-->
 
-    <div class="card-header card-header-stretch">
-        <div class="card-title d-flex align-items-center">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>
-                        <p class="text-blue">LISTADO DE DOCUMENTOS FR3</p>
-                    </h4>
-                </div>
-
-            </div>
-        </div>
+    <div class="card-header bg-primary text-white py-3 mb-4 rounded">
+        <h4 class="mb-0 text-center fw-bold" style="letter-spacing: 1px;">
+            DOCUMENTOS FR3
+        </h4>
     </div>
     <br />
     @using (Html.BeginForm("ListadoFr3", "ConsultaFr3", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
     {
-        <div class="row mb-8">
+
+        <div class="row align-items-end mb-4">
             <div class="col-sm-3">
-                <div class="fs-3 fw-bold mt-2 mb-2"><label>FECHA DE EMISION</label></div>
+                <label class="material-label">Fecha Elaboración</label>
+                <input type="date" name="FechaEmision" id="FechaEmision" class="form-control material-input" required />
             </div>
-            <div class="col-sm-4 fv-row">
-
-                @*<input style="text-transform:uppercase" class="form-control form-control-solid" id="FechaEmision" name="FechaEmision" />*@
-                <input type="date" class="form-control form-control-solid" name="FechaEmision" required>
-
-            </div>
-            <div>
-                @*<a class="btn btn-success" href="ListadoFacturasP5">Buscar</a>*@
-                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
-
-
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-modern btn-success">
+                    🔍 Buscar
+                </button>
             </div>
         </div>
-
-
 
 
         <div class="card card-default">
@@ -49,59 +94,84 @@
                     <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Num. FR3</th>
-                                <th>Fecha Emision</th>
-                                <th>Aeropuerto</th>
-                                <th>Matricula</th>
-                                <th>Factura</th>
-                                <th>Documento RE</th>
-                                <th>Valor</th>
-                                <th>Estado</th>
-                                <th class=" control-label control-lab"></th>
+                                <th class="th-ejecutivo">Num. FR3</th>
+                                <th class="th-ejecutivo">Fecha Emision</th>
+                                <th class="th-ejecutivo">Aeropuerto</th>
+                                <th class="th-ejecutivo">Matricula</th>
+                                <th class="th-ejecutivo">Factura</th>
+                                <th class="th-ejecutivo">Documento RE</th>
+                                <th class="th-ejecutivo">Valor</th>
+                                <th class="th-ejecutivo">Estado</th>
+                                <th class="th-ejecutivo">Estado Impreso</th>
+                                <th colspan="2">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.NUMEROFR3)</td>
-                                <td>@Html.DisplayFor(modelItem => item.FECHAEMISION)</td>
-                                <td>@Html.DisplayFor(modelItem => item.AEROPUERTO)</td>
-                                <td>@Html.DisplayFor(modelItem => item.MATRICULA)</td>
-                                <td>@Html.DisplayFor(modelItem => item.NUMEROFACTURA)</td>
-                                <td>@Html.DisplayFor(modelItem => item.RECAUDACION)</td>
-                                <td>@Html.DisplayFor(modelItem => item.TOTAL)</td>
-                                <td> @Html.DisplayFor(modelItem => item.ESTADO)</td>
-                                <td>
-                                    @if (item.IMPRESO == "S" && item.ESTADO == "PROCESADO")
-                                    {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMEROFR3)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAEMISION)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AEROPUERTO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.MATRICULA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMEROFACTURA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.RECAUDACION)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TOTAL)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.ESTADO)</td>
+                                    <td>
+                                        @*@if (item.IMPRESO == "S" && item.ESTADO == "PROCESADO")
+                                            {
 
-                                        <p class="text-danger" , style="font-size:18px;background-color: #bbb8a6"> No Impresa</p>
+                                                <p class="text-danger" , style="font-size:18px;background-color: #bbb8a6"> No Impresa</p>
 
-                                    }
-                                    else
-                                    {
+                                            }*@
+
+                                        @if (item.IMPRESO == "S" && item.ESTADO == "PROCESADO")
+                                        {
+                                            <p style="
+        font-size: 12px;
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 9px 10px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border: 1px solid #f5c6cb;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;">
+
+                                                No Impresa
+                                            </p>
+                                        }
+
+                                        else
+                                        {
 
 
-                                    }
-                                </td>
+                                        }
+                                    </td>
 
-                                <td>
-                                    <a id="Consultar" href="#" onclick="Consultar(@item.NUMEROFR3,'@item.ATO','@item.AÑO')">
-                                        <i>
-                                            <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
 
-                                        </i>
-                                        Consulta
-                                    </a>
+                                    <td>
+                                        <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                           href="#"
+                                           onclick="Consultar('@item.NUMEROFR3', '@item.ATO', '@item.AÑO')">
+                                            <i class="bi bi-search"></i> Consulta
+                                        </a>
 
-                                </td>
-                                <td> 
-                                    <a id="Descarga" class="btn btn-group-sm  btn-outline-primary" href="@Url.Action("DescargaFr3", "ConsultaFr3", new {NumeroFr3= item.NUMEROFR3, Ato =item.ATO, FechaEmision = item.FECHAEMISION, Ruc = item.RUC.ToString() })">
-                                        <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Descargar
-                                    </a>
-                                </td>
-                            </tr>
+                                    </td>
+
+
+
+                                    <td>
+                                        <a id="Descarga" class="btn btn-outline-secondary btn-sm rounded-pill px-3" href="@Url.Action("DescargaFr3", "ConsultaFr3", new {NumeroFr3= item.NUMEROFR3, Ato =item.ATO, FechaEmision = item.FECHAEMISION, Ruc = item.RUC.ToString()  })">
+                                            <i class="bi bi-download"></i> Descarga
+                                        </a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -392,7 +462,7 @@
 
         });
 
-      
+
         function modalAdjunto() {
             $('#FormModal').modal('show');
         }
@@ -467,7 +537,7 @@
             $('#largeModal').modal('show');
         }
 
-      
+
 
     </script>
 }

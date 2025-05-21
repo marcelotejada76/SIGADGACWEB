@@ -56,14 +56,23 @@ namespace CapaDatos
 
                         oSolicitud.CODIGOEVENTO = dr["OPEEVE"].ToString().Trim();
                         oSolicitud.HORAUTC = dr["OPEHO2"].ToString().Trim();
-                        oSolicitud.DESCRIPCION = dr["OPERE2"].ToString().Trim()+" " + dr["OPERE3"].ToString().Trim() + " " + dr["OPERE4"].ToString().Trim() + " " +
-                        dr["OPERE5"].ToString().Trim() + " " + dr["OPERE6"].ToString().Trim() + " "+ dr["OPER02"].ToString().Trim() + " " + dr["OPER03"].ToString().Trim() + " " 
-                        + dr["OPER04"].ToString().Trim() + " " + dr["OPER05"].ToString().Trim() + " " + dr["OPER06"].ToString().Trim() ;
+                        oSolicitud.DESCRIPCION = dr["OPERE2"].ToString().Trim() + " " + dr["OPERE3"].ToString().Trim() + " " + dr["OPERE4"].ToString().Trim() + " " +
+                        dr["OPERE5"].ToString().Trim() + " " + dr["OPERE6"].ToString().Trim() + " " + dr["OPER02"].ToString().Trim() + " " + dr["OPER03"].ToString().Trim() + " "
+                        + dr["OPER04"].ToString().Trim() + " " + dr["OPER05"].ToString().Trim() + " " + dr["OPER06"].ToString().Trim();
 
+                        oSolicitud.USUARIO = dr["OPEUS2"].ToString() + dr["OPEHO3"].ToString();
 
+                        string Impreso = dr["OPEEVI"].ToString().Trim();
 
-                        oSolicitud.USUARIO = dr["OPEUS2"].ToString()+ dr["OPEHO3"].ToString();
+                        if (Impreso == "I")
+                        {
+                            oSolicitud.IMPRESOALERTA = Impreso;
 
+                        }
+                        else
+                        {
+                            oSolicitud.IMPRESOALERTA = "";
+                        }
 
 
                         //oSolicitud.DESCRIPCION = dr["OPNDES"].ToString(); 
@@ -86,7 +95,7 @@ namespace CapaDatos
             return listarSolicitud;
         }
         //llena detalle de la recaudacion
-        
+
 
     }
 }

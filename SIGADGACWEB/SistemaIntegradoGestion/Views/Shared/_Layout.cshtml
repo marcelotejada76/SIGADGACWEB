@@ -1,5 +1,6 @@
 ﻿﻿<!DOCTYPE html>
 <html>
+
 <head lang="es-ec">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
@@ -9,8 +10,13 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/PluginsCSS")
+    
+    <!-- Bootstrap Icons (opcional, si usas íconos como bi bi-search) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 </head>
 <body class="hold-transition sidebar-mini pace-primary layout-navbar-fixed">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -157,13 +163,13 @@
         $.MisUrls.urls({ _DetalleHistoricoControladorAtc: '@Url.Action("HistoricoCargaDetalleAtc", "HistoricoControlAtc")' });
         $.MisUrls.urls({ _DetalleDocumentosCns: '@Url.Action("CargaDetalleDiario", "EventosDocumentosCns")' });
         @*$.MisUrls.urls({ _DetalleDocumentosCns: '@Url.Action("CargaDetalleDiario", "ControlDocumentosCns")' });*@
-        
-        
+
+
         $.MisUrls.urls({ _DetalleControladorAtcDiario: '@Url.Action("CargaDetalleAtcDiario", "ControlAtcDiario")' });
          //sorteo
         $.MisUrls.urls({ _Sorteo: '@Url.Action("Resultado", "Sorteo")' });
         $.MisUrls.urls({ _CreaCurriculum: '@Url.Action("Crear", "Curriculum")' });
-        
+
         $.MisUrls.urls({ _CargaDetalleCurriculum: '@Url.Action("CargaDetalleCedula", "Curriculum")' });
 
         //lenguaje español datatable
@@ -231,10 +237,10 @@
         $.MisUrls.urls({ _DocumentosHabilitantes: '@Url.Action("CargaTodosArchivos", "SolicitarModificaciones")' });
         $.MisUrls.urls({ _GeneraReportePDF: '@Url.Action("ExportToPDF", "SolicitarModificaciones")' });
         $.MisUrls.urls({ _reimprimirExportToPDF: '@Url.Action("ReimprimirExportToPDF", "SolicitarModificaciones")' });
-        
+
         $.MisUrls.urls({ _VerificaExisteCertificadoFirma: '@Url.Action("VerificaExisteCertificadoFirma", "SolicitarModificaciones")' });
         //Metodo de prueba  hay que brrar
-        
+
         $.MisUrls.urls({ _PruebaReporteCertificadoPOA: '@Url.Action("PruebaReporteCertificadoPOA", "SolicitarModificaciones")' });
 
         $.MisUrls.urls({ _VisualizarDocumentoPOA: '@Url.Action("VisualizarFile", "SolicitarModificaciones")' });
@@ -250,7 +256,7 @@
         $.MisUrls.urls({ _EliminaManifiestoServidor: '@Url.Action("EliminarManifiestoServidor", "CargaManifiesto")' });
         //detalle manifiesto  pasajeros
         $.MisUrls.urls({ _CargaDetallePasajerosManifiesto: '@Url.Action("CargaDetalleManifiesto", "ManifiestoPax")' });
-        
+
 
         //visualizacion de depositos
         $.MisUrls.urls({ _VisualizarDepositos: '@Url.Action("VisualizarDepositos", "DepositosVista")' });
@@ -263,7 +269,7 @@
         $.MisUrls.urls({ _ObtenerEstadoAutorizacionComboBox: '@Url.Action("ObtenerEstadoAutorizacionComboBox", "Charter")' });
         $.MisUrls.urls({ _AutorizaFinancieroActualizaSolicitud: '@Url.Action("FinancieroActualizaSolicitud", "Charter")' });
         $.MisUrls.urls({ _AutorizaOperacionesActualizaSolicitud: '@Url.Action("OperacionesActualizaSolicitud", "Charter")' });
-        $.MisUrls.urls({ _AutorizaTransorteAereoActualizaSolicitud: '@Url.Action("TransorteAereoActualizaSolicitud", "Charter")' });        
+        $.MisUrls.urls({ _AutorizaTransorteAereoActualizaSolicitud: '@Url.Action("TransorteAereoActualizaSolicitud", "Charter")' });
         $.MisUrls.urls({ _AutorizaDirectorSolicitud: '@Url.Action("ActualizaSolicitudDirector", "Charter")' });
         $.MisUrls.urls({ _AutorizaAdministradorAto: '@Url.Action("ResponsableAtoActualizaSolicitud", "Charter")' });
         $.MisUrls.urls({ _SolicitudesCharterEspecialEnviadas: '@Url.Action("SolicitudCharterEspecialEnviadas", "Charter")' });
@@ -280,12 +286,12 @@
         $.MisUrls.urls({ _transporteAereoAprueba: '@Url.Action("TransporteAereoAprueba", "Charter")' });
         $.MisUrls.urls({ _visualizarAutorizacionAdjunto: '@Url.Action("VisualizarAutorizacionAdjunto", "Charter")' });
 
-        
+
         $.MisUrls.urls({ _DownloadAutorizacion: '@Url.Action("DownloadAutorizacion", "Charter")' });
          $.MisUrls.urls({ _FormularioImprimir: '@Url.Action("ReporteAutorizacion", "Charter")' });
         $.MisUrls.urls({ _VisualizarDocumento: '@Url.Action("ContactListPDF2", "Charter")' });
         $.MisUrls.urls({ _ImprimirSolicitudCharter: '@Url.Action("ImprimirSolicitudCharter", "Charter")' });
-        
+
 
         //Descarga el archvo
         $.MisUrls.urls({ _downloadDocumento: '@Url.Action("DownloadFile", "Charter")' });

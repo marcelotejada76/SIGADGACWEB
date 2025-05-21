@@ -36,7 +36,7 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPIARC ORDER BY opifec DESC");
+                sbSol.Append("SELECT * FROM OPIARC ORDER BY  opifec DESC,OPILUG");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -245,7 +245,7 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "'");
+                sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "' ORDER BY OPILUG");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;

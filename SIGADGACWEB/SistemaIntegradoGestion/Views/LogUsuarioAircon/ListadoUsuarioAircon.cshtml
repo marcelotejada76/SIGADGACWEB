@@ -4,69 +4,129 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #5f6368;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .form-control-modern {
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #ced4da;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+        .form-control-modern:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+            outline: none;
+        }
+
+    .btn-modern {
+        border-radius: 6px;
+        font-size: 14px;
+        padding: 6px 16px;
+        font-weight: 600;
+    }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f2f4f7;
+    }
+
+    .highlight-cell {
+        font-size: 16px;
+        font-weight: 600;
+        background-color: #f3f4f6;
+        color: #b30000;
+        text-align: center;
+        border-radius: 6px;
+    }
+
+    .card-title p {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #0d6efd;
+        text-align: center;
+    }
+
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    }
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+</style>
+
 <div class="container-fluid">
-    <!--begin::Container-->
-
     <div class="card-header card-header-stretch">
-        <div class="card-title d-flex align-items-center">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>
-                        <p class="text-blue">LISTADO LOG USUARIOS AIRCON</p>
-                    </h4>
-                </div>
-
-            </div>
+        <div class="card-title">
+            <p class="text-blue"> LOG USUARIOS SISTEMA AIRCON</p>
         </div>
     </div>
+
     <br />
-    @using (Html.BeginForm("ListadoUsuarioAircon", "LogUsuarioAircon", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+
+    @using (Html.BeginForm("ListadoUsuarioAircon", "LogUsuarioAircon", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
     {
-        <div class="row mb-8">
+        <div class="row align-items-end mb-4">
             <div class="col-sm-3">
-                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>Estacion/Fecha/Posicion/NombreAtc</label></div>
+                <label class="form-label">Estación / Fecha / Posición / Nombre ATC</label>
             </div>
-            <div class="col-sm-8 fv-row">
-
-                <input style="text-transform:uppercase" class="form-control form-control-solid" id="Licencia" name="NombreArchivo" />
-                
+            <div class="col-sm-6">
+                <input class="form-control form-control-modern" id="Licencia" name="NombreArchivo" style="text-transform:uppercase;" />
             </div>
-            <div>
-
-                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
-
-
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-success btn-modern">
+                    🔍 Buscar
+                </button>
             </div>
         </div>
 
-
-
-
-        <div class="card card-default">
+        <div class="card shadow-sm border-0">
             <div class="card-body">
-                <div class="row">
-                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                <div class="table-responsive">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm">
                         <thead>
                             <tr>
-                                <th class="bg-gradient-info"> Estacion</th>
-                                <th class="bg-gradient-info"> FechaArchivo</th>
-                                <th class="bg-gradient-info"> Posicion</th>
-                                <th class="bg-gradient-info">Siglas</th>
-                                <th class="bg-gradient-info">Nombre Controlador</th>
-                                <th class="bg-gradient-info">Fecha Ingreso</th>
-                                <th class="bg-gradient-info">Hora Ingreso</th>
-                                <th class="bg-gradient-info">Fecha Salida</th>
-                                <th class="bg-gradient-info">Hora Salida</th>
-                                <th class="bg-gradient-info">Horas Efectivas</th>
+                                
+                                <th class="th-ejecutivo">Estación</th>
+                                <th class="th-ejecutivo">Fecha Archivo</th>
+                                <th class="th-ejecutivo">Posición</th>
+                                <th class="th-ejecutivo">Siglas</th>
+                                <th class="th-ejecutivo">Nombre Controlador</th>
+                                <th class="th-ejecutivo">Fecha Ingreso</th>
+                                <th class="th-ejecutivo">Hora Ingreso</th>
+                                <th class="th-ejecutivo">Fecha Salida</th>
+                                <th class="th-ejecutivo">Hora Salida</th>
+                                <th class="th-ejecutivo">Horas Efectivas</th>
 
-                                <th class=" control-label control-lab"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
                             <tr>
-                               
                                 <td>@Html.DisplayFor(modelItem => item.Estacion)</td>
                                 <td>@Html.DisplayFor(modelItem => item.FechaArchivo)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Posicion)</td>
@@ -76,20 +136,12 @@
                                 <td>@Html.DisplayFor(modelItem => item.HoraIngreso)</td>
                                 <td>@Html.DisplayFor(modelItem => item.FechaSalida)</td>
                                 <td>@Html.DisplayFor(modelItem => item.HoraSalida)</td>
-                                <td class="text-danger" , style="font-size:22px;background-color: #bbb8a6">@Html.DisplayFor(modelItem => item.HorasEfectivas)</td>
-
-
-
-                                @*<td>
-            <a id="Consultar" href="#" onclick="Consultar(@item.Licencia)">
-                <i>
-                    <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
-
-                </i>
-                Consulta
-            </a>
-
-        </td>*@
+                                
+                                <td class="text-center align-middle">
+                                    <span class="badge bg-primary text-white fs-4 px-5 py-3 rounded-pill shadow-lg" style="font-weight: 600; font-size: 1.25rem;">
+                                        @Html.DisplayFor(modelItem => item.HorasEfectivas)
+                                    </span>
+                                </td>
                             </tr>
                             }
                         </tbody>
@@ -122,7 +174,7 @@
                                 <img id="imgControlador" style="width:90px; height:90px" />
                             </div>
 
-                          
+
 
                             <div class="row justify-content-start">
                                 <div class="col-4">
@@ -229,7 +281,7 @@
             $("#Estado").val("");
             $("#CodigoDependencia").val("");
 
-            
+
 
             $.ajax({
                 url: $.MisUrls.url._DetalleControladorAtc,
@@ -238,7 +290,7 @@
                 dataType: "json",
                 data: { Licencia: Licencia },
                 success: function (e) {
-                                 
+
                     $("#Lic").val(e.Licencia);
                     $("#Nombres").val(e.ApellidoNombre);
                     $("#Institucion").val(e.Institucion);
@@ -248,7 +300,7 @@
                     $("#Estado").val(e.Estado);
                     $("#CodigoDependencia").val(e.CodigoDependencia);
                     $('#imgControlador').attr('src', e.Url);
-                   
+
                 },
                 error: function (errormessage) {
                     Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");

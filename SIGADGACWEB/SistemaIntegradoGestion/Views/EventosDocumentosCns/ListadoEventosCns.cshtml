@@ -4,61 +4,102 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .material-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #5a5a5a;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    .material-input {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+        .material-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    .btn-modern {
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-modern i {
+            margin-right: 6px;
+        }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+</style>
 <div class="container-fluid">
-    <!--begin::Container-->
 
-    <div class="card-header card-header-stretch">
-        <div class="card-title d-flex align-items-center">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>
-                        <p class="text-blue">LISTADO ESTADO EQUIPOS EVENTOS CNS</p>
-                    </h4>
-                </div>
-
-            </div>
-        </div>
+    <div class="card-header bg-primary text-white py-3 mb-4 rounded">
+        <h4 class="mb-0 text-center fw-bold" style="letter-spacing: 1px;">
+            ESTADO EQUIPOS EVENTOS CNS
+        </h4>
     </div>
     <br />
     @using (Html.BeginForm("ListadoEventosCns", "EventosDocumentosCns", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
     {
-        <div class="row mb-8">
+        <div class="row align-items-end mb-4">
             <div class="col-sm-3">
-                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>FECHA ELABORACION</label></div>
+                <label class="material-label">Fecha Elaboración</label>
+                <input type="date" name="FechaElab" id="FechaElab" class="form-control material-input" required />
             </div>
-            <div class="col-sm-8 fv-row">
-
-                @*<input style="text-transform:uppercase" class="form-control form-control-solid" id="FechaElab" name="FechaElab" />*@
-
-                @*<input type="date" id="start"  name="FechaElab" value="2018-07-22" min="2018-01-01" max="2018-12-31" />*@
-
-                <input type="date" name="FechaElab" id="FechaElab" class="form-control form-control-solid" required>
-
-
-            </div>
-            <div>
-
-                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
-
-
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-modern btn-success">
+                    🔍 Buscar
+                </button>
             </div>
         </div>
 
 
         <div class="card card-default">
             <div class="card-body">
-                <div class="row">
-                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                <div class="table-responsive">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm">
                         <thead>
                             <tr>
 
-                                <th class="bg-gradient-info">Fecha Elaboracion</th>
-                                <th class="bg-gradient-info">Codigo</th>
-                                <th class="bg-gradient-info">Turno</th>
-                                <th class="bg-gradient-info">Responsable Turno</th>
-                                <th class="bg-gradient-info">Estado</th>
-
-                                <th class=" control-label control-lab"></th>
+                                <th class="th-ejecutivo">Fecha Elaboracion</th>
+                                <th class="th-ejecutivo">Codigo</th>
+                                <th class="th-ejecutivo">Turno</th>
+                                <th class="th-ejecutivo">Responsable Turno</th>
+                                <th class="th-ejecutivo">Estado</th>
+                                <th colspan="3">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,37 +116,60 @@
                                 <td>
                                     @if (item.IMPRESO == "IMPRESO")
                                     {
-
-                                        <p class="text-danger" , style="font-size:16px;color: aquamarine">   @Html.DisplayFor(modelItem => item.IMPRESO)</p>
-
+                                        <span class="badge bg-info text-dark fs-6 py-2 px-4 rounded-pill shadow-sm">Impreso</span>
                                     }
-
+                                    else
+                                    {
+                                        <span class="badge bg-secondary fs-6 py-2 px-4 rounded-pill shadow-sm">Pendiente</span>
+                                    }
                                 </td>
-                                <td class="btn-group btn-group-sm" role="group" aria-label="...">
 
-                                    <a id="Consultar" class="btn btn-lg btn-secondary" href="#" onclick="Consultar('@item.FECHACONTROL', '@item.CODIGO', '@item.TURNO')">
-                                        <i>
-                                            <img src="~/Content/imganes/consultar-documento.png" style="width:14px" />
+                                @*<td class="btn-group btn-group-sm" role="group" aria-label="...">
 
-                                        </i>
-                                        Consulta
+            <a id="Consultar" class="btn btn-lg btn-secondary" href="#" onclick="Consultar('@item.FECHACONTROL', '@item.CODIGO', '@item.TURNO')">
+                <i>
+                    <img src="~/Content/imganes/consultar-documento.png" style="width:14px" />
+
+                </i>
+                Consulta
+            </a>
+
+        </td>*@
+
+                                <td>
+                                    <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                       href="#"
+                                       onclick="Consultar('@item.FECHACONTROL', '@item.CODIGO', '@item.TURNO')">
+                                        <i class="bi bi-search"></i> Consulta
                                     </a>
 
                                 </td>
 
-                                <td class="btn-group btn-group-sm" role="group" aria-label="...">
+                                @*<td class="btn-group btn-group-sm" role="group" aria-label="...">
 
-                                    <a id="Descarga" class="btn btn-lg btn-primary" href="@Url.Action("DescargaEventosBitacora", "EventosDocumentosCns", new { Fechaelab = item.FECHACONTROL, Codigo= item.CODIGO.ToString(),Turno= item.TURNO.ToString() })">
-                                        <i><img src="~/Content/imganes/descargas.png" style="width:14px" /></i> Bitacora
+            <a id="Descarga" class="btn btn-lg btn-primary" href="@Url.Action("DescargaEventosBitacora", "EventosDocumentosCns", new { Fechaelab = item.FECHACONTROL, Codigo= item.CODIGO.ToString(),Turno= item.TURNO.ToString() })">
+                <i><img src="~/Content/imganes/descargas.png" style="width:14px" /></i> Bitacora
+            </a>
+        </td>*@
+
+                                <td>
+                                    <a id="Descarga" class="btn btn-outline-secondary btn-sm rounded-pill px-3" href="@Url.Action("DescargaEventosBitacora", "EventosDocumentosCns", new {Fechaelab = item.FECHACONTROL, Codigo= item.CODIGO.ToString(),Turno= item.TURNO.ToString() })">
+                                        <i class="bi bi-download"></i> Bitacora
                                     </a>
                                 </td>
 
-                                <td class="btn-group btn-group-sm" role="group" aria-label="...">
+                                <td>
+                                    <a id="Descarga" class="btn btn-outline-secondary btn-sm rounded-pill px-3" href="@Url.Action("DescargaEventos", "EventosDocumentosCns", new {Fechaelab = item.FECHACONTROL, Codigo= item.CODIGO.ToString(),Turno= item.TURNO.ToString() })">
+                                        <i class="bi bi-download"></i> Reg.Operacional
+                                    </a>
+                                </td>
+
+                                @*<td class="btn-group btn-group-sm" role="group" aria-label="...">
 
                                     <a id="Descarga" class="btn btn-lg btn-primary" href="@Url.Action("DescargaEventos", "EventosDocumentosCns", new { Fechaelab = item.FECHACONTROL, Codigo= item.CODIGO.ToString(),Turno= item.TURNO.ToString() })">
                                         <i><img src="~/Content/imganes/descargas.png" style="width:14px" /></i> Reg.Operacional
                                     </a>
-                                </td>
+                                </td>*@
                             </tr>
                             }
                         </tbody>

@@ -3,86 +3,139 @@
     ViewBag.Title = "ListadoTransaccionesTotalesRecord";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #5f6368;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .form-control-modern {
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #ced4da;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+        .form-control-modern:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+            outline: none;
+        }
+
+    .btn-modern {
+        border-radius: 6px;
+        font-size: 14px;
+        padding: 6px 16px;
+        font-weight: 600;
+    }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f2f4f7;
+    }
+
+    .card-title p {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #0d6efd;
+        text-align: center;
+    }
+
+    .badge-primary {
+        background-color: #0d6efd !important;
+        font-size: 14px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        color: white;
+    }
+
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    }
+</style>
 
 <div class="container-fluid">
-    <!--begin::Container-->
-
     <div class="card-header card-header-stretch">
-        <div class="card-title d-flex align-items-center">
-            <div class="row" align='center'>
-                <div class="col-md-12">
-                    <h4>
-                        
-                            <p class="text-blue" align='center'> TRANSACCIONES POR RECORD</p>
-                        
-                    </h4>
-                </div>
-
-            </div>
+        <div class="card-title">
+            <p class="text-blue">TRANSACCIONES POR RECORD</p>
         </div>
     </div>
+
     <br />
-    @using (Html.BeginForm("ListadoTotalesRecord", "TotalesRecord", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+
+    @using (Html.BeginForm("ListadoTotalesRecord", "TotalesRecord", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
     {
-        <div class="row mb-8">
+        @*<div class="row align-items-end mb-4">
             <div class="col-sm-3">
-                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>FECHA</label></div>
+                <label class="form-label">Fecha</label>
             </div>
-            <div class="col-sm-8 fv-row">
-                <input type="date" name="Fecha" id="Fecha" class="form-control form-control-solid" required>
-                
+            <div class="col-sm-6">
+                <input type="date" name="Fecha" id="Fecha" class="form-control form-control-modern" required />
             </div>
-            <div>
-
-                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
-
-
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-success btn-modern">
+                    🔍 Buscar
+                </button>
+            </div>
+        </div>*@
+        <div class="row align-items-end mb-4">
+            <div class="col-sm-3">
+                <label class="material-label">Fecha Elaboración</label>
+                <input type="date" name="Fecha" id="FechaElab" class="form-control material-input" required />
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-modern btn-success">
+                    🔍 Buscar
+                </button>
             </div>
         </div>
 
-
-
-
-        <div class="card card-default">
+        <div class="card shadow-sm border-0">
             <div class="card-body">
-                <div class="row">
-                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                <div class="table-responsive">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm">
                         <thead>
                             <tr>
-                                <th class="bg-gradient-info">Nombre Archivo</th>
-                                <th class="bg-gradient-info">Fecha Emision</th>
-                                <th class="bg-gradient-info">Total Entrada</th>
-                                <th class="bg-gradient-info">Total Salida</th>
-                                <th class="bg-gradient-info">Total Operaciones</th>
-                                
-                                
-                                <th class=" control-label control-lab"></th>
+                                <th>Nombre Archivo</th>
+                                <th>Fecha Emisión</th>
+                                <th>Total Entrada</th>
+                                <th>Total Salida</th>
+                                <th>Total Operaciones</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr>
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.NombreRecord)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TotalEntrada)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TotalSalida)</td>
+                                    <td>
+                                        <span class="badge badge-primary">
+                                            @Html.DisplayFor(modelItem => item.TotalOperaciones)
+                                        </span>
+                                    </td>
 
-                                <td >@Html.DisplayFor(modelItem => item.NombreRecord)</td>
-                                <td >@Html.DisplayFor(modelItem => item.Fecha)</td>
-                                <td >@Html.DisplayFor(modelItem => item.TotalEntrada)</td>
-                                <td >@Html.DisplayFor(modelItem => item.TotalSalida)</td>
-                                <td class="badge badge-primary text-wrap" style="width: 8rem">@Html.DisplayFor(modelItem => item.TotalOperaciones)</td>
-                                
-
-                               
-                                @*<td>
-                                    <a id="Consultar" href="#" onclick="Consultar(@item.Licencia)">
-                                        <i>
-                                            <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
-
-                                        </i>
-                                        Consulta
-                                    </a>
-
-                                </td>*@
-                            </tr>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -114,7 +167,7 @@
                                 <img id="imgControlador" style="width:90px; height:90px" />
                             </div>
 
-                          
+
 
                             <div class="row justify-content-start">
                                 <div class="col-4">
@@ -221,7 +274,7 @@
             $("#Estado").val("");
             $("#CodigoDependencia").val("");
 
-            
+
 
             $.ajax({
                 url: $.MisUrls.url._DetalleControladorAtc,
@@ -230,7 +283,7 @@
                 dataType: "json",
                 data: { Licencia: Licencia },
                 success: function (e) {
-                                 
+
                     $("#Lic").val(e.Licencia);
                     $("#Nombres").val(e.ApellidoNombre);
                     $("#Institucion").val(e.Institucion);
@@ -240,7 +293,7 @@
                     $("#Estado").val(e.Estado);
                     $("#CodigoDependencia").val(e.CodigoDependencia);
                     $('#imgControlador').attr('src', e.Url);
-                   
+
                 },
                 error: function (errormessage) {
                     Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");

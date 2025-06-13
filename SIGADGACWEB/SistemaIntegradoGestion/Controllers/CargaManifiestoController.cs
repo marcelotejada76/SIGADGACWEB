@@ -110,7 +110,7 @@ namespace SistemaIntegradoGestion.Controllers
             tbSubirManifiesto CargaArchivo = new tbSubirManifiesto();
             
             CargaArchivo.UsuarioRuc = UsuarioRuc;
-            direccionDirectory =  @"\" + UsuarioRuc+""+RazonSocial;
+            direccionDirectory =  @"\" + UsuarioRuc+""+RazonSocial.Trim();
             ViewBag.direccionDirectory = direccionDirectory;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
 
@@ -127,7 +127,7 @@ namespace SistemaIntegradoGestion.Controllers
             tbSubirManifiesto CargaArchivo = new tbSubirManifiesto();
             
             CargaArchivo.UsuarioRuc = UsuarioRuc;
-            guardarDocumento(UsuarioRuc, RazonSocial, documentFile);
+            guardarDocumento(UsuarioRuc, RazonSocial.Trim(), documentFile);
             direccionDirectory =  UsuarioRuc+""+RazonSocial;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory);
             ViewBag.direccionDirectory = direccionDirectory;
@@ -137,7 +137,7 @@ namespace SistemaIntegradoGestion.Controllers
         public bool guardarDocumento(string UsuarioRuc,string RazonSocial, HttpPostedFileBase documentFile)
         {
             bool existearchivo = false;
-            string direccionDirectory =  @"\" + UsuarioRuc+""+RazonSocial;
+            string direccionDirectory =  @"\" + UsuarioRuc+""+RazonSocial.ToString();
             string nombreArchivo = "";
             if (documentFile != null && documentFile.ContentLength > 0)
             {

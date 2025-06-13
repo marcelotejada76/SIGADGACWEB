@@ -43,7 +43,7 @@ namespace SistemaIntegradoGestion.Controllers
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             // string cAnio = oSistema.FechaSistema.Substring(0, 4);
-            listado = CD_ItsControlAtc.Instancia.DetalleDocumentos();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
+            listado = CD_ItsControlAtc.Instancia.DetalleDocumentos(SesionUsuario.CodigoCiudad,SesionUsuario.CodigoRol);// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
             return View(listado);
         }
 
@@ -57,6 +57,7 @@ namespace SistemaIntegradoGestion.Controllers
 
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
+            SesionUsuario = (tbUsuario)Session["Usuario"];
             List<tbItsControlAtc> listado = new List<tbItsControlAtc>();
             if (Fecha != "")
             {
@@ -65,7 +66,7 @@ namespace SistemaIntegradoGestion.Controllers
 
                
                 //Compania.ToUpper();
-                listado = CD_ItsControlAtc.Instancia.DetalleDocumentosFecha(Fecha);
+                listado = CD_ItsControlAtc.Instancia.DetalleDocumentosFecha(Fecha,SesionUsuario.CodigoCiudad, SesionUsuario.CodigoRol);
                 //if (listado.Count==0)
                 //{
                 //    listado = CD_Matriculas.Instancia.DetallePorMatriculasP5(NombreCompania);

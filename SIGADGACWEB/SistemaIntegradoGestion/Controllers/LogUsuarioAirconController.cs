@@ -44,7 +44,7 @@ namespace SistemaIntegradoGestion.Controllers
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             // string cAnio = oSistema.FechaSistema.Substring(0, 4);
-            listado = CD_LogUsuarioAircon.Instancia.ConsultaLogUsuarioAircon();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
+            listado = CD_LogUsuarioAircon.Instancia.ConsultaLogUsuarioAircon(SesionUsuario.CodigoCiudad, SesionUsuario.CodigoRol);
             return View(listado);
         }
 
@@ -60,6 +60,9 @@ namespace SistemaIntegradoGestion.Controllers
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
+            
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+
             List<tbLogUsuarioAircon> listado = new List<tbLogUsuarioAircon>();
 
             //tbAtc listado = new tbAtc();
@@ -67,7 +70,7 @@ namespace SistemaIntegradoGestion.Controllers
             listado = CD_LogUsuarioAircon.Instancia.LogUsuarioAeropuerto(Archivo);
             if (listado.Count == 0)
             {
-                listado = CD_LogUsuarioAircon.Instancia.LogUsuarioFecha(Archivo);
+                listado = CD_LogUsuarioAircon.Instancia.LogUsuarioFecha(Archivo,SesionUsuario.CodigoCiudad, SesionUsuario.CodigoRol);
                 if (listado.Count == 0)
                 {
                     listado = CD_LogUsuarioAircon.Instancia.LogUsuarioControlador(Archivo);

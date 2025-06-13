@@ -180,281 +180,224 @@
         </div>
     }
 </div>
-
+<!-- Modal Mejorado -->
+<!-- Modal Compacto -->
 <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6 class="modal-title text-white" id="modalLabel"> DATOS FR3</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+            <div class="modal-header bg-primary text-white py-2">
+                <h6 class="modal-title mb-0">Detalle Información FR3</h6>
+                <button type="button" class="btn-close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
                 </button>
             </div>
 
+            <div class="modal-body py-2">
+                <div class="container-fluid">
 
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="card-body border-top p-9">
-
-                        <div class="container">
-                            <div class="row justify-content-start">
-                                <div class="col-2">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Numero Fr3</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="NUMEROFR3" readonly="readonly" />
-                                </div>
-                                <div class="col-2">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Emision</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="FECHAEMISION" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Tipo Operación</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="TIPOOPERACION" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Aeropuerto</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="AEROPUERTO" readonly="readonly" />
-                                </div>
-
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Matricula</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="MATRICULA" readonly="readonly" />
-                                </div>
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Peso</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="PESOMAXESTRUCTURAL" readonly="readonly" />
-                                </div>
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>CallSign</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="CALLSIGN" readonly="readonly" />
-                                </div>
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Nacional/Internacional</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="NACINT" readonly="readonly" />
-                                </div>
-
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Ruta</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="RUTA" readonly="readonly" />
-                                </div>
-                                <div class="col-2">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Aerovia</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="ORIGEN" readonly="readonly" />
-                                </div>
-
-                                <div class="col-2">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="DESTINO" readonly="readonly" />
-                                </div>
-                                <div class="col-2">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="DESTINO1" readonly="readonly" />
-                                </div>
-                                <div class="col-2">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="DESTINO2" readonly="readonly" />
-                                </div>
-
-                            </div>
-                            <div class="row justify-content-start">
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Ingreso Plataforma</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="FECHAINGRESOPLATAFORMA" readonly="readonly" />
-                                </div>
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Hora Ingreso Plataforma</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="HORAINGRESOPLATAFORMA" readonly="readonly" />
-                                </div>
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Salida Plataforma</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="FECHASALIDAPLATAFORMA" readonly="readonly" />
-                                </div>
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Hora Salida Plataforma</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="HORASALIDAPLATAFORMA" readonly="readonly" />
-                                </div>
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Ruc</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="RUC" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Razon Social</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="RAZONSOCIAL" readonly="readonly" />
-                                </div>
-                                <div class="col-2">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Cia</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="CIA" readonly="readonly" />
-                                </div>
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Razon Social</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="NOMBRECIA" readonly="readonly" />
-                                </div>
-
-                            </div>
-                            <div class="row justify-content-start">
-                                <div class="col-2">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Periodos</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="PERIODO" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Forma Pago</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="FORMAPAGO" readonly="readonly" />
-                                </div>
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Banco</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="BANCO" readonly="readonly" />
-                                </div>
-                                <div class="col-3">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Transferencia</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="TRANSFERENCIA" readonly="readonly" />
-                                </div>
-
-                            </div>
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Numero Factura</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="NUMEROFACTURA" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Codigo Recaudacion</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="RECAUDACION" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Estado</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="ESTADO" readonly="readonly" />
-                                </div>
-
-                            </div>
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Email</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="EMAIL" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Observaciones</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="OBSERVACION" readonly="readonly" />
-                                </div>
-                            </div>
-
-                            <table class="table table-striped table-dark">
-                                <thead>
-                                    <tr>
-                                        <th style="font-size:14px;color:brown">Descripción</th>
-                                        <th style="font-size:14px;color:brown">Valor</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Derecho Estacionamiento</label></div>
-                                        </td>
-                                        <td>
-                                            <div class="col-5">
-                                                <input style="font-size:14px" class="form-control form-control-sm" id="DERECHOESTACIONAMIENTO" readonly="readonly" />
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td><div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Derecho Aterrizaje</label></div> </td>
-                                        <td>
-                                            <div class="col-5">
-                                                <input style="font-size:14px" class="form-control form-control-sm" id="DERECHOATERRIZAJEDIURNO" readonly="readonly" />
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td><div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Iluminacion de Pista</label></div> </td>
-
-                                        <td>
-                                            <div class="col-5">
-                                                <input style="font-size:14px" class="form-control form-control-sm" id="DERECHOILUMINACION" readonly="readonly" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Cobro por Charter</label></div> </td>
-                                        <td>
-                                            <div class="col-5">
-                                                <input style="font-size:14px" class="form-control form-control-sm" id="CHARTER" readonly="readonly" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Derecho Proteccion Vlo</label></div> </td>
-                                        <td>
-                                            <div class="col-5">
-                                                <input style="font-size:14px" class="form-control form-control-sm" id="DERECHOPROTVLO" readonly="readonly" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>  <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Derecho Proteccion Antes y Despues de Ruta</label></div> </td>
-                                        <td>
-                                            <div class="col-5">
-                                                <input style="font-size:14px" class="form-control form-control-sm" id="DERECHOPROTANTESYDESPUES" readonly="readonly" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>  <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:14px "><label>TOTAL</label></div> </td>
-                                        <td>
-                                            <div class="col-5">
-                                                <input style="font-size:14px;color:blue" class="form-control form-control-sm" id="TOTAL" readonly="readonly" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Usuario Crea</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="USUARIOCREA" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Crea</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="FECHACREA" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Hora Crea</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="HORACREA" readonly="readonly" />
-                                </div>
-                            </div>
-                            <div class="row justify-content-start">
-                                <input style="font-size:14px;color:blue" class="form-control form-control-sm" id="NOMBREUSUARIO" readonly="readonly" />
-                            </div>
+                    <!-- Datos generales -->
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-2">
+                            <label>N° FR3</label>
+                            <input class="form-control form-control-sm" id="NUMEROFR3" readonly>
                         </div>
-
+                        <div class="form-group col-md-2">
+                            <label>F. Emisión</label>
+                            <input class="form-control form-control-sm" id="FECHAEMISION" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Tipo Operación</label>
+                            <input class="form-control form-control-sm" id="TIPOOPERACION" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Aeropuerto</label>
+                            <input class="form-control form-control-sm" id="AEROPUERTO" readonly>
+                        </div>
                     </div>
 
-                    <hr />
+                    <!-- Aeronave -->
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-2">
+                            <label>Matrícula</label>
+                            <input class="form-control form-control-sm" id="MATRICULA" readonly>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>Peso Máx.</label>
+                            <input class="form-control form-control-sm" id="PESOMAXESTRUCTURAL" readonly>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>CallSign</label>
+                            <input class="form-control form-control-sm" id="CALLSIGN" readonly>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>Ámbito</label>
+                            <input class="form-control form-control-sm" id="NACINT" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Ruta</label>
+                            <input class="form-control form-control-sm" id="RUTA" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Escalas -->
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-3">
+                            <label>Origen</label>
+                            <input class="form-control form-control-sm" id="ORIGEN" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Destino</label>
+                            <input class="form-control form-control-sm" id="DESTINO" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Escala 1</label>
+                            <input class="form-control form-control-sm" id="DESTINO1" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Escala 2</label>
+                            <input class="form-control form-control-sm" id="DESTINO2" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Plataforma -->
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-3">
+                            <label>F. Ingreso</label>
+                            <input class="form-control form-control-sm" id="FECHAINGRESOPLATAFORMA" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>H. Ingreso</label>
+                            <input class="form-control form-control-sm" id="HORAINGRESOPLATAFORMA" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>F. Salida</label>
+                            <input class="form-control form-control-sm" id="FECHASALIDAPLATAFORMA" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>H. Salida</label>
+                            <input class="form-control form-control-sm" id="HORASALIDAPLATAFORMA" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Compañía -->
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-3">
+                            <label>RUC</label>
+                            <input class="form-control form-control-sm" id="RUC" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Razón Social</label>
+                            <input class="form-control form-control-sm" id="RAZONSOCIAL" readonly>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>CIA</label>
+                            <input class="form-control form-control-sm" id="CIA" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Nombre CIA</label>
+                            <input class="form-control form-control-sm" id="NOMBRECIA" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Pago -->
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-2">
+                            <label>Periodo</label>
+                            <input class="form-control form-control-sm" id="PERIODO" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Forma de Pago</label>
+                            <input class="form-control form-control-sm" id="FORMAPAGO" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Banco</label>
+                            <input class="form-control form-control-sm" id="BANCO" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Transferencia</label>
+                            <input class="form-control form-control-sm" id="TRANSFERENCIA" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Factura -->
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-4">
+                            <label>N° Factura</label>
+                            <input class="form-control form-control-sm" id="NUMEROFACTURA" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Cód. Recaudación</label>
+                            <input class="form-control form-control-sm" id="RECAUDACION" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Estado</label>
+                            <input class="form-control form-control-sm" id="ESTADO" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Contacto -->
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-6">
+                            <label>Email</label>
+                            <input class="form-control form-control-sm" id="EMAIL" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Observaciones</label>
+                            <input class="form-control form-control-sm" id="OBSERVACION" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de tarifas compacta -->
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered mb-2">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Estacionamiento</td><td><input class="form-control form-control-sm" id="DERECHOESTACIONAMIENTO" readonly></td></tr>
+                                <tr><td>Aterrizaje</td><td><input class="form-control form-control-sm" id="DERECHOATERRIZAJEDIURNO" readonly></td></tr>
+                                <tr><td>Iluminación</td><td><input class="form-control form-control-sm" id="DERECHOILUMINACION" readonly></td></tr>
+                                <tr><td>Charter</td><td><input class="form-control form-control-sm" id="CHARTER" readonly></td></tr>
+                                <tr><td>Protección VLO</td><td><input class="form-control form-control-sm" id="DERECHOPROTVLO" readonly></td></tr>
+                                <tr><td>Protección Ruta</td><td><input class="form-control form-control-sm" id="DERECHOPROTANTESYDESPUES" readonly></td></tr>
+                                <tr class="table-primary"><td><strong>Total</strong></td><td><input class="form-control form-control-sm text-primary font-weight-bold" id="TOTAL" readonly></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Registro -->
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-4">
+                            <label>Usuario Crea</label>
+                            <input class="form-control form-control-sm" id="USUARIOCREA" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>F. Crea</label>
+                            <input class="form-control form-control-sm" id="FECHACREA" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>H. Crea</label>
+                            <input class="form-control form-control-sm" id="HORACREA" readonly>
+                        </div>
+                    </div>
+                    <input class="form-control form-control-sm text-primary mb-2" id="NOMBREUSUARIO" readonly>
 
                 </div>
-
             </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            <div class="modal-footer py-2">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+            </div>
 
         </div>
     </div>
 </div>
-</div>
 
-</div>
+
 
 @section scripts{
     <script>

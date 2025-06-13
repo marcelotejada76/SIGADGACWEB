@@ -29,14 +29,22 @@ namespace CapaDatos
             }
         }
 
-        public List<tbItsControlAtc> DetalleDocumentos()//(string canio, string cdireccion, string tipoSolicitud)
+        public List<tbItsControlAtc> DetalleDocumentos(string ciudad, string codigo)//(string canio, string cdireccion, string tipoSolicitud)
         {
             List<tbItsControlAtc> listarSolicitud = new List<tbItsControlAtc>();
             StringBuilder sbSol = new StringBuilder();
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPIARC ORDER BY  opifec DESC,OPILUG");
+                if (codigo=="CONT" || codigo == "CON1" || codigo == "COT3")
+                {
+                    sbSol.Append("SELECT * FROM OPIARC WHERE OPILUG='"+ciudad+"' ORDER BY  opifec DESC,OPILUG");
+                }
+                else
+                {
+                    sbSol.Append("SELECT * FROM OPIARC ORDER BY  opifec DESC,OPILUG");
+                }
+                
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -238,14 +246,22 @@ namespace CapaDatos
 
         //por fecha de emision
 
-        public List<tbItsControlAtc> DetalleDocumentosFecha(string Fecha)//(string canio, string cdireccion, string tipoSolicitud)
+        public List<tbItsControlAtc> DetalleDocumentosFecha(string Fecha, string ciudad, string codigo)//(string canio, string cdireccion, string tipoSolicitud)
         {
             List<tbItsControlAtc> listarSolicitud = new List<tbItsControlAtc>();
             StringBuilder sbSol = new StringBuilder();
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "' ORDER BY OPILUG");
+                if (codigo == "CONT" || codigo == "CON1" || codigo == "COT3")
+                {
+                    sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "' AND OPILUG='" + ciudad + "'   ORDER BY OPILUG");
+                }
+                else
+                {
+                    sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "' ORDER BY OPILUG");
+                }
+                
 
                 query = sbSol.ToString();
                 iDB2Command cmd;

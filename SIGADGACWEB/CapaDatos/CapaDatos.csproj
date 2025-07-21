@@ -61,8 +61,10 @@
     <Compile Include="CD_DetalleAdjuntocs.cs" />
     <Compile Include="CD_DetalleAeronave.cs" />
     <Compile Include="CD_DetalleRuta.cs" />
+    <Compile Include="CD_DocumentosIfpdsExpedientes.cs" />
     <Compile Include="CD_DocumentosAeropuertosNac.cs" />
     <Compile Include="CD_DocumentosAeropuertos.cs" />
+    <Compile Include="CD_DocumentosIfpds.cs" />
     <Compile Include="CD_DocumentosSeguridadOperacional.cs" />
     <Compile Include="CD_DocumentosGestionInterna.cs" />
     <Compile Include="CD_DocumentosDsna.cs" />

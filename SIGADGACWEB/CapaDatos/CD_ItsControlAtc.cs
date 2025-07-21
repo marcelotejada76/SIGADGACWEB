@@ -246,7 +246,7 @@ namespace CapaDatos
 
         //por fecha de emision
 
-        public List<tbItsControlAtc> DetalleDocumentosFecha(string Fecha, string ciudad, string codigo)//(string canio, string cdireccion, string tipoSolicitud)
+        public List<tbItsControlAtc> DetalleDocumentosFecha(string Fecha, string ciudad, string codigo, string Aeropuerto)//(string canio, string cdireccion, string tipoSolicitud)
         {
             List<tbItsControlAtc> listarSolicitud = new List<tbItsControlAtc>();
             StringBuilder sbSol = new StringBuilder();
@@ -259,7 +259,15 @@ namespace CapaDatos
                 }
                 else
                 {
-                    sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "' ORDER BY OPILUG");
+                    if (Aeropuerto != "")
+                    {
+                        sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "' AND OPILUG='" + Aeropuerto + "'   ORDER BY OPILUG");
+                    }
+                    else
+                    {
+                        sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "'  ORDER BY OPILUG");
+                    }
+                    
                 }
                 
 

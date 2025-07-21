@@ -74,17 +74,21 @@
 
     @using (Html.BeginForm("ListadoAtcDiario", "ControlAtcDiario", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
     {
-        <div class="row align-items-end mb-4">
-            <div class="col-sm-3">
-                <label class="material-label">Fecha Elaboración</label>
-                <input type="date" name="FechaElab" id="FechaElab" class="form-control material-input" required />
-            </div>
-            <div class="col-sm-2">
-                <button type="submit" class="btn btn-modern btn-success">
-                    🔍 Buscar
-                </button>
-            </div>
+    <div class="row align-items-end mb-4">
+        <div class="col-sm-3">
+            <label class="material-label">Fecha Elaboración</label>
+            <input type="date" name="FechaElab" id="FechaElab" class="form-control material-input" required />
         </div>
+        <div class="col-sm-3">
+            <label class="material-label">Aeropuerto</label>
+            <input type="text" name="Aeropuerto" id="Aeropuerto" class="form-control material-input"  />
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-modern btn-success">
+                🔍 Buscar
+            </button>
+        </div>
+    </div>
 
         <div class="card shadow-sm border-0">
             <div class="card-body">

@@ -50,10 +50,10 @@ namespace SistemaIntegradoGestion.Controllers
 
 
         [HttpPost]
-        public ActionResult ListadoAtcDiario(DateTime FechaElab)
+        public ActionResult ListadoAtcDiario(DateTime FechaElab, string Aeropuerto)
         {
             string Fecha = FechaElab.ToString("yyyyMMdd");
-            // NombreCompania = NombreCompania.ToUpper();
+            Aeropuerto = Aeropuerto.ToUpper();
 
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
@@ -62,11 +62,8 @@ namespace SistemaIntegradoGestion.Controllers
             if (Fecha != "")
             {
 
-
-
-               
                 //Compania.ToUpper();
-                listado = CD_ItsControlAtc.Instancia.DetalleDocumentosFecha(Fecha,SesionUsuario.CodigoCiudad, SesionUsuario.CodigoRol);
+                listado = CD_ItsControlAtc.Instancia.DetalleDocumentosFecha(Fecha,SesionUsuario.CodigoCiudad, SesionUsuario.CodigoRol, Aeropuerto);
                 //if (listado.Count==0)
                 //{
                 //    listado = CD_Matriculas.Instancia.DetallePorMatriculasP5(NombreCompania);

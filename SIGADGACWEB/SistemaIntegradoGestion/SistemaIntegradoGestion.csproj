@@ -171,6 +171,7 @@
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
     <Compile Include="Controllers\CharterController.cs" />
     <Compile Include="Controllers\CargaManifiestoController.cs" />
+    <Compile Include="Controllers\DocumentosIfpdsController.cs" />
     <Compile Include="Controllers\ManifiestoPaxController.cs" />
     <Compile Include="Controllers\DepositosVistaController.cs" />
     <Compile Include="Controllers\EventosDocumentosCnsController.cs" />
@@ -2569,6 +2570,8 @@
     <Content Include="Views\CargaManifiesto\SubirManifiestoback.cshtml" />
     <Content Include="Views\CargaManifiesto\SubirManifiesto.cshtml" />
     <Content Include="Views\ManifiestoPax\ListadoManifiestoPax.cshtml" />
+    <Content Include="Views\DocumentosIfpds\ListadoDocumentosIfpds.cshtml" />
+    <Content Include="Views\DocumentosIfpds\VerPdf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -66,27 +66,48 @@
 
     @foreach (var cabecera in Model)
     {
-        <div class="cabecera-row" data-id="@cabecera.Gestion">
-            <strong>@cabecera.NombreArchivo</strong>
-        </div>
+    <div class="cabecera-row" data-id="@cabecera.Gestion">
+        <strong>@cabecera.NombreArchivo</strong>
+        <td>
+            @if (@cabecera.NombreArchivo == "EXPEDIENTES PERSONALES")
+            {
 
+
+                <a id="Consultar" href="@Url.Action("ListadoDocumentosIExpedienteIndividual", "DocumentosIfpds", new {Cabecera=cabecera.NombreArchivo })">
+                    <i>
+                        <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                    </i>
+                </a>
+                @*<a id="Consultar" href="@Url.Action("listadoExpedientes", "DocumentosIfpds", new {Cabecera=cabecera.NombreArchivo })">
+                    <i>
+                        <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                    </i>
+                </a>*@
+            }
+
+        </td>
+    </div>
+      
 
         <!-- Tabla de detalles -->
         <div class="detalle" id="detalle-@cabecera.Gestion">
-            <table >
-               
+            <table>
+
                 <tbody>
                     @foreach (var detalle in cabecera.oDetalleDocumentosDescargaDsna)
                     {
-                    <tr>
-                        <td class="cabecera-row">@detalle.NombreArchivo</td>
-                        <td>
-                            <a id="Descarga" class="btn btn-outline-primary " href="@Url.Action("DescargaDcto", "DocumentosIfpds", new {Nombre= detalle.NombreArchivo,cabecera=cabecera.NombreArchivo})">
-                                <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Descargar
-                            </a>
-                        </td>
+                        <tr>
+                            <td class="cabecera-row">@detalle.NombreArchivo</td>
+                            <td>
+                                <a id="Descarga" class="btn btn-outline-primary " href="@Url.Action("DescargaDcto", "DocumentosIfpds", new {Nombre= detalle.NombreArchivo,cabecera=cabecera.NombreArchivo})">
+                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i>Descargar
+                                </a>
+                            </td>
+                          
 
-                    </tr>
+                        </tr>
                     }
                 </tbody>
             </table>

@@ -2570,8 +2570,10 @@
     <Content Include="Views\CargaManifiesto\SubirManifiestoback.cshtml" />
     <Content Include="Views\CargaManifiesto\SubirManifiesto.cshtml" />
     <Content Include="Views\ManifiestoPax\ListadoManifiestoPax.cshtml" />
-    <Content Include="Views\DocumentosIfpds\ListadoDocumentosIfpds.cshtml" />
+    <Content Include="Views\DocumentosIfpds\ListadoDocumentosIExpedienteIndividual.cshtml" />
     <Content Include="Views\DocumentosIfpds\VerPdf.cshtml" />
+    <Content Include="Views\DocumentosIfpds\ListadoExpedientes.cshtml" />
+    <Content Include="Views\DocumentosIfpds\ListadoDocumentosIfpds.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

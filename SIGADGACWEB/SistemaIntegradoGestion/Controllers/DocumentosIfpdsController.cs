@@ -48,6 +48,39 @@ namespace SistemaIntegradoGestion.Controllers
             return View(listado);
         }
 
+        //LISTADO EXPEDIENTES INDIVIDUALES
+
+        public ActionResult ListadoDocumentosIExpedienteIndividual(string Cabecera)
+        {
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
+
+            List<tbExpedientesPersonales> ListadoDocumentosIExpedienteIndividual = new List<tbExpedientesPersonales>();
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+            var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
+            // string cAnio = oSistema.FechaSistema.Substring(0, 4);
+            ListadoDocumentosIExpedienteIndividual = CD_ExpedientesPersonales.Instancia.ListadoExpedientesPersonalesInd();
+            return View(ListadoDocumentosIExpedienteIndividual);
+
+        }
+
+
+        public ActionResult listadoExpedientes(string Cabecera)
+        {
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
+
+            List<tbDocumentosAtoInt> listadoExpedientes = new List<tbDocumentosAtoInt>();
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+            var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
+            // string cAnio = oSistema.FechaSistema.Substring(0, 4);
+            listadoExpedientes = CD_DocumentosIfpdsExpedientes.Instancia.ConsultaDocumentosExpedientes(Cabecera);
+            return View(listadoExpedientes);
+
+        }
+
         //public JsonResult DescargaFr3(Int16 NumeroFr3, string Ato, string Ano, string FechaEmision, string Ruc)
         public ActionResult DescargaDcto( string Nombre, string Cabecera)
         {
@@ -57,6 +90,21 @@ namespace SistemaIntegradoGestion.Controllers
             string remoteUri = @"\\172.20.19.55\DocumentosDescarga\IFPDS\"+Cabecera +"\\" + Nombre+"";
                 //string remoteUri = @"\\172.20.19.55\DocumentosDescarga\DSNA\" + Cabecera + " CARTAS DE ACUERDO\" + Nombre+"";
            // string fileName = Nombre + ".pdf";
+            string fileName = Nombre + "";
+
+            byte[] fileBytes = GetFile(remoteUri);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+
+        }
+        public ActionResult DescargaDctoExpediente(string Nombre, string Grupo, string Nivel, string Subnivel)
+        {
+        //C:\DocumentosDescarga\IFPDS\EXPEDIENTES PERSONALES
+
+            //string remoteUri = @"\\172.20.19.55\DocumentosDescarga\" + Nombre + ".pdf";
+           // string remoteUri = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Grupo + "\\" +  Nombre + "";
+            string remoteUri = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Grupo + "\\" + Nivel + "\\" + Subnivel + "\\" + Nombre + "";
+            // string fileName = Nombre + ".pdf";
             string fileName = Nombre + "";
 
             byte[] fileBytes = GetFile(remoteUri);

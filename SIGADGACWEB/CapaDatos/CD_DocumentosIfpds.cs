@@ -62,16 +62,17 @@ namespace CapaDatos
                         oSolicitud.Estado = dr["OPnexi"].ToString().Trim();
                         oSolicitud.Codigo = Convert.ToInt16(dr["OPNCO2"].ToString().Trim());
                         oSolicitud.Gestion = Convert.ToInt16(dr["OPNCO1"].ToString().Trim());
-                        if (oSolicitud.Estado == "N")
-                        {
+                       // if (oSolicitud.Estado == "N")
+                       // {
                             //LLENA DETALE DE ARCHIVOS A DESCARGAR
                             oSolicitud.oDetalleDocumentosDescargaDsna = DetalleDsnaDescarga(oSolicitud.Codigo, oSolicitud.Gestion);
 
-                        }
-                        else
-                        {
-                            CD_DocumentosIfpdsExpedientes.Instancia.ConsultaDocumentosExpedientes();
-                        }
+                        //}
+
+                        //if(oSolicitud.NombreArchivo== "EXPEDIENTES PERSONALES")
+                        //{
+                        //    CD_DocumentosIfpdsExpedientes.Instancia.ConsultaDocumentosExpedientes();
+                        //}
                         listarSolicitud.Add(oSolicitud);
                     }
 

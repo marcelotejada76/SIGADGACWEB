@@ -1,0 +1,109 @@
+﻿@model IEnumerable<CapaModelo.tbExpedientesPersonales>
+@*@model IEnumerable<CapaModelo.tbDocumentosDsnaDescarga>*@
+
+@{
+    ViewBag.Title = "ListadoDocumentosDescarga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cabecera-Detalle</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .detalle {
+            display: none; /* Ocultar detalles inicialmente */
+            margin-left: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .cabecera-row {
+            cursor: pointer;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+
+        .titulo {
+            cursor: pointer;
+            background-color: #7f99b2;
+            color: aliceblue;
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .cabecera-row:hover {
+            background-color: #d7dbdd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            color: #429d9a;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="col-md-12">
+
+        <div class="titulo">
+            <h1>IFPDS EXPEDIENTES PERSONALES</h1>
+            <div class="col text-left">
+                <a class="btn btn-success" href="ListadoDocumentosIfpds">Ifpds</a>
+            </div>
+
+        </div>
+
+      
+    </div>
+
+    
+
+    @foreach (var cabecera in Model)
+    {
+        <div class="cabecera-row" data-id="@cabecera.Nombre">
+            <strong>@cabecera.Nombre</strong>
+
+
+            <a id="Consultar" href="@Url.Action("listadoExpedientes", "DocumentosIfpds", new {Cabecera=cabecera.Nombre })">
+                <i>
+                    <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                </i>
+
+            </a>
+
+        </div>
+
+
+
+
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Al hacer clic en una fila de cabecera, mostrar/ocultar el detalle correspondiente
+            $(".cabecera-row").click(function () {
+                var cabeceraId = $(this).data("id");
+                $("#detalle-" + cabeceraId).toggle(); // Alternar visibilidad del detalle
+            });
+        });
+    </script>
+</body>
+</html>

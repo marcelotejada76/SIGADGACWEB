@@ -1,0 +1,315 @@
+﻿@model IEnumerable<CapaModelo.tbSobrevuelo>
+@{
+    ViewBag.Title = "ListadoTasas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    @*<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>*@
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<style>
+
+    .modal-body {
+        padding: 0;
+    }
+
+    #mapModal .modal-content {
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    #mapModal .modal-header {
+        border-bottom: none;
+    }
+
+    #mapModal .close:hover {
+        opacity: 0.7;
+    }
+
+
+    .modal-full-custom {
+        max-width: 98% !important; /* Más ancho que modal-xl */
+        margin: auto;
+    }
+
+    #modalMap {
+        background-color: #f5f5f5;
+        border: 1px solid #dee2e6;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid #dee2e6;
+    }
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+</style>
+<div class="container-fluid">
+    <!--begin::Container-->
+    <div class="card-header card-header-stretch mb-3">
+        <div class="card-title">
+            <p class="text-blue">SOBREVUELOS</p>
+        </div>
+    </div>
+   
+        
+    </div>
+  
+
+
+    @using (Html.BeginForm("ListadoSobrevuelo", "Sobrevuelo", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row mb-8">
+            <div class="col-sm-3">
+                <div class="fs-3 fw-bold mt-2 mb-2"><label>FECHA DE EMISION</label></div>
+            </div>
+            <div class="col-sm-4 fv-row">
+
+                @*<input style="text-transform:uppercase" class="form-control form-control-solid" id="FechaEmision" name="FechaEmision" />*@
+                <input type="date" class="form-control form-control-solid" name="FechaEmision">
+
+            </div>
+            <div>
+                @*<a class="btn btn-success" href="ListadoFacturasP5">Buscar</a>*@
+                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+            </div>
+        </div>
+
+
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm">
+                        <thead>
+                            <tr>
+
+                                <th class="th-ejecutivo">Fecha Vlo</th>
+                                <th class="th-ejecutivo">Call Sing</th>
+                                <th class="th-ejecutivo">Matricula</th>
+                                <th class="th-ejecutivo">Origen</th>
+                                <th class="th-ejecutivo">Destino</th>
+                                <th class="th-ejecutivo">Distancia</th>
+                                <th class="th-ejecutivo">Operador</th>
+                                <th class="th-ejecutivo">CiaFactura</th>
+
+
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaVuelo)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CAllSingn)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Matricula)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Origen)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Destino)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Distancia)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Operador)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CiaFactura)</td>
+
+                                    <td>
+                                        @*<a id="Consultar" class="btn btn-lg btn-secondary" href="#" onclick="Consultar('@item.FechaVuelo','@item.CAllSingn')">*@
+                                        <a href="#" class="btn btn-sm btn-primary"
+                                           data-toggle="modal"
+                                           data-target="#mapModal"
+                                           data-latorigen="@item.LatitudOrigen"
+                                           data-lonorigen="@item.LongitudOrigen"
+                                           data-latdestino="@item.LatitudDestino"
+                                           data-londestino="@item.LongitudDestino"
+                                           data-origen="@item.Origen"
+                                           data-destino="@item.Destino"
+                                           data-fecha="@item.FechaVuelo"
+                                           data-callsign="@item.CAllSingn"
+                                           data-matricula="@item.Matricula"
+                                           data-tiempo="@item.InitialTime"
+                                           data-operador="@item.Operador"
+                                           data-factura="@item.CiaFactura"
+                                           data-modelo="@item.MOdelo"
+                                           onclick="loadMap(this)">
+                                            Mapa
+                                        </a>
+
+
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-full-custom" role="document">
+        <div class="modal-content shadow-lg border-0 rounded-3">
+            <div class="modal-header bg-primary text-white rounded-top">
+                <h5 class="modal-title font-weight-bold" id="mapModalLabel">🛫 Ruta del Vuelo</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <!-- Contenedor de mapa más grande -->
+                <div id="modalMap" style="height: 600px; width: 100%; border-radius: 0 0 0.5rem 0.5rem;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<script>
+    let mapModalInstance = null;
+    mapModalInstance.invalidateSize();
+    function loadMap(btn) {
+        const latOrigen = parseFloat(btn.dataset.latorigen);
+        const lonOrigen = parseFloat(btn.dataset.lonorigen);
+        const latDestino = parseFloat(btn.dataset.latdestino);
+        const lonDestino = parseFloat(btn.dataset.londestino);
+        const origen = btn.dataset.origen;
+        const destino = btn.dataset.destino;
+        const fecha = btn.dataset.fecha;
+        const callsign = btn.dataset.callsign;
+        const matricula = btn.dataset.matricula;
+        const tiempo = btn.dataset.tiempo;
+        const operador = btn.dataset.operador;
+        const factura = btn.dataset.factura;
+        const modelo = btn.dataset.modelo;
+
+        //const distancia = calcularDistanciaHaversine(latOrigen, lonOrigen, latDestino, lonDestino).toFixed(2); // km
+        const distancia = calcularDistanciaNautica(latOrigen, lonOrigen, latDestino, lonDestino).toFixed(2);
+
+
+        // Esperar a que el modal se muestre
+        $('#mapModal').on('shown.bs.modal', function () {
+            if (mapModalInstance != null) {
+                mapModalInstance.remove(); // Limpiar mapa anterior
+            }
+
+            mapModalInstance = L.map('modalMap').setView([(latOrigen + latDestino) / 2, (lonOrigen + lonDestino) / 2], 4);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: ''
+            }).addTo(mapModalInstance);
+
+            L.marker([latOrigen, lonOrigen]).addTo(mapModalInstance)
+                .bindPopup(
+                    "<div style='font-size:10px;'>Origen: " + origen +
+                    "<br/>CallSign: " + callsign +
+                    "<br/>Matricula: " + matricula +
+                    "<br/>Modelo: " + modelo +
+                    "<br/>Operador: " + operador + "</div>"
+                ).openPopup();
+
+
+            L.marker([latDestino, lonDestino]).addTo(mapModalInstance)
+                .bindPopup(
+                    "<div style='font-size:10px;'>Destino: " + destino +
+                    "<br/>InitialTime: " + tiempo +
+                    "<br/>Distancia: " + distancia + " millas náuticas" +
+                    "</div>");
+
+            //"Destino: " + destino + "<br/>InitialTime: " + tiempo + "<br/>Distancia: " + distancia + " millas náuticas");
+
+
+            var polyline = L.polyline([
+                [latOrigen, lonOrigen],
+                [latDestino, lonDestino]
+            ], {
+                    color: 'blue',
+                    weight: 3,
+                    opacity: 0.7
+                }).addTo(mapModalInstance);
+            mapModalInstance.invalidateSize();
+            mapModalInstance.fitBounds(polyline.getBounds());
+        });
+
+        // Elimina el mapa cuando se oculta el modal
+        $('#mapModal').on('hidden.bs.modal', function () {
+            if (mapModalInstance != null) {
+                mapModalInstance.remove();
+                mapModalInstance = null;
+            }
+        });
+    }
+    //distancia
+    function calcularDistanciaHaversine(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Radio de la Tierra en kilómetros
+
+        const rad = deg => deg * Math.PI / 180;
+
+        const dLat = rad(lat2 - lat1);
+        const dLon = rad(lon2 - lon1);
+
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(rad(lat1)) * Math.cos(rad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c; // Distancia en kilómetros
+    }
+
+    //nauticas
+    function calcularDistanciaNautica(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Radio de la Tierra en km
+
+        const rad = deg => deg * Math.PI / 180;
+
+        const dLat = rad(lat2 - lat1);
+        const dLon = rad(lon2 - lon1);
+
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(rad(lat1)) * Math.cos(rad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const distanciaKm = R * c;
+
+        const distanciaMN = distanciaKm * 0.539957; // Convertir a millas náuticas
+
+        return distanciaMN;
+    }
+
+</script>

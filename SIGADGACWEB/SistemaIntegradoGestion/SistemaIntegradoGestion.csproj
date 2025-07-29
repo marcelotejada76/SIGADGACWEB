@@ -172,6 +172,7 @@
     <Compile Include="Controllers\CharterController.cs" />
     <Compile Include="Controllers\CargaManifiestoController.cs" />
     <Compile Include="Controllers\DocumentosIfpdsController.cs" />
+    <Compile Include="Controllers\SobrevueloController.cs" />
     <Compile Include="Controllers\ManifiestoPaxController.cs" />
     <Compile Include="Controllers\DepositosVistaController.cs" />
     <Compile Include="Controllers\EventosDocumentosCnsController.cs" />
@@ -2574,6 +2575,7 @@
     <Content Include="Views\DocumentosIfpds\VerPdf.cshtml" />
     <Content Include="Views\DocumentosIfpds\ListadoExpedientes.cshtml" />
     <Content Include="Views\DocumentosIfpds\ListadoDocumentosIfpds.cshtml" />
+    <Content Include="Views\Sobrevuelo\ListadoSobrevuelo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tbAdjuntoCiaAviacion.cs" />
+    <Compile Include="tbSobrevuelo.cs" />
     <Compile Include="tbExpedientesPersonales.cs" />
     <Compile Include="tbCabeceraCurriculum.cs" />
     <Compile Include="tbDetallePasajerosManifiestoPax.cs" />

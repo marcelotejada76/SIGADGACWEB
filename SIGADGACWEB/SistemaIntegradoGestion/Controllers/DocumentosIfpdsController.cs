@@ -97,6 +97,35 @@ namespace SistemaIntegradoGestion.Controllers
 
 
         }
+
+        public ActionResult VerImagenNivel(string Nombre, string Cabecera)
+        {
+            if (string.IsNullOrEmpty(Nombre))
+                return HttpNotFound();
+            
+            string ruta = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Cabecera + "\\" + Nombre + "";
+            // string ruta = Server.MapPath("~/Content/imagenes_subidas/" + nombre); // ajusta la carpeta según tu estructura
+
+            if (!System.IO.File.Exists(ruta))
+                return HttpNotFound();
+
+            string mime = MimeMapping.GetMimeMapping(Nombre); // obtiene el tipo MIME automáticamente
+
+            return File(ruta, mime);
+        }
+
+        public ActionResult VerPdfNivel(string Nombre, string Cabecera)
+        {
+            if (string.IsNullOrEmpty(Nombre))
+                return HttpNotFound();
+            string ruta = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Cabecera + "\\" + Nombre + "";
+
+            if (!System.IO.File.Exists(ruta))
+                return HttpNotFound();
+
+            return File(ruta, "application/pdf");
+        }
+
         public ActionResult DescargaDctoExpediente(string Nombre, string Grupo, string Nivel, string Subnivel)
         {
         //C:\DocumentosDescarga\IFPDS\EXPEDIENTES PERSONALES
@@ -125,13 +154,40 @@ namespace SistemaIntegradoGestion.Controllers
 
 
 
-        public ActionResult VerPdf(string Nombre, string Cabecera)
+        //public ActionResult VerPdf(string Nombre, string Cabecera)
+        //{
+        //    // Ruta del archivo PDF (puede ser local o en línea)
+        //    string rutaPdf = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Cabecera + "\\" + Nombre + "";
+        //    //string rutaPdf = "/Content/documentos/ejemplo.pdf"; // Archivo local en tu proyecto
+        //    ViewBag.RutaPdf = rutaPdf;
+        //    return View();
+        //}
+
+        public ActionResult VerPdf(string nombre, string Grupo, string Nivel, string Subnivel)
         {
-            // Ruta del archivo PDF (puede ser local o en línea)
-            string rutaPdf = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Cabecera + "\\" + Nombre + "";
-            //string rutaPdf = "/Content/documentos/ejemplo.pdf"; // Archivo local en tu proyecto
-            ViewBag.RutaPdf = rutaPdf;
-            return View();
+            if (string.IsNullOrEmpty(nombre))
+                return HttpNotFound();
+            string ruta = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Grupo + "\\" + Nivel + "\\" + Subnivel + "\\" + nombre + "";
+           
+            if (!System.IO.File.Exists(ruta))
+                return HttpNotFound();
+
+            return File(ruta, "application/pdf");
+        }
+
+        public ActionResult VerImagen(string nombre, string Grupo, string Nivel, string Subnivel)
+        {
+            if (string.IsNullOrEmpty(nombre))
+                return HttpNotFound();
+            string ruta = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Grupo + "\\" + Nivel + "\\" + Subnivel + "\\" + nombre + "";
+           // string ruta = Server.MapPath("~/Content/imagenes_subidas/" + nombre); // ajusta la carpeta según tu estructura
+
+            if (!System.IO.File.Exists(ruta))
+                return HttpNotFound();
+
+            string mime = MimeMapping.GetMimeMapping(nombre); // obtiene el tipo MIME automáticamente
+
+            return File(ruta, mime);
         }
 
         //[HttpPost]

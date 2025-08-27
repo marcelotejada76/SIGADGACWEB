@@ -1,0 +1,311 @@
+﻿@model IEnumerable<CapaModelo.tbCertificadoAeronavegabilidad>
+@{
+    ViewBag.Title = "ListadoTasas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .material-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #5a5a5a;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    .material-input {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+        .material-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    .btn-modern {
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-modern i {
+            margin-right: 6px;
+        }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+</style>
+<div class="container-fluid">
+
+    <div class="card-header bg-primary text-white py-3 mb-4 rounded">
+        <h4 class="mb-0 text-center fw-bold" style="letter-spacing: 1px;">
+            CERTIFICADOS AERONAVEGABILIDAD
+        </h4>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoCertificado", "CertificadoAeronavegabilidad", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row align-items-end mb-4">
+            <div class="col-sm-3">
+                <label class="material-label">Fecha Elaboración</label>
+                <input type="date" name="FechaEmision" id="FechaEmision" class="form-control material-input" required />
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-modern btn-success">
+                    🔍 Buscar
+                </button>
+            </div>
+        </div>
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" style="font-size:14px" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="th-ejecutivo">Nombre Compañia</th>
+                                <th class="th-ejecutivo">Matricula</th>
+                                <th class="th-ejecutivo">Aprobado</th>
+                                <th class="th-ejecutivo">Fecha Otorgamiento</th>
+                                <th class="th-ejecutivo">Fecha Vencimiento</th>
+
+                                <th colspan="2">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.NOMBRECOMPANIA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.MATRICULA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.APROBADO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAOTORGAMIENTO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAVENCIMIENTO)</td>
+
+                                    <td>
+                                        <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                           href="#"
+                                           onclick="Consultar('@item.MATRICULA', '@item.FECHAOTORGAMIENTO')">
+                                            <i class="bi bi-search"></i> Consulta
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> CERTIFICADO DE AERONAVEGABILIDAD</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-8">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Compañia</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="COMPANIA" readonly="readonly" />
+                                </div>
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Matricula</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="MATRICULA" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-2">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Region</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="REGION" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Aprobado</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="APROBADO" readonly="readonly" />
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label> Destinado A</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="DESTINADOAUSO" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Numero Serie</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NUMEROSERIE" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Estado</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="ESTADO" readonly="readonly" />
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label> Categoria</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="CATEGORIA" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Aeronave</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="AERONAVE" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Modelo</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="MODELO" readonly="readonly" />
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label> Certificado</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="CERTIFICADO" readonly="readonly" />
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Otorgamiento</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="FECHAOTORGAMIENTO" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Vencimiento</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="FECHAVENCIMIENTO" readonly="readonly" />
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label> Clasificacion</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="CLASIFICACION" readonly="readonly" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+        function Consultar(Matricula, FechaOtorgamiento) {
+            
+            $("#COMPANIA").val("");
+            $("#MATRICULA").val("");
+            $("#REGION").val("");
+            $("#APROBADO").val("");
+            $("#DESTINADOAUSO").val("");
+            $("#NUMEROSERIE").val("");
+            $("#ESTADO").val("");
+            $("#CATEGORIA").val("");
+            $("#AERONAVE").val("");
+            $("#MODELO").val("");
+            $("#CERTIFICADO").val("");
+            $("#FECHAOTORGAMIENTO").val("");
+            $("#FECHAVENCIMIENTO").val("");
+            $("#CLASIFICACION").val("");
+
+
+            $.ajax({
+                url: $.MisUrls.url._CargaDetalleCertificadosAeronavegabilidad,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Matricula: Matricula, FechaOtorgamiento: FechaOtorgamiento },
+                success: function (e) {
+
+                    $("#COMPANIA").val(e.NOMBRECOMPANIA);
+                    $("#MATRICULA").val(e.MATRICULA);
+                    $("#REGION").val(e.REGION);
+                    $("#APROBADO").val(e.APROBADO);
+                    $("#DESTINADOAUSO").val(e.DESTINADOAUSO);
+                    $("#ESTADO").val(e.ESTADO);
+                    $("#NUMEROSERIE").val(e.NUMEROSERIE);
+                    $("#CATEGORIA").val(e.CATEGORIA);
+                    $("#AERONAVE").val(e.NOMBREAERONAVE);
+                    $("#MODELO").val(e.MODELOAERONAVE);
+                    $("#CERTIFICADO").val(e.CODIGOCERTIFICADO);
+                    $("#FECHAOTORGAMIENTO").val(e.FECHAOTORGAMIENTO);
+                    $("#FECHAVENCIMIENTO").val(e.FECHAVENCIMIENTO);
+                    $("#CLASIFICACION").val(e.CLASIFICACION);
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>
+}

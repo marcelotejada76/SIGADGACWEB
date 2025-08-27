@@ -47,11 +47,13 @@
     .modal-header {
         border-bottom: 1px solid #dee2e6;
     }
+
     .th-ejecutivo {
         font-size: 1.1rem;
         font-weight: 600;
         text-transform: uppercase;
     }
+
     .table th {
         background: linear-gradient(to right, #0d6efd, #66b2ff);
         color: white;
@@ -78,103 +80,104 @@
             <p class="text-blue">SOBREVUELOS</p>
         </div>
     </div>
-   
-        
+
+
+</div>
+
+
+
+@using (Html.BeginForm("ListadoSobrevuelo", "Sobrevuelo", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+{
+    <div class="row mb-8">
+        <div class="col-sm-3">
+            <div class="fs-3 fw-bold mt-2 mb-2"><label>FECHA DE EMISION</label></div>
+        </div>
+        <div class="col-sm-4 fv-row">
+
+            @*<input style="text-transform:uppercase" class="form-control form-control-solid" id="FechaEmision" name="FechaEmision" />*@
+            <input type="date" class="form-control form-control-solid" name="FechaEmision">
+
+        </div>
+        <div>
+            @*<a class="btn btn-success" href="ListadoFacturasP5">Buscar</a>*@
+            <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
+
+
+        </div>
     </div>
-  
-
-
-    @using (Html.BeginForm("ListadoSobrevuelo", "Sobrevuelo", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
-    {
-        <div class="row mb-8">
-            <div class="col-sm-3">
-                <div class="fs-3 fw-bold mt-2 mb-2"><label>FECHA DE EMISION</label></div>
-            </div>
-            <div class="col-sm-4 fv-row">
-
-                @*<input style="text-transform:uppercase" class="form-control form-control-solid" id="FechaEmision" name="FechaEmision" />*@
-                <input type="date" class="form-control form-control-solid" name="FechaEmision">
-
-            </div>
-            <div>
-                @*<a class="btn btn-success" href="ListadoFacturasP5">Buscar</a>*@
-                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
-
-
-            </div>
-        </div>
 
 
 
-        <div class="card card-default">
-            <div class="card-body">
-                <div class="row">
+    <div class="card card-default">
+        <div class="card-body">
+            <div class="row">
 
-                    <table id="tbDetalle" class="table table-bordered table-hover table-sm">
-                        <thead>
+                <table id="tbDetalle" class="table table-bordered table-hover table-sm">
+                    <thead>
+                        <tr>
+
+                            <th class="th-ejecutivo">Fecha Vlo</th>
+                            <th class="th-ejecutivo">Call Sing</th>
+                            <th class="th-ejecutivo">Matricula</th>
+                            <th class="th-ejecutivo">Origen</th>
+                            <th class="th-ejecutivo">Destino</th>
+                            <th class="th-ejecutivo">Distancia</th>
+                            <th class="th-ejecutivo">Operador</th>
+                            <th class="th-ejecutivo">CiaFactura</th>
+
+
+                            <th class=" control-label control-lab"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
                             <tr>
+                                <td>@Html.DisplayFor(modelItem => item.FechaVuelo)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CAllSingn)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Matricula)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Origen)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Destino)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Distancia)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Operador)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CiaFactura)</td>
 
-                                <th class="th-ejecutivo">Fecha Vlo</th>
-                                <th class="th-ejecutivo">Call Sing</th>
-                                <th class="th-ejecutivo">Matricula</th>
-                                <th class="th-ejecutivo">Origen</th>
-                                <th class="th-ejecutivo">Destino</th>
-                                <th class="th-ejecutivo">Distancia</th>
-                                <th class="th-ejecutivo">Operador</th>
-                                <th class="th-ejecutivo">CiaFactura</th>
+                                <td>
+                                    @*<a id="Consultar" class="btn btn-lg btn-secondary" href="#" onclick="Consultar('@item.FechaVuelo','@item.CAllSingn')">*@
+                                    <a href="#" class="btn btn-sm btn-primary"
+                                       data-toggle="modal"
+                                       data-target="#mapModal"
+                                       data-latorigen="@item.LatitudOrigen"
+                                       data-lonorigen="@item.LongitudOrigen"
+                                       data-latdestino="@item.LatitudDestino"
+                                       data-londestino="@item.LongitudDestino"
+                                       data-origen="@item.Origen"
+                                       data-destino="@item.Destino"
+                                       data-fecha="@item.FechaVuelo"
+                                       data-callsign="@item.CAllSingn"
+                                       data-matricula="@item.Matricula"
+                                       data-tiempo="@item.InitialTime"
+                                       data-operador="@item.Operador"
+                                       data-factura="@item.CiaFactura"
+                                       data-modelo="@item.MOdelo"
+                                       onclick="loadMap(this)">
+                                        Mapa
+                                        <img src="~/Content/imganes/plane.png" />
+                                    </a>
 
 
-                                <th class=" control-label control-lab"></th>
+                                </td>
+
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.FechaVuelo)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.CAllSingn)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Matricula)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Origen)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Destino)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Distancia)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Operador)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.CiaFactura)</td>
-
-                                    <td>
-                                        @*<a id="Consultar" class="btn btn-lg btn-secondary" href="#" onclick="Consultar('@item.FechaVuelo','@item.CAllSingn')">*@
-                                        <a href="#" class="btn btn-sm btn-primary"
-                                           data-toggle="modal"
-                                           data-target="#mapModal"
-                                           data-latorigen="@item.LatitudOrigen"
-                                           data-lonorigen="@item.LongitudOrigen"
-                                           data-latdestino="@item.LatitudDestino"
-                                           data-londestino="@item.LongitudDestino"
-                                           data-origen="@item.Origen"
-                                           data-destino="@item.Destino"
-                                           data-fecha="@item.FechaVuelo"
-                                           data-callsign="@item.CAllSingn"
-                                           data-matricula="@item.Matricula"
-                                           data-tiempo="@item.InitialTime"
-                                           data-operador="@item.Operador"
-                                           data-factura="@item.CiaFactura"
-                                           data-modelo="@item.MOdelo"
-                                           onclick="loadMap(this)">
-                                            Mapa
-                                        </a>
+                        }
+                    </tbody>
+                </table>
 
 
-                                    </td>
-
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-
-                </div>
             </div>
         </div>
-    }
+    </div>
+}
 </div>
 <
 <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
@@ -196,6 +199,7 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://rawcdn.githack.com/bbecquet/Leaflet.RotatedMarker/master/leaflet.rotatedMarker.js"></script>
 
 
 <script>
@@ -262,15 +266,101 @@
                 }).addTo(mapModalInstance);
             mapModalInstance.invalidateSize();
             mapModalInstance.fitBounds(polyline.getBounds());
+
+
+            // Crear el icono de avión
+            const planeIcon = L.icon({
+                iconUrl: "/Content/imganes/plane2.png",
+                iconSize: [36, 36],
+                iconAnchor: [21, 21]
+            });
+
+
+            // Función para calcular el rumbo (heading)
+            function calcularRumbo(lat1, lon1, lat2, lon2) {
+                const rad = deg => deg * Math.PI / 180;
+                const deg = rad => rad * 180 / Math.PI;
+
+                const dLon = rad(lon2 - lon1);
+                const y = Math.sin(dLon) * Math.cos(rad(lat2));
+                const x = Math.cos(rad(lat1)) * Math.sin(rad(lat2)) -
+                    Math.sin(rad(lat1)) * Math.cos(rad(lat2)) * Math.cos(dLon);
+                const brng = Math.atan2(y, x);
+                return (deg(brng) + 360) % 360;
+            }
+
+            // Crear el marcador del avión en el punto de origen
+            const planeMarker = L.marker([latOrigen, lonOrigen], {
+                icon: planeIcon,
+                rotationAngle: calcularRumbo(latOrigen, lonOrigen, latDestino, lonDestino),
+                rotationOrigin: 'left left'
+            }).addTo(mapModalInstance);
+
+
+            // Función para calcular una posición lateral (offset) en grados
+            function aplicarOffsetLateral(lat, lon, rumbo, distanciaOffsetMetros) {
+                const R = 6378137; // Radio de la Tierra en metros (WGS84)
+                const offsetAngulo = rumbo + 90; // 90° para ir a la izquierda, -90° a la derecha
+                const offsetRad = offsetAngulo * Math.PI / 180;
+
+                const dLat = (distanciaOffsetMetros * Math.cos(offsetRad)) / R;
+                const dLon = (distanciaOffsetMetros * Math.sin(offsetRad)) / (R * Math.cos(lat * Math.PI / 180));
+
+                const newLat = lat + (dLat * 180 / Math.PI);
+                const newLon = lon + (dLon * 180 / Math.PI);
+
+                return [newLat, newLon];
+            }
+
+
+            // Animar el avión en la línea
+            function animarAvion() {
+                const steps = 300;  // Más pasos = movimiento más suave
+                let currentStep = 0;
+
+                const latStep = (latDestino - latOrigen) / steps;
+                const lonStep = (lonDestino - lonOrigen) / steps;
+
+                const interval = setInterval(() => {
+                    if (currentStep > steps) {
+                        clearInterval(interval);
+                        return;
+                    }
+
+                    const newLat = latOrigen + latStep * currentStep;
+                    const newLon = lonOrigen + lonStep * currentStep;
+
+                    // Actualizar posición
+                    planeMarker.setLatLng([newLat, newLon]);
+
+                    // Calcular rumbo dinámico (si quieres que gire en tiempo real)
+                    const rumbo = calcularRumbo(newLat, newLon, latDestino, lonDestino);
+                    planeMarker.setRotationAngle(rumbo);
+
+                    currentStep++;
+                }, 30); // Velocidad (30 ms entre pasos)
+
+                const newLat = latOrigen + latStep * currentStep;
+                const newLon = lonOrigen + lonStep * currentStep;
+
+                // Aplicar offset lateral (ej: 500 metros a la izquierda)
+                const rumbo = calcularRumbo(newLat, newLon, latDestino, lonDestino);
+                const [offsetLat, offsetLon] = aplicarOffsetLateral(newLat, newLon, rumbo, 500); // 500 metros al lado
+
+                // Actualizar posición con offset
+                planeMarker.setLatLng([offsetLat, offsetLon]);
+
+                // Rotar según rumbo real de la línea
+                planeMarker.setRotationAngle(rumbo);
+            }
+
+            // Llamar a la animación
+            animarAvion();
+
+
         });
 
-        // Elimina el mapa cuando se oculta el modal
-        $('#mapModal').on('hidden.bs.modal', function () {
-            if (mapModalInstance != null) {
-                mapModalInstance.remove();
-                mapModalInstance = null;
-            }
-        });
+
     }
     //distancia
     function calcularDistanciaHaversine(lat1, lon1, lat2, lon2) {

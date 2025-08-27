@@ -69,6 +69,8 @@
     <Compile Include="CD_DocumentosSeguridadOperacional.cs" />
     <Compile Include="CD_DocumentosGestionInterna.cs" />
     <Compile Include="CD_DocumentosDsna.cs" />
+    <Compile Include="CD_CertificadoAeronavegabilidad.cs" />
+    <Compile Include="CD_ActualizacionMatriculas.cs" />
     <Compile Include="CD_Sobrevuelo.cs" />
     <Compile Include="CD_HorarioAtencion.cs" />
     <Compile Include="CD_ControlOperacionalCns.cs" />

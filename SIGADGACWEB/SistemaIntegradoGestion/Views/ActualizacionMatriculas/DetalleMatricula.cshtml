@@ -1,0 +1,193 @@
+﻿@model CapaModelo.tbActualizacionMatriculas
+@{
+    ViewBag.Title = "Detalle Matricula";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    input[readonly] {
+        background-color: #e9ecef !important; /* gris claro */
+        color: #6c757d; /* texto gris */
+        cursor: not-allowed; /* icono de prohibido */
+    }
+    input[disabled] {
+        background-color: #e9ecef !important;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+    .readonly-field {
+        background-color: #e9ecef !important; /* gris Bootstrap */
+        color: #6c757d !important; /* texto gris */
+        cursor: not-allowed; /* cursor bloqueado */
+    }
+</style>
+
+    
+
+
+<div class="container-fluid">
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-9">
+                    <h3 class="fw-bolder m-0 text-gray-800">
+                        Detalle Matricula
+                    </h3>
+                </div>
+                <div class="col-md-12">
+                    <a class="btn btn-success" href="ListadoMatriculas">Listado Matriculas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORMULARIO -->
+    <form id="frmMatricula">
+        <div class="row">
+            <div class="card-body border-top p-9">
+
+                <div class="row mb-8">
+                    <div class="col-sm-3">
+                        <label class="fs-6 fw-bold mt-2 mb-3">Oid</label>
+                    </div>
+                    <div class="col-sm-8 fv-row">
+                        @Html.TextBoxFor(m => m.OID, new { @class = "form-control form-control-sm  readonly-field", @readonly = "readonly", @id = "txtOid" })
+                    </div>
+                </div>
+
+                <div class="row mb-8">
+                    <div class="col-sm-3">
+                        <label class="fs-6 fw-bold mt-2 mb-3">Matrícula</label>
+                    </div>
+                    <div class="col-sm-8 fv-row">
+                        @Html.TextBoxFor(m => m.MATRICULA, new { @class = "form-control form-control-sm  readonly-field", @readonly = "readonly", @id = "txtMatricula" })
+                    </div>
+                </div>
+
+
+
+                <div class="row mb-8">
+                    <div class="col-sm-3">
+                        <label class="fs-6 fw-bold mt-2 mb-3">Peso</label>
+                    </div>
+                    <div class="col-sm-8 fv-row">
+                        @Html.TextBoxFor(m => m.PESOMAXESTRUCTURAL, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                        <span id="errorPeso" class="text-danger small"></span>
+                    </div>
+                </div>
+
+
+
+                <div class="row mb-8">
+                    <div class="col-sm-3">
+                        <label class="fs-6 fw-bold mt-2 mb-3">Región</label>
+                    </div>
+                    <div class="col-sm-8 fv-row">
+                        @Html.TextBoxFor(m => m.REGION, new {
+                            @class = "form-control form-control-sm",
+                            @id = "REGION",
+                            @readonly = "readonly"
+                        })
+                        <span id="errorRegion" class="text-danger" style="display:none; font-size:12px;">
+                            Solo se permite un dígito (0-1).
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="text-end">
+            <!-- Botón para habilitar edición -->
+            <button type="button" class="btn btn-warning me-2" id="btnEditar">Editar</button>
+
+            <!-- Botón AJAX -->
+            <button type="button" id="btnGuardar" class="btn btn-primary" disabled>Guardar</button>
+        </div>
+    </form>
+
+    <!-- Aquí se muestran los mensajes -->
+    <div id="alertContainer" class="mt-3"></div>
+</div>
+
+@section scripts {
+    <script>
+    // Habilitar edición
+
+
+        $("#btnEditar").click(function () {
+            $(".form-control").not("#txtMatricula, #txtOid").removeAttr("readonly");
+            $("#btnGuardar").prop("disabled", false);
+        });
+
+      
+
+    // Guardar con AJAX
+        $("#btnGuardar").click(function () {
+            $("#errorPeso").text("");
+
+            // Obtener valor del peso
+            var peso = parseFloat($("input[name='PESOMAXESTRUCTURAL']").val());
+
+            if (isNaN(peso) || peso <= 0,1) {
+                $("#errorPeso").text("⚠️ El peso debe ser mayor a 0.");
+                return; // detener envío
+            }
+
+        var dataForm = $("#frmMatricula").serialize();
+
+        $.ajax({
+            url: '@Url.Action("ActualizarMatricula", "ActualizacionMatriculas")',
+            type: "POST",
+            data: dataForm,
+            success: function (resp) {
+                if (resp.Success) {
+                    mostrarMensaje("success", resp.Message);
+                } else {
+                    mostrarMensaje("danger", resp.Message);
+                }
+            },
+            error: function (xhr, status, error) {
+                mostrarMensaje("danger", "❌ Ocurrió un error: " + error);
+            }
+        });
+    });
+
+    // Función para mostrar alertas
+    function mostrarMensaje(tipo, mensaje) {
+        let alertHtml = `
+            <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+                ${mensaje}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>`;
+        $("#alertContainer").html(alertHtml);
+        }
+
+        //valida region
+        $(document).on("input", "#REGION", function () {
+            let valor = this.value;
+
+            // Solo números
+            if (/[^0-1]/.test(valor)) {
+                $("#errorRegion").show();       // muestra alerta
+                this.value = valor.replace(/[^0-1]/g, '');
+            }
+            // Máximo un dígito
+            else if (valor.length > 1) {
+                $("#errorRegion").show();
+                this.value = valor.substring(0, 1);
+            }
+            else {
+                $("#errorRegion").hide();       // oculta alerta si es válido
+            }
+        });
+
+        // Cuando vuelva a guardarse, re-bloquear todo
+        function bloquearCampos() {
+            $(".form-control").attr("readonly", true).addClass("readonly-field");
+        }
+    </script>
+}

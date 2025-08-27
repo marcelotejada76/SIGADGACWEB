@@ -172,6 +172,8 @@
     <Compile Include="Controllers\CharterController.cs" />
     <Compile Include="Controllers\CargaManifiestoController.cs" />
     <Compile Include="Controllers\DocumentosIfpdsController.cs" />
+    <Compile Include="Controllers\CertificadoAeronavegabilidadController.cs" />
+    <Compile Include="Controllers\ActualizacionMatriculasController.cs" />
     <Compile Include="Controllers\SobrevueloController.cs" />
     <Compile Include="Controllers\ManifiestoPaxController.cs" />
     <Compile Include="Controllers\DepositosVistaController.cs" />
@@ -477,6 +479,9 @@
     <Content Include="Content\imganes\new.png" />
     <Content Include="Content\imganes\pdf-computer.png" />
     <Content Include="Content\imganes\pdf.png" />
+    <Content Include="Content\imganes\plane.png" />
+    <Content Include="Content\imganes\plane2.png" />
+    <Content Include="Content\imganes\plane3.png" />
     <Content Include="Content\imganes\power-bi.png" />
     <Content Include="Content\imganes\power.png" />
     <Content Include="Content\imganes\printer.png" />
@@ -2462,6 +2467,7 @@
     <Content Include="Scripts\Views\documentoHabilitante.js" />
     <Content Include="Scripts\Views\enviaAprobacionSolicitud.js" />
     <Content Include="Scripts\Views\listarVerificarPresupuestariaSin.js" />
+    <Content Include="Scripts\Views\actualizaMatricula.js" />
     <Content Include="Scripts\Views\maestroPersonal.js" />
     <Content Include="Scripts\Views\operacionesAprueba.js" />
     <Content Include="Scripts\Views\RevisarAprobarSolicitudModificacionPOA.js" />
@@ -2576,6 +2582,9 @@
     <Content Include="Views\DocumentosIfpds\ListadoExpedientes.cshtml" />
     <Content Include="Views\DocumentosIfpds\ListadoDocumentosIfpds.cshtml" />
     <Content Include="Views\Sobrevuelo\ListadoSobrevuelo.cshtml" />
+    <Content Include="Views\CertificadoAeronavegabilidad\ListadoCertificados.cshtml" />
+    <Content Include="Views\ActualizacionMatriculas\DetalleMatricula.cshtml" />
+    <Content Include="Views\ActualizacionMatriculas\ListadoMatriculas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

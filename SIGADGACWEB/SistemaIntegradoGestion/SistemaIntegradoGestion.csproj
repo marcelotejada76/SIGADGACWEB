@@ -169,6 +169,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\MigracionSobrevuelosController.cs" />
     <Compile Include="Controllers\CharterController.cs" />
     <Compile Include="Controllers\CargaManifiestoController.cs" />
     <Compile Include="Controllers\DocumentosIfpdsController.cs" />
@@ -407,12 +408,14 @@
     <Content Include="Content\imganes\avion1.png" />
     <Content Include="Content\imganes\avion2.png" />
     <Content Include="Content\imganes\avion3.png" />
+    <Content Include="Content\imganes\avionmapa.png" />
     <Content Include="Content\imganes\avionrep.png" />
     <Content Include="Content\imganes\avionStop.png" />
     <Content Include="Content\imganes\boeing-767.png" />
     <Content Include="Content\imganes\buscar.png" />
     <Content Include="Content\imganes\button-minus.png" />
     <Content Include="Content\imganes\cancel.png" />
+    <Content Include="Content\imganes\Cargando.gif" />
     <Content Include="Content\imganes\check.png" />
     <Content Include="Content\imganes\checklist.png" />
     <Content Include="Content\imganes\cia.png" />
@@ -2585,6 +2588,7 @@
     <Content Include="Views\CertificadoAeronavegabilidad\ListadoCertificados.cshtml" />
     <Content Include="Views\ActualizacionMatriculas\DetalleMatricula.cshtml" />
     <Content Include="Views\ActualizacionMatriculas\ListadoMatriculas.cshtml" />
+    <Content Include="Views\MigracionSobrevuelos\DatosSobrevuelos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

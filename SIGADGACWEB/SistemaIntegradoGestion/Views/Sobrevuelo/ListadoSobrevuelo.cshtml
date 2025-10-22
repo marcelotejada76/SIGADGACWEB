@@ -124,7 +124,7 @@
                             <th class="th-ejecutivo">Distancia</th>
                             <th class="th-ejecutivo">Operador</th>
                             <th class="th-ejecutivo">CiaFactura</th>
-
+                            <th class="th-ejecutivo">Facturable</th>
 
                             <th class=" control-label control-lab"></th>
                         </tr>
@@ -141,6 +141,18 @@
                                 <td>@Html.DisplayFor(modelItem => item.Distancia)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Operador)</td>
                                 <td>@Html.DisplayFor(modelItem => item.CiaFactura)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Facturable)</td>
+
+                                <td>
+                                    <a id="Consultar"
+                                       class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-0"
+                                       style="font-size:11px;"
+                                       href="#"
+                                       onclick="Consultar('@item.FechaVuelo', '@item.CAllSingn', '@item.Matricula')">
+                                        <i class="bi bi-search" style="font-size:12px;"></i> Consulta
+                                    </a>
+
+                                </td>
 
                                 <td>
                                     @*<a id="Consultar" class="btn btn-lg btn-secondary" href="#" onclick="Consultar('@item.FechaVuelo','@item.CAllSingn')">*@
@@ -162,7 +174,8 @@
                                        data-modelo="@item.MOdelo"
                                        onclick="loadMap(this)">
                                         Mapa
-                                        <img src="~/Content/imganes/plane.png" />
+                                     <img src="~/Content/imganes/plane.png" />
+                                     
                                     </a>
 
 
@@ -178,8 +191,8 @@
         </div>
     </div>
 }
-</div>
-<
+
+
 <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-full-custom" role="document">
         <div class="modal-content shadow-lg border-0 rounded-3">
@@ -195,6 +208,165 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> DATOS SOBREVUELO</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <label for="FECHAEMISION"
+                                           class="form-label fw-bold text-secondary small mb-1">
+                                        Fecha Vuelo
+                                    </label>
+                                    @*<div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Vuelo</label></div>*@
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="FECHAEMISION" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    @*<div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Call Sing</label></div>*@
+                                    <label for="CALLSING"
+                                           class="form-label fw-bold text-secondary small mb-1">
+                                        Call Sing
+                                    </label>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="CALLSING" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Matricula</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="MATRICULA" readonly="readonly" />
+                                </div>
+
+                                <div class="col-8">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Modelo</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="MODELO" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+
+                            <div class="row justify-content-start">
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Origen</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="ORIGEN" readonly="readonly" />
+
+                                </div>
+
+                                <div class="col-8">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NOMBREORIGEN" readonly="readonly" />
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Destino</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="DESTINO" readonly="readonly" />
+                                </div>
+                                <div class="col-8">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NOMBREDESTINO" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>NumeroVlo</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NUMEROVLO" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Distancia Millas</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="DISTANCIA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Initial Time</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="INITIALTIME" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Real Vlo</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="FECHAREAL" readonly="readonly" />
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Hora Real Vlo</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="HORAREAL" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Operador</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="OPERADOR" readonly="readonly" />
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="OACIVUELA" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Facturar A</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="FACTURA" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="OACIFACTURA" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Autorizacion</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="AUTORIZACION" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Aerovia</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="AEROVIA" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="row justify-content-start">
+                                <div class="col-12">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Ruta</label></div>
+                                    <textarea class="form-control" id="RUTA" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+        </div>
+    </div>
+</div>
 </div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -243,7 +415,7 @@
                     "<br/>Matricula: " + matricula +
                     "<br/>Modelo: " + modelo +
                     "<br/>Operador: " + operador + "</div>"
-                ).openPopup();
+                );
 
 
             L.marker([latDestino, lonDestino]).addTo(mapModalInstance)
@@ -270,9 +442,9 @@
 
             // Crear el icono de avión
             const planeIcon = L.icon({
-                iconUrl: "/Content/imganes/plane2.png",
-                iconSize: [36, 36],
-                iconAnchor: [21, 21]
+                iconUrl: "/Content/imganes/avionmapa.png",
+                iconSize: [46, 46],
+                iconAnchor: [31, 31]
             });
 
 
@@ -400,6 +572,51 @@
         const distanciaMN = distanciaKm * 0.539957; // Convertir a millas náuticas
 
         return distanciaMN;
+    }
+
+    function Consultar(FechaVuelo, CAllSingn, Matricula) {
+
+
+        $.ajax({
+            url: $.MisUrls.url._CargaDetalleSobrevuelo,
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            data: { FechaVuelo: FechaVuelo, CAllSingn: CAllSingn, Matricula: Matricula },
+            success: function (e) {
+
+                $("#CALLSING").val(e.CAllSingn);
+                $("#FECHAEMISION").val(e.FechaVuelo);
+                $("#MATRICULA").val(e.Matricula);
+                $("#MODELO").val(e.MOdelo);
+
+                $("#AERONAVE").val(e.Matricula);
+                $("#PESO").val(e.Peso);
+                $("#NUMEROVLO").val(e.NumeroVlo);
+                $("#DISTANCIA").val(e.Distancia);
+                $("#INITIALTIME").val(e.InitialTime);
+                $("#OPERADOR").val(e.Operador);
+                $("#FACTURA").val(e.CiaFactura);
+                $("#OACIVUELA").val(e.OaciVuela);
+                $("#OACIFACTURA").val(e.OaciFactura);
+
+                $("#ORIGEN").val(e.Origen);
+                $("#DESTINO").val(e.Destino);
+                $("#NOMBREORIGEN").val(e.NombreOrigen);
+                $("#NOMBREDESTINO").val(e.NombreDestino);
+                $("#FECHAREAL").val(e.FechaReal);
+                $("#HORAREAL").val(e.HoraReal);
+                $("#AUTORIZACION").val(e.Autorizacion);
+                $("#AEROVIA").val(e.Aerovia);
+                $("#RUTA").val(e.Ruta);
+            },
+            error: function (errormessage) {
+                Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+            }
+        });
+
+
+        $('#largeModal').modal('show');
     }
 
 </script>

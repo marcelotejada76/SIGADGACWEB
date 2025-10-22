@@ -22,7 +22,7 @@ namespace CapaModelo
         public string USUARIOCREA { get; set; }
         public string FECHAMODIFICA { get; set; }
         public string USUARIOMODIFICA { get; set; }
-        public decimal PESOMAXESTRUCTURAL { get; set; }
+        public string PESOMAXESTRUCTURAL { get; set; }
         public string UsuarioCreacion { get; set; }
         public string FechaCreacion { get; set; }
         public string HoraCreacion { get; set; }

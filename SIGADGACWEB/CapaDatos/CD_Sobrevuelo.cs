@@ -42,18 +42,18 @@ namespace CapaDatos
             try
             {
                 sbSol.Append("SELECT opmfec,opmcal,opmre2,opmori,opmdes,opmini,opmfix,opmdis,ori.opilat AS ORIGENLATITUD, ori.opilon AS ORIGENLONGITUD, " +
-                    "des.opilat AS DESTINOLATITUD, des.opilon AS DESTINOLONGITUD, OPERA.CIANOM AS OPERADOR, FACTURA.CIANOM AS FACTURA," +
+                    "des.opilat AS DESTINOLATITUD, des.opilon AS DESTINOLONGITUD, OPERA.CIANOM AS OPERADOR, FACTURA.CIANOM AS FACTURA,OPMFAC AS FACTURABLE," +
                     "concat(trim(AERFAB),concat('/',trim(AERMOD))) as modelo " +
                     "FROM OPMAR1  LEFT JOIN CIAARC  AS OPERA ON  OPMAER = OPERA.CIACOD " +
                     "LEFT JOIN CIAARC  AS FACTURA ON  OPMAER = FACTURA.CIACOD " +
                     "left join opiar1 as ori on opmori = ori.opiica " +
                     "left join opiar1 as des on opmdes = des.opiica " +
                     "left join aerar101 on opmre2=aerma1 " +
-                    "WHERE opmfec = '"+fechaProceso+"' AND OPMSOB = 'S' ");
+                    "WHERE opmfec = '" + fechaProceso + "' AND OPMSOB = 'S' ORDER BY OPMCAL ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 iDB2Command cmd;
-                
+
 
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
                 {
@@ -66,7 +66,7 @@ namespace CapaDatos
                         oSolicitud.FechaVuelo = dr["opmfec"].ToString();
                         oSolicitud.CAllSingn = dr["OPMCAL"].ToString();
 
-                        
+
                         oSolicitud.Matricula = dr["OPMRE2"].ToString();
                         oSolicitud.Origen = dr["OPMORI"].ToString();
                         oSolicitud.Destino = dr["OPMDES"].ToString();
@@ -78,6 +78,7 @@ namespace CapaDatos
                         oSolicitud.CiaFactura = dr["FACTURA"].ToString();
                         oSolicitud.Operador = dr["OPERADOR"].ToString();
                         oSolicitud.MOdelo = dr["MODELO"].ToString();
+                        oSolicitud.Facturable = dr["FACTURABLE"].ToString();
 
                         if (dr["ORIGENLATITUD"].ToString() != "")
                         {
@@ -112,7 +113,7 @@ namespace CapaDatos
             }
             catch (Exception ex)
             {
-               // throw ex;
+                // throw ex;
             }
             return listarSolicitud;
         }
@@ -127,14 +128,14 @@ namespace CapaDatos
             try
             {
                 sbSol.Append("SELECT opmfec,opmcal,opmre2,opmori,opmdes,opmini,opmfix,opmdis,ori.opilat AS ORIGENLATITUD, ori.opilon AS ORIGENLONGITUD, " +
-                    "des.opilat AS DESTINOLATITUD, des.opilon AS DESTINOLONGITUD, OPERA.CIANOM AS OPERADOR, FACTURA.CIANOM AS FACTURA," +
+                    "des.opilat AS DESTINOLATITUD, des.opilon AS DESTINOLONGITUD, OPERA.CIANOM AS OPERADOR, FACTURA.CIANOM AS FACTURA,OPMFAC AS FACTURABLE," +
                     "concat(trim(AERFAB),concat('/',trim(AERMOD))) as modelo " +
                     "FROM OPMAR1  LEFT JOIN CIAARC  AS OPERA ON  OPMAER = OPERA.CIACOD " +
                     "LEFT JOIN CIAARC  AS FACTURA ON  OPMAER = FACTURA.CIACOD " +
                     "left join opiar1 as ori on opmori = ori.opiica " +
                     "left join opiar1 as des on opmdes = des.opiica  " +
                     "left join aerar101 on opmre2 = aerma1 " +
-                    " WHERE opmfec = '"+Fecha+"' AND OPMSOB = 'S' ");
+                    " WHERE opmfec = '" + Fecha + "' AND OPMSOB = 'S' ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -161,8 +162,9 @@ namespace CapaDatos
                         oSolicitud.Distancia = Convert.ToInt16(dr["OPMDIS"].ToString());
                         oSolicitud.CiaFactura = dr["FACTURA"].ToString();
                         oSolicitud.Operador = dr["OPERADOR"].ToString();
+                        oSolicitud.Facturable = dr["FACTURABLE"].ToString();
 
-                        if (dr["ORIGENLATITUD"].ToString()!="")
+                        if (dr["ORIGENLATITUD"].ToString() != "")
                         {
                             oSolicitud.LatitudOrigen = Convert.ToDouble(dr["ORIGENLATITUD"].ToString());
                         }
@@ -182,8 +184,8 @@ namespace CapaDatos
                             oSolicitud.LongitudDestino = Convert.ToDouble(dr["DESTINOLONGITUD"].ToString());
                         }
 
-                        
-                        
+
+
 
                         //oSolicitud.LatitudOrigen = -12.0219;
                         //oSolicitud.LongitudOrigen = -77.1143;
@@ -201,6 +203,103 @@ namespace CapaDatos
                 throw ex;
             }
             return listarSolicitud;
+        }
+
+        //detalle por vuelo
+        public tbSobrevuelo DetalleSobrevuelo(string FechaVuelo, string CAllSingn, string Matricula)
+        {
+            tbSobrevuelo listarSolicitud = new tbSobrevuelo();
+            StringBuilder sbSol = new StringBuilder();
+            string query = string.Empty;
+            try
+            {
+                sbSol.Append("SELECT opmfec,opmcal,opmre2,opmori,opmdes,opmini,opmdis,ori.opilat AS ORIGENLATITUD, ori.opilon AS ORIGENLONGITUD, " +
+                    "des.opilat AS DESTINOLATITUD, des.opilon AS DESTINOLONGITUD, OPERA.CIANOM AS OPERADOR, FACTURA.CIANOM AS FACTURA,OPMFAC AS FACTURABLE, " +
+                    "OPMFEC AS FECHAREAL,OPMHO1 AS HORAREAL,OPMAUT AS AUTORIZACION,OPMNO2 AS NOMBREORIGEN,OPMNO3 AS NOMBREDESTINO,OPMNUM AS NUMEROVLO," +
+                    "OPMAER AS OACIOPERA,OPMCIA AS OACIFACTURA,OPMFIX AS RUTA,OPMAE1 AS AEROVIA," +
+                    "concat(trim(AERFAB),concat('/',trim(AERMOD))) as modelo " +
+                    "FROM OPMAR1  LEFT JOIN CIAARC  AS OPERA ON  OPMAER = OPERA.CIACOD " +
+                    "LEFT JOIN CIAARC  AS FACTURA ON  OPMAER = FACTURA.CIACOD " +
+                    "left join opiar1 as ori on opmori = ori.opiica " +
+                    "left join opiar1 as des on opmdes = des.opiica  " +
+                    "left join aerar101 on opmre2 = aerma1 " +
+                    " WHERE opmfec = '" + FechaVuelo + "' AND OPMCAL='" + CAllSingn + "' AND OPMRE2='" + Matricula + "'  AND OPMSOB = 'S'  ");
+                //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
+                query = sbSol.ToString();
+                iDB2Command cmd;
+
+
+                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                {
+                    cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+                    iDB2DataReader dr = cmd.ExecuteReader();
+                    dr.Read();
+
+                    tbSobrevuelo oSolicitud = new tbSobrevuelo();
+
+                    oSolicitud.FechaVuelo = dr["opmfec"].ToString();
+                    oSolicitud.CAllSingn = dr["OPMCAL"].ToString();
+
+                    oSolicitud.Matricula = dr["OPMRE2"].ToString();
+                    oSolicitud.Origen = dr["OPMORI"].ToString();
+                    oSolicitud.Destino = dr["OPMDES"].ToString();
+                    oSolicitud.InitialTime = dr["OPMINI"].ToString();
+                    oSolicitud.Ruta = dr["RUTA"].ToString();
+                    oSolicitud.MOdelo = dr["modelo"].ToString();
+
+                    oSolicitud.Distancia = Convert.ToInt16(dr["OPMDIS"].ToString());
+                    oSolicitud.CiaFactura = dr["FACTURA"].ToString();
+                    oSolicitud.Operador = dr["OPERADOR"].ToString();
+                    oSolicitud.Facturable = dr["FACTURABLE"].ToString();
+
+                    oSolicitud.NombreOrigen = dr["NOMBREORIGEN"].ToString();
+                    oSolicitud.NombreDestino = dr["NOMBREDESTINO"].ToString();
+                    oSolicitud.Autorizacion = dr["AUTORIZACION"].ToString();
+
+                    oSolicitud.NumeroVlo = dr["NUMEROVLO"].ToString();
+                    oSolicitud.FechaReal = dr["FECHAREAL"].ToString();
+                    oSolicitud.HoraReal = dr["HORAREAL"].ToString();
+                    oSolicitud.OaciVuela = dr["OACIOPERA"].ToString();
+                    oSolicitud.OaciFactura = dr["OACIFACTURA"].ToString();
+                    oSolicitud.Aerovia = dr["AEROVIA"].ToString();
+
+
+                    if (dr["ORIGENLATITUD"].ToString() != "")
+                    {
+                        oSolicitud.LatitudOrigen = Convert.ToDouble(dr["ORIGENLATITUD"].ToString());
+                    }
+
+                    if (dr["ORIGENLONGITUD"].ToString() != "")
+                    {
+                        oSolicitud.LongitudOrigen = Convert.ToDouble(dr["ORIGENLONGITUD"].ToString());
+                    }
+
+                    if (dr["DESTINOLATITUD"].ToString() != "")
+                    {
+                        oSolicitud.LatitudDestino = Convert.ToDouble(dr["DESTINOLATITUD"].ToString());
+                    }
+
+                    if (dr["DESTINOLONGITUD"].ToString() != "")
+                    {
+                        oSolicitud.LongitudDestino = Convert.ToDouble(dr["DESTINOLONGITUD"].ToString());
+                    }
+
+                    listarSolicitud= oSolicitud;
+
+                    dr.Close();
+                    oConexion.Close();
+                    return listarSolicitud;
+                }
+
+            }
+            catch (Exception ex)
+            {
+               // throw ex;
+            }
+
+            return listarSolicitud;
+            
         }
 
     }

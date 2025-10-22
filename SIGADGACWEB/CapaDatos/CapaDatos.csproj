@@ -52,8 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CamposUceo.cs" />
     <Compile Include="CD_AdjuntoCiaAviacion.cs" />
     <Compile Include="CD_Compania.cs" />
+    <Compile Include="CD_MigraSobrevuelos.cs" />
     <Compile Include="CD_ControlFR3.cs" />
     <Compile Include="CD_Curriculum.cs" />
     <Compile Include="CD_CargaManifiesto.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="EstadoPublicacion.cs">
       <DependentUpon>ModelConfiar.tt</DependentUpon>
     </Compile>
+    <Compile Include="InsertarTablaP5.cs" />
     <Compile Include="ModelConfiar.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -143,6 +146,8 @@
     </Compile>
     <Compile Include="NumLetra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidaDuplicados.cs" />
+    <Compile Include="ValidaRegistros.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

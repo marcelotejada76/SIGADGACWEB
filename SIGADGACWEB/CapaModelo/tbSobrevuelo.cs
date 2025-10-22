@@ -23,5 +23,16 @@ namespace CapaModelo
         public double LongitudDestino { get; set; }
         public string Operador { get; set; }
         public string MOdelo { get; set; }
+        public string Facturable { get; set; }
+        public string NombreOrigen { get; set; }
+        public string NombreDestino { get; set; }
+        public string NumeroVlo { get; set; }
+        public string FechaReal { get; set; }
+        public string HoraReal { get; set; }
+        public string Autorizacion { get; set; }
+        public string Aerovia { get; set; }
+        public string OaciVuela { get; set; }
+        public string OaciFactura { get; set; }
+
     }
 }

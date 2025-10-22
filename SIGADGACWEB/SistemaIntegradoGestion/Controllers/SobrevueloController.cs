@@ -74,10 +74,38 @@ namespace SistemaIntegradoGestion.Controllers
             return View(listado);
         }
 
+        [HttpGet]
+        public JsonResult CargaDetalleSobrevuelo(string FechaVuelo, string CAllSingn, string Matricula)
+        {
+            
+            tbSobrevuelo DetalleSob = new tbSobrevuelo();
+
+            if (Session["Usuario"] == null)
+                return Json(DetalleSob, JsonRequestBehavior.AllowGet);
+
+            try
+            {
+                if (CAllSingn!="")
+                {
+                    DetalleSob = CD_Sobrevuelo.Instancia.DetalleSobrevuelo(FechaVuelo, CAllSingn, Matricula);
+
+                    return Json(DetalleSob, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(DetalleSob, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(DetalleSob, JsonRequestBehavior.AllowGet);
+                throw ex;
+            }
+
+        }
+
         //[HttpGet]
         //public JsonResult CargaVuelos(string NumeroVlo, string FechaVlo)
         //{
-           
+
 
         //    tbManifiestoPax DetalleDepsoito = new tbManifiestoPax();
 
@@ -104,34 +132,34 @@ namespace SistemaIntegradoGestion.Controllers
         //}
 
         //[HttpGet]
-//        public JsonResult DescargaTasa(Int16 NumeroFr3, string Ato, string Ano, string FechaEmision, string Ruc)
-//        {
-//            try
-//            {
-//                string miDirectorio = @"c:\TUTPdf";
-//                if (!Directory.Exists(miDirectorio))
-//                    Directory.CreateDirectory(miDirectorio);
+        //        public JsonResult DescargaTasa(Int16 NumeroFr3, string Ato, string Ano, string FechaEmision, string Ruc)
+        //        {
+        //            try
+        //            {
+        //                string miDirectorio = @"c:\TUTPdf";
+        //                if (!Directory.Exists(miDirectorio))
+        //                    Directory.CreateDirectory(miDirectorio);
 
-//                string remoteUri = @"\\172.20.19.55\Tasas\";
-//                string fileName = "TasaNo" + NumeroFr3 + "fecha" + FechaEmision + "cliente" + Ruc + "Ato" + Ato + ".pdf", myStringWebResource = null;
-//                string rutadescarga = @"c:\TUTPdf\" + fileName;
-//                // Create a new WebClient instance.
-//                WebClient myWebClient = new WebClient();
-//                // Concatenate the domain with the Web resource filename.
-//                myStringWebResource = remoteUri + fileName;
-//                Console.WriteLine("Downloading File \"{0}\" from \"{1}\" .......\n\n", fileName, myStringWebResource);
-//                // Download the Web resource and save it into the current filesystem folder.
-//                myWebClient.DownloadFile(myStringWebResource, rutadescarga);
-//            }
-//            catch (Exception ex)
-//            {
+        //                string remoteUri = @"\\172.20.19.55\Tasas\";
+        //                string fileName = "TasaNo" + NumeroFr3 + "fecha" + FechaEmision + "cliente" + Ruc + "Ato" + Ato + ".pdf", myStringWebResource = null;
+        //                string rutadescarga = @"c:\TUTPdf\" + fileName;
+        //                // Create a new WebClient instance.
+        //                WebClient myWebClient = new WebClient();
+        //                // Concatenate the domain with the Web resource filename.
+        //                myStringWebResource = remoteUri + fileName;
+        //                Console.WriteLine("Downloading File \"{0}\" from \"{1}\" .......\n\n", fileName, myStringWebResource);
+        //                // Download the Web resource and save it into the current filesystem folder.
+        //                myWebClient.DownloadFile(myStringWebResource, rutadescarga);
+        //            }
+        //            catch (Exception ex)
+        //            {
 
-////                throw;
-//            }
-//            return null;
+        ////                throw;
+        //            }
+        //            return null;
 
-//        }
+        //        }
 
-     
+
     }
 }

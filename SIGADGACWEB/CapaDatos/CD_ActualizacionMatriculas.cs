@@ -51,10 +51,12 @@ namespace CapaDatos
                     {
                         tbActualizacionMatriculas oSolicitud = new tbActualizacionMatriculas();
                         oSolicitud.MATRICULA = dr["AERMAT"].ToString();
-                        oSolicitud.PESOMAXESTRUCTURAL = decimal.Parse(dr["AERPES"].ToString());
+                        oSolicitud.PESOMAXESTRUCTURAL = dr["AERPES"].ToString().Replace(",", ".");
+                        //oSolicitud.PESOMAXESTRUCTURAL = decimal.Parse(dr["AERPES"].ToString());
                         
                         oSolicitud.REGION = dr["AERRE2"].ToString();
-                        
+                        oSolicitud.OID = Convert.ToInt32(dr["AEROI2"].ToString());
+
                         listarSolicitud.Add(oSolicitud);
                     }
                     oConexion.Close();
@@ -91,9 +93,11 @@ namespace CapaDatos
                     {
                         tbActualizacionMatriculas oSolicitud = new tbActualizacionMatriculas();
                         oSolicitud.MATRICULA = dr["AERMAT"].ToString();
-                        oSolicitud.PESOMAXESTRUCTURAL = decimal.Parse(dr["AERPES"].ToString());
+                        oSolicitud.PESOMAXESTRUCTURAL = dr["AERPES"].ToString().Replace(",", ".");
+                        //oSolicitud.PESOMAXESTRUCTURAL = decimal.Parse(dr["AERPES"].ToString());
 
                         oSolicitud.REGION = dr["AERRE2"].ToString();
+                        oSolicitud.OID = Convert.ToInt32(dr["AEROI2"].ToString());
 
                         listarSolicitud.Add(oSolicitud);
                     }
@@ -130,7 +134,8 @@ namespace CapaDatos
                     {
                         //   tbGarantias oSolicitud = new tbGarantias();
                         oSolicitud.MATRICULA = dr["AERMAT"].ToString();
-                        oSolicitud.PESOMAXESTRUCTURAL = decimal.Parse(dr["AERPES"].ToString());
+                        oSolicitud.PESOMAXESTRUCTURAL = dr["AERPES"].ToString().Replace(",", ".");
+                        //oSolicitud.PESOMAXESTRUCTURAL = decimal.Parse(dr["AERPES"].ToString());
 
                         oSolicitud.REGION = dr["AERRE2"].ToString();
                         oSolicitud.OID = Convert.ToInt32(dr["AEROI2"].ToString());
@@ -149,6 +154,7 @@ namespace CapaDatos
 
         public bool ActualizarDatosMatricula(tbActualizacionMatriculas Matricula)
         {
+            
             bool status = false;
             string queryUpdate = string.Empty;
             StringBuilder sbMatricula = new StringBuilder();
@@ -157,6 +163,7 @@ namespace CapaDatos
             {
                 try
                 {
+                   
                     var osistema = CD_Sistema.Instancia.GetFechaHoraSistema();
                     sbMatricula.Append("UPDATE AERAR1 SET AERPES = @Peso, AERRE2 = @Region ");
                     //sbPersonal.Append(" MAEAL2 = @AlergiaMedioAmbiente, MAEDIS = @Discapacidad, MAEDI3 = @DiscapacidadNombre, MAEPOR = @Porcentaje, ");
@@ -166,23 +173,11 @@ namespace CapaDatos
                     oConexion.Open();
                     cmd.DeriveParameters();
 
-                    cmd.Parameters["@Peso"].Value = (Matricula.PESOMAXESTRUCTURAL);
+                    //cmd.Parameters["@Peso"].Value = peso;
+                    cmd.Parameters["@Peso"].Value = campoNull(Matricula.PESOMAXESTRUCTURAL).ToString().Replace(".", ",");
                     cmd.Parameters["@Region"].Value = campoNull(Matricula.REGION);
 
-                    //cmd.Parameters["@AlergiaMedicina"].Value = campoNull(maestroPersonal.AlergiaMedicina);
-                    //cmd.Parameters["@AlergiaAlimentos"].Value = campoNull(maestroPersonal.AlergiaAlimentos);
-                    //cmd.Parameters["@AlergiaMedioAmbiente"].Value = campoNull(maestroPersonal.AlergiaMedioAmbiente);
-                    //cmd.Parameters["@Discapacidad"].Value = campoNull(maestroPersonal.Discapacidad);
-                    //cmd.Parameters["@DiscapacidadNombre"].Value = campoNull(maestroPersonal.DiscapacidadNombre);
-                    //cmd.Parameters["@Porcentaje"].Value = campoNull(maestroPersonal.Porcentaje);
-                    //cmd.Parameters["@EnfermedadCatrastrofica"].Value = campoNull(maestroPersonal.EnfermedadCatrastrofica);
-                    //cmd.Parameters["@EnfermedadCatrastroficaNombre"].Value = campoNull(maestroPersonal.EnfermedadCatrastroficaNombre);
-                    //cmd.Parameters["@Sustituto"].Value = campoNull(maestroPersonal.Sustituto);
-                    //cmd.Parameters["@NombreFamiliarSustituto"].Value = campoNull(maestroPersonal.NombreFamiliarSustituto);
-                    //cmd.Parameters["@ParentescoSubtituto"].Value = campoNull(maestroPersonal.ParentescoSubtituto);
-                    //cmd.Parameters["@SenescytNumeroRegistro"].Value = campoNull(maestroPersonal.SenescytNumeroRegistro);
-                    //cmd.Parameters["@UltimoTituloObtenido"].Value = campoNull(maestroPersonal.UltimoTituloObtenido);
-                    //cmd.Parameters["@usuarioModifica"].Value = maestroPersonal.UsuarioModificacion;
+                   
                     //cmd.Parameters["@fechaModifica"].Value = osistema.FechaSistema;
                     //cmd.Parameters["@horaModifica"].Value = osistema.HoraSistema;
                     status = Convert.ToBoolean(cmd.ExecuteNonQuery());
@@ -201,7 +196,7 @@ namespace CapaDatos
         public bool ActualizarDatosMatricula550(tbActualizacionMatriculas Matricula)
         {
             bool status = false;
-            string query = "UPDATE AERONAVECOMPANIA SET PESOMAXESTRUCTURAL = "+Matricula.PESOMAXESTRUCTURAL+", REGION = "+Matricula.REGION+"" +
+            string query = "UPDATE AERONAVECOMPANIA SET PESOMAXESTRUCTURAL = "+Matricula.PESOMAXESTRUCTURAL + ", REGION = "+Matricula.REGION+"" +
                 " where OID="+Matricula.OID+"";
             OdbcCommand cmd;
             try

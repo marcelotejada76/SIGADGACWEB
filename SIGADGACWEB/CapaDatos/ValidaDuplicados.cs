@@ -151,5 +151,42 @@ namespace CapaDatos
 
         }
 
+        //vuelos naconales
+        public static bool DatosEncontrados(bool datos, string ORIGEN, string DESTINO, string NUMEROVUELO, string FECHAREAL, string HoraReal, Int32 OIDAERONAVECOMPANI, string OPERACION)
+        {
+
+            string query = "SELECT ORIGEN,DESTINO,NUMEROVUELO,FECHAREAL,OIDAERONAVECOMPANI FROM  MOVIMIENTOAERONAVE WHERE " +
+                "ORIGEN= '" + ORIGEN.Trim() + "' AND DESTINO= '" + DESTINO.Trim() + "' AND NUMEROVUELO= '" + NUMEROVUELO.Trim() + "' AND FECHAREAL= '" + FECHAREAL + "' AND HORAREAL = '" + HoraReal
+                + "' AND OIDAERONAVECOMPANI= " + OIDAERONAVECOMPANI + " AND OPERACION= '" + OPERACION + "'";
+            OdbcCommand cmd;
+            try
+            {
+                using (OdbcConnection oConexion = new OdbcConnection(ConexionP550.CadenaConexion))
+                {
+                    cmd = new OdbcCommand(query, oConexion);
+                    oConexion.Open();
+                    OdbcDataReader dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        string ORIGEND = dr["ORIGEN"].ToString().Trim();
+                        //sec = Convert.ToInt32(dr["OID"].ToString().Trim());
+                        if (ORIGEND != "")
+                        {
+                            datos = true;
+                            break;
+                        }
+                    }
+                    dr.Close();
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return datos;
+
+        }
+
     }
 }

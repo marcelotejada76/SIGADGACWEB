@@ -55,6 +55,7 @@
     <Compile Include="CamposUceo.cs" />
     <Compile Include="CD_AdjuntoCiaAviacion.cs" />
     <Compile Include="CD_Compania.cs" />
+    <Compile Include="CD_MigraVlosNacIn.cs" />
     <Compile Include="CD_MigraSobrevuelos.cs" />
     <Compile Include="CD_ControlFR3.cs" />
     <Compile Include="CD_Curriculum.cs" />

@@ -169,6 +169,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\MigracionVuelosNacInController.cs" />
     <Compile Include="Controllers\MigracionSobrevuelosController.cs" />
     <Compile Include="Controllers\CharterController.cs" />
     <Compile Include="Controllers\CargaManifiestoController.cs" />
@@ -2589,6 +2590,7 @@
     <Content Include="Views\ActualizacionMatriculas\DetalleMatricula.cshtml" />
     <Content Include="Views\ActualizacionMatriculas\ListadoMatriculas.cshtml" />
     <Content Include="Views\MigracionSobrevuelos\DatosSobrevuelos.cshtml" />
+    <Content Include="Views\MigracionVuelosNacIn\DatosVuelos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

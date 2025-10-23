@@ -8,7 +8,8 @@ namespace CapaDatos
 {
     class CamposUceo
     {
-        //MOVIMIENTOS
+        //MOVIMIENTOS}
+        public Int32 OIDAEROPUERTO;
         public Int32 OID;
         public Int32 OIDITEMAUTORIZACIO;
         public Int32 OIDTIPOVUELO;
@@ -49,6 +50,6 @@ namespace CapaDatos
         public string aeropuerto_operation;
         public string aeropuerto_destino;
         public string AUTORIZACION;
-        public int NUMREG;
+        public int NUMREG,PISTA;
     }
 }

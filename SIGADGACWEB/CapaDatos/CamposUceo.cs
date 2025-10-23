@@ -51,5 +51,22 @@ namespace CapaDatos
         public string aeropuerto_destino;
         public string AUTORIZACION;
         public int NUMREG,PISTA;
+
+        //deudor con matricula
+        public DateTime fechadeudor;
+        public string CEDULA_RUC;
+        public string NOMBRECLIENTE;
+        public int NUMEROFACTURA;
+        //public string FECHA;
+        public string FECHARECEPCION;
+        //public string FECHAVENCIMIENTO;
+        public Double VALORFACTURA;
+        public Double SALDOVALOR;
+        public string MATRICULALIMPIA;
+        public string SOBREVUELO;
+        public string FECHA;
+        public string FECHAVENCIMIENTO;
+        public decimal valor, saldo;
+        public string MATRICULA;
     }
 }

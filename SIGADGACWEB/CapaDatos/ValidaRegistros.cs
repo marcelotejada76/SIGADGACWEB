@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Odbc;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -1188,5 +1189,145 @@ namespace CapaDatos
         }
 
 
+        //recupera tabla deudores del p550
+
+        public static List<CamposUceo> DeudorMatricula()
+        {
+            List<CamposUceo> lstUceo = new List<CamposUceo>();
+            string query = "SELECT *FROM V_DEUDORES01 ";
+            OdbcCommand cmd;
+            try
+            {
+                using (OdbcConnection oConexion = new OdbcConnection(ConexionP550.CadenaConexion))
+                {
+                    cmd = new OdbcCommand(query, oConexion);
+                    cmd.CommandTimeout = 3600;
+                    oConexion.Open();
+                    OdbcDataReader dr = cmd.ExecuteReader();
+
+                    DataTable dt = new DataTable();
+                    dt.Load(dr);
+                    dr.Close();
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        CamposUceo oUceo = new CamposUceo();
+
+                        oUceo.CEDULA_RUC = ValidaCampos.ValidaBlancos(item.Field<Object>("CEDULA_RUC"));
+
+
+
+                        oUceo.NOMBRECLIENTE = ValidaCampos.ValidaBlancos(item.Field<Object>("NOMBRECLIENTE"));
+                        oUceo.NUMEROFACTURA = ValidaCampos.ValidaEntero(item.Field<Object>("NUMEROFACTURA"));
+                        //oUceo.FECHA = ValidaCampos.ValidaBlancos(item.Field<Object>("FECHA"));
+                        DateTime FECHADATE;
+                        string fecha = "";
+                        try
+                        {
+
+                            string datos = ValidaCampos.ValidaBlancos(item.Field<Object>("FECHA"));
+                            if (datos != "")
+                            {
+
+                                FECHADATE = Convert.ToDateTime(ValidaCampos.ValidaBlancos(item.Field<Object>("FECHA")));
+                                fecha = FECHADATE.ToString("yyyyMMdd");
+
+                                oUceo.FECHA = fecha;
+                            }
+                            else
+                            {
+                                oUceo.FECHA = "";
+                            }
+                            datos = ValidaCampos.ValidaBlancos(item.Field<Object>("FECHARECEPCION"));
+                            if (datos != "")
+                            {
+                                FECHADATE = Convert.ToDateTime(ValidaCampos.ValidaBlancos(item.Field<Object>("FECHARECEPCION")));
+                                fecha = FECHADATE.ToString("yyyyMMdd");
+
+                                oUceo.FECHARECEPCION = fecha;
+                            }
+                            else
+                            {
+                                oUceo.FECHARECEPCION = "";
+                            }
+
+
+
+                            //oUceo.FECHARECEPCION = ValidaCampos.ValidaBlancos(item.Field<Object>("FECHARECEPCION"));
+
+                            datos = ValidaCampos.ValidaBlancos(item.Field<Object>("FECHAVENCIMIENTO"));
+                            if (datos != "")
+                            {
+
+                                FECHADATE = Convert.ToDateTime(ValidaCampos.ValidaBlancos(item.Field<Object>("FECHAVENCIMIENTO")));
+                                fecha = FECHADATE.ToString("yyyyMMdd");
+
+                                oUceo.FECHAVENCIMIENTO = fecha;
+                            }
+                            else
+                            {
+                                oUceo.FECHAVENCIMIENTO = "";
+                            }
+
+                        }
+                        catch (Exception EX)
+                        {
+
+                            throw;
+                        }
+                        //oUceo.FECHAVENCIMIENTO = ValidaCampos.ValidaBlancos(item.Field<Object>("FECHAVENCIMIENTO"));
+                        //oUceo.valor = ValidaCampos.ValidaDecimal(item.Field<Object>("VALORFACTURA"));
+                        oUceo.valor = item.Field<decimal>("VALORFACTURA");
+
+                        if (oUceo.valor > 0)
+                        {
+                            oUceo.valor = oUceo.valor / 100;
+                        }
+                        else
+                        {
+                            oUceo.valor = 0;
+                        }
+                        oUceo.saldo = item.Field<decimal>("SALDOVALOR");
+                        //oUceo.saldo = ValidaCampos.ValidaDecimal(item.Field<Object>("SALDOVALOR"));
+                        if (oUceo.saldo > 0)
+                        {
+                            oUceo.saldo = oUceo.saldo / 100;
+                        }
+                        else
+                        {
+                            oUceo.saldo = 0;
+                        }
+
+
+
+                        //oUceo.SALDOVALOR = oUceo.SALDOVALOR / 100;
+                        oUceo.MATRICULA = ValidaCampos.ValidaBlancos(item.Field<Object>("MATRICULA"));
+                        oUceo.SOBREVUELO = ValidaCampos.ValidaBlancos(item.Field<Object>("SOBREVUELO"));
+
+
+                        String Caracter = ValidaCampos.ValidaBlancos(item.Field<Object>("MATRICULA"));
+                        //string str = "Something @to ,Write.;';";
+                        string[] charsToRemove = new string[] { "@", ",", ".", ";", "'", "-", "%" };
+                        foreach (var c in charsToRemove)
+                        {
+                            Caracter = Caracter.Replace(c, string.Empty);
+                        }
+
+                        oUceo.MATRICULALIMPIA = Caracter;
+
+
+                        lstUceo.Add(oUceo);
+
+                    }
+                    dr.Close();
+                    oConexion.Close();
+                }
+                return lstUceo;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return lstUceo;
+        }
     }
 }

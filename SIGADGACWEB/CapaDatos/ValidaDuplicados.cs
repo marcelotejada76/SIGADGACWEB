@@ -187,6 +187,53 @@ namespace CapaDatos
             return datos;
 
         }
+       
+        
+        //elimina temporal
+        public static string EliminaTemporal(string tabla)
+        {
+
+            iDB2Connection con = new iDB2Connection(ConexionDB2.CadenaConexion);
+            string cadena = "";
+            int count = 0;
+            bool Registro = false;
+            con.Open();
+
+            iDB2Command cm = new iDB2Command();
+            cm.Connection = con;
+
+            try
+            {
+                cadena = "delete  FROM  " + tabla + " ";
+
+
+                cm.CommandText = cadena;
+                cm.CommandType = CommandType.Text;
+
+                iDB2DataReader drDB2 = cm.ExecuteReader();
+
+                con.Close();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("registro con error.:" + cadena.Trim());
+
+            }
+            finally
+            {
+                // 🔹 Cierre manual por seguridad adicional (aunque using ya lo hace)
+                if (con.State != ConnectionState.Closed)
+                {
+                    con.Close();
+                }
+            }
+
+            con.Close();
+
+
+            return tabla;
+        }
 
     }
 }

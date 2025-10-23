@@ -55,6 +55,7 @@
     <Compile Include="CamposUceo.cs" />
     <Compile Include="CD_AdjuntoCiaAviacion.cs" />
     <Compile Include="CD_Compania.cs" />
+    <Compile Include="CD_ActualizaCarteraVencida.cs" />
     <Compile Include="CD_MigraVlosNacIn.cs" />
     <Compile Include="CD_MigraSobrevuelos.cs" />
     <Compile Include="CD_ControlFR3.cs" />
@@ -147,6 +148,7 @@
     </Compile>
     <Compile Include="NumLetra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidaCampos.cs" />
     <Compile Include="ValidaDuplicados.cs" />
     <Compile Include="ValidaRegistros.cs" />
   </ItemGroup>

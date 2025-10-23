@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.Odbc;
 using System.IO;
 using System.Data;
+using IBM.Data.DB2.iSeries;
 
 namespace CapaDatos
 {
@@ -284,5 +285,86 @@ namespace CapaDatos
                 }
             }
         }
+
+        //actualiza matricula
+        //DERECHO MATRICULA
+        public static void insertar_DeudorMatricula(List<CamposUceo> listaMensaje)
+        {
+
+
+            string cadena = "";
+            string error = "";
+            // AS400
+            string path = @"\\172.20.19.55\Temporal\ArchivosP550\";
+            iDB2Connection con = new iDB2Connection(ConexionDB2.CadenaConexion);
+            try
+            {
+
+
+                con.Open();
+                iDB2Command cm = new iDB2Command();
+                cm.Connection = con;
+                StreamWriter archivo = new StreamWriter(path + "DeudorMatricula.txt", true);
+                archivo.WriteLine("----------------------------------------------------------------------------------------------------------");
+                archivo.WriteLine("Fecha: " + DateTime.Now);
+                string tabla = "DEUARC";
+                string registro = ValidaDuplicados.EliminaTemporal(tabla);
+                int sec = 1;
+                foreach (CamposUceo mensaje in listaMensaje)
+                {
+                    try
+                    {
+
+
+                        cadena = "INSERT INTO DEUARC(DEUIDD,DEURUC,DEUNOM,DEUNUM,DEUFEC,DEUFE1,DEUFE3,DEUVAL,DEUVA1,DEUMAT,DEUTIP,DEUMA1)";
+                        cadena += "values(" + sec +
+                                   ",'" + mensaje.CEDULA_RUC.Trim().Replace("'", "") +
+                                   "','" + mensaje.NOMBRECLIENTE.Trim().Replace("'", "") +
+                                   "'," + mensaje.NUMEROFACTURA +
+                                   ",'" + mensaje.FECHA.Trim().Replace("'", "") +
+                                   "','" + mensaje.FECHARECEPCION.Trim().Replace("'", "") +
+                                   "','" + mensaje.FECHAVENCIMIENTO.Trim().Replace("'", "") +
+                                   "'," + mensaje.valor.ToString().Replace(",", ".") +
+                                   "," + mensaje.saldo.ToString().Replace(",", ".") +
+                                   ",'" + mensaje.MATRICULA.Trim().Replace("'", "") +
+                                   "','" + mensaje.SOBREVUELO.Trim().Replace("'", "") +
+                                   "','" + mensaje.MATRICULALIMPIA.Trim().Replace("'", "") +
+
+                                     "')";
+
+
+                        cm.CommandText = cadena;
+                        cm.CommandType = CommandType.Text;
+                        cm.ExecuteNonQuery();
+                        Console.WriteLine("registro insertado.:" + mensaje.CEDULA_RUC);
+                        sec++;
+                        //archivo.WriteLine("sql Procesado:  " + cadena);
+                        //  }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("registro con error.:" + cadena);
+                        archivo.WriteLine("sql error:  " + cadena);
+                    }
+                }
+                con.Close();
+                archivo.Close();
+                archivo.Dispose();
+            }
+            catch (Exception)
+            {
+
+
+            }
+            finally
+            {
+                // 🔹 Cierre manual por seguridad adicional (aunque using ya lo hace)
+                if (con.State != ConnectionState.Closed)
+                {
+                    con.Close();
+                }
+            }
+        }
+
     }
 }

@@ -38,6 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>librerias\IBM.Data.DB2.iSeries.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.9\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -56,6 +59,7 @@
     <Compile Include="CD_AdjuntoCiaAviacion.cs" />
     <Compile Include="CD_Compania.cs" />
     <Compile Include="CD_ActualizaCarteraVencida.cs" />
+    <Compile Include="CD_BasesCoactivas.cs" />
     <Compile Include="CD_MigraVlosNacIn.cs" />
     <Compile Include="CD_MigraSobrevuelos.cs" />
     <Compile Include="CD_ControlFR3.cs" />
@@ -75,6 +79,7 @@
     <Compile Include="CD_DocumentosDsna.cs" />
     <Compile Include="CD_CertificadoAeronavegabilidad.cs" />
     <Compile Include="CD_ActualizacionMatriculas.cs" />
+    <Compile Include="CD_LiquidacionCoactivas.cs" />
     <Compile Include="CD_Sobrevuelo.cs" />
     <Compile Include="CD_HorarioAtencion.cs" />
     <Compile Include="CD_ControlOperacionalCns.cs" />
@@ -131,6 +136,7 @@
       <DependentUpon>ModelConfiar.tt</DependentUpon>
     </Compile>
     <Compile Include="InsertarTablaP5.cs" />
+    <Compile Include="LiquidacionCoactiva.cs" />
     <Compile Include="ModelConfiar.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

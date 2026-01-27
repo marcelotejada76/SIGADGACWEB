@@ -68,5 +68,16 @@ namespace CapaDatos
         public string FECHAVENCIMIENTO;
         public decimal valor, saldo;
         public string MATRICULA;
+
+        //liuidacion coactiva
+
+        public string ProcedimientoCoacti, TituloCredito, TipoDocumento, Ruc, Nombrecia, FechaLiquidacion;
+
+        public string Documento, Tipo, FechaEmision, FechaRecepcion, FechaVencimiento, FechaPago, TipoDcto;
+        public decimal TotalMulta, TotalAjusteEconomi, Intereses, CostasCoactivas, Total, GestionCobro;
+
+        public string ElaboradoPor, CargoElaborado, RevisadoPor, CargoRevisado, AprobadoPor, CargoAprobado, Año;
+
+
     }
 }

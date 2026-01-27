@@ -172,10 +172,11 @@
                                        data-operador="@item.Operador"
                                        data-factura="@item.CiaFactura"
                                        data-modelo="@item.MOdelo"
+                                       data-ruta="@item.Ruta"
                                        onclick="loadMap(this)">
                                         Mapa
-                                     <img src="~/Content/imganes/plane.png" />
-                                     
+                                        <img src="~/Content/imganes/plane.png" />
+
                                     </a>
 
 
@@ -367,7 +368,7 @@
         </div>
     </div>
 </div>
-</div>
+
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -391,6 +392,7 @@
         const operador = btn.dataset.operador;
         const factura = btn.dataset.factura;
         const modelo = btn.dataset.modelo;
+        const ruta = btn.dataset.ruta;
 
         //const distancia = calcularDistanciaHaversine(latOrigen, lonOrigen, latDestino, lonDestino).toFixed(2); // km
         const distancia = calcularDistanciaNautica(latOrigen, lonOrigen, latDestino, lonDestino).toFixed(2);
@@ -420,10 +422,13 @@
 
             L.marker([latDestino, lonDestino]).addTo(mapModalInstance)
                 .bindPopup(
-                    "<div style='font-size:10px;'>Destino: " + destino +
-                    "<br/>InitialTime: " + tiempo +
-                    "<br/>Distancia: " + distancia + " millas náuticas" +
-                    "</div>");
+                    "<div style='font-size:10px; max-width:220px; white-space:normal; overflow-wrap:break-word; overflow-y:auto; max-height:80px;'>"
+                    + "<b>Destino:</b> " + destino +
+                    "<br/><b>InitialTime:</b> " + tiempo +
+                    "<br/><b>Distancia:</b> " + distancia + " NM" +
+                    "<br/><b>Ruta:</b> " + ruta +
+                    "</div>"
+                );
 
             //"Destino: " + destino + "<br/>InitialTime: " + tiempo + "<br/>Distancia: " + distancia + " millas náuticas");
 
@@ -442,11 +447,10 @@
 
             // Crear el icono de avión
             const planeIcon = L.icon({
-                iconUrl: "/Content/imganes/avionmapa.png",
+                iconUrl: 'https://apps.aviacioncivil.gob.ec/sigadgac/Content/imganes/avionmapa.png',
                 iconSize: [46, 46],
-                iconAnchor: [31, 31]
+                iconAnchor: [23, 23]
             });
-
 
             // Función para calcular el rumbo (heading)
             function calcularRumbo(lat1, lon1, lat2, lon2) {

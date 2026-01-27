@@ -170,6 +170,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
     <Compile Include="Controllers\ActualizaDeudorController.cs" />
+    <Compile Include="Controllers\BasesCoactivasController.cs" />
+    <Compile Include="Controllers\LiquidacionCoactivasController.cs" />
     <Compile Include="Controllers\MigracionVuelosNacInController.cs" />
     <Compile Include="Controllers\MigracionSobrevuelosController.cs" />
     <Compile Include="Controllers\CharterController.cs" />
@@ -2593,6 +2595,8 @@
     <Content Include="Views\MigracionSobrevuelos\DatosSobrevuelos.cshtml" />
     <Content Include="Views\MigracionVuelosNacIn\DatosVuelos.cshtml" />
     <Content Include="Views\ActualizaDeudor\DatosVuelos.cshtml" />
+    <Content Include="Views\LiquidacionCoactivas\LiquidacionCoactivas.cshtml" />
+    <Content Include="Views\BasesCoactivas\ListadoBasesCoactivas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

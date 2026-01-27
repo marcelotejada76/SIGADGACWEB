@@ -29,7 +29,7 @@ namespace CapaModelo
         public decimal CHARTER { get; set; }
         public decimal TOTAL { get; set; }
         public string PERIODO { get; set; }
-
+        public decimal NDISTANCIA { get; set; }
         public string NACINT { get; set; }
         public string RUTA { get; set; }
         public string DISTANCIA { get; set; }

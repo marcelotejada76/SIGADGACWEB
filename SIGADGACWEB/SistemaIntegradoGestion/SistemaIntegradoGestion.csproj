@@ -169,6 +169,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
+    <Compile Include="Controllers\AeronaveComponenteController.cs" />
     <Compile Include="Controllers\ActualizaDeudorController.cs" />
     <Compile Include="Controllers\BasesCoactivasController.cs" />
     <Compile Include="Controllers\LiquidacionCoactivasController.cs" />
@@ -2597,6 +2598,8 @@
     <Content Include="Views\ActualizaDeudor\DatosVuelos.cshtml" />
     <Content Include="Views\LiquidacionCoactivas\LiquidacionCoactivas.cshtml" />
     <Content Include="Views\BasesCoactivas\ListadoBasesCoactivas.cshtml" />
+    <Content Include="Views\AeronaveComponente\DetalleMatricula.cshtml" />
+    <Content Include="Views\AeronaveComponente\ListadoMatriculas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

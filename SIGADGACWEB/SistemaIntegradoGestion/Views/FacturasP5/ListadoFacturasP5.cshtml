@@ -142,6 +142,19 @@
 
                             </div>
 
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Usuario Crea</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="USUARIO" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Creacion</label></div>
+                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="FECHACREACION" readonly="readonly" />
+                                </div>
+                                
+
+                            </div>
+
 
                             <hr />
 
@@ -223,6 +236,19 @@
         //}
 
         function Consultar(Oid) {
+
+            $("#NOMBRECLIENTE").val("");
+            $("#CEDULA_RUC").val("");
+            $("#ESTADO").val("");
+            $("#NUMEROFACTURA").val("");
+            $("#CODIGO").val("");
+            $("#VALORFACTURA").val("");
+            $("#USUARIO").val("");
+            $("#FECHACREACION").val("");
+            $("#tbDetalleFactura").val("");
+            $("#tbDetalleRecaudacion").val("");
+            
+
             $.ajax({
                 url: $.MisUrls.url._DetalleFacturaP5,
                 type: "GET",
@@ -236,6 +262,8 @@
                     $("#NUMEROFACTURA").val(e.NUMEROFACTURA);
                     $("#CODIGO").val(e.CODIGO);
                     $("#VALORFACTURA").val(e.VALORFACTURA);
+                    $("#USUARIO").val(e.USUARIOCREA);
+                    $("#FECHACREACION").val(e.FECHACREACION);
                     $("#tbDetalleFactura tbody").html("");
                     $.each(e.oDetalleFactura, function (i, row) {
 
@@ -267,6 +295,17 @@
             $('#largeModal').modal('show');
         }
         function ConsultarPdf(Oid) {
+            $("#NOMBRECLIENTE").val("");
+            $("#CEDULA_RUC").val("");
+            $("#ESTADO").val("");
+            $("#NUMEROFACTURA").val("");
+            $("#CODIGO").val("");
+            $("#VALORFACTURA").val("");
+            $("#USUARIO").val("");
+            $("#FECHACREACION").val("");
+            $("#tbDetalleFactura").val("");
+            $("#tbDetalleRecaudacion").val("");
+
             $.ajax({
                 url: $.MisUrls.url._DetalleFacturaP5Confiar,
                 type: "GET",
@@ -280,6 +319,8 @@
                     $("#NUMEROFACTURA").val(e.NUMEROFACTURA);
                     $("#CODIGO").val(e.CODIGO);
                     $("#VALORFACTURA").val(e.VALORFACTURA);
+                    $("#USUARIO").val(e.USUARIOCREA);
+                    $("#FECHACREACION").val(e.FECHACREACION);
                     $("#tbDetalleFactura tbody").html("");
                     $("#tbDetalleRecaudacion tbody").html("");
 

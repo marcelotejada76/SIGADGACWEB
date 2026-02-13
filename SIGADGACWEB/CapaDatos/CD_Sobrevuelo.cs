@@ -217,7 +217,7 @@ namespace CapaDatos
                     "des.opilat AS DESTINOLATITUD, des.opilon AS DESTINOLONGITUD, OPERA.CIANOM AS OPERADOR, FACTURA.CIANOM AS FACTURA,OPMFAC AS FACTURABLE, " +
                     "OPMFEC AS FECHAREAL,OPMHO1 AS HORAREAL,OPMAUT AS AUTORIZACION,OPMNO2 AS NOMBREORIGEN,OPMNO3 AS NOMBREDESTINO,OPMNUM AS NUMEROVLO," +
                     "OPMAER AS OACIOPERA,OPMCIA AS OACIFACTURA,OPMFIX AS RUTA,OPMAE1 AS AEROVIA," +
-                    "concat(trim(AERFAB),concat('/',trim(AERMOD))) as modelo " +
+                    "concat(trim(AERFAB),concat('/',trim(AERMOD))) as modelo, opmpe1 as PESO " +
                     "FROM OPMAR1  LEFT JOIN CIAARC  AS OPERA ON  OPMAER = OPERA.CIACOD " +
                     "LEFT JOIN CIAARC  AS FACTURA ON  OPMAER = FACTURA.CIACOD " +
                     "left join opiar1 as ori on opmori = ori.opiica " +
@@ -263,6 +263,7 @@ namespace CapaDatos
                     oSolicitud.OaciVuela = dr["OACIOPERA"].ToString();
                     oSolicitud.OaciFactura = dr["OACIFACTURA"].ToString();
                     oSolicitud.Aerovia = dr["AEROVIA"].ToString();
+                    oSolicitud.Peso = dr["PESO"].ToString();
 
 
                     if (dr["ORIGENLATITUD"].ToString() != "")

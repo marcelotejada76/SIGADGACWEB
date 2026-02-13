@@ -33,6 +33,7 @@ namespace CapaModelo
         public string Aerovia { get; set; }
         public string OaciVuela { get; set; }
         public string OaciFactura { get; set; }
+        public string Peso { get; set; }
 
     }
 }

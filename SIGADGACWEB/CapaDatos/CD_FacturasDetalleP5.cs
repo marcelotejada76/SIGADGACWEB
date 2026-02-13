@@ -110,6 +110,8 @@ namespace CapaDatos
                             oSolicitud.FECHARECAUDACION = Fechaf;
 
                         }
+                        oSolicitud.FECHACREACION = dr["USUARIOCREA"].ToString();
+                        oSolicitud.FECHARECAUDACION = oSolicitud.FECHARECAUDACION+"/"+ oSolicitud.FECHACREACION;
 
                         FechaCrea = dr["FECHAANULACION"].ToString();
                         if (FechaCrea != "")
@@ -154,7 +156,8 @@ namespace CapaDatos
                         {
                             oSolicitud.VALORDEPOSITO = oSolicitud.VALORDEPOSITO / 100;
                         }
-
+                        oSolicitud.FECHACREACION = dr["USUARIOCREA"].ToString();
+                        oSolicitud.USUARIOCREACION = dr["FECHACREA"].ToString();
                         listarSolicitud.Add(oSolicitud);
                     }
                     dr.Close();

@@ -21,5 +21,8 @@ namespace CapaModelo
         public decimal VALORNOTACREDITO { get; set; }
         public decimal VALORDEPOSITO { get; set; }
 
+        public string FECHACREACION { get; set; }
+        public string USUARIOCREACION { get; set; }
+
     }
 }

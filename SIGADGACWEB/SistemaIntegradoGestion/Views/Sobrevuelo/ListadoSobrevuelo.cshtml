@@ -253,9 +253,13 @@
                                     <input style="font-size:12px" class="form-control form-control-sm" id="MATRICULA" readonly="readonly" />
                                 </div>
 
-                                <div class="col-8">
+                                <div class="col-4">
                                     <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Modelo</label></div>
                                     <input style="font-size:12px" class="form-control form-control-sm" id="MODELO" readonly="readonly" />
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Peso MTOW</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="PESO" readonly="readonly" />
                                 </div>
 
                             </div>
@@ -579,7 +583,30 @@
     }
 
     function Consultar(FechaVuelo, CAllSingn, Matricula) {
-
+        
+        $("#CALLSING").val("");
+        $("#FECHAEMISION").val("");
+        $("#MATRICULA").val("");
+        $("#MODELO").val("");
+        $("#AERONAVE").val("");
+        $("#PESO").val("");
+        $("#NUMEROVLO").val("");
+        $("#DISTANCIA").val("");
+        $("#INITIALTIME").val("");
+        $("#OPERADOR").val("");
+        $("#FACTURA").val("");
+        $("#OACIVUELA").val("");
+        $("#OACIFACTURA").val("");
+        $("#PESO").val("");
+        $("#ORIGEN").val("");
+        $("#DESTINO").val("");
+        $("#NOMBREORIGEN").val("");
+        $("#NOMBREDESTINO").val("");
+        $("#FECHAREAL").val("");
+        $("#HORAREAL").val("");
+        $("#AUTORIZACION").val("");
+        $("#AEROVIA").val("");
+        $("#RUTA").val("");
 
         $.ajax({
             url: $.MisUrls.url._CargaDetalleSobrevuelo,
@@ -603,7 +630,7 @@
                 $("#FACTURA").val(e.CiaFactura);
                 $("#OACIVUELA").val(e.OaciVuela);
                 $("#OACIFACTURA").val(e.OaciFactura);
-
+                $("#PESO").val(e.Peso);
                 $("#ORIGEN").val(e.Origen);
                 $("#DESTINO").val(e.Destino);
                 $("#NOMBREORIGEN").val(e.NombreOrigen);

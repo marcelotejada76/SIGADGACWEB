@@ -44,9 +44,22 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tbAdjuntoCiaAviacion.cs" />
+    <Compile Include="tbAeronavesCertAeronav.cs" />
     <Compile Include="tbCertificadoAeronavegabilidad.cs" />
     <Compile Include="tbActualizacionMatriculas.cs" />
     <Compile Include="tbBasesCoactivas.cs" />
+    <Compile Include="tbAeronavesComponentes.cs" />
+    <Compile Include="tbDetalleAccidenteAeronave.cs" />
+    <Compile Include="tbDetalleCerrtAprobEtops.cs" />
+    <Compile Include="tbDetalleCerrtCat2y3.cs" />
+    <Compile Include="tbDetalleCerrtAprobRvsm.cs" />
+    <Compile Include="tbDetalleCerrtAprobRnavArAproach.cs" />
+    <Compile Include="tbDetalleCerrtAprobRnav2.cs" />
+    <Compile Include="tbDetalleCerrtAprobRnav5.cs" />
+    <Compile Include="tbDetalleCerrtAprobaPbnRnp10.cs" />
+    <Compile Include="tbDetalleCertHomolRuido.cs" />
+    <Compile Include="tbDetalleCertLicRadio.cs" />
+    <Compile Include="tbDetalleCertAeronavegab.cs" />
     <Compile Include="tbLiquidacionCoactiva.cs" />
     <Compile Include="tbSobrevuelo.cs" />
     <Compile Include="tbExpedientesPersonales.cs" />

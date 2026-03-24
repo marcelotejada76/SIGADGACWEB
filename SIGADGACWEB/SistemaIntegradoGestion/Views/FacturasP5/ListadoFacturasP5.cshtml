@@ -99,119 +99,137 @@
 </div>
 
 <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+    @*<div class="modal-dialog modal-lg">*@
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
 
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6 class="modal-title text-white" id="modalLabel"> FACTURA</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+                <div class="modal-header bg-gradient-primary text-white">
+                    <h6 class="modal-title text-white" id="modalLabel"> FACTURA</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
 
 
-            <div class="modal-body">
-                <div class="row">
-                    <div class="card-body border-top p-9">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="card-body border-top p-9">
 
-                        <div class="container">
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Compañia</label></div>
-                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="NOMBRECLIENTE" readonly="readonly" />
+                            <div class="container">
+                                <div class="row justify-content-start">
+                                    <div class="col-4">
+                                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Compañia</label></div>
+                                        <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="NOMBRECLIENTE" readonly="readonly" />
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Cedula Ruc</label></div>
+                                        <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="CEDULA_RUC" readonly="readonly" />
+                                    </div>
                                 </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Cedula Ruc</label></div>
-                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="CEDULA_RUC" readonly="readonly" />
+                                <div class="row justify-content-start">
+                                    <div class="col-4">
+                                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Estado</label></div>
+                                        <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="ESTADO" readonly="readonly" />
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Numero Factura</label></div>
+                                        <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="NUMEROFACTURA" readonly="readonly" />
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Valor factura</label></div>
+                                        <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="VALORFACTURA" readonly="readonly" />
+                                    </div>
+
                                 </div>
+
+                                <div class="row justify-content-start">
+                                    <div class="col-4">
+                                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Usuario Crea</label></div>
+                                        <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="USUARIO" readonly="readonly" />
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Creacion</label></div>
+                                        <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="FECHACREACION" readonly="readonly" />
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row justify-content-start">
+                                    <div class="col-4">
+                                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Nombre</label></div>
+                                        <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="NOMBRE" readonly="readonly" />
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Lugar</label></div>
+                                        <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="LUGAR" readonly="readonly" />
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fs-6 fw-bold mt-2 mb-3"><label>Departamento</label></div>
+                                        <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="DEPARTAMENTO" readonly="readonly" />
+                                    </div>
+
+                                </div>
+
+
+                                <hr />
+
+
+
+                                <p class="text-blue" style="font-size:14px">DETALLE FACTURA</p>
+
+
+
+                                <table id="tbDetalleFactura" class="table table-bordered table-hover table-sm" style="width:100%; font-size:13px">
+                                    <thead>
+                                        <tr>
+                                            <th>CODIGO CONTABLE</th>
+                                            <th>CONCEPTO</th>
+                                            <th>VALOR</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:12px"></tbody>
+
+
+                                </table>
+                                <hr />
+
+
+                                <p class="text-blue" style="font-size:14px">DETALLE RECAUDACION</p>
+
+                                <table id="tbDetalleRecaudacion" class="table table-bordered table-hover table-sm" style="width:100%; font-size:13px">
+                                    <thead>
+                                        <tr>
+                                            <th>FECHA CR </th>
+                                            <th>USUARIO </th>
+                                            <th>FECHA ANULACION</th>
+                                            <th>CODIGO</th>
+                                            <th>CONCEPTO</th>
+                                            <th>VALOR RECAUDADO</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:12px"></tbody>
+
+
+                                </table>
+
                             </div>
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Estado</label></div>
-                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="ESTADO" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Numero Factura</label></div>
-                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="NUMEROFACTURA" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Valor factura</label></div>
-                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="VALORFACTURA" readonly="readonly" />
-                                </div>
-
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Usuario Crea</label></div>
-                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="USUARIO" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Creacion</label></div>
-                                    <input style="font-size:14px; background-color: #bbb8a6" class="form-control form-control-sm" id="FECHACREACION" readonly="readonly" />
-                                </div>
-                                
-
-                            </div>
-
-
-                            <hr />
-
-
-
-                            <p class="text-blue" style="font-size:14px">DETALLE FACTURA</p>
-
-
-
-                            <table id="tbDetalleFactura" class="table table-bordered table-hover table-sm" style="width:100%; font-size:13px">
-                                <thead>
-                                    <tr>
-                                        <th>CODIGO CONTABLE</th>
-                                        <th>CONCEPTO</th>
-                                        <th>VALOR</th>
-
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:12px"></tbody>
-
-
-                            </table>
-                            <hr />
-
-
-                            <p class="text-blue" style="font-size:14px">DETALLE RECAUDACION</p>
-
-                            <table id="tbDetalleRecaudacion" class="table table-bordered table-hover table-sm" style="width:100%; font-size:13px">
-                                <thead>
-                                    <tr>
-                                        <th>FECHA CR </th>
-                                        <th>FECHA ANULACION</th>
-                                        <th>CODIGO</th>
-                                        <th>CONCEPTO</th>
-                                        <th>VALOR RECAUDADO</th>
-
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:12px"></tbody>
-
-
-                            </table>
 
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
@@ -245,6 +263,9 @@
             $("#VALORFACTURA").val("");
             $("#USUARIO").val("");
             $("#FECHACREACION").val("");
+            $("#NOMBRE").val("");
+            $("#LUGAR").val("");
+            $("#DEPARTAMENTO").val("");
             $("#tbDetalleFactura").val("");
             $("#tbDetalleRecaudacion").val("");
             
@@ -264,6 +285,10 @@
                     $("#VALORFACTURA").val(e.VALORFACTURA);
                     $("#USUARIO").val(e.USUARIOCREA);
                     $("#FECHACREACION").val(e.FECHACREACION);
+                    $("#NOMBRE").val(e.NOMBRE);
+                    $("#LUGAR").val(e.APELLIDO);
+                    $("#DEPARTAMENTO").val(e.DEPARTAMENTO);
+                    
                     $("#tbDetalleFactura tbody").html("");
                     $.each(e.oDetalleFactura, function (i, row) {
 
@@ -278,6 +303,7 @@
 
                         $("<tr>").append(
                             $("<td>").text(row["FECHARECAUDACION"]),
+                            $("<td>").text((row["USUARIO"] || "") + " " + (row["NOMBRE"] || "") + " " + (row["APELLIDO"] || "") + " " + (row["DEPARTAMENTO"] || "")),
                             $("<td>").text(row["FECHAANULACION"]),
                             $("<td>").text(row["CODIGO"]),
                             $("<td>").text(row["CONCEPTO"]),

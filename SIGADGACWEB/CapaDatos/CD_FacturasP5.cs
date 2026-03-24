@@ -39,10 +39,13 @@ namespace CapaDatos
             try
             {
                 string fecha = DateTime.Now.ToString("yyyy-MM-dd").ToUpper();
-                sbSol.Append("SELECT FA.OID, FA.NOMBRECLIENTE, FA.CEDULA_RUC,FA.NUMEROFACTURA,CAST(FA.FECHA AS date) AS FECHA,FA.VALORFACTURA,FA.ESTADO,RE.CODIGO " +
-                    "FROM FACTURA AS FA LEFT JOIN RECAUDACION AS RE ON RE.OIDDOCUMENTOCC = FA.OIDDOCUMENTOCC  " +
-                    "where FA.NUMEROFACTURA IS NOT NULL AND CAST(FA.FECHACREA AS date) = '" + fecha + "'");
-                //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
+                sbSol.Append("SELECT FA.OID, FA.NOMBRECLIENTE, FA.CEDULA_RUC,FA.NUMEROFACTURA,CAST(FA.FECHA AS date) AS FECHA,FA.VALORFACTURA,FA.ESTADO  " +
+                    "FROM FACTURA AS FA where FA.NUMEROFACTURA IS NOT NULL AND CAST(FA.FECHACREA AS date) = '" + fecha + "'");
+
+                //sbSol.Append("SELECT FA.OID, FA.NOMBRECLIENTE, FA.CEDULA_RUC,FA.NUMEROFACTURA,CAST(FA.FECHA AS date) AS FECHA,FA.VALORFACTURA,FA.ESTADO,RE.CODIGO " +
+                //    "FROM FACTURA AS FA LEFT JOIN RECAUDACION AS RE ON RE.OIDDOCUMENTOCC = FA.OIDDOCUMENTOCC  " +
+                //    "where FA.NUMEROFACTURA IS NOT NULL AND CAST(FA.FECHACREA AS date) = '" + fecha + "'");
+
                 query = sbSol.ToString();
                 OdbcCommand cmd;
 
@@ -100,7 +103,7 @@ namespace CapaDatos
                         }
 
 
-                        oSolicitud.CODIGO= dr["CODIGO"].ToString();
+                        //oSolicitud.CODIGO= dr["CODIGO"].ToString();
 
                         listarSolicitud.Add(oSolicitud);
                     }
@@ -125,8 +128,9 @@ namespace CapaDatos
             try
             {
                 sbSol.Append("SELECT FA.OID, FA.OIDDOCUMENTOCC,NOMBRECLIENTE, FA.CEDULA_RUC,FA.NUMEROFACTURA,CAST(FA.FECHA AS date) AS FECHA,FA.VALORFACTURA,FA.ESTADO,RE.CODIGO," +
-                    "FA.USUARIOCREA,FA.FECHACREA " +
-                    "FROM FACTURA AS FA  LEFT JOIN RECAUDACION AS RE ON RE.OIDDOCUMENTOCC = FA.OIDDOCUMENTOCC " +
+                    "FA.USUARIOCREA,FA.FECHACREA,USR.NOMBRE,USR.APELLIDO,USR.DEPARTAMENTO  " +
+                    "FROM FACTURA AS FA  LEFT JOIN RECAUDACION AS RE ON RE.OIDDOCUMENTOCC = FA.OIDDOCUMENTOCC  " +
+                    " LEFT JOIN usuario AS USR ON USR.codigo =LOWER (FA.USUARIOCREA)" +
                     "where FA.OID=" + OidFactura + "");
 
                 query = sbSol.ToString();
@@ -175,6 +179,9 @@ namespace CapaDatos
 
                         oSolicitud.USUARIOCREA = dr["USUARIOCREA"].ToString();
                         oSolicitud.FECHACREACION = dr["FECHACREA"].ToString();
+                        oSolicitud.NOMBRE = dr["NOMBRE"].ToString();
+                        oSolicitud.APELLIDO = dr["APELLIDO"].ToString();
+                        oSolicitud.DEPARTAMENTO = dr["DEPARTAMENTO"].ToString();
 
                         //LLENA DETALEL FACTURA
                         oSolicitud.oDetalleFactura = CD_FacturasDetalleP5.Instancia.DetalleFacturasDTP5(oSolicitud.OIDFACTURA);

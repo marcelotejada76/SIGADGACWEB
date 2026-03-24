@@ -85,7 +85,8 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM RECAUDACION WHERE OIDDOCUMENTOCC = " + OidDocumentoCc + " order by FECHACREA ");
+                sbSol.Append("SELECT * FROM RECAUDACION AS RE LEFT JOIN usuario AS USR ON USR.codigo =LOWER (RE.USUARIOCREA)" +
+                    "  WHERE RE.OIDDOCUMENTOCC = " + OidDocumentoCc + " order by RE.FECHACREA ");
                 
                 query = sbSol.ToString();
                 OdbcCommand cmd;
@@ -111,7 +112,7 @@ namespace CapaDatos
 
                         }
                         oSolicitud.FECHACREACION = dr["USUARIOCREA"].ToString();
-                        oSolicitud.FECHARECAUDACION = oSolicitud.FECHARECAUDACION+"/"+ oSolicitud.FECHACREACION;
+                        //oSolicitud.FECHARECAUDACION = oSolicitud.FECHARECAUDACION+"/"+ oSolicitud.FECHACREACION;
 
                         FechaCrea = dr["FECHAANULACION"].ToString();
                         if (FechaCrea != "")
@@ -158,6 +159,12 @@ namespace CapaDatos
                         }
                         oSolicitud.FECHACREACION = dr["USUARIOCREA"].ToString();
                         oSolicitud.USUARIOCREACION = dr["FECHACREA"].ToString();
+                        oSolicitud.NOMBRE = dr["NOMBRE"].ToString();
+                        oSolicitud.APELLIDO = dr["APELLIDO"].ToString();
+                        oSolicitud.DEPARTAMENTO = dr["DEPARTAMENTO"].ToString();
+                        
+
+
                         listarSolicitud.Add(oSolicitud);
                     }
                     dr.Close();

@@ -8,6 +8,8 @@ namespace CapaDatos
 {
     class CamposUceo
     {
+        public string FECHAEMISION, INSPECTORREGISTRO, FECHARENOVACION, INSPECTORRENUEVA, FECHACADUCIDAD, ESTADO;
+
         //MOVIMIENTOS}
         public Int32 OIDAEROPUERTO;
         public Int32 OID;

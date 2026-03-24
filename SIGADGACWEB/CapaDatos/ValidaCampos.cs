@@ -8,6 +8,8 @@ namespace CapaDatos
 {
     class ValidaCampos
     {
+
+       
         public static string ValidaFecha(Object fecha)
         {
             string Fechaf = "";

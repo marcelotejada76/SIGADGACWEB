@@ -89,6 +89,7 @@ namespace SistemaIntegradoGestion.Controllers
                 if (Aeronave != "")
                 {
                     DetalleDepsoito = CD_AeronaveComponentes.Instancia.DetalleDocumentosClave(Aeronave);
+                  //  CD_AeronaveComponentes.Instancia.ImprimeDocumento(Aeronave);
 
                     return Json(DetalleDepsoito, JsonRequestBehavior.AllowGet);
                 }
@@ -101,6 +102,34 @@ namespace SistemaIntegradoGestion.Controllers
                 throw ex;
             }
 
+        }
+
+        public ActionResult DescargaPdf(string Aeronave)
+        {
+          
+                CD_AeronaveComponentes.Instancia.ImprimeDocumento(Aeronave);
+
+                //string miDirectorio = @"c:\Fr3Pdf";
+                //if (!Directory.Exists(miDirectorio))
+                //    Directory.CreateDirectory(miDirectorio);
+
+                string remoteUri = @"\\172.20.19.55\Aeronaves\aeronave_" + Aeronave.Trim() + ".pdf";
+                //string remoteUri = @"\\172.20.19.55\TransitoAereo\ITS_" + Lugar.Trim() + "_" + Dependencia.Trim() + "_" + Turno.Trim() + "_" + Fechaelab + ".pdf";
+                string fileName = "aeronave_" + Aeronave.Trim() + ".pdf";
+
+                byte[] fileBytes = GetFile(remoteUri);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            
+        }
+
+        byte[] GetFile(string s)
+        {
+            System.IO.FileStream fs = System.IO.File.OpenRead(s);
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new System.IO.IOException(s);
+            return data;
         }
 
 

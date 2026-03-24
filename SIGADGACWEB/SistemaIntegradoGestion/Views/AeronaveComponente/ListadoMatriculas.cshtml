@@ -93,12 +93,15 @@
 </style>
 
 <div class="container-fluid">
-    <!--begin::Container-->
-    <div class="card-header card-header-stretch mb-3">
-        <div class="card-title">
-            <p class="text-blue">Listado Matriculas HC</p>
+    <div class="card-header mb-3">
+        <div class="card-title text-center w-100">
+            <h5 style="color:#051B96; font-weight:600;">
+                REGISTRO DE MATRÍCULAS NACIONALES Y COMPONENTES
+            </h5>
         </div>
     </div>
+</div>
+
     @using (Html.BeginForm("ListadoMatriculas", "AeronaveComponente", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
     {
         <div class="row align-items-end mb-4">
@@ -130,31 +133,30 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.AERONAVE)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.CODIFOOACI)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.MARCA)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.MODELO)</td>
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.AERONAVE)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CODIFOOACI)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MARCA)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MODELO)</td>
 
 
-                                    <td>
-                                        <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
-                                           href="#"
-                                           onclick="Consultar('@item.AERONAVE')">
-                                            <i class="bi bi-search"></i> Consulta
-                                        </a>
+                                <td>
+                                    <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                       href="#"
+                                       onclick="Consultar('@item.AERONAVE')">
+                                        <i class="bi bi-search"></i> Consulta
+                                    </a>
 
-                                    </td>
-                                    @*<td>
-                                            <a id="Consultar" href="@Url.Action("CargaDetalleAeronave", "AeronaveComponente", new {Matricula=item.AERONAVE })">
-                                                <i>
-                                                    <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+                                </td>
 
-                                                </i>
-                                                Consulta
-                                            </a>
-                                        </td>*@
-                                </tr>
+
+                                <td>
+                                    <a id="Descarga" class="btn btn-outline-secondary btn-sm rounded-pill px-3" href="@Url.Action("DescargaPdf", "AeronaveComponente", new { Aeronave = item.AERONAVE })">
+                                        <i class="bi bi-download"></i> Descarga 
+                                    </a>
+                                </td>
+
+                            </tr>
                             }
                         </tbody>
                     </table>

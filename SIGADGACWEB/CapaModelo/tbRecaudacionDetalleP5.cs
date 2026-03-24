@@ -23,6 +23,9 @@ namespace CapaModelo
 
         public string FECHACREACION { get; set; }
         public string USUARIOCREACION { get; set; }
+        public string NOMBRE { get; set; }
+        public string APELLIDO { get; set; }
+        public string DEPARTAMENTO { get; set; }
 
     }
 }

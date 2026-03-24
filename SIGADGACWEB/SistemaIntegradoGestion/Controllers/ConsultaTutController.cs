@@ -130,7 +130,7 @@ namespace SistemaIntegradoGestion.Controllers
         public ActionResult DescargaTasa(Int16 NumeroTAsa, string Ato, string FechaEmision, string Ruc)
         {
 
-            string remoteUri = @"\\172.20.19.55\Tasas\TasaNo" + NumeroTAsa + "fecha" + FechaEmision + "cliente" + Ruc + "Ato" + Ato + ".pdf";
+            string remoteUri = @"\\172.20.19.55\Tasas\TasaNo" + NumeroTAsa + "fecha" + FechaEmision + "cliente" + Ruc.Trim() + "Ato" + Ato + ".pdf";
             string fileName = "TasaNo" + NumeroTAsa + "fecha" + FechaEmision + "cliente" + Ruc + "Ato" + Ato + ".pdf";
 
             byte[] fileBytes = GetFile(remoteUri);

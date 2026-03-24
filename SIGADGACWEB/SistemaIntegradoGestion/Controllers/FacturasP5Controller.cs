@@ -4,6 +4,7 @@ using SistemaIntegradoGestion.Utilitarios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -45,7 +46,7 @@ namespace SistemaIntegradoGestion.Controllers
             List<tbFacturasP5> listado = new List<tbFacturasP5>();
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
-            
+
             listado = CD_FacturasP5.Instancia.DetalleFacturasP5();
             return View(listado);
         }
@@ -53,24 +54,38 @@ namespace SistemaIntegradoGestion.Controllers
         [HttpPost]
         public ActionResult ListadoFacturasP5(string NombreCliente)
         {
-        
+
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
 
-           NombreCliente= NombreCliente.ToUpper();
-            var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturasP5Cliente(NombreCliente);
-            if (FacturaP5Consulta.Count==0)
+            //NombreCliente = NombreCliente.ToUpper();
+
+            NombreCliente = (NombreCliente ?? "").ToUpper();
+
+            bool esNumerico = Regex.IsMatch(NombreCliente, @"^\d{3}");
+
+            if (esNumerico)
             {
-                 FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturaCliente(NombreCliente);
+
+                //buscar por factura
+                var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturaCliente(NombreCliente);
+                return View(FacturaP5Consulta);
             }
-            return View(FacturaP5Consulta);
+
+            else
+            {
+                var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturasP5Cliente(NombreCliente);
+                return View(FacturaP5Consulta);
+            }
+
+
         }
         public ActionResult DetalleFacturasP5(Int32 OidFactura)
         {
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
             var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturasRucP5(OidFactura);
-           
+
             return View(FacturaP5Consulta);
         }
 
@@ -83,7 +98,7 @@ namespace SistemaIntegradoGestion.Controllers
         //    var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturaP5Confiar(NumeroFactura);
         //    return View(FacturaP5Consulta);
         //}
-       // /descargapdf
+        // /descargapdf
         public ActionResult DetalleFacturaP5Confiar(Int32 NumeroFactura)
         {
             var FacturaP5Consulta = CD_FacturasP5.Instancia.DetalleFacturaP5Confiar(NumeroFactura);
@@ -91,7 +106,7 @@ namespace SistemaIntegradoGestion.Controllers
             string url = FacturaP5Consulta.RESULTADO;
             int len = url.Length;
             len = len - 3;
-            url = url.Substring(3,len);
+            url = url.Substring(3, len);
 
             string fullName = Constantes.ConfiarUrl + url;
 
@@ -124,7 +139,7 @@ namespace SistemaIntegradoGestion.Controllers
         public JsonResult CargaDetalleFacturaP5(Int32 OidFactura)
         {
             tbFacturasP5 DetalleFacturaP5 = new tbFacturasP5();
-            
+
             if (Session["Usuario"] == null)
                 return Json(DetalleFacturaP5, JsonRequestBehavior.AllowGet);
 
@@ -133,7 +148,7 @@ namespace SistemaIntegradoGestion.Controllers
                 if (OidFactura > 0)
                 {
                     DetalleFacturaP5 = CD_FacturasP5.Instancia.DetalleFacturasRucP5(OidFactura);
-                    
+
                     return Json(DetalleFacturaP5, JsonRequestBehavior.AllowGet);
                 }
                 else

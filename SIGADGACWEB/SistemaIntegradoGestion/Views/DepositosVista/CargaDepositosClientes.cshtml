@@ -4,7 +4,62 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+<style>
+    /* Azul Institucional DGAC */
+    .btn-dgac-blue {
+        background-color: #003366;
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
 
+        .btn-dgac-blue:hover {
+            background-color: #002244;
+            color: #ffcc00; /* Dorado al pasar el mouse */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    /* Estilo Outline Ejecutivo */
+    .btn-outline-dgac {
+        border: 1px solid #003366;
+        color: #003366;
+        background: transparent;
+        font-weight: 500;
+    }
+
+        .btn-outline-dgac:hover {
+            background-color: #003366;
+            color: white;
+        }
+
+    /* Ajuste de iconos */
+    .btn-sm i {
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+</style>
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -25,7 +80,7 @@
     <div class="card-header card-header-stretch">
         <div class="card-title d-flex align-items-center">
             <div class="row">
-                <div class="col-md-12">
+                <div class="card-title">
                     <h4>
                         <p class="text-blue">LISTADO  DEPOSITOS POR COMPAÑIAS </p>
                     </h4>
@@ -61,14 +116,15 @@
         <div class="row">
 
             <div class="col-12">
-                <table id="tbDetalle" class="table table-bordered table-hover table-sm display" style="width:100%">
+                <table id="tbDetalle" class="table table-bordered table-hover table-sm"> @*class="table table-bordered table-hover table-sm display" style="width:100%">*@
                     <thead>
                         <tr class="text-sm text-center">
-                            <th style="">Año</th>
-                            <th style="">Mes</th>
-                            <th style="">Ruc</th>
-                            <th style="">Razon Social</th>
-                            <th style="">Registros</th>
+                            <th class="th-ejecutivo">Año</th>
+                            <th class="th-ejecutivo">Mes</th>
+                            <th class="th-ejecutivo">Ruc</th>
+                            <th class="th-ejecutivo">Razon Social</th>
+                            <th class="th-ejecutivo">Registros</th>
+                            <th colspan="2">Acciones</th>
 
                             <th></th>
                         </tr>
@@ -76,25 +132,46 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr class="text-sm text-center">
-                                <td>@Html.DisplayFor(modelItem => item.Año)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Mes)</td>
-                                <td>@Html.DisplayFor(modelItem => item.UsuarioRuc)</td>
-                                <td>@Html.DisplayFor(modelItem => item.RazonSocial)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Registros)</td>
+                        <tr class="text-sm text-center">
+                            <td>@Html.DisplayFor(modelItem => item.Año)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Mes)</td>
+                            <td>@Html.DisplayFor(modelItem => item.UsuarioRuc)</td>
+                            <td>@Html.DisplayFor(modelItem => item.RazonSocial)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Registros)</td>
 
-                                <td class="text-left">
-                                    <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosDepositos", "DepositosVista", new {Año =item.Año, Mes=item.Mes,UsuarioRuc= item.UsuarioRuc.ToString(),RazonSocial=item.RazonSocial.ToString()})">
-                                        @*<a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosDepositos", "Depositos", new { canio = item.Año, ruc = item.UsuarioRuc.ToString(), vista = "SinAfectacionPresupuestaria" })">*@
-                                        <i><img src="~/Content/imganes/consultar-documento.png" style="width:15px" /></i> Consulta archivos
+                            <td class="text-center align-middle">
+                                <div class="btn-group" role="group">
+                                    @*<a class="btn btn-sm btn-outline-dgac px-3"
+                                       href="@Url.Action("SubirDocumentosRecaudacion", "DepositosVista", new { Año = item.Año, Mes = item.Mes, UsuarioRuc = item.UsuarioRuc.ToString(), RazonSocial = item.RazonSocial.ToString() })"
+                                       title="Consultar Archivos">
+                                        <i class="fas fa-search-doc">
+                                            <img src="~/Content/imganes/consultar-documento.png" style="width:16px; filter: contrast(150%);" />
+                                        </i>
+                                        <span class="d-none d-md-inline">Consultar</span>
+                                    </a>*@
+                                    <a class="btn btn-sm btn-dgac-blue px-3"
+                                       href="@Url.Action("SubirDocumentosRecaudacion", "DepositosVista", new { Año = item.Año, Mes = item.Mes, UsuarioRuc = item.UsuarioRuc.ToString(), RazonSocial = item.RazonSocial.ToString() })"
+                                       title="Adjuntar Recibo">
+                                        <i class="fas fa-paperclip">
+                                            <img src="~/Content/imganes/adjunto.png" style="width:16px; brightness(0) invert(1);" />
+                                        </i>
+                                        <span class="d-none d-md-inline">Adjuntar RE</span>
                                     </a>
-                                    @*<a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("ConsultarSolicitud", "ModificacionPoa", new { canio = item.Año, numSolicitud = item.UsuarioRuc.ToString(), vista = "SinAfectacionPresupuestaria" })">
-                                            <i><img src="~/Content/imganes/buscar.png" style="width:15px" /></i> Visualizar
-                                        </a>*@
+                                </div>
+                            </td>
 
-                                </td>
 
-                            </tr>
+                            @*<td class="text-left">
+                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosDepositos", "DepositosVista", new {Año =item.Año, Mes=item.Mes,UsuarioRuc= item.UsuarioRuc.ToString(),RazonSocial=item.RazonSocial.ToString()})">
+                                    <i><img src="~/Content/imganes/consultar-documento.png" style="width:15px" /></i> Consulta archivos
+                                </a>
+                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosDepositos", "Depositos", new {Año =item.Año, Mes=item.Mes,UsuarioRuc= item.UsuarioRuc.ToString(),RazonSocial=item.RazonSocial.ToString()})">
+                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Adjuntar RE
+                                </a>
+
+                            </td>*@
+
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -113,7 +190,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
@@ -139,7 +216,7 @@
 
 
 
-      
+
 
 
     </script>

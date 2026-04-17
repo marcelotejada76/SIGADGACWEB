@@ -126,37 +126,50 @@
                                 <th>CodigoOaci</th>
                                 <th>Marca</th>
                                 <th>Modelo</th>
-
-                                <th class=" control-label control-lab"></th>
+                                <th>Consulta</th>
+                                <th>Archivos</th>
+                                <th>Descarga</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.AERONAVE)</td>
-                                <td>@Html.DisplayFor(modelItem => item.CODIFOOACI)</td>
-                                <td>@Html.DisplayFor(modelItem => item.MARCA)</td>
-                                <td>@Html.DisplayFor(modelItem => item.MODELO)</td>
+                                <tr>
+                                    <td>@item.AERONAVE</td>
+                                    <td>@item.CODIFOOACI</td>
+                                    <td>@item.MARCA</td>
+                                    <td>@item.MODELO</td>
 
+                                    <td>
+                                        <a class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                           href="#"
+                                           onclick="Consultar('@item.AERONAVE')">
+                                            <i class="bi bi-search"></i> Consulta
+                                        </a>
+                                    </td>
 
-                                <td>
-                                    <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
-                                       href="#"
-                                       onclick="Consultar('@item.AERONAVE')">
-                                        <i class="bi bi-search"></i> Consulta
-                                    </a>
+                                    <td>
+                                        <button type="button"
+                                                class="btn btn-outline-primary btn-sm rounded-pill px-3 btn-ver-archivos"
+                                                data-matricula="@item.AERONAVE">
+                                            📂 Ver Archivos Poliza
+                                        </button>
+                                    </td>
 
-                                </td>
+                                    <td>
+                                        <a class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                           href="@Url.Action("DescargaPdf", "AeronaveComponente", new { Aeronave = item.AERONAVE })">
+                                            <i class="bi bi-download"></i> Descarga Matricula
+                                        </a>
+                                    </td>
+                                </tr>
 
-
-                                <td>
-                                    <a id="Descarga" class="btn btn-outline-secondary btn-sm rounded-pill px-3" href="@Url.Action("DescargaPdf", "AeronaveComponente", new { Aeronave = item.AERONAVE })">
-                                        <i class="bi bi-download"></i> Descarga 
-                                    </a>
-                                </td>
-
-                            </tr>
+                                <!-- SUBDETALLE -->
+                                <tr class="detalle" style="display:none;">
+                                    <td colspan="7">
+                                        <div class="contenedor-archivos p-2"></div>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -165,7 +178,6 @@
         </div>
 
     }
-</div>
 
 <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
 
@@ -1051,6 +1063,118 @@
             $('#largeModal').modal('show');
         }
 
+        document.addEventListener("DOMContentLoaded", function () {
+
+            document.querySelectorAll(".btn-ver-archivos").forEach(btn => {
+
+                btn.addEventListener("click", function () {
+
+                    let matricula = this.dataset.matricula.trim().toUpperCase();
+
+                    let fila = this.closest('tr');
+                    let detalle = fila.nextElementSibling;
+                    let contenedor = detalle.querySelector('.contenedor-archivos');
+
+                    // Toggle
+                    if (detalle.style.display === 'none' || detalle.style.display === '') {
+
+                        fetch('/AeronaveComponente/ObtenerArchivos?matricula=' + matricula)
+                            .then(res => res.json())
+                            .then(data => {
+
+                                if (data.length === 0) {
+                                    contenedor.innerHTML = "<p>No hay archivos</p>";
+                                } else {
+
+                                    let html = `
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Archivo</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            `;
+
+                                    data.forEach(file => {
+                                        html += `
+                                    <tr>
+                                        <td>📄 ${file}</td>
+                                        <td>
+                                            <a href="/AeronaveComponente/DescargaDcto?matricula=${matricula}&archivo=${encodeURIComponent(file)}"
+                                               class="btn btn-success btn-sm">
+                                               ⬇ Descargar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                `;
+                                    });
+
+                                    html += "</tbody></table>";
+                                    contenedor.innerHTML = html;
+                                }
+
+                                detalle.style.display = 'table-row';
+                            });
+
+                    } else {
+                        detalle.style.display = 'none';
+                    }
+
+                });
+
+            });
+
+        });
+
+        //document.addEventListener("DOMContentLoaded", function () {
+
+        //    document.querySelectorAll(".btn-ver-archivos").forEach(btn => {
+
+        //        btn.addEventListener("click", function () {
+
+        //            let matricula = this.dataset.matricula.trim().toUpperCase();
+
+        //            console.log("CLICK OK:", matricula);
+
+        //            let fila = this.closest('tr');
+        //            let detalle = fila.nextElementSibling;
+        //            let contenedor = detalle.querySelector('.contenedor-archivos');
+
+        //            if (detalle.style.display === 'none' || detalle.style.display === '') {
+
+        //                fetch('/AeronaveComponente/ObtenerArchivos?matricula=' + matricula)
+        //                    .then(res => res.json())
+        //                    .then(data => {
+
+        //                        if (data.length === 0) {
+        //                            contenedor.innerHTML = "<p>No hay archivos</p>";
+        //                        } else {
+
+        //                            let html = "<ul>";
+
+        //                            data.forEach(file => {
+        //                                html += `<li>${file}</li>`;
+        //                            });
+
+        //                            html += "</ul>";
+
+        //                            contenedor.innerHTML = html;
+        //                        }
+
+        //                        detalle.style.display = 'table-row';
+        //                    });
+
+        //            } else {
+        //                detalle.style.display = 'none';
+        //            }
+
+        //        });
+
+        //    });
+
+        //});
 
     </script>
 }

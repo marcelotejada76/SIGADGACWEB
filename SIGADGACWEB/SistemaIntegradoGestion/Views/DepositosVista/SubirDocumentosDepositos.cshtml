@@ -4,6 +4,57 @@
     ViewBag.Title = "Documentos Financieros";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+
+    .celda-recortada {
+        max-width: 200px; /* Ajusta el ancho según necesites */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+    /* Sombra suave para las tarjetas */
+    .shadow-sm {
+        box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+    }
+
+    /* Ajuste de la tabla */
+    .table thead th {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+        border-top: none;
+    }
+
+    .celda-recortada {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Estilo para inputs deshabilitados para que no parezcan "muertos" */
+    .form-control:disabled {
+        background-color: #f8f9fa;
+        cursor: not-allowed;
+    }
+
+    /* Mejora visual del visor de PDF */
+    #iframeCetificado {
+        background-color: #525659; /* Color gris oscuro típico de visores PDF */
+    }
+
+    .nombre-archivo-recortado {
+        max-width: 150px; /* Ajusta este ancho según tu preferencia */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        vertical-align: middle;
+    }
+</style>
 <section>
     <div class="container-fluid">
         <div class="row mb-2">
@@ -11,21 +62,21 @@
                 <h2>Visualizar/Descarga Dctos.Depositos</h2>
             </div>
             @*<div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item">@Session["ActionResul"]</li>
-                    <li class="breadcrumb-item active">DocumentoDeposito</li>
-                </ol>
-            </div>*@
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">@Session["ActionResul"]</li>
+                        <li class="breadcrumb-item active">DocumentoDeposito</li>
+                    </ol>
+                </div>*@
         </div>
     </div><!-- /.container-fluid -->
     <div class="card-header card-header-stretch">
         <div class="card-title d-flex align-items-center">
-            <div class="row">   
+            <div class="row">
                 @*<div class="col-md-9">
-                    <h3 class="fw-bolder m-0 text-gray-800">
-                        Detalle Garantías
-                    </h3>
-                </div>*@
+                        <h3 class="fw-bolder m-0 text-gray-800">
+                            Detalle Garantías
+                        </h3>
+                    </div>*@
                 <div class="col-md-12">
                     <a class="btn btn-success" href="CargaDepositosClientes">Inicio</a>
                 </div>
@@ -35,7 +86,7 @@
 </section>
 
 <div class="container-fluid">
-    @using (Html.BeginForm("SubirDocumentosDepositos", "DepositosVista", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    @using (Html.BeginForm("SubirDocumentosRecaudacion", "DepositosVista", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
     {
 
         <input type="hidden" id="Directory" name="Directory" value="@ViewBag.DireccionDirectory" />
@@ -46,94 +97,60 @@
 
 
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-body p-0">
                             <div class="col-12">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="card-title mb-0 text-primary"><i class="fas fa-folder-open mr-2"></i> Archivos Depositados</h5>
+                                </div>
+                                <div class="col-md-6 text-md-right mt-2 mt-md-0">
+                                    <span class="badge badge-light border px-3 py-2 mr-1">
+                                        <strong class="text-muted">RUC:</strong> @Model.UsuarioRuc
+                                    </span>
+                                    <span class="badge badge-light border px-3 py-2 mr-1">
+                                        <strong class="text-muted">Periodo:</strong> @Model.Año - @Model.Mes
+                                    </span>
+                                </div>
 
-                              
-                                    <table id="tbExploradorArchivos" class="table table-bordered table-hover table-sm" style="width:100%;">
-                                        <thead>
+                                <table id="tbExploradorArchivos" class="table table-bordered table-hover table-sm" style="width:100%;">
+                                    <thead>
 
-                                            <tr>
-                                                <th class="note-fontsize-10">Nombre archivo</th>
-                                                <th> </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if (Model.oModelArchivo != null)
+                                        <tr>
+                                            <th class="note-fontsize-10">Nombre archivo</th>
+                                            <th class="note-fontsize-10">Comprobante/Transferencia</th>
+                                            <th class="note-fontsize-10">Fecha Deposito</th>
+                                            <th class="note-fontsize-10">Concepto</th>
+                                            <th> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.oModelArchivo != null)
+                                        {
+                                            foreach (var item in Model.oModelArchivo)
                                             {
-                                                foreach (var item in Model.oModelArchivo)
-                                                {
-                                                    <tr>
-                                                        <td>
-                                                            <a href="#" onclick="abrirArchivo(JSON.stringify('@item.NombreArchivo'));"> @item.NombreArchivo</a>
-                                                        </td>
-                                                        <td>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="abrirArchivo(JSON.stringify('@item.NombreArchivo'));"> @item.NombreArchivo</a>
 
-                                                            @*<a id="eliminar" href="#" onclick="eliminar(JSON.stringify('@item.NombreArchivo'));">
-                                                                <i>
-                                                                    <img src="~/Content/imganes/eliminar1.png" style="width:25px" />
-                                                                </i>
-                                                                Eliminar
-                                                            </a>*@
-
-
-                                                        </td>
-                                                    </tr>
-                                                }
-
+                                                    </td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Comprobante)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.FechaDeposito)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Concepto)</td>
+                                                    <td></td>
+                                                </tr>
                                             }
 
-                                        </tbody>
-                                    </table>
-</div>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
 
                         </div>
                         <br />
-                        @*<div class="form-group row">
-                            <div class="col-12 col-sm-12">
-                                <div class="card">
-                                    <div class="form-horizontal">
-                                        <div class="card-body">
-                                            <div class="card-body p-0">
-                                                <div class="col-sm-12">
 
-                                                    <div class="form-group row">
-                                                        <label>Subir documento habilitante</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" class="custom-file-input" id="documentFile" name="documentFile">
-                                                            <label id="labelFile" class="custom-file-label" for="documentFile">No se ha seleccionado ningún archivo.</label>
-                                                        </div>
-                                                        <div class="text-sm text-info">
-                                                            <p style="text-align:justify">
-                                                                Tamaño máximo de archivo 4 MB Formato PDF
-                                                              
-                                                            </p>
-                                                        </div>
-                                                        <div class="text-sm text-info">
-                                                            <p style="text-align:justify;color:red">
-                                                              
-                                                                Nota: EL NOMBRE DEL ARCHIVO DEBE SER EL NUMERO DE DEPOSITO Y FECHA
-                                                            </p>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer">
-
-                                            <a id="btnEnviar" class="btn btn-outline-primary float-right" href="#"><i><img src="~/Content/imganes/save.png" style="width:25px" /></i> Grabar </a>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>*@
                         <div class="form-group">
                             <div class="col-12 col-sm-12 loadingBuscar" id="loadingBuscar" style="display: none">
                                 <img src="~/Content/imganes/loadingHorizontal.gif" />
@@ -145,7 +162,28 @@
 
                 </div>
             </div>
-            <div class="col-lg-8">
+            @*<div class="col-lg-8">
+                    <div class="container-fluid h-100 d-flex flex-column">
+                        <div class="row overflow-hidden">
+                            <div class="col-sm-12 h-100">
+                                <div class="card h-100">
+                                    <div class="card-body overflow-auto">
+                                        <iframe id="iframeCetificado" style="border: 1px solid black; height: 700px; width: 100%"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>*@
+
+        </div>
+
+
+
+        <div class="row">
+
+            <div class="col-lg-12">
                 <div class="container-fluid h-100 d-flex flex-column">
                     <div class="row overflow-hidden">
                         <div class="col-sm-12 h-100">

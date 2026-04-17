@@ -13,5 +13,10 @@ namespace CapaModelo
         public string Tipo { get; set; }
         public string Tamano { get; set; }
         public string Directorio { get; set; }
+        public string Comprobante { get; set; }
+        public string FechaDeposito { get; set; }
+        public string Concepto { get; set; }
+
+        public string Archivo { get; set; }
     }
 }

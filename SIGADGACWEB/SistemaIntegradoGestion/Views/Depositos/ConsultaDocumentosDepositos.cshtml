@@ -22,10 +22,10 @@
         <div class="card-title d-flex align-items-center">
             <div class="row">
                 @*<div class="col-md-9">
-                    <h3 class="fw-bolder m-0 text-gray-800">
-                        Detalle Garantías
-                    </h3>
-                </div>*@
+                        <h3 class="fw-bolder m-0 text-gray-800">
+                            Detalle Garantías
+                        </h3>
+                    </div>*@
                 <div class="col-md-12">
                     <a class="btn btn-success" href="ConsultaDepositosClientes">Inicio</a>
                 </div>
@@ -35,14 +35,14 @@
 </section>
 
 <div class="container-fluid">
-    @using (Html.BeginForm("ConsultarDocumentosDepositos", "Depositos", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    @using (Html.BeginForm("ConsultarDocumentosDepositos", "DepositosVista", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
     {
 
         <input type="hidden" id="Directory" name="Directory" value="@ViewBag.DireccionDirectory" />
         @Html.HiddenFor(m => m.Año)
         @Html.HiddenFor(m => m.Mes)
         @Html.HiddenFor(m => m.UsuarioRuc)
-        
+
         <div class="row">
             <div class="col-lg-4">
                 <div class="card">
@@ -55,6 +55,9 @@
 
                                         <tr>
                                             <th>Nombre archivo</th>
+                                            <th>Comprobante</th>
+                                            <th>Fecha Deposito</th>
+                                            <th>Concepto</th>
                                             <th> </th>
                                         </tr>
                                     </thead>
@@ -63,22 +66,15 @@
                                         {
                                             foreach (var item in Model.oModelArchivo)
                                             {
-                                                <tr>
-                                                    <td>
-                                                        <a href="#" onclick="abrirArchivo(JSON.stringify('@item.NombreArchivo'));"> @item.NombreArchivo</a>
-                                                    </td>
-                                                    <td>
+                                        <tr>
+                                            <td>
+                                                <a href="#" onclick="abrirArchivo(JSON.stringify('@item.NombreArchivo'));"> @item.NombreArchivo</a>
+                                            </td>
+                                            <td>@Html.DisplayFor(modelItem => item.Comprobante)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.FechaDeposito)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Concepto)</td>
 
-                                                        @*<a id="eliminar" href="#" onclick="eliminar(JSON.stringify('@item.NombreArchivo'));">
-                                                            <i>
-                                                                <img src="~/Content/imganes/eliminar1.png" style="width:25px" />
-                                                            </i>
-                                                            Eliminar
-                                                        </a>*@
-
-
-                                                    </td>
-                                                </tr>
+                                        </tr>
                                             }
 
                                         }
@@ -86,10 +82,40 @@
                                     </tbody>
                                 </table>
                             </div>
-                          
+
                         </div>
                         <br />
-                       
+                        <div class="form-group row">
+                            <div class="col-12 col-sm-12">
+                                <div class="card">
+                                    <div class="form-horizontal">
+                                        <div class="card-body">
+                                            <div class="card-body p-0">
+                                                <div class="col-sm-12">
+
+                                                    <div class="form-group row">
+                                                        <label>Comprobante</label>
+                                                        <input type="text" class="form-control" id="comprobante" name="comprobante" placeholder="Ingrese Nro. Comprobante">
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label>Fecha Deposito</label>
+                                                        <input type="date" class="form-control" id="fechadeposito" name="fechadeposito">
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label>Concepto</label>
+                                                        <textarea class="form-control" id="concepto" name="concepto" rows="3" placeholder="Ingrese el concepto"></textarea>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="form-group">
                             <div class="col-12 col-sm-12 loadingBuscar" id="loadingBuscar" style="display: none">
                                 <img src="~/Content/imganes/loadingHorizontal.gif" />
@@ -97,7 +123,6 @@
                         </div>
 
                     </div>
-                 
 
                 </div>
             </div>

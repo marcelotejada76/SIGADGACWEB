@@ -2,6 +2,7 @@
 using CapaModelo;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -89,8 +90,8 @@ namespace SistemaIntegradoGestion.Controllers
                 if (Aeronave != "")
                 {
                     DetalleDepsoito = CD_AeronaveComponentes.Instancia.DetalleDocumentosClave(Aeronave);
-                  //  CD_AeronaveComponentes.Instancia.ImprimeDocumento(Aeronave);
-
+                    //  CD_AeronaveComponentes.Instancia.ImprimeDocumento(Aeronave);
+                  
                     return Json(DetalleDepsoito, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -106,18 +107,17 @@ namespace SistemaIntegradoGestion.Controllers
 
         public ActionResult DescargaPdf(string Aeronave)
         {
+            Aeronave = Aeronave.Trim();
           
                 CD_AeronaveComponentes.Instancia.ImprimeDocumento(Aeronave);
 
-                //string miDirectorio = @"c:\Fr3Pdf";
-                //if (!Directory.Exists(miDirectorio))
-                //    Directory.CreateDirectory(miDirectorio);
 
                 string remoteUri = @"\\172.20.19.55\Aeronaves\aeronave_" + Aeronave.Trim() + ".pdf";
                 //string remoteUri = @"\\172.20.19.55\TransitoAereo\ITS_" + Lugar.Trim() + "_" + Dependencia.Trim() + "_" + Turno.Trim() + "_" + Fechaelab + ".pdf";
                 string fileName = "aeronave_" + Aeronave.Trim() + ".pdf";
 
-                byte[] fileBytes = GetFile(remoteUri);
+
+            byte[] fileBytes = GetFile(remoteUri);
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             
         }
@@ -132,6 +132,48 @@ namespace SistemaIntegradoGestion.Controllers
             return data;
         }
 
+
+
+
+
+
+
+        public ActionResult ObtenerArchivos(string matricula)
+        {
+            // Combinamos la ruta base con la matrícula (ajusta según tu estructura de carpetas)
+            string folderPath = Path.Combine(@"\\172.20.19.55\DocumentosAeronave\", matricula);
+
+            if (Directory.Exists(folderPath))
+            {
+                // Obtiene las rutas completas de todos los archivos
+                string[] files = Directory.GetFiles(folderPath);
+
+                // Solo los nombres de los archivos para mostrar en la vista
+                var fileNames = files.Select(f => Path.GetFileName(f)).ToList();
+
+                return Json(fileNames, JsonRequestBehavior.AllowGet);
+            }
+
+            return HttpNotFound("El directorio no existe.");
+        }
+
+
+        public ActionResult DescargaDcto(string matricula, string archivo)
+        {
+            matricula = matricula.Trim().ToUpper();
+
+            string basePath = @"\\172.20.19.55\DocumentosAeronave\";
+            string fullPath = Path.Combine(basePath, matricula, archivo);
+
+            if (!System.IO.File.Exists(fullPath))
+                return HttpNotFound("Archivo no encontrado");
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes(fullPath);
+
+            return File(fileBytes,
+                        System.Net.Mime.MediaTypeNames.Application.Octet,
+                        archivo);
+        }
 
         //[HttpPost]
         //public JsonResult ActualizarMatricula(tbActualizacionMatriculas modalMatricula)

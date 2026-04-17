@@ -107,6 +107,7 @@
     <Compile Include="tbSecuencialAppP5.cs" />
     <Compile Include="tbServiciosDgac.cs" />
     <Compile Include="tbSolictudVuelo.cs" />
+    <Compile Include="tbDatosDepositoCia.cs" />
     <Compile Include="tbSubirManifiesto.cs" />
     <Compile Include="tbTotalesRecord.cs" />
     <Compile Include="tbSubirDepositos.cs" />

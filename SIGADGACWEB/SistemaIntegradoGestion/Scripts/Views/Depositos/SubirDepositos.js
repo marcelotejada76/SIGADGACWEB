@@ -15,11 +15,70 @@
         }
         $("#labelFile").html($('#documentFile').val());
 
+        var file = this.files[0];
+
+        if (file) {
+
+            
+
+            // Mostrar nombre en el label
+            $("#labelFile").text(file.name);
+
+
+            // Habilitar campos
+            $("#comprobante").prop("disabled", false);
+            $("#fechadeposito").prop("disabled", false);
+            $("#concepto").prop("disabled", false);
+
+          
+        } else {
+            // Reset label
+            $("#labelFile").text("No se ha seleccionado ningún archivo.");
+
+            // Deshabilitar campos
+            $("#comprobante").prop("disabled", true);
+            $("#fechadeposito").prop("disabled", true);
+            $("#concepto").prop("disabled", true);
+        }
     });
+
+    document.getElementById('concepto').addEventListener('input', function () {
+        if (this.value.length > 199) {
+            alert("El concepto no puede exceder los 200 caracteres.");
+            this.value = this.value.substring(0, 200); // Corta el texto si pegan algo largo
+        }
+    });
+
     $('#btnEnviar').click(function () {
         var Año = $("#Año").val();
         var Mes = $("#Mes").val();
         var Ruc = $("#UsuarioRuc").val();
+        var comprobante = $("#comprobante").val().trim();
+        var fecha = $("#fechadeposito").val();
+        var concepto = $("#concepto").val().trim();
+
+        if (comprobante === "" || fecha === "" || concepto === "") {
+            alert("Todos los campos son obligatorios");
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append("documentFile", $("#documentFile")[0].files[0]);
+        formData.append("comprobante", comprobante);
+        formData.append("fechadeposito", fecha);
+        formData.append("concepto", concepto);
+
+        $.ajax({
+            url: '/TuControlador/Guardar',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (respuesta) {
+                alert("Guardado correctamente");
+            }
+        });
+
         $("#registerForm").submit();
     });
 

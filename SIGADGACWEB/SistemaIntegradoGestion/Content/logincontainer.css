@@ -1,61 +1,211 @@
-﻿.login-container {
-    margin-top: 5%;
-    margin-bottom: 5%;
+/* Custom Modern Login Styles */
+:root {
+    --primary-blue: #0056b3;
+    --primary-hover: #004494;
+    --text-main: #333333;
+    --text-muted: #6c757d;
+    --bg-panel: #ffffff;
+    --input-border: #e0e0e0;
+    --input-focus: rgba(0, 86, 179, 0.25);
 }
 
-.login-form-1 {
-    padding: 5%;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+body.login-page {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+    height: 100vh;
+    overflow: hidden; /* Evita scroll si no es necesario */
 }
 
-    .login-form-1 h3 {
-        text-align: center;
-        color: #333;
-    }
-
-.login-form-2 {
-    padding: 5%;
-    background: #0062cc;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+.login-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
 }
 
-    .login-form-2 h3 {
-        text-align: center;
-        color: #fff;
-    }
-
-.login-container form {
-    padding: 10%;
+/* --- Left Side: Visual --- */
+.login-visual {
+    flex: 1.2; /* Toma un poco más de la mitad */
+    position: relative;
+    background-image: url('assets/imganes/avion1.png'); /* Ruta relativa a Content */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.btnSubmit {
-    width: 50%;
-    border-radius: 1rem;
-    padding: 1.5%;
+.visual-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradiente azul corporativo premium */
+    background: linear-gradient(135deg, rgba(0, 48, 107, 0.85) 0%, rgba(0, 98, 204, 0.6) 100%);
+    z-index: 1;
+}
+
+.visual-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.visual-content h2 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.visual-content p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    opacity: 0.9;
+    letter-spacing: 1px;
+}
+
+/* --- Right Side: Panel --- */
+.login-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-panel);
+    position: relative;
+    z-index: 2;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.login-form-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 3rem 2rem;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.login-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.login-logo:hover {
+    transform: scale(1.05);
+}
+
+.login-header h3 {
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.login-header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* --- Form Styles --- */
+.modern-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.modern-input-group label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    margin-bottom: 0.4rem;
+    display: block;
+}
+
+.modern-input-group .form-control {
+    height: 3rem;
+    border-radius: 8px;
+    border: 1px solid var(--input-border);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    background-color: #fcfcfc;
+}
+
+.modern-input-group .form-control:focus {
+    border-color: var(--primary-blue);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px var(--input-focus);
+    outline: none;
+}
+
+.btn-login {
+    background-color: var(--primary-blue);
     border: none;
+    height: 3.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: white;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.2);
+    width: 100%;
+}
+
+.btn-login:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 86, 179, 0.3);
+    color: white;
     cursor: pointer;
 }
 
-.login-form-1 .btnSubmit {
-    font-weight: 600;
-    color: #fff;
-    background-color: #0062cc;
+.btn-login:active {
+    transform: translateY(0);
 }
 
-.login-form-2 .btnSubmit {
-    font-weight: 600;
-    color: #0062cc;
-    background-color: #fff;
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.login-form-2 .ForgetPwd {
-    color: #fff;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.login-form-1 .ForgetPwd {
-    color: #0062cc;
-    font-weight: 600;
-    text-decoration: none;
+/* --- Responsive --- */
+@media (max-width: 991px) {
+    .login-wrapper {
+        flex-direction: column;
+    }
+    
+    .login-visual {
+        flex: none;
+        height: 30vh;
+        min-height: 250px;
+    }
+    
+    .visual-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .login-panel {
+        flex: 1;
+        border-radius: 30px 30px 0 0;
+        margin-top: -30px; /* Overlap effect */
+    }
+    
+    .login-form-container {
+        padding: 2rem 1.5rem;
+    }
 }

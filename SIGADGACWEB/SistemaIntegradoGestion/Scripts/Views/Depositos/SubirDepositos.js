@@ -1,8 +1,25 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     loadDataTable();
+
+    // Función para validar si todos los campos están llenos
+    function validarFormulario() {
+        var file = $("#documentFile").val();
+        var comprobante = $("#comprobante").val() ? $("#comprobante").val().trim() : "";
+        var fecha = $("#fechadeposito").val();
+        var concepto = $("#concepto").val() ? $("#concepto").val().trim() : "";
+
+        if (file !== "" && comprobante !== "" && fecha !== "" && concepto !== "") {
+            $("#btnEnviar").prop("disabled", false);
+        } else {
+            $("#btnEnviar").prop("disabled", true);
+        }
+    }
+
+    // Escuchar eventos para validar en tiempo real
+    $("#comprobante, #fechadeposito, #concepto").on('input change', validarFormulario);
+
     $('#documentFile').on('change', function () {
         if ($(this).val() != '') {
-            //alert("La extensión es: " + ext);  
             const fileSize = $(this)[0].files[0].size / 1024 / 1024; // in MiB 
             if (fileSize > 2) {
                 Swal.fire({
@@ -11,6 +28,7 @@
                     html: "El documento excede el tamaño máximo, se solicita un archivo no mayor a 2MB. Por favor verifica."
                 });
                 $(this).val('');
+                $("#btnEnviar").prop("disabled", true);
             }
         }
         $("#labelFile").html($('#documentFile').val());
@@ -18,28 +36,24 @@
         var file = this.files[0];
 
         if (file) {
-
-            
-
             // Mostrar nombre en el label
             $("#labelFile").text(file.name);
-
 
             // Habilitar campos
             $("#comprobante").prop("disabled", false);
             $("#fechadeposito").prop("disabled", false);
             $("#concepto").prop("disabled", false);
-
-          
         } else {
             // Reset label
             $("#labelFile").text("No se ha seleccionado ningún archivo.");
 
-            // Deshabilitar campos
-            $("#comprobante").prop("disabled", true);
-            $("#fechadeposito").prop("disabled", true);
-            $("#concepto").prop("disabled", true);
+            // Deshabilitar campos y limpiar valores
+            $("#comprobante").prop("disabled", true).val('');
+            $("#fechadeposito").prop("disabled", true).val('');
+            $("#concepto").prop("disabled", true).val('');
         }
+        
+        validarFormulario();
     });
 
     document.getElementById('concepto').addEventListener('input', function () {
@@ -82,36 +96,41 @@
         $("#registerForm").submit();
     });
 
-
 });
 
 function loadDataTable() {
-    $('#tbExploradorArchivos').DataTable({
-        scrollY: '380px',
-        scrollCollapse: true,
-        paging: false,
-        order: [[0, 'desc']],
-        language: {
-            "decimal": "",
-            "emptyTable": "No hay información",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
-            "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            }
+    try {
+        if ($.fn.DataTable) {
+            $('#tbExploradorArchivos').DataTable({
+                scrollY: '380px',
+                scrollCollapse: true,
+                paging: false,
+                order: [[0, 'desc']],
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
         }
-    });
+    } catch (e) {
+        console.error("Error al cargar DataTable:", e);
+    }
 }
 
 function abrirArchivo(fileName) {

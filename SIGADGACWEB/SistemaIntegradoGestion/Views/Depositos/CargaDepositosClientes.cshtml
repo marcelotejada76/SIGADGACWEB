@@ -5,12 +5,70 @@
 
 }
 
+<style>
+    /* Azul Institucional DGAC */
+    .btn-dgac-blue {
+        background-color: #003366;
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
 
+        .btn-dgac-blue:hover {
+            background-color: #002244;
+            color: #ffcc00; /* Dorado al pasar el mouse */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    /* Estilo Outline Ejecutivo */
+    .btn-outline-dgac {
+        border: 1px solid #003366;
+        color: #003366;
+        background: transparent;
+        font-weight: 500;
+    }
+
+        .btn-outline-dgac:hover {
+            background-color: #003366;
+            color: white;
+        }
+
+    /* Ajuste de iconos */
+    .btn-sm i {
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+</style>
 <div class="container-fluid">
     <div class="card-header card-header-stretch">
         <div class="card-title d-flex align-items-center">
             <div class="row">
-                <div class="col-md-12">
+                <div class="card-title">
                     <h4>
                         <p class="text-blue">LISTADO  DEPOSITOS POR COMPAÑIA </p>
                     </h4>
@@ -30,12 +88,12 @@
                 <table id="tbDetalle" class="table table-bordered table-hover table-sm display" style="width:100%">
                     <thead>
                         <tr class="text-sm text-center">
-                            <th style="">Año</th>
-                            <th style="">Mes</th>
-                            <th style="">Ruc</th>
-                            <th style="">Razon Social</th>
-                            <th style="">Registros</th>
-
+                            <th class="th-ejecutivo">Año</th>
+                            <th class="th-ejecutivo">Mes</th>
+                            <th class="th-ejecutivo">Ruc</th>
+                            <th class="th-ejecutivo">Razon Social</th>
+                            <th class="th-ejecutivo">Registros</th>
+                            <th class="th-ejecutivo">Acciones</th>
                             <th></th>
                         </tr>
                     </thead>

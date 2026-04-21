@@ -139,13 +139,14 @@ namespace SistemaIntegradoGestion.Controllers
             CargaArchivo.Año = Año;
             CargaArchivo.Mes = Mes;
             CargaArchivo.UsuarioRuc = UsuarioRuc;
+            CargaArchivo.RazonSocial = RazonSocial;
             direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc + "" + RazonSocial;
             ViewBag.direccionDirectory = direccionDirectory;
-            CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory, Año,Mes,UsuarioRuc);
+            CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory, Año, Mes, UsuarioRuc);
 
             return View(CargaArchivo);
         }
-     
+
         public ActionResult SubirDocumentosRecaudacion(string Año, string Mes, string UsuarioRuc, string RazonSocial)
         {
             string direccionDirectory = string.Empty;
@@ -155,10 +156,11 @@ namespace SistemaIntegradoGestion.Controllers
             CargaArchivo.Año = Año;
             CargaArchivo.Mes = Mes;
             CargaArchivo.UsuarioRuc = UsuarioRuc;
+            CargaArchivo.RazonSocial = RazonSocial;
             direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc + "" + RazonSocial;
             ViewBag.direccionDirectory = direccionDirectory;
-            CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory, Año,Mes,UsuarioRuc);
-            
+            CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory, Año, Mes, UsuarioRuc);
+
             return View(CargaArchivo);
         }
 
@@ -166,27 +168,35 @@ namespace SistemaIntegradoGestion.Controllers
 
         public ActionResult SubirDocumentosRecaudacion(string Año, string Mes, string UsuarioRuc, string RazonSocial, HttpPostedFileBase documentFile, string comprobante, string fechadeposito, string concepto)
         {
-            string direccionDirectory = string.Empty;
-            //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
-            //tbSubirDepositos oArchivo = new tbSubirDepositos();
             tbSubirDepositos CargaArchivo = new tbSubirDepositos();
-            string nombredoc = documentFile.FileName;
-            CargaArchivo.Año = Año;
-            CargaArchivo.Mes = Mes;
-            CargaArchivo.UsuarioRuc = UsuarioRuc;
-            if (nombredoc.Length > 59)
-            {
-                ViewBag.mensajeError = "El nombre del archivo no debe superar los 60 caracteres.";
-            }
-            else
+
+            if (documentFile != null)
             {
 
-                guardarDocumento(Año, Mes, UsuarioRuc, RazonSocial, documentFile, comprobante, fechadeposito, concepto);
-                direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc + "" + RazonSocial;
-                CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory, Año, Mes, UsuarioRuc);
-                ViewBag.direccionDirectory = direccionDirectory;
+                string direccionDirectory = string.Empty;
+                //List<tbModelArchivo> listArchivo = new List<tbModelArchivo>();
+                //tbSubirDepositos oArchivo = new tbSubirDepositos();
+               
+                string nombredoc = documentFile.FileName;
+                CargaArchivo.Año = Año;
+                CargaArchivo.Mes = Mes;
+                CargaArchivo.UsuarioRuc = UsuarioRuc;
+
+                if (nombredoc.Length > 59)
+                {
+                    ViewBag.mensajeError = "El nombre del archivo no debe superar los 60 caracteres.";
+                }
+                else
+                {
+
+                    guardarDocumento(Año, Mes, UsuarioRuc, RazonSocial, documentFile, comprobante, fechadeposito, concepto);
+                    direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc + "" + RazonSocial;
+                    CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory, Año, Mes, UsuarioRuc);
+                    ViewBag.direccionDirectory = direccionDirectory;
+                }
             }
             return View(CargaArchivo);
+
         }
 
         //public ActionResult SubirDocumentosDepositos(string Año, string Mes, string UsuarioRuc, string RazonSocial, HttpPostedFileBase documentFile, string comprobante, string fechadeposito, string concepto)
@@ -279,14 +289,14 @@ namespace SistemaIntegradoGestion.Controllers
                             tbModelArchivo archvo = new tbModelArchivo();
 
                             archvo.NombreArchivo = new FileInfo(files[iFile]).Name;
-                           archvo.Archivo = archvo.NombreArchivo;
+                            archvo.Archivo = archvo.NombreArchivo;
                             archvo.FechaModificacion = new FileInfo(files[iFile]).LastWriteTime.ToString();
                             archvo.Tipo = new FileInfo(files[iFile]).Extension;
                             archvo.Tamano = new FileInfo(files[iFile]).Length.ToString() + " bytes";
                             archvo.Directorio = direccionDirectory;
 
                             //carga datos del deposito
-                           var Datos= CD_Depositos.Instancia.DatosDeposito(año,ruc,mes,archvo.Archivo);
+                            var Datos = CD_Depositos.Instancia.DatosDeposito(año, ruc, mes, archvo.Archivo);
                             foreach (var item in Datos)
                             {
                                 archvo.Comprobante = item.Comprobante;

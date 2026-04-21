@@ -1,48 +1,37 @@
-﻿<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-    <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library menu-open-->
+﻿<ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
+    <!-- Add icons to the links using the .nav-icon class with font-awesome -->
     @if (Session["MenuMaster"] != null)
     {
         var MenuMaster = (List<CapaModelo.tbMenu>)Session["MenuMaster"];
         foreach (var menuList in MenuMaster)
         {
-
             <li class="nav-item">
-                <a href="#" class="nav-link active">
-                    <i><img src="~/Content/assets/imganes/bar.png" style="width:15px" />
-                    </i>
+                <a href="#" class="nav-link main-menu-link">
+                    <i class="nav-icon fas fa-folder text-warning" style="opacity: 0.9;"></i>
                     <p>
                         @menuList.DescripcionMenu
-                        <img class="right" src="~/Content/imganes/icons/icon-next.png" style="width:9px" />                        
+                        <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
                     @foreach (var subMenuList in menuList.oSubMenu)
                     {
                         <li class="nav-item">
-                            <a href="@Url.Action(@subMenuList.Vista, @subMenuList.Controlador, new { reporteurl = subMenuList.ReporteUrl.Trim(), nombreReporte = subMenuList.Nombre.Trim() })" class="nav-link" style="font-size:12px">
-                                <i>
-                                    @if (subMenuList.Controlador.Trim().ToUpper().IndexOf("Rep") > 0)
-                                    {
-                                        <img src="~/Content/imganes/power-bi.png" style="width:20px" />
-                                    }
-                                    else
-                                    {
-                                        <img src="~/Content/imganes/power-bi.png" style="width:20px" />
-                                    }
-
-                                </i>
-                                <p>@subMenuList.Nombre</p>
+                            <a href="@Url.Action(@subMenuList.Vista, @subMenuList.Controlador, new { reporteurl = subMenuList.ReporteUrl.Trim(), nombreReporte = subMenuList.Nombre.Trim() })" class="nav-link sub-menu-link">
+                                @if (subMenuList.Controlador.Trim().ToUpper().IndexOf("REP") >= 0)
+                                {
+                                    <i class="nav-icon fas fa-chart-pie text-success" style="font-size: 0.85rem;"></i>
+                                }
+                                else
+                                {
+                                    <i class="nav-icon far fa-circle text-info" style="font-size: 0.85rem;"></i>
+                                }
+                                <p style="font-size: 0.9rem;">@subMenuList.Nombre</p>
                             </a>
                         </li>
-
                     }
-
                 </ul>
             </li>
         }
     }
 </ul>
-
-
-

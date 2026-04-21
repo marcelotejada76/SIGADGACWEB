@@ -111,6 +111,7 @@ namespace SistemaIntegradoGestion.Controllers
             CargaArchivo.Año = Año;
             CargaArchivo.Mes = Mes;
             CargaArchivo.UsuarioRuc = UsuarioRuc;
+            CargaArchivo.RazonSocial = RazonSocial;
             direccionDirectory = Año + @"\" + Mes + @"\" + UsuarioRuc+""+RazonSocial;
             ViewBag.direccionDirectory = direccionDirectory;
             CargaArchivo.oModelArchivo = GetObtenerTodosArchivos(direccionDirectory, Año, Mes, UsuarioRuc);

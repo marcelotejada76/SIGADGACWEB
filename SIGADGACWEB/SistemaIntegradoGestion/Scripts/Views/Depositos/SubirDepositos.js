@@ -139,7 +139,7 @@ function abrirArchivo(fileName) {
     var opathArchivo = $('#Directory').val();
 
     var _extensionArchivo = "";
-
+   
     if (nombreArchivo.trim().length > 0 && opathArchivo.trim().length > 0) {
 
         var _extensionArchivo = getExtensionArchivo(nombreArchivo);

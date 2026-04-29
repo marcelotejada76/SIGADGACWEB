@@ -217,12 +217,17 @@ namespace CapaDatos
                     "des.opilat AS DESTINOLATITUD, des.opilon AS DESTINOLONGITUD, OPERA.CIANOM AS OPERADOR, FACTURA.CIANOM AS FACTURA,OPMFAC AS FACTURABLE, " +
                     "OPMFEC AS FECHAREAL,OPMHO1 AS HORAREAL,OPMAUT AS AUTORIZACION,OPMNO2 AS NOMBREORIGEN,OPMNO3 AS NOMBREDESTINO,OPMNUM AS NUMEROVLO," +
                     "OPMAER AS OACIOPERA,OPMCIA AS OACIFACTURA,OPMFIX AS RUTA,OPMAE1 AS AEROVIA," +
-                    "concat(trim(AERFAB),concat('/',trim(AERMOD))) as modelo, opmpe1 as PESO " +
-                    "FROM OPMAR1  LEFT JOIN CIAARC  AS OPERA ON  OPMAER = OPERA.CIACOD " +
+                    "concat(trim(AERFAB),concat('/',trim(AERMOD))) as modelo, opmpe1 as PESO,  " +
+                    "(SELECT  SERDES FROM DGACDATPRO.SERARC WHERE SERCOD = SOLCO1) AS TIPO_SERVICIO ,SOLNUM as NUMEROSOLICITUD,SOLFE1 AS FECHASOLICITUD," +
+                    "SOLNO2 AS CIAOPERADOR, SOLDI1 AS DIRECCIONOPERADOR, SOLTE1 AS TELEFONOOPERADOR, SOLCO2 AS CORREOOPERADOR," +
+                    "SOLNO3 AS CIAFACTURA, SOLDI2 AS DIRECCIONFACTURA, SOLTE2 AS TELEFONOFACTURA, SOLCO3 AS COORREOFACTURA," +
+                    "SOLNOM AS NOMBREAPLICANTE, SOLDIR AS DIRECCIONAPLICANTE, SOLTEL AS TELEFONOAPLICANTE, SOLCOR AS CORREOAPLICANTE," +
+                    "SOLAUT AS AUTORIZACION, SOLES2 AS ESTADOAUTORIZACION" +
+                    "  FROM OPMAR1  LEFT JOIN CIAARC  AS OPERA ON  OPMAER = OPERA.CIACOD " +
                     "LEFT JOIN CIAARC  AS FACTURA ON  OPMAER = FACTURA.CIACOD " +
                     "left join opiar1 as ori on opmori = ori.opiica " +
                     "left join opiar1 as des on opmdes = des.opiica  " +
-                    "left join aerar101 on opmre2 = aerma1 " +
+                    "left join aerar101 on opmre2 = aerma1  LEFT JOIN SOLARC ON OPMAUT=SOLAUT " +
                     " WHERE opmfec = '" + FechaVuelo + "' AND OPMCAL='" + CAllSingn + "' AND OPMRE2='" + Matricula + "'  AND OPMSOB = 'S'  ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
@@ -264,6 +269,26 @@ namespace CapaDatos
                     oSolicitud.OaciFactura = dr["OACIFACTURA"].ToString();
                     oSolicitud.Aerovia = dr["AEROVIA"].ToString();
                     oSolicitud.Peso = dr["PESO"].ToString();
+
+                    //DATOPS DE LA AUTORIZACION
+                    oSolicitud.TIPO_SERVICIO = dr["TIPO_SERVICIO"].ToString().Trim();
+                    oSolicitud.NUMEROSOLICITUD = dr["NUMEROSOLICITUD"].ToString().Trim();
+                    oSolicitud.FECHASOLICITUD = dr["FECHASOLICITUD"].ToString().Trim();
+                    oSolicitud.CIAOPERADOR = dr["CIAOPERADOR"].ToString().Trim();
+                    oSolicitud.DIRECCIONOPERADOR = dr["DIRECCIONOPERADOR"].ToString().Trim();
+                    oSolicitud.TELEFONOOPERADOR = dr["TELEFONOOPERADOR"].ToString().Trim();
+                    oSolicitud.CORREOOPERADOR = dr["CORREOOPERADOR"].ToString().Trim();
+                    oSolicitud.CIAFACTURA = dr["CIAFACTURA"].ToString().Trim();
+                    oSolicitud.DIRECCIONFACTURA = dr["DIRECCIONFACTURA"].ToString().Trim();
+                    oSolicitud.TELEFONOFACTURA = dr["TELEFONOFACTURA"].ToString().Trim();
+                    oSolicitud.COORREOFACTURA = dr["COORREOFACTURA"].ToString().Trim();
+                    oSolicitud.NOMBREAPLICANTE = dr["NOMBREAPLICANTE"].ToString().Trim();
+                    oSolicitud.DIRECCIONAPLICANTE = dr["DIRECCIONAPLICANTE"].ToString().Trim();
+                    oSolicitud.TELEFONOAPLICANTE = dr["TELEFONOAPLICANTE"].ToString().Trim();
+                    oSolicitud.CORREOAPLICANTE = dr["CORREOAPLICANTE"].ToString().Trim();
+                    oSolicitud.AUTORIZACION = dr["AUTORIZACION"].ToString().Trim();
+                    oSolicitud.ESTADOAUTORIZACION = dr["ESTADOAUTORIZACION"].ToString().Trim();
+
 
 
                     if (dr["ORIGENLATITUD"].ToString() != "")

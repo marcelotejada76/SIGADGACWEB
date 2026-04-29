@@ -435,8 +435,8 @@ namespace CapaDatos
 
             try
             {
-                sbSol.Append("select USUCOR from dgacdatpro.envarc LEFT JOIN dgacdatpro.USUARC ON USUCOD = ENVCOD " +
-                    " LEFT JOIN dgacdatpro.USUAR1 ON USUCO8 = ENVCOD  where ENVCO3 = 'DEPO' AND ENVEST = 'AC'");
+                sbSol.Append("select USUCOR from dgacdatpro.envarc LEFT JOIN USUARC ON USUCOD = ENVCOD " +
+                    " LEFT JOIN USUAR1 ON USUCO8 = ENVCOD  where ENVCO3 = 'DEPO' AND ENVEST = 'AC'");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -570,7 +570,8 @@ namespace CapaDatos
                 try
                 {
                     //correo.To.Add(email);
-                    correo.To.Add(Correos);
+                    // correo.To.Add(Correos);
+                    correo.To.Add("MARCELO.TEJADA@aviacioncivil.gob.ec");
                 }
                 catch (Exception ex)
                 {

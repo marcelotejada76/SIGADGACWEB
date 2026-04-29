@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +34,24 @@ namespace CapaModelo
         public string OaciVuela { get; set; }
         public string OaciFactura { get; set; }
         public string Peso { get; set; }
+
+        public string TIPO_SERVICIO { get; set; }
+        public string NUMEROSOLICITUD { get; set; }
+        public string FECHASOLICITUD { get; set; }
+        public string CIAOPERADOR { get; set; }
+        public string DIRECCIONOPERADOR { get; set; }
+        public string TELEFONOOPERADOR { get; set; }
+        public string CORREOOPERADOR { get; set; }
+        public string CIAFACTURA { get; set; }
+        public string DIRECCIONFACTURA { get; set; }
+        public string TELEFONOFACTURA { get; set; }
+        public string COORREOFACTURA { get; set; }
+        public string NOMBREAPLICANTE { get; set; }
+        public string DIRECCIONAPLICANTE { get; set; }
+        public string TELEFONOAPLICANTE { get; set; }
+        public string CORREOAPLICANTE { get; set; }
+        public string AUTORIZACION { get; set; }
+        public string ESTADOAUTORIZACION { get; set; }
 
     }
 }

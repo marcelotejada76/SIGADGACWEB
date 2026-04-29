@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="es">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/imganes/logo2.jpg" />
+    <title>@ViewBag.Title - Vuelos Privados con Aeronaves Privadas de Matr+icula Extranjera</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- Bootstrap Icons (opcional, si usas íconos como bi bi-search) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">*@
+    <!-- Premium Sidebar Styles -->
+</head>
+@*<body class="sidebar-dark-blue sidebar-collapse layout-navbar-fixed" onload="deshabilitaRetroceso();">*@
+<body class="hold-transition sidebar-mini pace-primary layout-navbar-fixed">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item d-none d-sm-inline-block">
+                    <img src="~/Content/imganes/selloDGAC.png" alt="DGAC" class="brand-image" style="opacity: .8; height:50px; width:105px">
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="~/Content/imganes/user.png" style="width:30px" alt="user" class="profile-pic" />
+                        @if (Session["name"] != null)
+                        {
+                            <span>@Session["name"].ToString()</span>
+                        }
+
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <a href="#" class="dropdown-item">
+                            <!-- Message Start -->
+                            <div class="media">
+                                <img src="~/Content/imganes/user.png" alt="User" style="width:30px" class="img-size-50 mr-3 img-circle">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                        @if (Session["name"] != null)
+                                        {
+                                            <p class="text-sm"> @Session["name"].ToString() </p>
+                                        }
+                                    </h3>
+
+                                    @if (Session["correo"] != null)
+                                    {
+                                        <p class="text-sm">@Session["correo"].ToString()</p>
+                                    }
+                                </div>
+                            </div>
+                            <!-- Message End -->
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="@Url.Action("Salir", "Home")" class="dropdown-item">
+                            <!-- Message Start -->
+                            <div class="media">
+                                <img src="~/Content/imganes/power.png" alt="User" style="width:30px" class=" mr-3 img-circle">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                        Cerrar sesión
+                                    </h3>
+                                </div>
+                            </div>
+                            <!-- Message End -->
+                        </a>
+                    </div>
+                </li>
+            </ul>
+
+        </nav>
+
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-10">
+                            @RenderBody()
+                        </div>
+                        <div class="col-1"></div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 1.1.
+            </div>
+            <strong>Derechos de autor &copy; 2022 <a href="https://adminlte.io">Dirección Aviación Civil-DGAC</a>.</strong> Reservados todos los derechos.
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/PluginsJS")
+    <script type="text/javascript">
+
+        {
+            if (history.forward(1)) {
+                location.replace(history.forward(1));
+            }
+        }
+
+        $.extend({ MisUrls: { url: {}, urls: function (a) { $.extend($.MisUrls.url, a); } } });
+
+         $.MisUrls.urls({ _FormularioSolicitudSobreVueloConsultaId: '@Url.Action("SolicitudSobreVueloPorNumSolicitudConsulta", "VueloPrivado")' });
+
+        $.MisUrls.urls({ _FormularioCiudad: '@Url.Action("GetCiudadPorCodigo", "VueloPrivado")' });
+        $.MisUrls.urls({ _FormularioSession: '@Url.Action("ComprobarSesion", "VueloPrivado")' });
+
+        $.MisUrls.urls({ _FormularioCompaniaAvisionPorDescripcion: '@Url.Action("CompaniaAvisionPorDescripcion", "VueloPrivado")' });
+
+         //visualizar depositos marcelo tejada
+        $.MisUrls.urls({ _VisualizarDepositos: '@Url.Action("VisualizarDepositos", "Depositos")' });
+        $.MisUrls.urls({ _DownloadFileDeposito: '@Url.Action("DownloadFileDeposito", "Depositos")' });
+        $.MisUrls.urls({ _EliminaDepositoServidor: '@Url.Action("EliminarDepositoServidor", "Depositos")' });
+
+        //Matricula aeronave
+        $.MisUrls.urls({ _FormularioBuscaAeronaesPorMatriculaPrivada: '@Url.Action("ObtenerMatricula", "VueloPrivado")' });
+        $.MisUrls.urls({ _AeronaesPorMatriculaPrivadaExiste: '@Url.Action("AeropuertoIntenacionalEcuadorExiste", "VueloPrivado")' });
+        $.MisUrls.urls({ _MatriculaExisteVueloPrivado: '@Url.Action("MatriculaExiste", "VueloPrivado")' });
+
+        //Imprimir Autorizacion
+        $.MisUrls.urls({ _FormularioImprimir: '@Url.Action("ReporteAutorizacion", "VueloPrivado")' });
+
+        //DeudasPendientesPorMatricula
+        $.MisUrls.urls({ _FormularioDeudasPendientesPorMatricula: '@Url.Action("GetDeudasPendientesPorMatricula", "VueloPrivado")' });
+        $.MisUrls.urls({ _FormularioCiaDeudoraExiste: '@Url.Action("CompaniaDuedora", "VueloPrivado")' });
+        $.MisUrls.urls({ _FormularioListarCiaDeudoraExiste: '@Url.Action("CompaniaAdeudanPorCiaLista", "VueloPrivado")' });
+        $.MisUrls.urls({ _FormularioDeudorPorAeronave: '@Url.Action("CompaniaDuedoraAeronave", "VueloPrivado")' });
+
+        //Ciudad
+        $.MisUrls.urls({ _GetCiudadPorCodigoExiste: '@Url.Action("GetCiudadPorCodigoExiste", "VueloPrivado")' });
+
+          //lenguaje español datatable
+        $.MisUrls.urls({ Url_datatable_spanish: '@Url.Content("~/Content/plugins/datatables/datatable_spanish.json")' });
+
+        $.MisUrls.urls({
+            _FormularioObtenerCiudadesPorCodigo: '@Url.Action("CargaTodasCiudadesPorCodigo", "VueloPrivado")',
+            _agregaDocumentacionTecnica: '@Url.Action("AgregaDocumentacionTecnica", "VueloPrivado")',
+            _obtenerAdjuntosAeronave: '@Url.Action("ObtenerAdjuntosAeronave", "VueloPrivado")',
+            _obtenerAdjuntosAeronavePorOidSolicitud: '@Url.Action("ObtenerAdjuntosAeronavePorOidSolicitud", "VueloPrivado")',
+            _eliminaAdjuntoAeronavePorOid: '@Url.Action("EliminaAdjuntoSolicitudVueloPrivadoPorOid", "VueloPrivado")',
+            _obtenerDetalleRutaPorOid: '@Url.Action("ObtenerDetalleRutaPorOid", "VueloPrivado")',
+            _agregaDetalleRuta: '@Url.Action("AgregaDetalleRuta", "VueloPrivado")',
+            _grabaFormularioVueloPrivado: '@Url.Action("GuardarSolicitud", "VueloPrivado")',
+            _eliminaDetalleRutaPorOid: '@Url.Action("EliminaDetalleRutaPorOid", "VueloPrivado")',
+            _anulaSolicitudVueloPrivadoPorOid: '@Url.Action("AnulaSolicitudVueloPrivadoPorOid", "VueloPrivado")',
+            _consultaFormularioPrivado: '@Url.Action("_ConsultaFormulario", "VueloPrivado")',
+            _verificaExisteMatriculaHelicoptero: '@Url.Action("VerificaExisteMatriculaHelicoptero", "VueloPrivado")'
+
+        });
+
+        //Comprueba que la session este activo
+        $.MisUrls.urls({ _comprobarSessionPrivado: '@Url.Action("ComprobarSession", "VueloPrivado")' });
+
+
+         //login
+        $.MisUrls.urls({ _FormularioLogin: '@Url.Action("login", "Login")' });
+
+        function deshabilitaRetroceso() {
+            window.location.hash = "no-back-button";
+            window.location.hash = "Again-No-back-button" //chrome
+            window.onhashchange = function () { window.location.hash = "no-back-button"; }
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

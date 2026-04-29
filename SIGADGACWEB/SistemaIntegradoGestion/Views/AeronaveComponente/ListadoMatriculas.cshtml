@@ -3,807 +3,677 @@
     ViewBag.Title = "ListadoMatriculas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <style>
-    .section-title {
-        background-color: #f1f3f5;
-        font-weight: 600;
-        font-size: 14px;
-        padding: 8px;
-        border-left: 4px solid #0d6efd;
-        margin-top: 25px;
-        text-transform: uppercase;
-        color: #212529;
+    /* Estilos Corporativos Premium */
+    .executive-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: none;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
     }
 
-    .field-label {
-        font-size: 12px;
-        font-weight: 600;
-        color: #495057;
-        margin-bottom: 3px;
+    .executive-header {
+        background: linear-gradient(135deg, #0f4c81 0%, #1e629f 100%);
+        color: white;
+        padding: 1.5rem;
+        border-bottom: none;
     }
 
-    .form-control-sm {
-        background-color: #f8f9fa;
-    }
-
-    .card-dgac {
-        border: 1px solid #dee2e6;
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 6px;
-        background-color: #ffffff;
-    }
-
-    .table-dgac {
-        font-size: 12px;
-        border: 1px solid #dee2e6;
-    }
-
-        .table-dgac thead {
-            background-color: #0d3b66;
-            color: #ffffff;
-            text-align: center;
+        .executive-header h5 {
             font-weight: 600;
-            font-size: 12px;
+            letter-spacing: 0.5px;
+            margin: 0;
+            font-size: 1.2rem;
         }
 
-        .table-dgac tbody tr:hover {
-            background-color: #f2f4f6;
+    /* Tabla Elegante */
+    .table-executive {
+        width: 100%;
+        margin-bottom: 0;
+        color: #2c3e50;
+    }
+
+        .table-executive thead th {
+            background-color: #f4f7fa;
+            color: #495057;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e9ecef;
+            padding: 1rem;
         }
 
-        .table-dgac td {
+        .table-executive tbody td {
+            padding: 1rem;
             vertical-align: middle;
-            text-align: center;
+            border-bottom: 1px solid #f1f3f5;
+            font-size: 0.95rem;
         }
 
-        .table-dgac th {
-            vertical-align: middle;
+        .table-executive tbody tr:hover {
+            background-color: #f8fbfd;
         }
-    .estado-activo {
-        background-color: #198754 !important; /* verde institucional */
-        color: #ffffff;
+
+    /* Botones Acción en Tabla */
+    .btn-action-icon {
+        color: #6c757d;
+        background-color: transparent;
+        border: 1px solid #dee2e6;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        transition: all 0.2s;
+        font-size: 0.85rem;
         font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        margin: 0 2px;
+    }
+
+        .btn-action-icon:hover {
+            background-color: #f4f7fa;
+            color: #0f4c81;
+            border-color: #0f4c81;
+            text-decoration: none;
+        }
+
+    .btn-action-primary {
+        background-color: #e3f2fd;
+        color: #0d47a1;
+        border-color: #bbdefb;
+    }
+
+        .btn-action-primary:hover {
+            background-color: #0d47a1;
+            color: white;
+        }
+
+    .btn-action-success {
+        background-color: #e8f5e9;
+        color: #1b5e20;
+        border-color: #c8e6c9;
+    }
+
+        .btn-action-success:hover {
+            background-color: #1b5e20;
+            color: white;
+        }
+
+    /* Buscador */
+    .search-bar-container {
+        background-color: #f8fbfd;
+        border-radius: 8px;
+        padding: 1.5rem;
+        border-left: 4px solid #0f4c81;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-primary-executive {
+        background-color: #0f4c81;
+        border-color: #0f4c81;
+        color: white;
+        font-weight: 600;
+        padding: 0.6rem 1.5rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+    }
+
+        .btn-primary-executive:hover {
+            background-color: #0b3b66;
+            color: white;
+        }
+
+    /* Formato Modal Ficha Técnica */
+    .data-sheet-section {
+        background-color: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+
+    .section-title {
+        color: #0f4c81;
+        font-size: 1.1rem;
+        font-weight: 700;
+        border-bottom: 2px solid #f1f3f5;
+        padding-bottom: 0.75rem;
+        margin-bottom: 1.25rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .data-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #6c757d;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.2rem;
+        display: block;
+    }
+
+    .data-value {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #2c3e50;
+        display: block;
+        margin-bottom: 1rem;
+        word-break: break-word;
+        min-height: 1.5rem;
+    }
+
+    .value-highlight {
+        color: #0f4c81;
+        font-weight: 700;
+        font-size: 1.15rem;
+    }
+
+    /* Badges de Estado */
+    .estado-badge {
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.8rem;
         text-align: center;
-        border-radius: 4px;
-        padding: 4px 8px;
         display: inline-block;
-        min-width: 80px;
+    }
+
+    .estado-activo {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
     }
 
     .estado-inactivo {
-        background-color: #dc3545;
-        color: #ffffff;
-        font-weight: 600;
-        text-align: center;
-        border-radius: 4px;
-        padding: 4px 8px;
-        display: inline-block;
-        min-width: 80px;
-    }
-    .btn-dgac {
-        background-color: #0d3b66;
-        color: #ffffff;
-        border: none;
+        background-color: #ffebee;
+        color: #c62828;
+        border: 1px solid #ffcdd2;
     }
 
-        .btn-dgac:hover {
-            background-color: #0b2f52;
-            color: #ffffff;
-        }
+    .table-cert {
+        font-size: 0.85rem;
+    }
 </style>
 
-<div class="container-fluid">
-    <div class="card-header mb-3">
-        <div class="card-title text-center w-100">
-            <h5 style="color:#051B96; font-weight:600;">
-                REGISTRO DE MATRÍCULAS NACIONALES Y COMPONENTES
-            </h5>
+<section class="content-header pt-4 pb-3">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <h2 class="m-0 font-weight-bold" style="color: #2c3e50;">Registro de Matrículas y Componentes</h2>
+            </div>
+            @*<div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right bg-transparent p-0 m-0">
+                    <li class="breadcrumb-item"><a href="#" style="color: #0f4c81;">Aeronave</a></li>
+                    <li class="breadcrumb-item active">Listado Matrículas</li>
+                </ol>
+            </div>*@
+        </div>
+    </div>
+</section>
+
+@using (Html.BeginForm("ListadoMatriculas", "AeronaveComponente", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
+{
+<div class="executive-card">
+    <div class="search-bar-container m-3">
+        <div class="row align-items-end">
+            <div class="col-md-8">
+                <div class="form-group mb-0">
+                    <label class="font-weight-bold text-muted small text-uppercase mb-2">Buscar por Matrícula</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white"><i class="fas fa-plane text-muted"></i></span>
+                        </div>
+                        <input type="text" style="text-transform:uppercase" class="form-control" id="Matricula" name="Matricula" placeholder="Ej. HCABC">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary-executive btn-block mt-3 mt-md-0 shadow-sm">
+                    <i class="fas fa-search mr-2"></i> Buscar Aeronave
+                </button>
+            </div>
         </div>
     </div>
 </div>
-
-    @using (Html.BeginForm("ListadoMatriculas", "AeronaveComponente", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
-    {
-        <div class="row align-items-end mb-4">
-
-            <div class="col-sm-3">
-                <label class="material-label">Matricula</label>
-                <input type="text" name="Matricula" id="Matricula" class="form-control material-input" />
-            </div>
-            <div class="col-sm-2">
-                <button type="submit" class="btn btn-modern btn-success">
-                    🔍 Buscar
-                </button>
-            </div>
-        </div>
-        <div class="card card-default">
-            <div class="card-body">
-                <div class="row">
-                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
-                        <thead>
+    <div class="card card-default">
+        <div class="card-body">
+            <div class="row">
+                <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Cód. OACI</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
                             <tr>
-                                <th>Matricula</th>
-                                <th>CodigoOaci</th>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Consulta</th>
-                                <th>Archivos</th>
-                                <th>Descarga</th>
+                                <td>@item.AERONAVE</td>
+                                <td>@item.CODIFOOACI</td>
+                                <td>@item.MARCA</td>
+                                <td>@item.MODELO</td>
+
+                                <td class="text-center">
+                                    <a href="#" onclick="Consultar('@item.AERONAVE')" class="btn-action-icon btn-action-primary" title="Ver Ficha ">
+                                        <i class="fas fa-eye mr-1"></i> Ficha
+                                    </a>
+                                    <button type="button" class="btn-action-icon btn-action-success btn-ver-archivos" data-matricula="@item.AERONAVE" title="Ver Pólizas">
+                                        <i class="fas fa-folder-open mr-1"></i> Pólizas
+                                    </button>
+                                    <a href="@Url.Action("DescargaPdf", "AeronaveComponente", new { Aeronave = item.AERONAVE })" class="btn-action-icon" title="Descargar PDF">
+                                        <i class="fas fa-file-pdf text-danger mr-1"></i> PDF
+                                    </a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@item.AERONAVE</td>
-                                    <td>@item.CODIFOOACI</td>
-                                    <td>@item.MARCA</td>
-                                    <td>@item.MODELO</td>
 
-                                    <td>
-                                        <a class="btn btn-outline-secondary btn-sm rounded-pill px-3"
-                                           href="#"
-                                           onclick="Consultar('@item.AERONAVE')">
-                                            <i class="bi bi-search"></i> Consulta
-                                        </a>
-                                    </td>
-
-                                    <td>
-                                        <button type="button"
-                                                class="btn btn-outline-primary btn-sm rounded-pill px-3 btn-ver-archivos"
-                                                data-matricula="@item.AERONAVE">
-                                            📂 Ver Archivos Poliza
-                                        </button>
-                                    </td>
-
-                                    <td>
-                                        <a class="btn btn-outline-secondary btn-sm rounded-pill px-3"
-                                           href="@Url.Action("DescargaPdf", "AeronaveComponente", new { Aeronave = item.AERONAVE })">
-                                            <i class="bi bi-download"></i> Descarga Matricula
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <!-- SUBDETALLE -->
-                                <tr class="detalle" style="display:none;">
-                                    <td colspan="7">
-                                        <div class="contenedor-archivos p-2"></div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-    }
-
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-
-    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6 class="modal-title text-white" id="modalLabel"> COMPONENTES AERONAVE</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="card-body border-top p-9">
-
-                        <div class="container mt-3">
-
-                            <div class="card-dgac">
-
-                                <!-- INFORMACIÓN GENERAL -->
-                                <div class="section-title">Información General de la Aeronave</div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-4">
-                                        <div class="field-label">AERONAVE</div>
-                                        <input class="form-control form-control-sm" id="AERONAVE" readonly />
-                                    </div>
-
-                                    <div class="col-md-8">
-                                        <div class="field-label">EXPLOTADOR</div>
-                                        <input class="form-control form-control-sm" id="EXPLOTADOR" readonly />
-                                    </div>
-                                </div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-12">
-                                        <div class="field-label">PROPIETARIO</div>
-                                        <input class="form-control form-control-sm" id="PROPIETARIO" readonly />
-                                    </div>
-                                </div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-4">
-                                        <div class="field-label">MARCA</div>
-                                        <input class="form-control form-control-sm" id="MARCA" readonly />
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="field-label">MODELO</div>
-                                        <input class="form-control form-control-sm" id="MODELO" readonly />
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="field-label">SERIE</div>
-                                        <input class="form-control form-control-sm" id="SERIE" readonly />
-                                    </div>
-                                </div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-4">
-                                        <div class="field-label">AÑO FABRICACIÓN</div>
-                                        <input class="form-control form-control-sm" id="AÑOFAB" readonly />
-                                    </div>
-                                </div>
-
-                                <!-- PESOS -->
-                                <div class="section-title">Pesos y Performance</div>
-
-                                <div class="row mt-3 text-center">
-                                    <div class="col-md-3">
-                                        <div class="field-label">PESO VACÍO</div>
-                                        <input class="form-control form-control-sm text-center" id="PESOVACIO" readonly />
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="field-label">UNIDAD</div>
-                                        <input class="form-control form-control-sm text-center" id="PESODESIGNACION" readonly />
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="field-label">PMP</div>
-                                        <input class="form-control form-control-sm text-center" id="PMP" readonly />
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="field-label">UNIDAD</div>
-                                        <input class="form-control form-control-sm text-center" id="PMPDESIGNACION" readonly />
-                                    </div>
-                                </div>
-
-                                <div class="row mt-3 text-center">
-                                    <div class="col-md-3">
-                                        <div class="field-label">TECHO</div>
-                                        <input class="form-control form-control-sm text-center" id="TECHO" readonly />
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="field-label">m / pies</div>
-                                        <input class="form-control form-control-sm text-center" id="TECHODESIGNACION" readonly />
-                                    </div>
-                                </div>
-
-                                <!-- MOTORES -->
-                                <div class="section-title">Motor 1</div>
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
-                                        <div class="field-label">MARCA</div>
-                                        <input class="form-control form-control-sm" id="MARCAMOTOR1" readonly />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="field-label">MODELO</div>
-                                        <input class="form-control form-control-sm" id="MODELOMOTOR1" readonly />
-                                    </div>
-                                </div>
-
-                                <div class="section-title">Motor 2</div>
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
-                                        <div class="field-label">MARCA</div>
-                                        <input class="form-control form-control-sm" id="MARCAMOTOR2" readonly />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="field-label">MODELO</div>
-                                        <input class="form-control form-control-sm" id="MODELOMOTOR2" readonly />
-                                    </div>
-                                </div>
-
-                                <!-- HÉLICES -->
-                                <div class="section-title">Hélice 1</div>
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
-                                        <div class="field-label">MARCA</div>
-                                        <input class="form-control form-control-sm" id="MARCAHELICE1" readonly />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="field-label">MODELO</div>
-                                        <input class="form-control form-control-sm" id="MODELOHELICE1" readonly />
-                                    </div>
-                                </div>
-
-                                <div class="section-title">Hélice 2</div>
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
-                                        <div class="field-label">MARCA</div>
-                                        <input class="form-control form-control-sm" id="MARCAHELICE2" readonly />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="field-label">MODELO</div>
-                                        <input class="form-control form-control-sm" id="MODELOHELICE2" readonly />
-                                    </div>
-                                </div>
-
-                                <!-- ELT FIJO -->
-                                <div class="section-title">ELT FIJO</div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-3">
-                                        <div class="field-label">MARCA</div>
-                                        <input class="form-control form-control-sm" id="MARCAELT" readonly />
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="field-label">MODELO</div>
-                                        <input class="form-control form-control-sm" id="MODELOELT" readonly />
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="field-label">SERIE</div>
-                                        <input class="form-control form-control-sm" id="SERIEELT" readonly />
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="field-label">CÓDIGO HEXADECIMAL</div>
-                                        <input class="form-control form-control-sm" id="CODIGOEXAELT" readonly />
-                                    </div>
-                                </div>
-                                <!-- ELT PORTATIL -->
-                                <div class="section-title">ELT PORTATIL</div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-3">
-                                        <div class="field-label">MARCA</div>
-                                        <input class="form-control form-control-sm" id="MARCAELTMOVIL" readonly />
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="field-label">MODELO</div>
-                                        <input class="form-control form-control-sm" id="MODELOELTMOVIL" readonly />
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="field-label">CÓDIGO HEXADECIMAL</div>
-                                        <input class="form-control form-control-sm" id="CODIGOEXAELTMOVIL" readonly />
-                                    </div>
-                                </div>
-
-                                <!-- CODIGO -->
-
-                                <div class="section-title">CODIGOS</div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-4">
-                                        <div class="field-label">CODIGO MODO S</div>
-                                        <input class="form-control form-control-sm" id="CODIGOMODOS" readonly />
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="field-label">TIPO APROBACION RDAC</div>
-                                        <input class="form-control form-control-sm" id="TIPOAPROBACION" readonly />
-                                    </div>
-                                </div>
-
-                                <!-- REGION -->
-
-                                <div class="section-title">CONDICION</div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-4">
-                                        <div class="field-label">CONDICION</div>
-                                        <input class="form-control form-control-sm" id="CONDICION" readonly />
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="field-label">REGION</div>
-                                        <input class="form-control form-control-sm" id="REGION" readonly />
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="field-label">BASE OPERACION</div>
-                                        <input class="form-control form-control-sm" id="BASEOPERACION" readonly />
-                                    </div>
-                                </div>
-
-
-                                <!-- MONITOREO -->
-                                <div class="section-title">Monitoreo RVSM</div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-4">
-                                        <div class="field-label">FECHA</div>
-                                        <input class="form-control form-control-sm" id="MONITOREO" readonly />
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="field-label">ERROR ASE (ft)</div>
-                                        <input class="form-control form-control-sm" id="error" readonly />
-                                    </div>
-                                </div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-12">
-                                        <div class="field-label">OBSERVACIONES</div>
-                                        <input class="form-control form-control-sm" id="OBSERVACION" readonly />
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <br />
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    CERTIFICACIÓN DE AERONAVE
-                                </h5>
-                            </div>
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleCertificadoAeronave"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>FECHA RENOVACIÓN</th>
-                                            <th>FECHA CADUCIDAD</th>
-                                            <th>INSPECTOR RENUEVA</th>
-                                            <th>ESTADO</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-
-
-                            <br />
-                            <!-- certifiado de radio -->
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    CERTIFICADO HOMOLOGACIÓN DE RADIO
-                                </h5>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleCertificadoRadio"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>FECHA RENOVACIÓN</th>
-                                            <th>INSPECTOR RENUEVA</th>
-                                            <th>ESTADO</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-
-
-                            <br />
-                            <!-- certificado de ruido -->
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    CERTIFICADO HOMOLOGACIÓN DE RUIDO
-                                </h5>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleCertificadoRuido"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>ESTADO</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-                            <!-- pbn rnp10 -->
-                            <br />
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    APROBACIÓN PBN/RNP10
-                                </h5>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleCertificadoRNP10"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>ESTADO</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-                            <!-- pbn rnav5 -->
-                            <br />
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    APROBACIÓN RNAV5
-                                </h5>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleCertificadoRNAV5"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>ESTADO</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-                            <!-- pbn rnav2 -->
-                            <br />
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    APROBACIÓN RNAV2
-                                </h5>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleCertificadoRNAV2"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>ESTADO</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-
-                            <!-- pbn approach -->
-                            <br />
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    APROBACIÓN RNAV APPROACH
-                                </h5>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleCertificadoAPPROACH"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>ESTADO</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-
-                            <!-- pbn RVSM -->
-                            <br />
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    APROBACIÓN RVSM
-                                </h5>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleCertificadoRVSM"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>ESTADO</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-
-                            <!-- pbn ETOPS -->
-                            <br />
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    APROBACIÓN ETOPS
-                                </h5>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleCertificadoETOPS"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>ESTADO</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-
-                            <!-- CERTIFICADO CATEGORIAS -->
-                            <br />
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    APROBACIÓN CATEGORIAS II Y III
-                                </h5>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleCertificadoCategorias"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>ESTADO</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-
-                            <!-- ACCIDENTE AERONAVE -->
-                            <br />
-                            <div class="text-center mb-3">
-                                <h5 class="fw-bold text-primary border-bottom pb-2">
-                                    INFORMACIÓN ACCIDENTE AERONAVE
-                                </h5>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-
-                                <table id="tbDetalleAccidente"
-                                       class="table table-dgac table-bordered table-striped">
-
-                                    <thead>
-                                        <tr>
-                                            <th>FECHA EMISIÓN</th>
-                                            <th>INSPECTOR REGISTRO</th>
-                                            <th>LUGAR</th>
-                                            <th>PROVINCIA</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody></tbody>
-
-                                </table>
-
-                            </div>
-
-                            <br />
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-            @*<div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>*@
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dgac" data-dismiss="modal">
-                    Cerrar
-                </button>
+                            <!-- SUBDETALLE -->
+                            <tr class="detalle bg-light" style="display:none;">
+                                <td colspan="5" class="p-4">
+                                    <div class="contenedor-archivos p-3 bg-white border rounded shadow-sm"></div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
+}
 
+
+<!-- Modal Ficha Técnica -->
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content" style="border: none; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); background-color: #f8fbfd;">
+
+            <div class="modal-header executive-header d-flex align-items-center" style="border-radius: 12px 12px 0 0;">
+                <h5 class="modal-title text-white"><i class="fas fa-plane-departure mr-2"></i> Ficha Técnica de la Aeronave</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 0.8; text-shadow: none;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body p-4">
+
+                <!-- INFORMACIÓN GENERAL -->
+                <div class="data-sheet-section">
+                    <div class="section-title"><i class="fas fa-info-circle mr-2"></i> Información General</div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="data-label">AERONAVE (MATRÍCULA)</span>
+                            <span class="data-value value-highlight" id="AERONAVE">-</span>
+                        </div>
+                        <div class="col-md-9">
+                            <span class="data-label">EXPLOTADOR</span>
+                            <span class="data-value" id="EXPLOTADOR">-</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="data-label">PROPIETARIO</span>
+                            <span class="data-value" id="PROPIETARIO">-</span>
+                        </div>
+                    </div>
+                    <div class="row border-top pt-3 mt-1">
+                        <div class="col-md-3">
+                            <span class="data-label">MARCA</span>
+                            <span class="data-value" id="MARCA">-</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="data-label">MODELO</span>
+                            <span class="data-value" id="MODELO">-</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="data-label">SERIE</span>
+                            <span class="data-value" id="SERIE">-</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="data-label">AÑO FABRICACIÓN</span>
+                            <span class="data-value" id="AÑOFAB">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PESOS Y PERFORMANCE -->
+                <div class="data-sheet-section">
+                    <div class="section-title"><i class="fas fa-weight-hanging mr-2"></i> Pesos y Performance</div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="data-label">PESO VACÍO</span>
+                            <span class="data-value"><span id="PESOVACIO">-</span> <span id="PESODESIGNACION" class="text-muted small"></span></span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="data-label">PESO MÁX. (PMP)</span>
+                            <span class="data-value"><span id="PMP">-</span> <span id="PMPDESIGNACION" class="text-muted small"></span></span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="data-label">TECHO DE VUELO</span>
+                            <span class="data-value"><span id="TECHO">-</span> <span id="TECHODESIGNACION" class="text-muted small"></span></span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="data-label">NÚM. PASAJEROS</span>
+                            <span class="data-value" id="NUMPAX">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MOTORES Y HÉLICES -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="data-sheet-section h-100">
+                            <div class="section-title"><i class="fas fa-cogs mr-2"></i> Motores</div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="data-label text-primary">MOTOR 1 MARCA</span>
+                                    <span class="data-value" id="MARCAMOTOR1">-</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="data-label text-primary">MOTOR 1 MODELO</span>
+                                    <span class="data-value" id="MODELOMOTOR1">-</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2 pt-2 border-top">
+                                <div class="col-6">
+                                    <span class="data-label">MOTOR 2 MARCA</span>
+                                    <span class="data-value" id="MARCAMOTOR2">-</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="data-label">MOTOR 2 MODELO</span>
+                                    <span class="data-value" id="MODELOMOTOR2">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="data-sheet-section h-100">
+                            <div class="section-title"><i class="fas fa-fan mr-2"></i> Hélices</div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="data-label text-primary">HÉLICE 1 MARCA</span>
+                                    <span class="data-value" id="MARCAHELICE1">-</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="data-label text-primary">HÉLICE 1 MODELO</span>
+                                    <span class="data-value" id="MODELOHELICE1">-</span>
+                                </div>
+                            </div>
+                            <div class="row mt-2 pt-2 border-top">
+                                <div class="col-6">
+                                    <span class="data-label">HÉLICE 2 MARCA</span>
+                                    <span class="data-value" id="MARCAHELICE2">-</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="data-label">HÉLICE 2 MODELO</span>
+                                    <span class="data-value" id="MODELOHELICE2">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ELT -->
+                <div class="data-sheet-section mt-4">
+                    <div class="section-title"><i class="fas fa-broadcast-tower mr-2"></i> Sistemas ELT (Transmisor Localizador)</div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="data-label text-primary">ELT FIJO: MARCA</span>
+                            <span class="data-value" id="MARCAELT">-</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="data-label text-primary">MODELO</span>
+                            <span class="data-value" id="MODELOELT">-</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="data-label text-primary">SERIE</span>
+                            <span class="data-value" id="SERIEELT">-</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="data-label text-primary">CÓDIGO HEX.</span>
+                            <span class="data-value font-monospace" id="CODIGOEXAELT">-</span>
+                        </div>
+                    </div>
+                    <div class="row mt-2 pt-2 border-top">
+                        <div class="col-md-3">
+                            <span class="data-label">ELT PORTÁTIL: MARCA</span>
+                            <span class="data-value" id="MARCAELTMOVIL">-</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="data-label">MODELO</span>
+                            <span class="data-value" id="MODELOELTMOVIL">-</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="data-label">CÓDIGO HEXADECIMAL PORTÁTIL</span>
+                            <span class="data-value font-monospace" id="CODIGOEXAELTMOVIL">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CÓDIGOS, CONDICIÓN Y MONITOREO -->
+                <div class="data-sheet-section">
+                    <div class="section-title"><i class="fas fa-clipboard-check mr-2"></i> Operación y Monitoreo</div>
+                    <div class="row border-bottom pb-2 mb-2">
+                        <div class="col-md-4">
+                            <span class="data-label">CÓDIGO MODO S</span>
+                            <span class="data-value font-monospace" id="CODIGOMODOS">-</span>
+                        </div>
+                        <div class="col-md-8">
+                            <span class="data-label">TIPO APROBACIÓN RDAC</span>
+                            <span class="data-value" id="TIPOAPROBACION">-</span>
+                        </div>
+                    </div>
+                    <div class="row border-bottom pb-2 mb-2">
+                        <div class="col-md-4">
+                            <span class="data-label">CONDICIÓN</span>
+                            <span class="data-value" id="CONDICION">-</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="data-label">REGIÓN</span>
+                            <span class="data-value" id="REGION">-</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="data-label">BASE OPERACIÓN</span>
+                            <span class="data-value" id="BASEOPERACION">-</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span class="data-label text-primary">MONITOREO RVSM FECHA</span>
+                            <span class="data-value" id="MONITOREO">-</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="data-label text-primary">ERROR ASE (ft)</span>
+                            <span class="data-value" id="ERROR">-</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="data-label">OBSERVACIONES</span>
+                            <span class="data-value text-muted" style="font-size: 0.9rem;" id="OBSERVACION">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABLAS DE CERTIFICACIÓN -->
+                <div class="data-sheet-section bg-white">
+                    <h4 class="font-weight-bold text-center mb-4" style="color: #0f4c81;">CERTIFICACIONES Y APROBACIONES</h4>
+
+                    <ul class="nav nav-tabs mb-4" id="certTabs" role="tablist">
+                        <li class="nav-item"><a class="nav-link active font-weight-bold" id="aeronave-tab" data-toggle="tab" href="#tab-aeronave">Aeronave</a></li>
+                        <li class="nav-item"><a class="nav-link font-weight-bold" id="equipos-tab" data-toggle="tab" href="#tab-equipos">Equipos (Radio/Ruido)</a></li>
+                        <li class="nav-item"><a class="nav-link font-weight-bold" id="nav-tab" data-toggle="tab" href="#tab-nav">Navegación (PBN/RNAV)</a></li>
+                        <li class="nav-item"><a class="nav-link font-weight-bold" id="ops-tab" data-toggle="tab" href="#tab-ops">Operaciones (RVSM/ETOPS/Cat)</a></li>
+                        <li class="nav-item"><a class="nav-link font-weight-bold text-danger" id="acc-tab" data-toggle="tab" href="#tab-acc">Accidentes</a></li>
+                    </ul>
+
+                    <div class="tab-content" id="certTabsContent">
+
+                        <!-- TAB: AERONAVE -->
+                        <div class="tab-pane fade show active" id="tab-aeronave" role="tabpanel">
+                            <h6 class="font-weight-bold text-uppercase mb-3 text-muted"><i class="fas fa-certificate mr-2"></i> Certificación de Aeronave</h6>
+                            <div class="table-responsive">
+                                <table id="tbDetalleCertificadoAeronave" class="table table-executive table-sm table-cert">
+                                    <thead><tr><th>Fecha Emisión</th><th>Inspector Registro</th><th>Renovación</th><th>Caducidad</th><th>Inspector Renueva</th><th class="text-center">Estado</th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- TAB: EQUIPOS -->
+                        <div class="tab-pane fade" id="tab-equipos" role="tabpanel">
+                            <h6 class="font-weight-bold text-uppercase mb-3 text-muted mt-2"><i class="fas fa-satellite-dish mr-2"></i> Certificado de Radio</h6>
+                            <div class="table-responsive mb-4">
+                                <table id="tbDetalleCertificadoRadio" class="table table-executive table-sm table-cert">
+                                    <thead><tr><th>Fecha Emisión</th><th>Inspector Registro</th><th>Renovación</th><th>Inspector Renueva</th><th class="text-center">Estado</th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <h6 class="font-weight-bold text-uppercase mb-3 text-muted"><i class="fas fa-volume-up mr-2"></i> Homologación de Ruido</h6>
+                            <div class="table-responsive">
+                                <table id="tbDetalleCertificadoRuido" class="table table-executive table-sm table-cert">
+                                    <thead><tr><th>Fecha Emisión</th><th>Inspector Registro</th><th class="text-center">Estado</th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- TAB: NAVEGACION -->
+                        <div class="tab-pane fade" id="tab-nav" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="font-weight-bold text-uppercase mb-3 text-muted"><i class="fas fa-route mr-2"></i> PBN / RNP10</h6>
+                                    <div class="table-responsive mb-4">
+                                        <table id="tbDetalleCertificadoRNP10" class="table table-executive table-sm table-cert">
+                                            <thead><tr><th>Fecha Emisión</th><th>Inspector</th><th class="text-center">Estado</th></tr></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="font-weight-bold text-uppercase mb-3 text-muted"><i class="fas fa-route mr-2"></i> RNAV 5</h6>
+                                    <div class="table-responsive mb-4">
+                                        <table id="tbDetalleCertificadoRNAV5" class="table table-executive table-sm table-cert">
+                                            <thead><tr><th>Fecha Emisión</th><th>Inspector</th><th class="text-center">Estado</th></tr></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="font-weight-bold text-uppercase mb-3 text-muted"><i class="fas fa-route mr-2"></i> RNAV 2</h6>
+                                    <div class="table-responsive mb-4">
+                                        <table id="tbDetalleCertificadoRNAV2" class="table table-executive table-sm table-cert">
+                                            <thead><tr><th>Fecha Emisión</th><th>Inspector</th><th class="text-center">Estado</th></tr></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="font-weight-bold text-uppercase mb-3 text-muted"><i class="fas fa-plane-arrival mr-2"></i> RNAV APPROACH</h6>
+                                    <div class="table-responsive mb-4">
+                                        <table id="tbDetalleCertificadoAPPROACH" class="table table-executive table-sm table-cert">
+                                            <thead><tr><th>Fecha Emisión</th><th>Inspector</th><th class="text-center">Estado</th></tr></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB: OPERACIONES -->
+                        <div class="tab-pane fade" id="tab-ops" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="font-weight-bold text-uppercase mb-3 text-muted"><i class="fas fa-arrows-alt-v mr-2"></i> RVSM</h6>
+                                    <div class="table-responsive mb-4">
+                                        <table id="tbDetalleCertificadoRVSM" class="table table-executive table-sm table-cert">
+                                            <thead><tr><th>Fecha Emisión</th><th>Inspector</th><th class="text-center">Estado</th></tr></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="font-weight-bold text-uppercase mb-3 text-muted"><i class="fas fa-globe mr-2"></i> ETOPS</h6>
+                                    <div class="table-responsive mb-4">
+                                        <table id="tbDetalleCertificadoETOPS" class="table table-executive table-sm table-cert">
+                                            <thead><tr><th>Fecha Emisión</th><th>Inspector</th><th class="text-center">Estado</th></tr></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h6 class="font-weight-bold text-uppercase mb-3 text-muted"><i class="fas fa-cloud mr-2"></i> CATEGORÍAS II Y III</h6>
+                                    <div class="table-responsive">
+                                        <table id="tbDetalleCertificadoCategorias" class="table table-executive table-sm table-cert">
+                                            <thead><tr><th>Fecha Emisión</th><th>Inspector</th><th class="text-center">Estado</th></tr></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB: ACCIDENTES -->
+                        <div class="tab-pane fade" id="tab-acc" role="tabpanel">
+                            <h6 class="font-weight-bold text-uppercase mb-3 text-danger"><i class="fas fa-exclamation-triangle mr-2"></i> Historial de Accidentes</h6>
+                            <div class="table-responsive">
+                                <table id="tbDetalleAccidente" class="table table-executive table-sm table-cert">
+                                    <thead><tr><th>Fecha Emisión</th><th>Inspector Registro</th><th>Lugar</th><th>Provincia</th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer" style="background-color: #f1f3f5; border-radius: 0 0 12px 12px;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="font-weight: 600; padding: 0.5rem 1.5rem;">Cerrar Ficha</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section scripts{
     <script>
         $(document).ready(function () {
-
+            if ($.fn.DataTable && $('#tbDetalle tbody tr').length > 0) {
+                $('#tbDetalle').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                    },
+                    "pageLength": 10
+                });
+            }
         });
 
-        function modalAdjunto() {
-            $('#FormModal').modal('show');
-        }
-
-
-
         function Consultar(Aeronave) {
+            // Limpiar valores previos (ahora usamos .text() en lugar de .val())
+            const emptyVal = "-";
+            $("#EXPLOTADOR, #PROPIETARIO, #MARCA, #MODELO, #SERIE, #AÑOFAB, #PESOVACIO, #PMP, #TECHO, #NUMPAX").text(emptyVal);
+            $("#MARCAMOTOR1, #MODELOMOTOR1, #MARCAMOTOR2, #MODELOMOTOR2").text(emptyVal);
+            $("#MARCAHELICE1, #MODELOHELICE1, #MARCAHELICE2, #MODELOHELICE2").text(emptyVal);
+            $("#PESODESIGNACION, #TECHODESIGNACION, #PMPDESIGNACION").text("");
+            $("#MARCAELT, #MODELOELT, #SERIEELT, #CODIGOEXAELT").text(emptyVal);
+            $("#MARCAELTMOVIL, #MODELOELTMOVIL, #CODIGOEXAELTMOVIL").text(emptyVal);
+            $("#CODIGOMODOS, #TIPOAPROBACION, #CONDICION, #REGION, #BASEOPERACION").text(emptyVal);
+            $("#MONITOREO, #ERROR, #OBSERVACION").text(emptyVal);
 
-            $("#EXPLOTADOR").val("");
-            $("#PROPIETARIO").val("");
-            $("#MARCA").val("");
-            $("#MODELO").val("");
-            $("#SERIE").val("");
-            $("#AÑOFAB").val("");
-            $("#PESOVACIO").val("");
-            $("#PMP").val("");
-            $("#TECHO").val("");
-            $("#NUMPAX").val("");
-            $("#MARCAMOTOR1").val("");
-            $("#MODELOMOTOR1").val("");
-            $("#MARCAMOTOR2").val("");
-            $("#MODELOMOTOR2").val("");
-            $("#MARCAHELICE1").val("");
-            $("#MODELOHELICE1").val("");
-            $("#MARCAHELICE2").val("");
-            $("#MODELOHELICE2").val("");
-            $("#PESODEDIGNACION").val("");
-            $("#TECHODESIGNACION").val("");
-            $("#PMPDESIGNACION").val("");
-            $("#MARCAELT").val("");
-            $("#MODELOELT").val("");
-            $("#SERIEELT").val("");
-            $("#CODIGOEXAELT").val("");
-            $("#MARCAELTMOVIL").val("");
-            $("#MODELOELTMOVIL").val("");
-            $("#CODIGOEXAELTMOVIL").val("");
-            $("#CODIGOMODOS").val("");
-            $("#TIPOAPROBACION").val("");
-            $("#CONDICION").val("");
-            $("#REGION").val("");
-            $("#BASEOPERACION").val("");
-            $("#MONITOREO").val("");
-            $("#ERROR").val("");
-            $("#OBSERVACION").val("");
-
+            // Mostrar estado de carga en titulo
+            $("#AERONAVE").html('<i class="fas fa-spinner fa-spin mr-2"></i>Cargando...');
 
             $.ajax({
                 url: $.MisUrls.url._DetalleAeronaveComponente,
@@ -812,265 +682,111 @@
                 dataType: "json",
                 data: { Aeronave: Aeronave },
                 success: function (e) {
+                    // Asignar nuevos valores
+                    $("#AERONAVE").text(e.AERONAVE || emptyVal);
+                    $("#EXPLOTADOR").text(e.EXPLOTADOR || emptyVal);
+                    $("#PROPIETARIO").text(e.PROPIETARIO || emptyVal);
+                    $("#MARCA").text(e.MARCA || emptyVal);
+                    $("#MODELO").text(e.MODELO || emptyVal);
+                    $("#SERIE").text(e.SERIE || emptyVal);
+                    $("#AÑOFAB").text(e.AÑOFAB || emptyVal);
 
-                    $("#AERONAVE").val(e.AERONAVE);
-                    $("#EXPLOTADOR").val(e.EXPLOTADOR);
-                    $("#PROPIETARIO").val(e.PROPIETARIO);
-                    $("#MARCA").val(e.MARCA);
-                    $("#MODELO").val(e.MODELO);
-                    $("#SERIE").val(e.SERIE);
-                    $("#AÑOFAB").val(e.AÑOFAB);
-                    $("#PESOVACIO").val(e.PESOVACIO);
-                    $("#PMP").val(e.PMP);
-                    $("#TECHO").val(e.TECHO);
-                    $("#NUMPAX").val(e.NUMEROPAX);
-                    $("#PESODESIGNACION").val(e.PESOVACIODESIGNACION);
-                    $("#PMPDESIGNACION").val(e.PMPDESIGNACION);
-                    $("#TECHODESIGNACION").val(e.TECHODESIGNACION);
-                    $("#MARCAMOTOR1").val(e.MOTOR1MARCA);
-                    $("#MODELOMOTOR1").val(e.MOTOR1MODELO);
-                    $("#MARCAMOTOR2").val(e.MOTOR2MARCA);
-                    $("#MODELOMOTOR2").val(e.MOTOR2MODELO);
-                    $("#MARCAHELICE1").val(e.HELICE1MARCA);
-                    $("#MODELOHELICE1").val(e.HELICE1MODELO);
-                    $("#MARCAHELICE2").val(e.HELICE2MARCA);
-                    $("#MODELOHELICE2").val(e.HELICE2MODELO);
+                    $("#PESOVACIO").text(e.PESOVACIO || emptyVal);
+                    $("#PMP").text(e.PMP || emptyVal);
+                    $("#TECHO").text(e.TECHO || emptyVal);
+                    $("#NUMPAX").text(e.NUMEROPAX || emptyVal);
 
-                    $("#MARCAELT").val(e.ELTMARCA);
-                    $("#MODELOELT").val(e.ELTMODELO);
-                    $("#SERIEELT").val(e.ELTSERIE);
-                    $("#CODIGOEXAELT").val(e.ELTCODIGOHEX);
+                    $("#PESODESIGNACION").text(e.PESOVACIODESIGNACION || "");
+                    $("#PMPDESIGNACION").text(e.PMPDESIGNACION || "");
+                    $("#TECHODESIGNACION").text(e.TECHODESIGNACION || "");
 
-                    $("#MARCAELTMOVIL").val(e.ELTPORTATILMARCA);
-                    $("#MODELOELTMOVIL").val(e.ELTPORTATILMODELO);
-                    $("#CODIGOEXAELTMOVIL").val(e.ELTPORTATILCODIGOHEX);
+                    $("#MARCAMOTOR1").text(e.MOTOR1MARCA || emptyVal);
+                    $("#MODELOMOTOR1").text(e.MOTOR1MODELO || emptyVal);
+                    $("#MARCAMOTOR2").text(e.MOTOR2MARCA || emptyVal);
+                    $("#MODELOMOTOR2").text(e.MOTOR2MODELO || emptyVal);
 
-                    $("#CODIGOMODOS").val(e.CODIGOMODOSS);
-                    $("#TIPOAPROBACION").val(e.TIPOAPROBACION);
+                    $("#MARCAHELICE1").text(e.HELICE1MARCA || emptyVal);
+                    $("#MODELOHELICE1").text(e.HELICE1MODELO || emptyVal);
+                    $("#MARCAHELICE2").text(e.HELICE2MARCA || emptyVal);
+                    $("#MODELOHELICE2").text(e.HELICE2MODELO || emptyVal);
 
-                    $("#CONDICION").val(e.CONDICION);
-                    $("#REGION").val(e.REGION);
-                    $("#BASEOPERACION").val(e.BASEOPERACION);
-                    $("#MONITOREO").val(e.FECHAMONITOREORVSM);
-                    $("#ERROR").val(e.ERRORASE);
-                    $("#OBSERVACION").val(e.OBSERVACIONES);
+                    $("#MARCAELT").text(e.ELTMARCA || emptyVal);
+                    $("#MODELOELT").text(e.ELTMODELO || emptyVal);
+                    $("#SERIEELT").text(e.ELTSERIE || emptyVal);
+                    $("#CODIGOEXAELT").text(e.ELTCODIGOHEX || emptyVal);
 
-                    $("#tbDetalleCertificadoAeronave tbody").html("");
-                    $.each(e.oDetalleCertAeronavegabilidad, function (i, row) {
-                        let estadoTexto = row["ESTADO"];
-                        let claseEstado = "";
+                    $("#MARCAELTMOVIL").text(e.ELTPORTATILMARCA || emptyVal);
+                    $("#MODELOELTMOVIL").text(e.ELTPORTATILMODELO || emptyVal);
+                    $("#CODIGOEXAELTMOVIL").text(e.ELTPORTATILCODIGOHEX || emptyVal);
 
-                        if (estadoTexto === "ACTIVO") {
-                            claseEstado = "estado-activo";
-                        } else {
-                            claseEstado = "estado-inactivo";
+                    $("#CODIGOMODOS").text(e.CODIGOMODOSS || emptyVal);
+                    $("#TIPOAPROBACION").text(e.TIPOAPROBACION || emptyVal);
+
+                    $("#CONDICION").text(e.CONDICION || emptyVal);
+                    $("#REGION").text(e.REGION || emptyVal);
+                    $("#BASEOPERACION").text(e.BASEOPERACION || emptyVal);
+                    $("#MONITOREO").text(e.FECHAMONITOREORVSM || emptyVal);
+                    $("#ERROR").text(e.ERRORASE || emptyVal);
+                    $("#OBSERVACION").text(e.OBSERVACIONES || emptyVal);
+
+                    // Función auxiliar para renderizar badges de estado
+                    function getEstadoBadge(estadoTexto) {
+                        if (!estadoTexto) return "-";
+                        let clase = estadoTexto === "ACTIVO" ? "estado-activo" : "estado-inactivo";
+                        let icon = estadoTexto === "ACTIVO" ? "fa-check-circle" : "fa-times-circle";
+                        return `<span class="estado-badge ${clase}"><i class="fas ${icon} mr-1"></i> ${estadoTexto}</span>`;
+                    }
+
+                    // Limpiar y Llenar tablas de certificados
+                    const fillTable = (id, data, cols, hasStatus) => {
+                        let $tbody = $(id + " tbody").empty();
+                        if (!data || data.length === 0) {
+                            let colCount = cols.length + (hasStatus ? 1 : 0);
+                            $tbody.html(`<tr><td colspan="${colCount}" class="text-center text-muted py-3">No se encontraron registros.</td></tr>`);
+                            return;
                         }
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTOR"]),
-                            $("<td>").text(row["FECHARENOVACON"]),
-                            $("<td>").text(row["FECHACADUCIDAD"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").html('<span class="' + claseEstado + '">' + estadoTexto + '</span>'))
+                        $.each(data, function (i, row) {
+                            let $tr = $("<tr>");
+                            cols.forEach(col => $tr.append($("<td>").text(row[col] || "-")));
+                            if (hasStatus) {
+                                $tr.append($("<td class='text-center'>").html(getEstadoBadge(row["ESTADO"])));
+                            }
+                            $tr.appendTo($tbody);
+                        });
+                    };
 
-                            .appendTo("#tbDetalleCertificadoAeronave tbody");
-                    })
+                    fillTable("#tbDetalleCertificadoAeronave", e.oDetalleCertAeronavegabilidad, ["FECHAEMISION", "NOMBREINSPECTOR", "FECHARENOVACON", "FECHACADUCIDAD", "NOMBREINSPECTORAIR"], true);
+                    fillTable("#tbDetalleCertificadoRadio", e.oDetalleCertRadio, ["FECHAEMISION", "NOMBREINSPECTORAIR", "FECHARENOVACION", "NOMBREINSPECTORAIRRENOV"], true);
+                    fillTable("#tbDetalleCertificadoRuido", e.oDetalleCerHomolRuido, ["FECHAEMISION", "NOMBREINSPECTORAIR"], true);
+                    fillTable("#tbDetalleCertificadoRNP10", e.oDetalleCertPbnRnp10, ["FECHAEMISION", "NOMBREINSPECTORAIR"], true);
+                    fillTable("#tbDetalleCertificadoRNAV5", e.oDetalleCertRnav5, ["FECHAEMISION", "NOMBREINSPECTORAIR"], true);
+                    fillTable("#tbDetalleCertificadoRNAV2", e.oDetalleCertRnav2, ["FECHAEMISION", "NOMBREINSPECTORAIR"], true);
+                    fillTable("#tbDetalleCertificadoAPPROACH", e.oDetalleCertRnavApproach, ["FECHAEMISION", "NOMBREINSPECTORAIR"], true);
+                    fillTable("#tbDetalleCertificadoRVSM", e.oDetalleCertRvsm, ["FECHAEMISION", "NOMBREINSPECTORAIR"], true);
+                    fillTable("#tbDetalleCertificadoETOPS", e.oDetalleCertEtops, ["FECHAEMISION", "NOMBREINSPECTORAIR"], true);
+                    fillTable("#tbDetalleCertificadoCategorias", e.oDetalleCategorias, ["FECHAEMISION", "NOMBREINSPECTORAIR"], true);
 
-                    $("#tbDetalleCertificadoRadio tbody").html("");
-                    $.each(e.oDetalleCertRadio, function (i, row) {
-                        let estadoTexto = row["ESTADO"];
-                        let claseEstado = "";
+                    // Tabla Accidente no tiene estado
+                    fillTable("#tbDetalleAccidente", e.oDetalleAccidenteAeronave, ["FECHAEMISION", "NOMBREINSPECTORAIR", "LUGAR", "PROVINCIA"], false);
 
-                        if (estadoTexto === "ACTIVO") {
-                            claseEstado = "estado-activo";
-                        } else {
-                            claseEstado = "estado-inactivo";
-                        }
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").text(row["FECHARENOVACION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIRRENOV"]),
-                            $("<td>").html('<span class="' + claseEstado + '">' + estadoTexto + '</span>'))
-
-                            .appendTo("#tbDetalleCertificadoRadio tbody");
-                    })
-
-                    $("#tbDetalleCertificadoRuido tbody").html("");
-                    $.each(e.oDetalleCerHomolRuido, function (i, row) {
-                        let estadoTexto = row["ESTADO"];
-                        let claseEstado = "";
-
-                        if (estadoTexto === "ACTIVO") {
-                            claseEstado = "estado-activo";
-                        } else {
-                            claseEstado = "estado-inactivo";
-                        }
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").html('<span class="' + claseEstado + '">' + estadoTexto + '</span>'))
-
-                            .appendTo("#tbDetalleCertificadoRuido tbody");
-                    })
-
-                    
-                    $("#tbDetalleCertificadoRNP10 tbody").html("");
-                    $.each(e.oDetalleCertPbnRnp10, function (i, row) {
-                        let estadoTexto = row["ESTADO"];
-                        let claseEstado = "";
-
-                        if (estadoTexto === "ACTIVO") {
-                            claseEstado = "estado-activo";
-                        } else {
-                            claseEstado = "estado-inactivo";
-                        }
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").html('<span class="' + claseEstado + '">' + estadoTexto + '</span>'))
-
-                            .appendTo("#tbDetalleCertificadoRNP10 tbody");
-                    })
-                    
-                    $("#tbDetalleCertificadoRNAV5 tbody").html("");
-                    $.each(e.oDetalleCertRnav5, function (i, row) {
-                        let estadoTexto = row["ESTADO"];
-                        let claseEstado = "";
-
-                        if (estadoTexto === "ACTIVO") {
-                            claseEstado = "estado-activo";
-                        } else {
-                            claseEstado = "estado-inactivo";
-                        }
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").html('<span class="' + claseEstado + '">' + estadoTexto + '</span>'))
-
-                            .appendTo("#tbDetalleCertificadoRNAV5 tbody");
-                    })
-                    $("#tbDetalleCertificadoRNAV2 tbody").html("");
-                    $.each(e.oDetalleCertRnav2, function (i, row) {
-                        let estadoTexto = row["ESTADO"];
-                        let claseEstado = "";
-
-                        if (estadoTexto === "ACTIVO") {
-                            claseEstado = "estado-activo";
-                        } else {
-                            claseEstado = "estado-inactivo";
-                        }
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").html('<span class="' + claseEstado + '">' + estadoTexto + '</span>'))
-
-                            .appendTo("#tbDetalleCertificadoRNAV2 tbody");
-                    })
-                    $("#tbDetalleCertificadoAPPROACH tbody").html("");
-                    $.each(e.oDetalleCertRnavApproach, function (i, row) {
-                        let estadoTexto = row["ESTADO"];
-                        let claseEstado = "";
-
-                        if (estadoTexto === "ACTIVO") {
-                            claseEstado = "estado-activo";
-                        } else {
-                            claseEstado = "estado-inactivo";
-                        }
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").html('<span class="' + claseEstado + '">' + estadoTexto + '</span>'))
-
-                            .appendTo("#tbDetalleCertificadoAPPROACH tbody");
-                    })
-
-                    $("#tbDetalleCertificadoRVSM tbody").html("");
-                    $.each(e.oDetalleCertRvsm, function (i, row) {
-                        let estadoTexto = row["ESTADO"];
-                        let claseEstado = "";
-
-                        if (estadoTexto === "ACTIVO") {
-                            claseEstado = "estado-activo";
-                        } else {
-                            claseEstado = "estado-inactivo";
-                        }
-
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").html('<span class="' + claseEstado + '">' + estadoTexto + '</span>'))
-                        
-                            .appendTo("#tbDetalleCertificadoRVSM tbody");
-                    })
-
-                    $("#tbDetalleCertificadoETOPS tbody").html("");
-                    $.each(e.oDetalleCertEtops, function (i, row) {
-                        let estadoTexto = row["ESTADO"];
-                        let claseEstado = "";
-
-                        if (estadoTexto === "ACTIVO") {
-                            claseEstado = "estado-activo";
-                        } else {
-                            claseEstado = "estado-inactivo";
-                        }
-
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").html('<span class="' + claseEstado + '">' + estadoTexto + '</span>'))
-
-                            .appendTo("#tbDetalleCertificadoETOPS tbody");
-                    })
-
-                    $("#tbDetalleCertificadoCategorias tbody").html("");
-                    $.each(e.oDetalleCategorias, function (i, row) {
-                        let estadoTexto = row["ESTADO"];
-                        let claseEstado = "";
-
-                        if (estadoTexto === "ACTIVO") {
-                            claseEstado = "estado-activo";
-                        } else {
-                            claseEstado = "estado-inactivo";
-                        }
-
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").html('<span class="' + claseEstado + '">' + estadoTexto + '</span>'))
-
-                            .appendTo("#tbDetalleCertificadoCategorias tbody");
-                    })
-
-                    $("#tbDetalleAccidente tbody").html("");
-                    $.each(e.oDetalleAccidenteAeronave, function (i, row) {
-                       
-                        $("<tr>").append(
-                            $("<td>").text(row["FECHAEMISION"]),
-                            $("<td>").text(row["NOMBREINSPECTORAIR"]),
-                            $("<td>").text(row["LUGAR"]),
-                            $("<td>").text(row["PROVINCIA"]))
-
-                            .appendTo("#tbDetalleAccidente tbody");
-                    })
                 },
                 error: function (errormessage) {
-                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                    Swal.fire("Error", "No se pudo obtener la información: " + errormessage.statusText, "error");
+                    $("#AERONAVE").text("ERROR");
                 }
             });
 
-
+            // Resetea las pestañas al abrir
+            $('#certTabs a:first').tab('show');
             $('#largeModal').modal('show');
         }
 
         document.addEventListener("DOMContentLoaded", function () {
+            const urlObtener = '@Url.Action("ObtenerArchivos", "AeronaveComponente")';
 
             document.querySelectorAll(".btn-ver-archivos").forEach(btn => {
-
                 btn.addEventListener("click", function () {
-
                     let matricula = this.dataset.matricula.trim().toUpperCase();
-
                     let fila = this.closest('tr');
                     let detalle = fila.nextElementSibling;
                     let contenedor = detalle.querySelector('.contenedor-archivos');
@@ -1078,103 +794,54 @@
                     // Toggle
                     if (detalle.style.display === 'none' || detalle.style.display === '') {
 
-                        fetch('/AeronaveComponente/ObtenerArchivos?matricula=' + matricula)
+                        contenedor.innerHTML = '<div class="text-center py-3"><i class="fas fa-spinner fa-spin fa-2x text-primary"></i><p class="mt-2 text-muted">Buscando pólizas...</p></div>';
+                        detalle.style.display = 'table-row';
+
+                        fetch(urlObtener + '?matricula=' + matricula)
                             .then(res => res.json())
                             .then(data => {
-
                                 if (data.length === 0) {
-                                    contenedor.innerHTML = "<p>No hay archivos</p>";
+                                    contenedor.innerHTML = `<div class="alert alert-light text-center m-0"><i class="fas fa-info-circle text-info mr-2"></i>No se encontraron archivos de póliza para la matrícula <b>${matricula}</b>.</div>`;
                                 } else {
-
                                     let html = `
-                                <table class="table table-sm table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Archivo</th>
-                                            <th>Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                            `;
+                                    <h6 class="font-weight-bold text-muted mb-3"><i class="fas fa-file-contract mr-2"></i> Pólizas Encontradas</h6>
+                                    <table class="table table-sm table-bordered table-executive bg-white mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre del Documento</th>
+                                                <th class="text-center" style="width: 150px;">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                    `;
 
                                     data.forEach(file => {
                                         html += `
-                                    <tr>
-                                        <td>📄 ${file}</td>
-                                        <td>
-                                            <a href="/AeronaveComponente/DescargaDcto?matricula=${matricula}&archivo=${encodeURIComponent(file)}"
-                                               class="btn btn-success btn-sm">
-                                               ⬇ Descargar
-                                            </a>
-                                        </td>
-                                    </tr>
-                                `;
+                                        <tr>
+                                            <td class="font-weight-bold text-dark"><i class="fas fa-file-pdf text-danger mr-2"></i> ${file}</td>
+                                            <td class="text-center">
+                                                <a href="/AeronaveComponente/DescargaDcto?matricula=${matricula}&archivo=${encodeURIComponent(file)}"
+                                                   class="btn btn-sm btn-action-success px-3">
+                                                   <i class="fas fa-download mr-1"></i> Descargar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        `;
                                     });
 
                                     html += "</tbody></table>";
                                     contenedor.innerHTML = html;
                                 }
-
-                                detalle.style.display = 'table-row';
+                            })
+                            .catch(err => {
+                                contenedor.innerHTML = `<div class="alert alert-danger m-0"><i class="fas fa-exclamation-triangle mr-2"></i>Error al consultar archivos.</div>`;
                             });
-
                     } else {
                         detalle.style.display = 'none';
                     }
-
                 });
-
             });
-
         });
-
-        //document.addEventListener("DOMContentLoaded", function () {
-
-        //    document.querySelectorAll(".btn-ver-archivos").forEach(btn => {
-
-        //        btn.addEventListener("click", function () {
-
-        //            let matricula = this.dataset.matricula.trim().toUpperCase();
-
-        //            console.log("CLICK OK:", matricula);
-
-        //            let fila = this.closest('tr');
-        //            let detalle = fila.nextElementSibling;
-        //            let contenedor = detalle.querySelector('.contenedor-archivos');
-
-        //            if (detalle.style.display === 'none' || detalle.style.display === '') {
-
-        //                fetch('/AeronaveComponente/ObtenerArchivos?matricula=' + matricula)
-        //                    .then(res => res.json())
-        //                    .then(data => {
-
-        //                        if (data.length === 0) {
-        //                            contenedor.innerHTML = "<p>No hay archivos</p>";
-        //                        } else {
-
-        //                            let html = "<ul>";
-
-        //                            data.forEach(file => {
-        //                                html += `<li>${file}</li>`;
-        //                            });
-
-        //                            html += "</ul>";
-
-        //                            contenedor.innerHTML = html;
-        //                        }
-
-        //                        detalle.style.display = 'table-row';
-        //                    });
-
-        //            } else {
-        //                detalle.style.display = 'none';
-        //            }
-
-        //        });
-
-        //    });
-
-        //});
-
     </script>
+
 }

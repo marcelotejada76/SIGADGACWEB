@@ -2534,7 +2534,6 @@
     <Content Include="Views\SolicitarModificaciones\RevisarAprobarSolicitudCertificado.cshtml" />
     <Content Include="Views\SolicitarModificaciones\RevisarSolicitudCertificado.cshtml" />
     <Content Include="Views\SolicitarModificaciones\SolicitarCertificadoPOA.cshtml" />
-    <Content Include="Views\ActualizacionContraseña\CambioContraseña.cshtml" />
     <Content Include="Views\MantenimientoMatriculas\ListadoMatricula.cshtml" />
     <Content Include="Views\Sorteo\Sorteo.cshtml" />
     <Content Include="Views\ModificacionPoa\ConsultarSolicitud.cshtml" />
@@ -2600,6 +2599,7 @@
     <Content Include="Views\AeronaveComponente\DetalleMatricula.cshtml" />
     <Content Include="Views\AeronaveComponente\ListadoMatriculas.cshtml" />
     <Content Include="Views\DepositosVista\SubirDocumentosRecaudacion.cshtml" />
+    <Content Include="Views\ActualizacionContraseña\CambioContraseña.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

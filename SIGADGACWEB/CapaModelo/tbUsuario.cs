@@ -45,5 +45,26 @@ namespace CapaModelo
         public string Cargo { get; set; }
         public tbRol oRol { get; set; }
         public tbHorioAtencion oHorarioAtencion { get; set; }
+
+        //
+       
+        public string NombreUsuario { get; set; }
+        public string ApellidoUsuario { get; set; }
+       
+        public string CedulaIdentificacion { get; set; }
+        public string Correo { get; set; }
+        public string Clave { get; set; }
+       
+        public List<tbRol> oListaRol { get; set; }
+        public List<tbMenu> oListaMenu { get; set; }
+        public string UsuarioCreado { get; set; }
+        public string FechaCreado { get; set; }
+        public string HoraCreado { get; set; }
+        public string UsuarioModificado { get; set; }
+        public string FechaModificado { get; set; }
+        public string HoraModificado { get; set; }
+        public string EstadoCertificado { get; set; }
+        public string EstadoAutoridad { get; set; }
+       
     }
 }

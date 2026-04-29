@@ -1,156 +1,330 @@
 ﻿@model IEnumerable<CapaModelo.tbBancoRuminahui>
 @{
-    ViewBag.Title = "ListadoBancoRuminahui";
+    ViewBag.Title = "Listado Banco Rumiñahui";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
-    .zonal {
-        font-weight: bold;
+    /* Estilos Corporativos Premium */
+    .executive-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: none;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+    }
+
+    .executive-header {
+        background: linear-gradient(135deg, #0f4c81 0%, #1e629f 100%);
+        color: white;
+        padding: 1.5rem;
+        border-bottom: none;
+    }
+
+    .executive-header h5 {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    /* Tabla Elegante */
+    .table-executive {
+        width: 100%;
+        margin-bottom: 0;
+        color: #2c3e50;
+    }
+
+    .table-executive thead th {
+        background-color: #f4f7fa;
+        color: #495057;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e9ecef;
+        padding: 1rem;
+    }
+
+    .table-executive tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid #f1f3f5;
+        font-size: 0.95rem;
+    }
+
+    .table-executive tbody tr:hover {
+        background-color: #f8fbfd;
+    }
+
+    /* Badges */
+    .badge-zonal {
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        display: inline-block;
         text-align: center;
-        padding: 8px;
-        border-radius: 4px;
-        color: #000; /* Cambia según contraste necesario */
     }
 
     .zonal-quito {
-        background-color: #b3e5fc;
+        background-color: #e3f2fd;
+        color: #0d47a1;
+        border: 1px solid #bbdefb;
     }
 
     .zonal-guayaquil {
-        background-color: #dcedc8;
+        background-color: #e8f5e9;
+        color: #1b5e20;
+        border: 1px solid #c8e6c9;
+    }
+
+    .badge-estado {
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-align: center;
+        display: inline-block;
+        width: 100px;
+    }
+
+    .estado-p { /* Procesado */
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+    }
+
+    .estado-e { /* Reservado */
+        
+        background-color: #ffebee;
+        color: #c62828;
+        border: 1px solid #ffcdd2;
+    }
+
+    /* Botón Acción */
+    .btn-action {
+        color: #0f4c81;
+        background-color: #f4f7fa;
+        border: 1px solid #e9ecef;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .btn-action:hover {
+        background-color: #0f4c81;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(15, 76, 129, 0.2);
+    }
+
+    /* Buscador */
+    .search-bar-container {
+        background-color: #f8fbfd;
+        border-radius: 8px;
+        padding: 1.5rem;
+        border-left: 4px solid #0f4c81;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-primary-executive {
+        background-color: #0f4c81;
+        border-color: #0f4c81;
+        color: white;
+        font-weight: 600;
+        padding: 0.6rem 1.5rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+    }
+
+    .btn-primary-executive:hover {
+        background-color: #0b3b66;
+        color: white;
+    }
+
+    /* Formato de Modal tipo Recibo */
+    .receipt-header {
+        background-color: #f8fbfd;
+        padding: 1.5rem;
+        border-bottom: 2px dashed #dee2e6;
+    }
+
+    .receipt-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #6c757d;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.2rem;
+        display: block;
+    }
+
+    .receipt-value {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #2c3e50;
+        display: block;
+        margin-bottom: 1rem;
+        word-break: break-word;
+    }
+
+    .receipt-total-section {
+        background-color: #f4f7fa;
+        padding: 1.5rem;
+        border-top: 2px solid #0f4c81;
+        border-radius: 0 0 12px 12px;
+    }
+
+    .total-label {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .total-value {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #0f4c81;
+        text-align: right;
+    }
+
+    .diferencia-value {
+        font-size: 1.2rem;
+        font-weight: 800;
+        text-align: right;
+    }
+
+    .diferencia-zero {
+        color: #28a745;
+    }
+
+    .diferencia-alert {
+        color: #dc3545;
     }
 </style>
 
-<div class="container-fluid">
-    <!--begin::Container-->
-
-    <div class="card-header card-header-stretch">
-        <div class="card-title d-flex align-items-center">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>
-                        <p class="text-blue">LISTADO DE DEPOSITOS DGAC</p>
-                    </h4>
-                </div>
-
+<section class="content-header pt-4 pb-3">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <h2 class="m-0 font-weight-bold" style="color: #2c3e50;">Depósitos Banco Rumiñahui</h2>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right bg-transparent p-0 m-0">
+                    <li class="breadcrumb-item"><a href="#" style="color: #0f4c81;">Financiero</a></li>
+                    <li class="breadcrumb-item active">Listado Banco Rumiñahui</li>
+                </ol>
             </div>
         </div>
     </div>
-    <br />
-    @using (Html.BeginForm("ListadoBancoRuminahui", "BancoRuminahui", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+</section>
+
+<div class="container-fluid pb-4">
+    
+    @using (Html.BeginForm("ListadoBancoRuminahui", "BancoRuminahui", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
     {
-        <div class="row mb-8">
-            <div class="col-sm-3">
-                <div class="fs-3 fw-bold mt-2 mb-2" style="font-size:13px "><label>NUM.COMPROBANTE/FECHADEPOSITO/DEPOSITANTE</label></div>
-            </div>
-            <div class="col-sm-8 fv-row">
-
-                <input style="text-transform:uppercase" class="form-control form-control-solid" id="Comprobante" name="Comprobante" />
-            </div>
-            <div>
-
-                <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
-
-
+        <div class="executive-card">
+            <div class="search-bar-container m-3">
+                <div class="row align-items-end">
+                    <div class="col-md-8">
+                        <div class="form-group mb-0">
+                            <label class="font-weight-bold text-muted small text-uppercase mb-2">Comprobante / Fecha / Depositante</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
+                                </div>
+                                <input type="text" style="text-transform:uppercase" class="form-control" id="Comprobante" name="Comprobante" placeholder="Ingrese el criterio de búsqueda...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary-executive btn-block mt-3 mt-md-0 shadow-sm">
+                            <i class="fas fa-filter mr-2"></i> Buscar Depósitos
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
-
-
-
-        <div class="card card-default">
-            <div class="card-body">
-                <div class="row">
-                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+        <div class="executive-card">
+            <div class="card-header bg-white py-3 border-bottom d-flex align-items-center">
+                <i class="fas fa-university text-primary mr-2" style="color: #0f4c81 !important;"></i>
+                <h6 class="m-0 font-weight-bold" style="color: #2c3e50;">Listado de Registros</h6>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table id="tbDetalle" class="table table-executive table-hover">
                         <thead>
                             <tr>
                                 <th>Fecha Proceso</th>
-                                <th>Numero Comprobante</th>
-                                <th>Fecha Bco Central</th>
-                                <th>Comp Bco Central</th>
+                                <th>No. Comprobante</th>
+                                <th>Fecha Bco. Central</th>
+                                <th>Comp. Bco. Central</th>
                                 <th>Depositante</th>
-                                <th>Estacion</th>
-                                <th>Estado</th>
-                                <th>Monto</th>
-                                <th class=" control-label control-lab"></th>
+                                <th class="text-center">Estación</th>
+                                <th class="text-center">Estado</th>
+                                <th class="text-right">Monto</th>
+                                <th class="text-center">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @if(Model != null)
                             {
-                            <tr>
-
-                                <td>@Html.DisplayFor(modelItem => item.FECHAPROCESO)</td>
-                                <td >@Html.DisplayFor(modelItem => item.NUMEROCOMPROBANTE)</td>
-                                <td>@Html.DisplayFor(modelItem => item.FECHABCOCENTRAL)</td>
-                                <td>@Html.DisplayFor(modelItem => item.NUMCOMPBCOCENTRAL)</td>
-                                <td>@Html.DisplayFor(modelItem => item.DEPOSITANTE)</td>
-
-
-                                @*<td>
-                                    @if (item.ZONAL == "QUITO")
-                                    {
-
-                                        <p class="" , style="background-color: #9ccfe6">   @Html.DisplayFor(modelItem => item.ZONAL)</p>
-
-                                    }
-                                    @if (item.ZONAL == "GUAYAQUIL")
-                                    {
-
-                                        <p class="" , style="background-color: #caae41">   @Html.DisplayFor(modelItem => item.ZONAL)</p>
-
-                                    }
-
-                                </td>*@
-
-                                <td>
-                                    @if (item.ZONAL == "QUITO")
-                                    {
-                                        <p class="zonal zonal-quito">@Html.DisplayFor(modelItem => item.ZONAL)</p>
-                                    }
-                                    else if (item.ZONAL == "GUAYAQUIL")
-                                    {
-                                        <p class="zonal zonal-guayaquil">@Html.DisplayFor(modelItem => item.ZONAL)</p>
-                                    }
-                                </td>
-
-                                <td>
-                                    @if (item.ESTADO == "P")
-                                    {
-
-                                        @*<p class="text-danger, zonal" , style="font-size:16px;color: #bbb8a6">   @Html.DisplayFor(modelItem => item.ESTADO)</p>*@
-                                        <p class="text-danger text-center font-weight-bold" style="font-size:16px;">
-                                            @Html.DisplayFor(modelItem => item.ESTADO)
-                                        </p>
-                                    }
-                                    @if (item.ESTADO == "E")
-                                    {
-                                        <p class="alert alert-success text-center font-weight-bold" style="font-size:16px;">
-                                            @Html.DisplayFor(modelItem => item.ESTADO)
-                                        </p>
-
-                                        @*<p class="text-gray" , style="font-size:16px;background-color: #00ff21">   @Html.DisplayFor(modelItem => item.ESTADO)</p>*@
-
-                                    }
-
-                                </td>
-
-
-                                <td>@Html.DisplayFor(modelItem => item.MONTO)</td>
-                                <td>
-
-                                    <a id="Consultar"
-                                       href="#"
-                                       onclick="Consultar(@item.FECHAPROCESO, '@item.NUMEROCOMPROBANTE')"
-                                       style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background-color: #3498db; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;">
-                                        <img src="~/Content/imganes/consultar-documento.png" style="width:18px; height:18px;" alt="Consultar" />
-                                        Consulta
-                                    </a>
-
-
-                                </td>
-                            </tr>
+                                foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td class="font-weight-bold text-muted">@Html.DisplayFor(modelItem => item.FECHAPROCESO)</td>
+                                    <td class="font-weight-bold text-dark">@Html.DisplayFor(modelItem => item.NUMEROCOMPROBANTE)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHABCOCENTRAL)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NUMCOMPBCOCENTRAL)</td>
+                                    <td>
+                                        <span class="d-inline-block text-truncate" style="max-width: 200px;" title="@item.DEPOSITANTE">
+                                            @Html.DisplayFor(modelItem => item.DEPOSITANTE)
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.ZONAL == "QUITO")
+                                        {
+                                            <span class="badge-zonal zonal-quito"><i class="fas fa-map-marker-alt mr-1"></i> @item.ZONAL</span>
+                                        }
+                                        else if (item.ZONAL == "GUAYAQUIL")
+                                        {
+                                            <span class="badge-zonal zonal-guayaquil"><i class="fas fa-map-marker-alt mr-1"></i> @item.ZONAL</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge-zonal bg-light text-dark">@item.ZONAL</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.ESTADO == "P")
+                                        {
+                                            <span class="badge-estado estado-p"><i class="fas fa-clock mr-1"></i> Procesado</span>
+                                        }
+                                        else if (item.ESTADO == "E")
+                                        {
+                                            <span class="badge-estado estado-e"><i class="fas fa-check-circle mr-1"></i> Reservado</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge-estado bg-secondary text-white">@item.ESTADO</span>
+                                        }
+                                    </td>
+                                    <td class="text-right font-weight-bold" style="color: #0f4c81;">$ @Html.DisplayFor(modelItem => item.MONTO)</td>
+                                    <td class="text-center">
+                                        <a href="#" onclick="Consultar(@item.FECHAPROCESO, '@item.NUMEROCOMPROBANTE')" class="btn-action" title="Ver Detalle">
+                                            <i class="fas fa-file-invoice-dollar mr-2"></i> Consultar
+                                        </a>
+                                    </td>
+                                </tr>
+                                }
                             }
                         </tbody>
                     </table>
@@ -160,194 +334,141 @@
     }
 </div>
 
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6 class="modal-title text-white" id="modalLabel"> DEPOSITOS  DGAC</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<!-- Modal Formato Recibo -->
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="border: none; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            
+            <div class="modal-header executive-header d-flex align-items-center" style="border-radius: 12px 12px 0 0;">
+                <h5 class="modal-title text-white"><i class="fas fa-receipt mr-2"></i> Detalle de Depósito DGAC</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 0.8; text-shadow: none;">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="card-body border-top p-9">
-
-                        <div class="container">
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Proceso</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="FECHAPROCESO" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Numero Comprobante</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="NUMEROCOMPROBANTE" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Estacion</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="ESTACION" readonly="readonly" />
-                                </div>
-                            </div>
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Oficina</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="OFICINA" readonly="readonly" />
-                                </div>
-                                <div class="col-8">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Concepto</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="CONCEPTO" readonly="readonly" />
-                                </div>
-                            </div>
-
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Depositante</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="DEPOSITANTE" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label> Fecha Bco Central</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="FECHABCOCENTRAL" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label> Comp Bco Central</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="NUMCOMPBCOCENTRAL" readonly="readonly" />
-                                </div>
-
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Monto</label></div>
-                                    <input style="font-size:14px" class="form-control form-control-sm" id="MONTO" readonly="readonly" />
-                                </div>
-
-                            </div>
+            <div class="modal-body p-0">
+                <!-- Información Cabecera del Recibo -->
+                <div class="receipt-header">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <span class="receipt-label">Fecha Proceso</span>
+                            <span class="receipt-value" id="lblFECHAPROCESO">-</span>
                         </div>
-                        <hr />
+                        <div class="col-md-3 col-sm-6">
+                            <span class="receipt-label">No. Comprobante</span>
+                            <span class="receipt-value text-primary" id="lblNUMEROCOMPROBANTE">-</span>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <span class="receipt-label">Estación</span>
+                            <span class="receipt-value" id="lblESTACION">-</span>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <span class="receipt-label">Oficina</span>
+                            <span class="receipt-value" id="lblOFICINA">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <span class="receipt-label">Depositante</span>
+                            <span class="receipt-value" id="lblDEPOSITANTE">-</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="receipt-label">Concepto</span>
+                            <span class="receipt-value" id="lblCONCEPTO">-</span>
+                        </div>
+                    </div>
 
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <span class="receipt-label">Fecha Bco. Central</span>
+                            <span class="receipt-value" id="lblFECHABCOCENTRAL">-</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="receipt-label">Comp. Bco. Central</span>
+                            <span class="receipt-value" id="lblNUMCOMPBCOCENTRAL">-</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="receipt-label">Monto Registrado</span>
+                            <span class="receipt-value" id="lblMONTO" style="color: #0f4c81;">-</span>
+                        </div>
+                    </div>
+                </div>
 
-
-
-                        <p class="text-blue" style="font-size:14px">DETALLE COMPROBANTES</p>
-
-
-
-                        <table id="tbDetalleComprobantesDeposito" class="table table-bordered table-hover table-sm" style="width:100%; font-size:13px">
+                <!-- Detalle Comprobantes -->
+                <div class="p-4">
+                    <h6 class="font-weight-bold text-uppercase mb-3" style="color: #6c757d; font-size: 0.85rem;"><i class="fas fa-list-ul mr-2"></i>Detalle de Facturación Asociada</h6>
+                    <div class="table-responsive">
+                        <table id="tbDetalleComprobantesDeposito" class="table table-sm table-executive">
                             <thead>
                                 <tr>
-                                    <th>CODIGO </th>
+                                    <th>CÓDIGO</th>
                                     <th>FACTURA</th>
                                     <th>CLIENTE</th>
                                     <th>LUGAR</th>
-                                    <th>ND/CR/FA</th>
-                                    <th>VALOR</th>
-
-
+                                    <th class="text-center">TIPO</th>
+                                    <th class="text-right">VALOR</th>
                                 </tr>
                             </thead>
-                            <tbody style="font-size:12px"></tbody>
-
-
+                            <tbody>
+                                <!-- Rellenado por AJAX -->
+                            </tbody>
                         </table>
-
-                        <div class="row align-items-end">
-                            <div class="col">
-
-                            </div>
-                            <div class="col">
-
-                            </div>
-                            <div class="col">
-
-                            </div>
-                            <div class="col">
-
-                            </div>
-                            <div class="col">
-
-                            </div>
-                            <div class="col">
-                                <p class="text-blue" style="font-size:13px">TOTAL</p>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="text-align: right" ; id="TOTAL" readonly="readonly">
-                            </div>
-                        </div>
-
-                        <div class="row align-items-end">
-                            <div class="col">
-
-                            </div>
-                            <div class="col">
-
-                            </div>
-                            <div class="col">
-
-                            </div>
-                            <div class="col">
-
-                            </div>
-                            <div class="col">
-
-                            </div>
-                            <div class="col">
-                                <p class="text-danger" style="font-size:14px">DIFERENCIA</p>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="text-align: right" ; id="DIFERENCIA" readonly="readonly">
-                            </div>
-                        </div>
-
-                       
-
                     </div>
-
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 
+                <!-- Totales y Diferencia -->
+                <div class="receipt-total-section">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 text-muted small">
+                            <i class="fas fa-info-circle mr-1"></i> Los valores mostrados están expresados en USD.
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                <span class="total-label">TOTAL FACTURADO:</span>
+                                <span class="total-value" id="lblTOTAL">$ 0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="total-label">DIFERENCIA:</span>
+                                <span class="diferencia-value" id="lblDIFERENCIA">$ 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-</div>
-
 @section scripts{
     <script>
         $(document).ready(function () {
-
+            // Inicializar DataTables si existe y la tabla tiene filas
+            if ($.fn.DataTable && $('#tbDetalle tbody tr').length > 0) {
+                $('#tbDetalle').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                    },
+                    "pageLength": 10,
+                    "order": [[0, "desc"]]
+                });
+            }
         });
 
-        function modalAdjunto() {
-            $('#FormModal').modal('show');
-        }
-
-
-
         function Consultar(Fechaproceso, Numerocomprobante) {
-
-
-            $("#FECHAPROCESO").val("");
-            $("#NUMEROCOMPROBANTE").val("");
-            $("#ESTACION").val("");
-            $("#OFICINA").val("");
-            $("#CONCEPTO").val("");
-            $("#MONTO").val("");
-            $("#DEPOSITANTE").val("");
-            $("#CODIGOCOMPROBANTE").val("");
-            $("#FECHABCOCENTRAL").val("");
-            $("#NUMCOMPBCOCENTRAL").val("");
-            $("#TOTAL").val("");
-            $("#DIFERENCIA").val("");
-
+            // Limpiar valores previos
+            $("#lblFECHAPROCESO").text("Cargando...");
+            $("#lblNUMEROCOMPROBANTE").text("Cargando...");
+            $("#lblESTACION").text("Cargando...");
+            $("#lblOFICINA").text("Cargando...");
+            $("#lblCONCEPTO").text("Cargando...");
+            $("#lblMONTO").text("Cargando...");
+            $("#lblDEPOSITANTE").text("Cargando...");
+            $("#lblFECHABCOCENTRAL").text("Cargando...");
+            $("#lblNUMCOMPBCOCENTRAL").text("Cargando...");
+            $("#lblTOTAL").text("$ 0.00");
+            $("#lblDIFERENCIA").text("$ 0.00").removeClass('diferencia-alert diferencia-zero');
+            $("#tbDetalleComprobantesDeposito tbody").html('<tr><td colspan="6" class="text-center text-muted"><i class="fas fa-spinner fa-spin mr-2"></i> Cargando detalles...</td></tr>');
 
             $.ajax({
                 url: $.MisUrls.url._DetalleBancoRuminahui,
@@ -356,43 +477,54 @@
                 dataType: "json",
                 data: { FechaDeposito: Fechaproceso, NumeroComprobante: Numerocomprobante },
                 success: function (e) {
+                    // Poblar etiquetas de texto
+                    $("#lblFECHAPROCESO").text(e.FECHAPROCESO || "-");
+                    $("#lblNUMEROCOMPROBANTE").text(e.NUMEROCOMPROBANTE || "-");
+                    $("#lblESTACION").text(e.ZONAL || "-");
+                    $("#lblOFICINA").text(e.OFICINA || "-");
+                    $("#lblCONCEPTO").text(e.CONCEPTO || "-");
+                    $("#lblMONTO").text("$ " + (e.MONTO || "0.00"));
+                    $("#lblDEPOSITANTE").text(e.DEPOSITANTE || "-");
+                    $("#lblFECHABCOCENTRAL").text(e.FECHABCOCENTRAL || "-");
+                    $("#lblNUMCOMPBCOCENTRAL").text(e.NUMCOMPBCOCENTRAL || "-");
+                    
+                    // Formato de Moneda para Totales
+                    $("#lblTOTAL").text("$ " + (e.TOTAL || "0.00"));
+                    
+                    var dif = parseFloat(e.DIFERENCIA || 0);
+                    $("#lblDIFERENCIA").text("$ " + dif.toFixed(2));
+                    
+                    if(dif !== 0) {
+                        $("#lblDIFERENCIA").addClass('diferencia-alert');
+                    } else {
+                        $("#lblDIFERENCIA").addClass('diferencia-zero');
+                    }
 
-                    $("#FECHAPROCESO").val(e.FECHAPROCESO);
-                    $("#NUMEROCOMPROBANTE").val(e.NUMEROCOMPROBANTE);
-                    $("#ESTACION").val(e.ZONAL);
-                    $("#OFICINA").val(e.OFICINA);
-                    $("#CONCEPTO").val(e.CONCEPTO);
-                    $("#MONTO").val(e.MONTO);
-                    $("#DEPOSITANTE").val(e.DEPOSITANTE);
-                    $("#CODIGOCOMPROBANTE").val(e.CODIGOCOMPROBANTE);
-                    $("#FECHABCOCENTRAL").val(e.FECHABCOCENTRAL);
-                    $("#NUMCOMPBCOCENTRAL").val(e.NUMCOMPBCOCENTRAL);
-                    $("#TOTAL").val(e.TOTAL);
-                    $("#DIFERENCIA").val(e.DIFERENCIA);
+                    // Poblar tabla de detalles
                     $("#tbDetalleComprobantesDeposito tbody").html("");
-                    $.each(e.oDetalleDeposito, function (i, row) {
-
-                        $("<tr>").append(
-                            $("<td>").text(row["CODIGORECAUDACION"]),
-                            $("<td>").text(row["NUMEROFACTURA"]),
-                            $("<td>").text(row["CLIENTE"]),
-                            $("<td>").text(row["LUGAR"]),
-                            $("<td>").text(row["TIPO"]),
-                            $("<td class='text-right'>").text(row["MONTO"]))
-
-                            .appendTo("#tbDetalleComprobantesDeposito tbody");
-                    })
-
+                    
+                    if (e.oDetalleDeposito && e.oDetalleDeposito.length > 0) {
+                        $.each(e.oDetalleDeposito, function (i, row) {
+                            $("<tr>").append(
+                                $("<td>").text(row["CODIGORECAUDACION"]),
+                                $("<td>").text(row["NUMEROFACTURA"]),
+                                $("<td>").text(row["CLIENTE"]),
+                                $("<td>").text(row["LUGAR"]),
+                                $("<td class='text-center'>").html('<span class="badge badge-light border">' + row["TIPO"] + '</span>'),
+                                $("<td class='text-right font-weight-bold'>").text("$ " + row["MONTO"])
+                            ).appendTo("#tbDetalleComprobantesDeposito tbody");
+                        });
+                    } else {
+                        $("#tbDetalleComprobantesDeposito tbody").html('<tr><td colspan="6" class="text-center text-muted">No hay facturas asociadas a este depósito.</td></tr>');
+                    }
                 },
                 error: function (errormessage) {
-                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                    Swal.fire("Error de Conexión", "No se pudo obtener el detalle: " + errormessage.statusText, "error");
+                    $("#tbDetalleComprobantesDeposito tbody").html('<tr><td colspan="6" class="text-center text-danger">Error al cargar datos.</td></tr>');
                 }
             });
 
-
             $('#largeModal').modal('show');
         }
-
-
     </script>
 }

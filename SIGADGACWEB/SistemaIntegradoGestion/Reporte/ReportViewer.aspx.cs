@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,7 +18,7 @@ namespace SistemaIntegradoGestion.Reporte
                 rvSiteMapping.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
                 rvSiteMapping.ServerReport.ReportServerUrl = new Uri(System.Configuration.ConfigurationManager.AppSettings["SSRSRReportsUrl"].ToUpper()); // Add the Reporting Server URL  
                 rvSiteMapping.ServerReport.ReportPath = reportFolder; //"/Report Project1/ReporteSIGPOA";//String.Format("{0}{1}", reportFolder, Request["ReportName"].ToString());
-                rvSiteMapping.SizeToReportContent = true;
+                rvSiteMapping.SizeToReportContent = false;
                 rvSiteMapping.ShowPrintButton = false;
                 rvSiteMapping.ShowDocumentMapButton = true;
                 rvSiteMapping.Width = Unit.Percentage(100);

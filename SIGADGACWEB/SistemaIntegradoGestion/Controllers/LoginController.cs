@@ -52,6 +52,7 @@ namespace SistemaIntegradoGestion.Controllers
                             Session["MenuMaster"] = oMenu;
                             Session["name"] = ousuario.NombresUsuario + " " + ousuario.ApellidosUsuario;
                             Session["correo"] = ousuario.CorreoUsuario.Trim();
+                            
                             return RedirectToAction("Index", "Home");
                         }
                         else

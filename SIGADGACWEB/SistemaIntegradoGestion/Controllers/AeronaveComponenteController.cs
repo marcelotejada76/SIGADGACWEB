@@ -135,13 +135,10 @@ namespace SistemaIntegradoGestion.Controllers
 
 
 
-
-
-
         public ActionResult ObtenerArchivos(string matricula)
         {
-            // Combinamos la ruta base con la matrícula (ajusta según tu estructura de carpetas)
-            string folderPath = Path.Combine(@"\\172.20.19.55\DocumentosAeronave\", matricula);
+            // Combinamos la ruta base con la matrÃ­cula (ajusta segÃºn tu estructura de carpetas)
+            string folderPath = Path.Combine(@"\\172.20.19.55\DocumentosAeronave\"+ matricula);
 
             if (Directory.Exists(folderPath))
             {
@@ -218,20 +215,20 @@ namespace SistemaIntegradoGestion.Controllers
                 respuesta = CD_ActualizacionMatriculas.Instancia.ActualizarDatosMatricula550(modalMatricula);
 
                 if (respuesta)
-                    message = "✅ El registro se guardó correctamente.";
+                    message = "âœ… El registro se guardÃ³ correctamente.";
                 else
-                    message = "⚠️ No se pudo guardar el registro.";
+                    message = "âš ï¸ No se pudo guardar el registro.";
             }
             catch (Exception ex)
             {
                 respuesta = false;
-                message = "❌ Error: " + ex.Message;
+                message = "âŒ Error: " + ex.Message;
             }
 
             return Json(new { Success = respuesta, Message = message }, JsonRequestBehavior.AllowGet);
         }
 
 
-
+       
     }
 }

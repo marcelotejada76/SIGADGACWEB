@@ -40,7 +40,7 @@ namespace CapaDatos
             string Codigo = "HC";
             try
             {
-                sbSol.Append("SELECT * FROM AERAR1 WHERE SUBSTRING(AERMAT,1,2)='"+Codigo+"'");
+                sbSol.Append("SELECT AERMAT,AERCO1,AERFAB,AERMOD FROM AERAR1 WHERE SUBSTRING(AERMAT,1,2)='" + Codigo+"'");
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -487,7 +487,7 @@ namespace CapaDatos
 
                         string nombrearchivo = ("aeronave_" + oSolicitud.AERONAVE.Trim() + ".pdf");
 
-                        // Creamos el documento con el tamaño de página tradicional
+                        // Creamos el documento con el tamaÃƒÂ±o de pÃƒÂ¡gina tradicional
                         Document doc = new Document(PageSize.LETTER);
                         // Document doc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
 
@@ -507,7 +507,7 @@ namespace CapaDatos
                                 // Abrimos el archivo
                                 doc.Open();
 
-                                // Colores tipo institucional (puedes ajustar según manual DGAC)
+                                // Colores tipo institucional (puedes ajustar segÃƒÂºn manual DGAC)
                                 BaseColor azulDGAC1 = new BaseColor(0, 70, 127);     // Azul principal
                                 BaseColor azulClaro1 = new BaseColor(100, 150, 200); // Opcional
 
@@ -528,7 +528,7 @@ namespace CapaDatos
                                 iTextSharp.text.Font Total = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 7, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
                                 iTextSharp.text.Font TotalCabecera = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.BOLD, BaseColor.RED);
                                 iTextSharp.text.Font Cabecera = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLUE);
-                                // Creamos la imagen y le ajustamos el tamaño
+                                // Creamos la imagen y le ajustamos el tamaÃƒÂ±o
 
                                 Font titulo = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
                                 Font tituloBlanco = new Font(Titulos.BaseFont, 10, Font.BOLD, BaseColor.WHITE);
@@ -566,13 +566,13 @@ namespace CapaDatos
                                 tblimagen.AddCell(imagen);
 
 
-                                var celAeron = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE", Dgac));
+                                var celAeron = new PdfPCell(new Phrase("DIRECCIÃƒâ€œN GENERAL DE", Dgac));
                                 celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 celAeron.BorderWidth = 0;
 
                                 tblTitulo.AddCell(celAeron);
 
-                                celAeron = new PdfPCell(new Phrase("INSTRUCCIÓN TÉCNICA ", Dgac1));
+                                celAeron = new PdfPCell(new Phrase("INSTRUCCIÃƒâ€œN TÃƒâ€°CNICA ", Dgac1));
                                 celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 celAeron.BorderWidth = 0;
 
@@ -590,7 +590,7 @@ namespace CapaDatos
 
                                 //tblTitulo.AddCell(celAeron);
 
-                                celAeron = new PdfPCell(new Phrase("INFORME TÉCNICO DE AERONAVE", Dgac));
+                                celAeron = new PdfPCell(new Phrase("INFORME TÃƒâ€°CNICO DE AERONAVE", Dgac));
                                 celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 celAeron.BorderWidth = 0;
 
@@ -601,7 +601,7 @@ namespace CapaDatos
                                 celAeron1.BorderWidth = 0;
                                 tblTitulo.AddCell(celAeron1);
 
-                                //celAeron = new PdfPCell(new Phrase("TRÁNSITO AÉREO ITS", Dgac));
+                                //celAeron = new PdfPCell(new Phrase("TRÃƒÂNSITO AÃƒâ€°REO ITS", Dgac));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BorderWidth = 0;
 
@@ -642,11 +642,11 @@ namespace CapaDatos
                                 };
 
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 Font tituloBlanco1 = new Font(Titulos.BaseFont, 12, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("INFORMACIÓN GENERAL DE LA AERONAVE", titulo1));
+                                // Celda tÃƒÂ­tulo
+                                celAeron = new PdfPCell(new Phrase("INFORMACIÃ“N GENERAL DE LA AERONAVE", titulo1));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC1;
@@ -654,14 +654,14 @@ namespace CapaDatos
                                 celAeron.PaddingTop = 6f;
                                 celAeron.PaddingBottom = 6f;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 8f;
                                 celAeron.PaddingBottom = 8f;
 
                                 tblTituloCabecera.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 //PdfPCell linea = new PdfPCell(new Phrase(""))
                                 //{
                                 //    BackgroundColor = azulClaro,
@@ -670,7 +670,7 @@ namespace CapaDatos
                                 //};
                                 //tblTituloCabecera.AddCell(linea);
 
-                                // Línea decorativa fina
+                                // LÃƒÂ­nea decorativa fina
                                 PdfPCell linea = new PdfPCell()
                                 {
                                     BackgroundColor = azulLinea,
@@ -684,7 +684,7 @@ namespace CapaDatos
 
 
                                 //var tblTituloCabecera = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("INFORMACIÓN GENERAL DE LA AERONAVE", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("INFORMACIÃƒâ€œN GENERAL DE LA AERONAVE", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloCabecera.AddCell(celAeron);
@@ -746,7 +746,7 @@ namespace CapaDatos
                                 celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 tblMarca.AddCell(celAeron);
 
-                                celAeron = new PdfPCell(new Phrase("AÑO FAB", Total));
+                                celAeron = new PdfPCell(new Phrase("AÃƒâ€˜O FAB", Total));
                                 celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 tblMarca.AddCell(celAeron);
@@ -788,10 +788,10 @@ namespace CapaDatos
                                     SpacingAfter = 5f
                                 };
 
-                                // Fuente más equilibrada
+                                // Fuente mÃƒÂ¡s equilibrada
                                 //tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("PESOS Y PERFORMANCE", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
@@ -804,7 +804,7 @@ namespace CapaDatos
 
                                 tblTitulopeso.AddCell(celAeron);
 
-                                // Línea decorativa más sutil
+                                // LÃƒÂ­nea decorativa mÃƒÂ¡s sutil
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -893,10 +893,10 @@ namespace CapaDatos
                                     SpacingAfter = 5f
                                 };
 
-                                // Fuente más equilibrada
+                                // Fuente mÃƒÂ¡s equilibrada
                                 //  tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("MOTOR 1", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
@@ -909,7 +909,7 @@ namespace CapaDatos
 
                                 tblTituloMotor.AddCell(celAeron);
 
-                                // Línea decorativa más sutil
+                                // LÃƒÂ­nea decorativa mÃƒÂ¡s sutil
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -959,23 +959,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 //   tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("MOTOR 2", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloMotor2.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1024,23 +1024,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 // tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("HELICE 1", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloHelice.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1089,23 +1089,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 // tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("HELICE 2", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloHelice2.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1157,23 +1157,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 //tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("ELT FIJO", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloEltFijo.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1240,23 +1240,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 //  tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("ELT PORTATIL", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloEltPortatil.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1316,23 +1316,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 // tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("CODIGO S", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCodigoS.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1387,23 +1387,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 //tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("CONDICION", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tbltCondicion.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1465,23 +1465,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 //tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("MONITOREO", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tbltMonitoreo.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1545,23 +1545,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 // tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
+                                // Celda tÃƒÂ­tulo
                                 celAeron = new PdfPCell(new Phrase("CERTIFICACION AERONAVE", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCertifAeronave.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1638,7 +1638,7 @@ namespace CapaDatos
                                         celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                         tblCertificadoAeronave.AddCell(celAeron);
 
-                                        // Colores según estado
+                                        // Colores segÃƒÂºn estado
                                         string estado = item.ESTADO?.Trim().ToUpper();
 
                                         celAeron = new PdfPCell(new Phrase(item.ESTADO.Trim(), _standardFont));
@@ -1681,23 +1681,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 //tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("CERTIFICADO HOMOLOGACIÓN DE RADIO", tituloBlanco));
+                                // Celda tÃƒÂ­tulo
+                                celAeron = new PdfPCell(new Phrase("CERTIFICADO HOMOLOGACIÃƒâ€œN DE RADIO", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCertiHomolRadio.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1709,7 +1709,7 @@ namespace CapaDatos
                                 doc.Add(tblTituloCertiHomolRadio);
 
                                 //var tblTituloCertiHomolRadio = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("CERTIFICADO HOMOLOGACIÓN DE RADIO", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("CERTIFICADO HOMOLOGACIÃƒâ€œN DE RADIO", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloCertiHomolRadio.AddCell(celAeron);
@@ -1767,7 +1767,7 @@ namespace CapaDatos
                                         celAeron = new PdfPCell(new Phrase(item.NOMBREINSPECTORAIRRENOV.Trim(), _standardFont));
                                         celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                         tblCertHomoloRadio.AddCell(celAeron);
-                                        // Colores según estado
+                                        // Colores segÃƒÂºn estado
                                         string estado = item.ESTADO?.Trim().ToUpper();
 
                                         celAeron = new PdfPCell(new Phrase(item.ESTADO.Trim(), _standardFont));
@@ -1810,23 +1810,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 // tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("CERTIFICADO HOMOLOGACIÓN DE RUIDO", tituloBlanco));
+                                // Celda tÃƒÂ­tulo
+                                celAeron = new PdfPCell(new Phrase("CERTIFICADO HOMOLOGACIÃƒâ€œN DE RUIDO", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCertiHomolRuido.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1838,7 +1838,7 @@ namespace CapaDatos
                                 doc.Add(tblTituloCertiHomolRuido);
 
                                 //var tblTituloCertiHomolRuido = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("CERTIFICADO HOMOLOGACIÓN DE RUIDO", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("CERTIFICADO HOMOLOGACIÃƒâ€œN DE RUIDO", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloCertiHomolRuido.AddCell(celAeron);
@@ -1876,7 +1876,7 @@ namespace CapaDatos
                                         celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                         tblCertHomoloRuido.AddCell(celAeron);
 
-                                        // Colores según estado
+                                        // Colores segÃƒÂºn estado
                                         string estado = item.ESTADO?.Trim().ToUpper();
 
                                         celAeron = new PdfPCell(new Phrase(item.ESTADO.Trim(), _standardFont));
@@ -1917,23 +1917,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 // tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("APROBACIÓN PBN/RNP10", tituloBlanco));
+                                // Celda tÃƒÂ­tulo
+                                celAeron = new PdfPCell(new Phrase("APROBACIÃƒâ€œN PBN/RNP10", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCertiPbnRnp10.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -1945,7 +1945,7 @@ namespace CapaDatos
                                 doc.Add(tblTituloCertiHomolRadio);
 
                                 //var tblTituloCertiPbnRnp10 = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("APROBACIÓN PBN/RNP10", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("APROBACIÃƒâ€œN PBN/RNP10", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloCertiPbnRnp10.AddCell(celAeron);
@@ -1983,7 +1983,7 @@ namespace CapaDatos
                                         celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                         tblCertPbnRnp10.AddCell(celAeron);
 
-                                        // Colores según estado
+                                        // Colores segÃƒÂºn estado
                                         string estado = item.ESTADO?.Trim().ToUpper();
 
                                         celAeron = new PdfPCell(new Phrase(item.ESTADO.Trim(), _standardFont));
@@ -2022,23 +2022,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 // tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("APROBACIÓN RNAV5", tituloBlanco));
+                                // Celda tÃ­tulo
+                                celAeron = new PdfPCell(new Phrase("APROBACIÃ“N RNAV5", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCertiRnav5.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -2050,7 +2050,7 @@ namespace CapaDatos
                                 doc.Add(tblTituloCertiRnav5);
 
                                 //var tblTituloCertiRnav5 = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("APROBACIÓN RNAV5", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("APROBACIÃ“N RNAV5", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloCertiRnav5.AddCell(celAeron);
@@ -2089,7 +2089,7 @@ namespace CapaDatos
                                         celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                         tblCertPbnRnav5.AddCell(celAeron);
 
-                                        // Colores según estado
+                                        // Colores segÃºn estado
                                         string estado = item.ESTADO?.Trim().ToUpper();
 
                                         celAeron = new PdfPCell(new Phrase(item.ESTADO.Trim(), _standardFont));
@@ -2128,23 +2128,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 //tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("APROBACIÓN RNAV2", tituloBlanco));
+                                // Celda tÃƒÂ­tulo
+                                celAeron = new PdfPCell(new Phrase("APROBACIÃ“N RNAV2", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCertiRnav2.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -2156,7 +2156,7 @@ namespace CapaDatos
                                 doc.Add(tblTituloCertiRnav2);
 
                                 //var tblTituloCertiRnav2 = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("APROBACIÓN RNAV2", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("APROBACIÃ“N RNAV2", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloCertiRnav2.AddCell(celAeron);
@@ -2194,7 +2194,7 @@ namespace CapaDatos
                                         celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                         tblCertPbnRnav2.AddCell(celAeron);
 
-                                        // Colores según estado
+                                        // Colores segÃƒÂºn estado
                                         string estado = item.ESTADO?.Trim().ToUpper();
 
                                         celAeron = new PdfPCell(new Phrase(item.ESTADO.Trim(), _standardFont));
@@ -2233,23 +2233,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 // tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("APROBACIÓN RNAV APPROACH", tituloBlanco));
+                                // Celda tÃƒÂ­tulo
+                                celAeron = new PdfPCell(new Phrase("APROBACIÃ“N RNAV APPROACH", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCertiApproach.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -2261,7 +2261,7 @@ namespace CapaDatos
                                 doc.Add(tblTituloCertiApproach);
 
                                 //var tblTituloCertiApproach = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("APROBACIÓN RNAV APPROACH", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("APROBACIÃ“N RNAV APPROACH", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloCertiApproach.AddCell(celAeron);
@@ -2298,7 +2298,7 @@ namespace CapaDatos
                                         celAeron = new PdfPCell(new Phrase(item.NOMBREINSPECTORAIR.Trim(), _standardFont));
                                         celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                         tblCertApproach.AddCell(celAeron);
-                                        // Colores según estado
+                                        // Colores segÃƒÂºn estado
                                         string estado = item.ESTADO?.Trim().ToUpper();
 
                                         celAeron = new PdfPCell(new Phrase(item.ESTADO.Trim(), _standardFont));
@@ -2337,23 +2337,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 // tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("APROBACIÓN RVSM", tituloBlanco));
+                                // Celda tÃƒÂ­tulo
+                                celAeron = new PdfPCell(new Phrase("APROBACIÃ“N RVSM", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCertiRvsm.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -2365,7 +2365,7 @@ namespace CapaDatos
                                 doc.Add(tblTituloCertiRvsm);
 
                                 //var tblTituloCertiRvsm = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("APROBACIÓN RVSM", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("APROBACIÃ“N RVSM", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloCertiRvsm.AddCell(celAeron);
@@ -2403,7 +2403,7 @@ namespace CapaDatos
                                         celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                         tblCertRvsm.AddCell(celAeron);
 
-                                        // Colores según estado
+                                        // Colores segÃƒÂºn estado
                                         string estado = item.ESTADO?.Trim().ToUpper();
 
                                         celAeron = new PdfPCell(new Phrase(item.ESTADO.Trim(), _standardFont));
@@ -2443,23 +2443,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 //tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("APROBACIÓN ETOPS", tituloBlanco));
+                                // Celda tÃƒÂ­tulo
+                                celAeron = new PdfPCell(new Phrase("APROBACIÃ“N ETOPS", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCertiEtops.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -2471,7 +2471,7 @@ namespace CapaDatos
                                 doc.Add(tblTituloCertiEtops);
 
                                 //var tblTituloCertiEtops = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("APROBACIÓN ETOPS", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("APROBACIÃ“N ETOPS", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloCertiEtops.AddCell(celAeron);
@@ -2508,7 +2508,7 @@ namespace CapaDatos
                                         celAeron = new PdfPCell(new Phrase(item.NOMBREINSPECTORAIR.Trim(), _standardFont));
                                         celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                         tblCertEtops.AddCell(celAeron);
-                                        // Colores según estado
+                                        // Colores segÃƒÂºn estado
                                         string estado = item.ESTADO?.Trim().ToUpper();
 
                                         celAeron = new PdfPCell(new Phrase(item.ESTADO.Trim(), _standardFont));
@@ -2547,23 +2547,23 @@ namespace CapaDatos
                                     SpacingAfter = 8f
                                 };
 
-                                // Fuente más visible
+                                // Fuente mÃƒÂ¡s visible
                                 //  tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("APROBACIÓN CATEGORIAS II Y III", tituloBlanco));
+                                // Celda tÃƒÂ­tulo
+                                celAeron = new PdfPCell(new Phrase("APROBACIÃ“N CATEGORIAS II Y III", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
 
-                                // Estética profesional
+                                // EstÃƒÂ©tica profesional
                                 celAeron.Border = Rectangle.NO_BORDER;
                                 celAeron.PaddingTop = 5f;
                                 celAeron.PaddingBottom = 5f;
 
                                 tblTituloCategorias.AddCell(celAeron);
 
-                                // Línea inferior decorativa (opcional)
+                                // LÃƒÂ­nea inferior decorativa (opcional)
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -2575,7 +2575,7 @@ namespace CapaDatos
                                 doc.Add(tblTituloCategorias);
 
                                 //var tblTituloCategorias = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("APROBACIÓN CATEGORIAS II Y III", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("APROBACIÃ“N CATEGORIAS II Y III", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloCategorias.AddCell(celAeron);
@@ -2612,7 +2612,7 @@ namespace CapaDatos
                                         celAeron = new PdfPCell(new Phrase(item.NOMBREINSPECTORAIR.Trim(), _standardFont));
                                         celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                         tblCertCategorias.AddCell(celAeron);
-                                        // Colores según estado
+                                        // Colores segÃƒÂºn estado
                                         string estado = item.ESTADO?.Trim().ToUpper();
 
                                         celAeron = new PdfPCell(new Phrase(item.ESTADO.Trim(), _standardFont));
@@ -2651,11 +2651,11 @@ namespace CapaDatos
                                     SpacingAfter = 5f
                                 };
 
-                                // Fuente más equilibrada
+                                // Fuente mÃƒÂ¡s equilibrada
                                 //tituloBlanco = new Font(Titulos.BaseFont, 11, Font.BOLD, BaseColor.WHITE);
 
-                                // Celda título
-                                celAeron = new PdfPCell(new Phrase("INFORMACIÓN ACCIDENTE DE AERONAVE", tituloBlanco));
+                                // Celda tÃƒÂ­tulo
+                                celAeron = new PdfPCell(new Phrase("INFORMACIÃƒâ€œN ACCIDENTE DE AERONAVE", tituloBlanco));
                                 celAeron.HorizontalAlignment = Element.ALIGN_CENTER;
                                 celAeron.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 celAeron.BackgroundColor = azulDGAC;
@@ -2667,7 +2667,7 @@ namespace CapaDatos
 
                                 tblTituloAccidentes.AddCell(celAeron);
 
-                                // Línea decorativa más sutil
+                                // LÃƒÂ­nea decorativa mÃƒÂ¡s sutil
                                 linea = new PdfPCell(new Phrase(""))
                                 {
                                     BackgroundColor = azulClaro,
@@ -2679,7 +2679,7 @@ namespace CapaDatos
                                 doc.Add(tblTituloAccidentes);
 
                                 //var tblTituloAccidentes = new PdfPTable(new float[] { 100f }) { WidthPercentage = 100f, HorizontalAlignment = 1, SpacingBefore = 5f, SpacingAfter = 5f };
-                                //celAeron = new PdfPCell(new Phrase("INFORMACIÓN ACCIDENTE AERONAVE ", Titulos));
+                                //celAeron = new PdfPCell(new Phrase("INFORMACIÃƒâ€œN ACCIDENTE AERONAVE ", Titulos));
                                 //celAeron.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                                 //celAeron.BackgroundColor = new BaseColor(220, 220, 220);
                                 //tblTituloAccidentes.AddCell(celAeron);
@@ -2760,6 +2760,8 @@ namespace CapaDatos
             }
             return listarSolicitud;
         }
+
+      
 
     }
 }

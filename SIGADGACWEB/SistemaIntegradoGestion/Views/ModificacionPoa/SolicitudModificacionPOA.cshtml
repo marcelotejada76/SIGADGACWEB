@@ -76,6 +76,7 @@
                                                     if (item.EstadoAutorizacion != "RN")
                                                     {
                                                         <div class="btn-group">
+
                                                             <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-info" href="@Url.Action("RevisarAprobarSolicModificacionPoa", "ModificacionPoa", new { canio = item.AnioSolicitud, numSolicitud = item.NumeroSolicitud.ToString(), vista = "SolicitudModificacionPOA" })">
                                                                 <i><img src="~/Content/imganes/analisar.png" style="width:20px" /></i> Revisar solicitud
                                                             </a>

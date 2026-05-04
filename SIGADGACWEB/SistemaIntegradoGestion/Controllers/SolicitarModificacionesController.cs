@@ -27,7 +27,7 @@ namespace SistemaIntegradoGestion.Controllers
         private static string SesionControlador = "SolicitarModificaciones";
         private static string ssrsurl = ConfigurationManager.AppSettings["SSRSRReportsUrl"].ToString();
         private static tbUsuario SesionUsuario;
-        private static tbMenu SesionMenu;        
+        private static tbMenu SesionMenu;
 
         #region "Certificado POA"
 
@@ -96,7 +96,7 @@ namespace SistemaIntegradoGestion.Controllers
             listado = CD_SolicitudPOA.Instancia.SolicitarCertificadoSoloPOA(cAnio, SesionUsuario.CodigoSubsistema);
             string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
             Session["Controlador"] = controllerName;
-            Session["ActionResul"] = "SolicitarCertificadoPOA";           
+            Session["ActionResul"] = "SolicitarCertificadoPOA";
             Session["TituloActionResul"] = "Solicitar Certificación POA";
             Session["DireccionSubSistema"] = SesionUsuario.DescripcionSubSistema.Trim().ToUpper();
 
@@ -460,7 +460,7 @@ namespace SistemaIntegradoGestion.Controllers
                         FileNameFirmado = "CertificadoPOA" + canio + numSolicitud.ToString() + "-signed.pdf";
                         string FilePath = urlReporteElectronico + @"\" + FileName;
 
-                        
+
                         if (InsertaCertificadoDocumentoFirmado(FileName, FileNameFirmado, cdireccion, 1))
                         {
                             EliminaArchivoServidor(FilePath);
@@ -480,6 +480,36 @@ namespace SistemaIntegradoGestion.Controllers
 
         }
 
+        public ActionResult VisualizaPreDocumentoPOA(string canio, string tipoDoc, int numSolicitud)
+        {
+            ReportViewer viewer = new ReportViewer();
+            string filenameExtension;
+
+            var ousuario = (tbUsuario)Session["Usuario"];            
+
+            viewer.ProcessingMode = ProcessingMode.Remote;
+            viewer.SizeToReportContent = true;
+            viewer.AsyncRendering = true;
+            viewer.ServerReport.ReportServerUrl = new Uri(ssrsurl);
+            viewer.ServerReport.ReportPath = "/ReportDGACPRO/Consulta Certif Modif POA";
+            ReportParameter[] reportParameter = new ReportParameter[3];
+            reportParameter[0] = new ReportParameter("PrmAnio", canio);
+            reportParameter[1] = new ReportParameter("PrmTipoDocumento", tipoDoc);
+            reportParameter[2] = new ReportParameter("PrmNumDocumento", numSolicitud.ToString());
+            viewer.ServerReport.SetParameters(reportParameter);
+
+            // Renderizar en memoria como PDF
+            string mimeType, encoding, extension;
+            string[] streamids;
+            Warning[] warnings;
+
+
+
+            byte[] bytes = bytes = viewer.ServerReport.Render("Pdf", null, out mimeType, out encoding, out filenameExtension, out streamids, out warnings);
+
+            // Devolver como archivo PDF en el navegador (con encabezados inline para iframe)
+            return File(bytes, "application/pdf");
+        }
 
         public ActionResult VisualizarFile(string nombreArchivo, string direccion)
         {
@@ -595,11 +625,11 @@ namespace SistemaIntegradoGestion.Controllers
         public ActionResult ExportToPDF(string canio, Int32 numSolicitud, string cdireccion, string estAut, string cobservacion, string cobservacion1)
         {
 
-           
+
             string FilePathReturn = string.Empty;
             string FileNameFirmado = string.Empty;
-           
-            
+
+
             tbCertificadoDigital oCertificado = new tbCertificadoDigital();
             tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
             Document dctoCertificado = new Document();
@@ -653,7 +683,7 @@ namespace SistemaIntegradoGestion.Controllers
                             }
                         }
                     }
-                  
+
                     FilePathReturn = FileNameFirmado;
                 }
                 else { FilePathReturn = ""; }
@@ -684,7 +714,7 @@ namespace SistemaIntegradoGestion.Controllers
 
                 if (oSolicitud.NumeroSolicitud > 0)
                 {
-                    
+
                     oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
                     if (oSolicitud.NumeroSolicitud > 0)
                     {
@@ -808,12 +838,12 @@ namespace SistemaIntegradoGestion.Controllers
         {
             tbSolicitudPOA oSolicitud = new tbSolicitudPOA();
             tbCertificadoDigital oCertificado = new tbCertificadoDigital();
-            
+
             string cdireccion = string.Empty;
             string FilePathReturn = string.Empty;
-            string FileNameFirmado = string.Empty;           
+            string FileNameFirmado = string.Empty;
             string nombreArchivo = string.Empty;
-            string inicionombreArchivo = string.Empty;          
+            string inicionombreArchivo = string.Empty;
             string nombreReporte = string.Empty;
             Document dctoSolicitud = new Document();
             try
@@ -823,7 +853,7 @@ namespace SistemaIntegradoGestion.Controllers
                 oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
                 if (oSolicitud.NumeroSolicitud > 0)
                 {
-                    
+
                     cdireccion = oSolicitud.CodigoDireccionPYGE.Trim() + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud.ToString();
                     nombreArchivo = "SolicitudCertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
                     string urlReporteElectronico = Constantes.poaURL + @"\" + cdireccion;
@@ -848,8 +878,8 @@ namespace SistemaIntegradoGestion.Controllers
                             FileNameFirmado = FileName;
                         }
                     }
-                   
-                                      
+
+
                     FilePathReturn = FileNameFirmado;
 
                 }
@@ -978,7 +1008,7 @@ namespace SistemaIntegradoGestion.Controllers
                 if (subirArchivo != null)
                 {
                     var ousuario = (tbUsuario)Session["Usuario"];
-                    string ruta = Constantes.ReporteElectronicoPOAURL+ ousuario.CodigoUsuario;  //Server.MapPath(Constantes.ReporteElectronicoPOAURL);
+                    string ruta = Constantes.ReporteElectronicoPOAURL + ousuario.CodigoUsuario;  //Server.MapPath(Constantes.ReporteElectronicoPOAURL);
 
                     // Si el directorio no existe, crearlo
                     if (!Directory.Exists(ruta))
@@ -1317,7 +1347,7 @@ namespace SistemaIntegradoGestion.Controllers
             }
             return estado;
         }
-        
+
 
         #endregion
 
@@ -1345,7 +1375,7 @@ namespace SistemaIntegradoGestion.Controllers
                 var ousuario = (tbUsuario)Session["Usuario"];
                 pathAutorizacion = Constantes.poaURL + @"\" + directorio;
                 pathCertificado = Utilitarios.Utilitario.certificadoPOAUrl + ousuario.CodigoUsuario;
-              
+
                 var oCertificado = CD_CertificadoDigital.Instancia.CertificadoDigitalPorUsuario(ousuario.CodigoUsuario);
                 store = storeCertificado(oCertificado, ousuario);
 
@@ -1360,18 +1390,18 @@ namespace SistemaIntegradoGestion.Controllers
                     using (FileStream inputStream = new FileStream(pathAutorizacion + @"\" + inputPdfPath, FileMode.Open))
                     using (FileStream outputStream = new FileStream(pathAutorizacion + @"\" + outputPdfPath, FileMode.Create, FileAccess.ReadWrite))
                     {
-                        PdfReader reader = new PdfReader(inputStream);                       
+                        PdfReader reader = new PdfReader(inputStream);
 
                         PdfStamper stamper = PdfStamper.CreateSignature(reader, outputStream, '\0', null, true);
-                         appearance = stamper.SignatureAppearance;
+                        appearance = stamper.SignatureAppearance;
                         //PdfSignatureAppearance appearanceAto = stamper.SignatureAppearance;
 
                         numPage = reader.NumberOfPages;
                         nsejeX = 120; //disminuir para acercar al margen izquierdo y aumenta para alejarlo
                         nsejeY = 5;  //disminuir para acercar al pie de pagina erdo y aumenta para ajejarlo
-                        // Configurar la apariencia de la firma
+                                     // Configurar la apariencia de la firma
 
-                       
+
                         string fechaFirma = fechaDateAs400(oSistema.FechaSistema) + " " + oSistema.HoraSistema;  //DateTime.Now.Date.ToString();
                         appearance.SignDate = DateTime.Parse(fechaFirma); // DateTime.Now.Date;
 
@@ -1381,7 +1411,7 @@ namespace SistemaIntegradoGestion.Controllers
                         IExternalSignature externalSignature = new PrivateKeySignature(keyEntry.Key, "SHA-256");
                         MakeSignature.SignDetached(appearance, externalSignature, chain.Select(c => c.Certificate).ToList(), null, null, null, 0, CryptoStandard.CMS);
 
-                    
+
 
                         stamper.Close();
 
@@ -1568,7 +1598,7 @@ namespace SistemaIntegradoGestion.Controllers
                 {
                     foreach (DataRow dr in dsDatosSolicitud.Tables[0].Rows)
                     {
-                       
+
                         pathCertificado = Utilitarios.Utilitario.certificadoPOAUrl + ousuario.CodigoUsuario;
                         directorio = oSolicitud.CodigoDireccionPYGE + @"\" + oSolicitud.AnioSolicitud + @"\" + oSolicitud.TipoSolicitud + @"\" + oSolicitud.NumeroSolicitud.ToString();
                         nombreArchivo = "SolicitudCertificadoPOA" + "_" + oSolicitud.CodigoDireccionPYGE.Trim() + "_" + oSolicitud.AnioSolicitud + "_" + oSolicitud.TipoSolicitud + "_" + oSolicitud.NumeroSolicitud.ToString();
@@ -1594,7 +1624,7 @@ namespace SistemaIntegradoGestion.Controllers
                         //var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL DEL ECUADOR", negrita10));
                         var c2 = new PdfPCell(new Phrase("DIRECCIÓN GENERAL DE AVIACIÓN CIVIL", negrita10));
 
-                        c1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;                        
+                        c1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                         c2.HorizontalAlignment = PdfPCell.ALIGN_MIDDLE;
                         c2.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
 
@@ -1674,7 +1704,7 @@ namespace SistemaIntegradoGestion.Controllers
                         paraAsunto.Add(dr["Direccion"].ToString());
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
                         paraAsunto.Font = tituloNormal12;
-                        pdfDoc.Add(paraAsunto);                       
+                        pdfDoc.Add(paraAsunto);
                     }
                     pdfWriter.CloseStream = true;
                     pdfDoc.CloseDocument();
@@ -1750,8 +1780,8 @@ namespace SistemaIntegradoGestion.Controllers
                 var ousuario = (tbUsuario)Session["Usuario"];
                 oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
                 oSolicitud = CD_SolicitudPOA.Instancia.SolicitarCertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
-                if(oSolicitud.TipoSolicitud.Equals("ACT"))
-                       dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.ActualizacionPOAPorAnioNumeroSolicitud(canio, numSolicitud);
+                if (oSolicitud.TipoSolicitud.Equals("ACT"))
+                    dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.ActualizacionPOAPorAnioNumeroSolicitud(canio, numSolicitud);
                 else
                     dsDatosCertificadoPOA = CD_SolicitudPOA.Instancia.CertificadoPOAPorAnioNumeroSolicitud(canio, numSolicitud);
 
@@ -1820,7 +1850,7 @@ namespace SistemaIntegradoGestion.Controllers
                         paraAsunto.Clear();
                         pdfDoc.Add(Chunk.NEWLINE);
                         paraAsunto.Font = negrita12;
-                        paraAsunto.Add("Certificación POA "+ canio + " No." + dr["CERTIFICACION_POA_NO"].ToString());
+                        paraAsunto.Add("Certificación POA " + canio + " No." + dr["CERTIFICACION_POA_NO"].ToString());
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
                         pdfDoc.Add(paraAsunto);
                         paraAsunto.Clear();
@@ -1828,18 +1858,18 @@ namespace SistemaIntegradoGestion.Controllers
                         paraAsunto.Font = negrita12;
                         paraAsunto.Add("Fecha Certificación POA: " + fechaDateAs400(dr["FECHAAPRBCERTIFICADO"].ToString()));
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
-                        pdfDoc.Add(paraAsunto);                       
+                        pdfDoc.Add(paraAsunto);
                         paraAsunto.Clear();
                         pdfDoc.Add(Chunk.NEWLINE);
                         paraAsunto.Font = tituloNormal12;
-                        referenciaCertificado = "En referencia a la solicitud No. " + dr["N_SOLICITUD"].ToString().Trim() + ", de " + fechaTexto(dr["FECHA_SOLICITUD"].ToString()).Trim() + ", mediante el cual, la Dirección " + dr["DIRECCION_SOLICITANTE"].ToString().Trim() + ", solicita la certificación POA de " + dr["ACTIVIDAD_POA"].ToString().Trim();                        
-                        paraAsunto.Add(referenciaCertificado);                        
+                        referenciaCertificado = "En referencia a la solicitud No. " + dr["N_SOLICITUD"].ToString().Trim() + ", de " + fechaTexto(dr["FECHA_SOLICITUD"].ToString()).Trim() + ", mediante el cual, la Dirección " + dr["DIRECCION_SOLICITANTE"].ToString().Trim() + ", solicita la certificación POA de " + dr["ACTIVIDAD_POA"].ToString().Trim();
+                        paraAsunto.Add(referenciaCertificado);
                         paraAsunto.Alignment = Element.ALIGN_JUSTIFIED;
                         pdfDoc.Add(paraAsunto);
                         pdfDoc.Add(Chunk.NEWLINE);
                         paraAsunto.Clear();
                         paraAsunto.Font = tituloNormal12;
-                        respectoCertificado = "Al respecto, me permito certificar que la mencionada actividad consta en el POA "+ dr["ANIO_SOLICITUD"].ToString().Trim() + " de la DGAC, siendo la Dirección "+ dr["DIRECCION_SOLICITANTE"].ToString().Trim() + " responsable de su ejecución, según la siguiente estructura:";
+                        respectoCertificado = "Al respecto, me permito certificar que la mencionada actividad consta en el POA " + dr["ANIO_SOLICITUD"].ToString().Trim() + " de la DGAC, siendo la Dirección " + dr["DIRECCION_SOLICITANTE"].ToString().Trim() + " responsable de su ejecución, según la siguiente estructura:";
                         paraAsunto.Add(respectoCertificado);
                         paraAsunto.Alignment = Element.ALIGN_JUSTIFIED;
                         pdfDoc.Add(paraAsunto);
@@ -1942,7 +1972,7 @@ namespace SistemaIntegradoGestion.Controllers
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
                         paraAsunto.Font = tituloNormal12;
                         pdfDoc.Add(paraAsunto);
-                        paraAsunto.Clear();                        
+                        paraAsunto.Clear();
                         paraAsunto.Add(dr["USUARIO"].ToString().Trim());
                         paraAsunto.Alignment = Element.ALIGN_LEFT;
                         paraAsunto.Font = tituloNormal12;
@@ -2195,11 +2225,11 @@ namespace SistemaIntegradoGestion.Controllers
         private string fechaTexto(string fecha)
         {
             string fechaNueva = string.Empty;
-            if (fecha.Trim().Length >0)
+            if (fecha.Trim().Length > 0)
             {
                 fechaNueva = fecha.Substring(6, 2) + " de " + mestexto(fecha.Substring(4, 2)) + " de " + fecha.Substring(0, 4);
-            }            
-            
+            }
+
             return fechaNueva;
         }
 

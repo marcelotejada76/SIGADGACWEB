@@ -193,7 +193,10 @@
         $.MisUrls.urls({ _ObtieneSolicitudCertificadoPOAPorAnioNumeroSolicitud: '@Url.Action("ObtieneSolicitudCertificadoPOAPorAnioNumeroSolicitud", "SolicitarModificaciones")' });
         $.MisUrls.urls({ _ExportaServerReportAPDF: '@Url.Action("ExportaServerReportAPDF", "SolicitarModificaciones")' });
         $.MisUrls.urls({ _DescargarArchivo: '@Url.Action("DownloadFile", "SolicitarModificaciones")' });
-         $.MisUrls.urls({ _EliminaArchivo: '@Url.Action("EliminarDocumento", "SolicitarModificaciones")' });
+        $.MisUrls.urls({
+            _EliminaArchivo: '@Url.Action("EliminarDocumento", "SolicitarModificaciones")',
+            _visualizarDocumentoPOA: '@Url.Action("VisualizaPreDocumentoPOA", "SolicitarModificaciones")',
+        });
 
         //Modificacion POA Sin afectacion presupuestaria
         $.MisUrls.urls({ _DescargarArchivoSinAfectacion: '@Url.Action("DownloadFileSinAfectacionPresupuestaria", "ModificacionPoa")' });
@@ -208,11 +211,11 @@
         $.MisUrls.urls({ _ActualizarPoa: '@Url.Action("ActualizarPoa", "ModificacionPoa")' });
         $.MisUrls.urls({ _ImprimirPoaPropuestoInformeViabilidad: '@Url.Action("ImprimirPoaPropuestoInformeViabilidad", "ModificacionPoa")' });
         $.MisUrls.urls({ _LegalizaModificacionNegada: '@Url.Action("LegalizaModificacionNegada", "ModificacionPoa")' });
-
+        
 
         //Modificacion POA Con Afectacion Presupuestaria
         $.MisUrls.urls({ _VisualizarArchivo: '@Url.Action("VisualizarArchivo", "ModificacionPoa")' });
-         $.MisUrls.urls({ _DescargarArchivo: '@Url.Action("DescargarArchivo", "ModificacionPoa")' });
+        $.MisUrls.urls({ _DescargarArchivo: '@Url.Action("DescargarArchivo", "ModificacionPoa")' });
 
 
 

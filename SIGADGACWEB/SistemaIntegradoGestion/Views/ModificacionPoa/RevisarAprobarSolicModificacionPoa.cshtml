@@ -73,7 +73,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <div class="card">
-                                            <div class="card-footer">
+                                            <div class="card-footer">                                                
                                                 <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
                                                 <a id="imprimirPoaPropuesto" class="btn btn-outline-primary float-right" href="#"><i><img src="~/Content/imganes/printer.png" style="width:25px" /></i> Imprimir PP e Informe viabilidad</a>
                                             </div>
@@ -103,7 +103,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card-footer">
+                                            <div class="card-footer">                                                      
                                                 <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
                                                 <a id="btnEnviar" class="btn btn-outline-primary float-right" href="#"><i><img src="~/Content/imganes/save.png" style="width:25px" /></i> Grabar </a>
                                             </div>
@@ -135,6 +135,7 @@
                                             </div>
                                         </div>
                                         <div class="card-footer">
+                                            <a class="btn btn-outline-secondary" href="#" onclick="VisualizarDocumentoPoa()" ><i><img src="~/Content/imganes/buscar.png" style="width:25px" /></i> Previo-Documento</a>
                                             <a class="btn btn-outline-secondary" href="@Url.Action("SolicitudModificacionPoa", "ModificacionPoa")"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
                                             <a id="btnEnviar" class="btn btn-outline-primary float-right" href="#"><i><img src="~/Content/imganes/save.png" style="width:25px" /></i> Grabar </a>
                                         </div>
@@ -333,7 +334,7 @@
                             <div class="form-group row">
                                 @Html.TextBoxFor(model => model.ObservacionAutorizacion2, new { @class = "form-control form-control-sm col-sm-12", autocomplete = "off", maxlength = 76 })
                             </div>
-                            <div class="card-footer" id="bntGrabarActualizar">
+                            <div class="card-footer" id="bntGrabarActualizar">                                
                                 <a class="btn btn-outline-secondary" href="#" data-toggle="modal" data-target="#formModalActualizarPoa"><i><img src="~/Content/imganes/cancel.png" style="width:25px" /></i> Cerrar </a>
                                 <a id="btnActualizaPoa" class="btn btn-outline-primary float-right" href="#"><i><img src="~/Content/imganes/save.png" style="width:25px" /></i> Grabar </a>
                             </div>

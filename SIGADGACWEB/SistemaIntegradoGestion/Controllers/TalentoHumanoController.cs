@@ -336,11 +336,15 @@ namespace SistemaIntegradoGestion.Controllers
 
             if (olistPais != null)
             {
-                list.Add(new SelectListItem()
+                if(olistPais.CodigoPais != null)
                 {
-                    Text = olistPais.DescripcionPais.Trim(),
-                    Value = olistPais.CodigoPais.Trim()
-                });
+                    list.Add(new SelectListItem()
+                    {
+                        Text = olistPais.DescripcionPais.Trim(),
+                        Value = olistPais.CodigoPais.Trim()
+                    });
+                }
+                
             }
             return new SelectList(list, "Value", "Text");
         }

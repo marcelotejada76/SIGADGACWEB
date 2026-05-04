@@ -48,6 +48,7 @@ function enviarAprobarSolicitud(codDireccion, canio, ctipo, numSol) {
     if (codDireccion.trim().length > 0 && canio.trim().length > 0 && ctipo.trim().length > 0 && numSol.trim().length > 0) {
         $('#codanio').val(canio);
         $('#numSolicitud').val(numSol);
+        $("#tipoSolicitud").val(ctipo);
         $('#browser').empty();
         $("#iframeCetificado").attr("src", "");
         $('#pathArchivo').html("/" + codDireccion + "/" + canio + "/" + ctipo + "/" + numSol);
@@ -137,6 +138,19 @@ function abrirArchivo(fileName) {
         else {
             descargarArchivo(nombreArchivo, opathArchivo);
         }
+    }
+
+}
+
+function visualizaPreDocumento(canio, ctipo, numSol) {
+    var canio =  $("#codanio").val();
+    var ctipo =  $("#tipoSolicitud").val();
+    var numSol = $("#numSolicitud").val(); 
+
+    if (canio > 0 && ctipo.trim().length > 0 && numSol > 0) {
+        var texto = $.MisUrls.url._visualizarDocumentoPOA + "?canio=" + canio + "&tipoDoc=" + ctipo + "&numSolicitud=" + numSol;
+        $("#iframeCetificado").attr("src", texto);
+        $('#loadingBuscar').hide();
     }
 
 }

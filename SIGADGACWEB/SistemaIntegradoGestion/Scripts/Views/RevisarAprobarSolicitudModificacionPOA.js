@@ -283,6 +283,18 @@ $(document).ready(function () {
 
 });
 
+function VisualizarDocumentoPoa() {
+    var canio = $('#AnioSolicitud').val(); 
+    var numSol = $('#NumeroSolicitud').val();
+    var ctipo = $('#TipoSolicitud').val(); 
+
+    if (canio > 0 && ctipo.trim().length > 0 && numSol > 0) {
+        var texto = $.MisUrls.url._visualizarDocumentoPOA + "?canio=" + canio + "&tipoDoc=" + ctipo + "&numSolicitud=" + numSol;
+        $("#iframeCetificado").attr("src", texto);
+        $('#loadingBuscar').hide();
+    }
+}
+
 function activaCamposComprobanteModificacion() {
     var tipoSolicitud = $('#TipoSolicitud').val();
     if (tipoSolicitud.trim() != "MDP") {

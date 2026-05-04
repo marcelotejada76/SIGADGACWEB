@@ -113,7 +113,7 @@ namespace SistemaIntegradoGestion.Controllers
             //    Directory.CreateDirectory(miDirectorio);
 
 
-            string remoteUri = @"\\172.20.19.55\PdfFr3\fr3No" + NumeroFr3 + "fecha" + FechaEmision + "cliente" + Ruc + "Ato" + Ato + ".pdf";
+            string remoteUri = @"\\172.20.19.55\PdfFr3\fr3No" + NumeroFr3 + "fecha" + FechaEmision + "cliente" + Ruc.Trim() + "Ato" + Ato + ".pdf";
             string fileName = "fr3No"+NumeroFr3+"fecha"+FechaEmision+"cliente"+Ruc+"Ato"+ Ato + ".pdf";
 
             byte[] fileBytes = GetFile(remoteUri);

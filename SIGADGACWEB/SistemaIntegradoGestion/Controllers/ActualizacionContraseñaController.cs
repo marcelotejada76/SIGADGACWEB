@@ -37,6 +37,16 @@ namespace SistemaIntegradoGestion.Controllers
 
         public ActionResult CambioContraseña()
         {
+            
+            // Obtenemos la sesión
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+
+            // Pasamos el código a la vista a través de ViewBag
+            if (SesionUsuario != null)
+            {
+                ViewBag.CodigoUsuario = SesionUsuario.CodigoUsuario;
+            }
+
             return View();
         }
 
@@ -44,6 +54,7 @@ namespace SistemaIntegradoGestion.Controllers
         [HttpPost]
         public ActionResult CambioContraseña(string Usuario, string ContraseñaActual, string NuevaContraseña)
         {
+            SesionUsuario = (tbUsuario)Session["Usuario"];
 
             string Mensaje = "";
 
@@ -87,6 +98,14 @@ namespace SistemaIntegradoGestion.Controllers
             {
                 //  return Json(DetalleFr3, JsonRequestBehavior.AllowGet);
                 throw ex;
+            }
+            // Obtenemos la sesión
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+
+            // Pasamos el código a la vista a través de ViewBag
+            if (SesionUsuario != null)
+            {
+                ViewBag.CodigoUsuario = SesionUsuario.CodigoUsuario;
             }
             return View();
 

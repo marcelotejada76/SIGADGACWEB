@@ -17,7 +17,7 @@ namespace CapaDatos
         {
 
         }
-
+        //EJEMPLO
         public static CD_DocumentosDsna Instancia
         {
             get

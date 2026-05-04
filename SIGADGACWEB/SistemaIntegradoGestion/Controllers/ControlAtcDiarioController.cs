@@ -43,29 +43,27 @@ namespace SistemaIntegradoGestion.Controllers
             SesionUsuario = (tbUsuario)Session["Usuario"];
             var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
             // string cAnio = oSistema.FechaSistema.Substring(0, 4);
-            listado = CD_ItsControlAtc.Instancia.DetalleDocumentos();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
+            listado = CD_ItsControlAtc.Instancia.DetalleDocumentos(SesionUsuario.CodigoCiudad,SesionUsuario.CodigoRol);// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
             return View(listado);
         }
 
 
 
         [HttpPost]
-        public ActionResult ListadoAtcDiario(DateTime FechaElab)
+        public ActionResult ListadoAtcDiario(DateTime FechaElab, string Aeropuerto)
         {
             string Fecha = FechaElab.ToString("yyyyMMdd");
-            // NombreCompania = NombreCompania.ToUpper();
+            Aeropuerto = Aeropuerto.ToUpper();
 
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
+            SesionUsuario = (tbUsuario)Session["Usuario"];
             List<tbItsControlAtc> listado = new List<tbItsControlAtc>();
             if (Fecha != "")
             {
 
-
-
-               
                 //Compania.ToUpper();
-                listado = CD_ItsControlAtc.Instancia.DetalleDocumentosFecha(Fecha);
+                listado = CD_ItsControlAtc.Instancia.DetalleDocumentosFecha(Fecha,SesionUsuario.CodigoCiudad, SesionUsuario.CodigoRol, Aeropuerto);
                 //if (listado.Count==0)
                 //{
                 //    listado = CD_Matriculas.Instancia.DetallePorMatriculasP5(NombreCompania);

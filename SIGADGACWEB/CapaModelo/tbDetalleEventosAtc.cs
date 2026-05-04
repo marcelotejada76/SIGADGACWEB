@@ -17,6 +17,7 @@ namespace CapaModelo
         public string DESCRIPCION2 { get; set; }
         public string DESCRIPCION3 { get; set; }
         public string USUARIO { get; set; }
+        public string IMPRESOALERTA { get; set; }
 
 
 

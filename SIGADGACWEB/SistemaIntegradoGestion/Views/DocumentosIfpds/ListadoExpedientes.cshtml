@@ -1,0 +1,203 @@
+﻿@model IEnumerable<CapaModelo.tbDocumentosAtoInt>
+
+
+@{
+    ViewBag.Title = "ListadoDocumentosDescarga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cabecera-Detalle</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .detalle {
+            display: none; /* Ocultar detalles inicialmente */
+            margin-left: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .cabecera-row {
+            cursor: pointer;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+
+        .titulo {
+            cursor: pointer;
+            background-color: #7f99b2;
+            color: aliceblue;
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .cabecera-row:hover {
+            background-color: #d7dbdd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            color: #429d9a;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="titulo">
+        <h1>EXPEDIENTES PERSONALES</h1>
+        <div class="col text-left">
+            <a class="btn btn-success" href="ListadoDocumentosIExpedienteIndividual">Expedientes Personales</a>
+        </div>
+    </div>
+
+    @{
+        if (Model.FirstOrDefault() != null)
+        {
+            var primerRegistro = Model.FirstOrDefault();
+
+            string dato = primerRegistro.NombreNivel;
+            <h1 style="text-align: center; color: #8AB9FF; font-family: 'Segoe UI', sans-serif; font-weight: 600;">
+                @dato
+            </h1>
+
+        }
+
+
+    }
+
+
+    @foreach (var cabecera in Model)
+    {
+
+        <div class="cabecera-row" data-id="@cabecera.Secuencia">
+            @*<strong>@cabecera.Carpeta</strong>*@
+            @*@if (cabecera.NombreSubnivel == "Zúñiga Jibaja Jorge Alfredo")*@
+
+            @{
+                string backgroundColor = "";
+                string textColor = "#5d6d7e"; // Por defecto
+                string contenido = "";
+
+                switch (cabecera.Subnivel)
+                {
+                    case 1:
+                        backgroundColor = "#ffffff"; // amarillo claro
+                        contenido = cabecera.Carpeta;
+                        textColor = "black";
+                        break;
+
+                    default:
+                        backgroundColor = "#ffffff"; // blanco u otro
+                        textColor = "black";
+                        contenido = cabecera.Carpeta;
+                        break;
+                }
+            }
+
+            <strong style="color:@textColor; background-color:@backgroundColor; font-weight:bold;">
+                @cabecera.NombreSubnivel @*@contenido*@
+            </strong>
+
+
+
+        </div>
+
+
+        <!-- Tabla de detalles -->
+        <div class="detalle" id="detalle-@cabecera.Secuencia">
+            <table class="table table-bordered table-sm">
+                @if (cabecera.oDetalleDocumentosDescargaAto != null)
+                {
+                    <tbody>
+                        @foreach (var detalle in cabecera.oDetalleDocumentosDescargaAto)
+                        {
+                            var extension = System.IO.Path.GetExtension(detalle.NombreArchivo).ToLower();
+
+                            <tr>
+                                <!-- Nombre archivo -->
+                                <td class="align-middle">@detalle.NombreArchivo</td>
+
+                                <!-- Botón Ver imagen -->
+                                <td class="text-center align-middle p-1" style="width: 2%;">
+                                    @if (extension == ".jpg" || extension == ".jpeg" || extension == ".png" || extension == ".gif" || extension == ".bmp" || extension == ".webp")
+                                    {
+                                        <a cclass="btn btn-sm btn-outline-dark d-flex align-items-center justify-content-center gap-1 px-2 py-1 shadow-sm" 
+                                           target="_blank" 
+                                           style="border-radius: 20px; font-size: 0.75rem; font-weight: 500;"
+                                           href="@Url.Action("VerImagen", "DocumentosIfpds",
+                               new { Nombre = detalle.NombreArchivo, Grupo = cabecera.NombreGrupo, nivel = cabecera.NombreNivel, subnivel = cabecera.NombreSubnivel })">
+                                            <i class="fa fa-eye" style="font-size: 0.75rem;"></i> VER
+                                        </a>
+                                    }
+                                </td>
+
+                                <!-- Botón Ver PDF -->
+                                <td class="text-center align-middle p-1" style="width: 1%;">
+                                    @if (extension == ".pdf")
+                                    {
+                                        <a class="btn btn-sm btn-outline-dark d-flex align-items-center justify-content-center gap-1 px-2 py-1 shadow-sm"
+                                           target="_blank"
+                                           style="border-radius: 15px; font-size: 0.75rem; font-weight: 500;"
+                                           href="@Url.Action("VerPdf", "DocumentosIfpds", new {
+                                   Nombre = detalle.NombreArchivo,
+                                   Grupo = cabecera.NombreGrupo,
+                                   nivel = cabecera.NombreNivel,
+                                   subnivel = cabecera.NombreSubnivel
+                               })">
+                                            <i class="fa fa-file-pdf-o" style="font-size: 0.8rem;"></i> PDF
+                                        </a>
+                                    }
+                                </td>
+
+                                <!-- Botón Descargar -->
+                                <td class="text-center align-middle p-1" style="width: 1%;">
+                                    <a class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center gap-1 px-2 py-1"
+                                       href="@Url.Action("DescargaDctoExpediente", "DocumentosIfpds",
+                           new { Nombre = detalle.NombreArchivo, Grupo = cabecera.NombreGrupo, nivel = cabecera.NombreNivel, subnivel = cabecera.NombreSubnivel })">
+                                        <img src="~/Content/imganes/adjunto.png" style="width:14px;" alt="Descargar" /> Descargar
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+
+        </div>
+
+
+    }
+
+    <script>
+        $(document).ready(function () {
+            //Al hacer clic en una fila de cabecera, mostrar/ocultar el detalle correspondiente
+            $(".cabecera-row").click(function () {
+                var cabeceraId = $(this).data("id");
+                $("#detalle-" + cabeceraId).toggle(); // Alternar visibilidad del detalle
+            });
+        });
+
+
+    </script>
+
+</body>
+</html>
+

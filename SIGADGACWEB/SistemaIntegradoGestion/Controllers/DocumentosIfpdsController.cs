@@ -1,0 +1,220 @@
+﻿using CapaDatos;
+using CapaModelo;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace SistemaIntegradoGestion.Controllers
+{
+    public class DocumentosIfpdsController : Controller
+    {
+        /// <summary>
+        /// cambio por github
+        /// </summary>
+        private static tbUsuario SesionUsuario;
+        // GET: SolicitarModificaciones
+        public ActionResult AfectacionPresupuestaria()
+        {
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
+            return View();
+        }
+
+        /// <summary>
+        /// Accion gf
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AsignacionRecursos()
+        {
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
+            return View();
+        }
+        public ActionResult ListadoDocumentosIfpds()
+        {
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
+
+            List<tbDocumentosDsna> listado = new List<tbDocumentosDsna>();
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+            var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
+            // string cAnio = oSistema.FechaSistema.Substring(0, 4);
+            listado = CD_DocumentosIfpds.Instancia.ConsultaDocumentosIfpds();// SolicitudModificacionReprogramacionSoloPOA(cAnio, SesionUsuario.CodigoSubsistema, "MDP");
+            return View(listado);
+        }
+
+        //LISTADO EXPEDIENTES INDIVIDUALES
+
+        public ActionResult ListadoDocumentosIExpedienteIndividual(string Cabecera)
+        {
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
+
+            List<tbExpedientesPersonales> ListadoDocumentosIExpedienteIndividual = new List<tbExpedientesPersonales>();
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+            var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
+            // string cAnio = oSistema.FechaSistema.Substring(0, 4);
+            ListadoDocumentosIExpedienteIndividual = CD_ExpedientesPersonales.Instancia.ListadoExpedientesPersonalesInd();
+            return View(ListadoDocumentosIExpedienteIndividual);
+
+        }
+
+
+        public ActionResult listadoExpedientes(string Cabecera)
+        {
+            if (Session["Usuario"] == null)
+                return RedirectToAction("login", "Login");
+
+
+            List<tbDocumentosAtoInt> listadoExpedientes = new List<tbDocumentosAtoInt>();
+            SesionUsuario = (tbUsuario)Session["Usuario"];
+            var oSistema = CD_Sistema.Instancia.GetFechaHoraSistema();
+            // string cAnio = oSistema.FechaSistema.Substring(0, 4);
+            listadoExpedientes = CD_DocumentosIfpdsExpedientes.Instancia.ConsultaDocumentosExpedientes(Cabecera);
+            return View(listadoExpedientes);
+
+        }
+
+        //public JsonResult DescargaFr3(Int16 NumeroFr3, string Ato, string Ano, string FechaEmision, string Ruc)
+        public ActionResult DescargaDcto( string Nombre, string Cabecera)
+        {
+
+
+            //string remoteUri = @"\\172.20.19.55\DocumentosDescarga\" + Nombre + ".pdf";
+            string remoteUri = @"\\172.20.19.55\DocumentosDescarga\IFPDS\"+Cabecera +"\\" + Nombre+"";
+                //string remoteUri = @"\\172.20.19.55\DocumentosDescarga\DSNA\" + Cabecera + " CARTAS DE ACUERDO\" + Nombre+"";
+           // string fileName = Nombre + ".pdf";
+            string fileName = Nombre + "";
+
+            byte[] fileBytes = GetFile(remoteUri);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+
+        }
+
+        public ActionResult VerImagenNivel(string Nombre, string Cabecera)
+        {
+            if (string.IsNullOrEmpty(Nombre))
+                return HttpNotFound();
+            
+            string ruta = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Cabecera + "\\" + Nombre + "";
+            // string ruta = Server.MapPath("~/Content/imagenes_subidas/" + nombre); // ajusta la carpeta según tu estructura
+
+            if (!System.IO.File.Exists(ruta))
+                return HttpNotFound();
+
+            string mime = MimeMapping.GetMimeMapping(Nombre); // obtiene el tipo MIME automáticamente
+
+            return File(ruta, mime);
+        }
+
+        public ActionResult VerPdfNivel(string Nombre, string Cabecera)
+        {
+            if (string.IsNullOrEmpty(Nombre))
+                return HttpNotFound();
+            string ruta = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Cabecera + "\\" + Nombre + "";
+
+            if (!System.IO.File.Exists(ruta))
+                return HttpNotFound();
+
+            return File(ruta, "application/pdf");
+        }
+
+        public ActionResult DescargaDctoExpediente(string Nombre, string Grupo, string Nivel, string Subnivel)
+        {
+        //C:\DocumentosDescarga\IFPDS\EXPEDIENTES PERSONALES
+
+            //string remoteUri = @"\\172.20.19.55\DocumentosDescarga\" + Nombre + ".pdf";
+           // string remoteUri = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Grupo + "\\" +  Nombre + "";
+            string remoteUri = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Grupo + "\\" + Nivel + "\\" + Subnivel + "\\" + Nombre + "";
+            // string fileName = Nombre + ".pdf";
+            string fileName = Nombre + "";
+
+            byte[] fileBytes = GetFile(remoteUri);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+
+        }
+
+        byte[] GetFile(string s)
+        {
+            System.IO.FileStream fs = System.IO.File.OpenRead(s);
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new System.IO.IOException(s);
+            return data;
+        }
+
+
+
+        //public ActionResult VerPdf(string Nombre, string Cabecera)
+        //{
+        //    // Ruta del archivo PDF (puede ser local o en línea)
+        //    string rutaPdf = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Cabecera + "\\" + Nombre + "";
+        //    //string rutaPdf = "/Content/documentos/ejemplo.pdf"; // Archivo local en tu proyecto
+        //    ViewBag.RutaPdf = rutaPdf;
+        //    return View();
+        //}
+
+        public ActionResult VerPdf(string nombre, string Grupo, string Nivel, string Subnivel)
+        {
+            if (string.IsNullOrEmpty(nombre))
+                return HttpNotFound();
+            string ruta = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Grupo + "\\" + Nivel + "\\" + Subnivel + "\\" + nombre + "";
+           
+            if (!System.IO.File.Exists(ruta))
+                return HttpNotFound();
+
+            return File(ruta, "application/pdf");
+        }
+
+        public ActionResult VerImagen(string nombre, string Grupo, string Nivel, string Subnivel)
+        {
+            if (string.IsNullOrEmpty(nombre))
+                return HttpNotFound();
+            string ruta = @"\\172.20.19.55\DocumentosDescarga\IFPDS\" + Grupo + "\\" + Nivel + "\\" + Subnivel + "\\" + nombre + "";
+           // string ruta = Server.MapPath("~/Content/imagenes_subidas/" + nombre); // ajusta la carpeta según tu estructura
+
+            if (!System.IO.File.Exists(ruta))
+                return HttpNotFound();
+
+            string mime = MimeMapping.GetMimeMapping(nombre); // obtiene el tipo MIME automáticamente
+
+            return File(ruta, mime);
+        }
+
+        //[HttpPost]
+        //public ActionResult ListadoDocumentosDescarga(string  Nombre)
+
+        //{
+
+
+
+        //    if (Session["Usuario"] == null)
+        //        return RedirectToAction("login", "Login");
+
+        //    List<tbDocumentosDescarga> listado = new List<tbDocumentosDescarga>();
+
+        //    //tbAtc listado = new tbAtc();
+        //    //Compania.ToUpper();
+        //    listado = CD_DocumentosDescarga.Instancia.DocumentosPorNombre(Nombre);
+        //    //if (listado.Count == 0)
+        //    //{
+        //    //    listado = CD_Controlador.Instancia.ControladorLicenciaApellido(Licencia);
+        //    //    //if (listado.Count == 0)
+        //    //    //{
+        //    //    //    listado = CD_BancoRuminahui.Instancia.DetalleDepositante(Licencia);
+        //    //    //}
+        //    //}
+        //    return View(listado);
+        //}
+
+    }
+}

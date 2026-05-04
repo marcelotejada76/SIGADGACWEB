@@ -1,0 +1,192 @@
+﻿@model IEnumerable<CapaModelo.tbLiquidacionCoactiva>
+@{
+    ViewBag.Title = "ListadoTasas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .material-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #5a5a5a;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    .material-input {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+        .material-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    .btn-modern {
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-modern i {
+            margin-right: 6px;
+        }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+</style>
+<div class="container-fluid">
+    
+    <div class="card-header bg-primary text-white py-3 mb-4 rounded">
+        <h4 class="mb-0 text-center fw-bold" style="letter-spacing: 1px;">
+            LIQUIDACIONES COACTIVAS
+        </h4>
+    </div>
+    <br />
+    @using (Html.BeginForm("LiquidacionCoactivas", "LiquidacionCoactivas", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+    <div class="row align-items-end mb-4">
+        <div class="col-sm-3">
+            <label class="material-label">Ruc Cliente</label>
+            <input type="text" name="Ruc" id="Ruc" class="form-control material-input" required />
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-modern btn-success">
+                🔍 Buscar
+            </button>
+        </div>
+        <div id="msgCorreo" class="alert alert-success d-none" role="alert">
+            ✅ Correo enviado correctamente.
+        </div>
+    </div>
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" style="font-size:14px" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="th-ejecutivo">RUC</th>
+                                <th class="th-ejecutivo">Procedimiento Coactivo</th>
+                                <th class="th-ejecutivo">Cliente</th>
+                                <th class="th-ejecutivo">Titulo de Credito</th>
+                                <th class="th-ejecutivo">Tipo Documento</th>
+                                
+                                <th colspan="2">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.RUC)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PROCEDIMIENTOCOACTIVO)</td>
+                                <td>@Html.DisplayFor(modelItem => item.NOMBRECIA)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TITULOCREDITO)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TIPODOCUMENTO)</td>
+
+
+                                <td>
+                                    <a class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                       href="javascript:void(0);"
+                                       onclick="DescargaLiq('@item.RUC','@item.PROCEDIMIENTOCOACTIVO')">
+                                        <i class="bi bi-send"></i> Enviar Correo
+                                    </a>
+                                    
+                                </td>
+
+
+                            </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+        async function DescargaLiq(ruc, proc) {
+
+            console.log("RUC:", ruc);
+            console.log("Proc:", proc);
+
+            const response = await fetch("/LiquidacionCoactivas/DescargaLiquidacion", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    Ruc: ruc,
+                    Procedimiento: proc
+                })
+            });
+
+            if (!response.ok) {
+                alert("Error: " + response.status);
+                return;
+            }
+            // Mostrar el mensaje
+            const msg = document.getElementById("msgCorreo");
+            msg.classList.remove("d-none");
+
+            // Ocultar automáticamente en 4 segundos
+            setTimeout(() => msg.classList.add("d-none"), 4000);
+
+            // Recibir PDF/archivo
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+
+            // Descargar automáticamente
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Liquidacion.pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        }
+
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+        
+    </script>
+}

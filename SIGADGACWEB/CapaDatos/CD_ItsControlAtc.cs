@@ -29,14 +29,22 @@ namespace CapaDatos
             }
         }
 
-        public List<tbItsControlAtc> DetalleDocumentos()//(string canio, string cdireccion, string tipoSolicitud)
+        public List<tbItsControlAtc> DetalleDocumentos(string ciudad, string codigo)//(string canio, string cdireccion, string tipoSolicitud)
         {
             List<tbItsControlAtc> listarSolicitud = new List<tbItsControlAtc>();
             StringBuilder sbSol = new StringBuilder();
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPIARC ORDER BY opifec DESC");
+                if (codigo=="CONT" || codigo == "CON1" || codigo == "COT3")
+                {
+                    sbSol.Append("SELECT * FROM OPIARC WHERE OPILUG='"+ciudad+"' ORDER BY  opifec DESC,OPILUG");
+                }
+                else
+                {
+                    sbSol.Append("SELECT * FROM OPIARC ORDER BY  opifec DESC,OPILUG");
+                }
+                
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -54,7 +62,7 @@ namespace CapaDatos
                     {
                         tbItsControlAtc oSolicitud = new tbItsControlAtc();
                         oSolicitud.LUGAR = dr["OPILUG"].ToString();
-                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString();
+                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString().Trim();
                         oSolicitud.FECHAELABORACION = dr["OPIFEC"].ToString();
                         oSolicitud.TURNO = dr["OPITUR"].ToString();
                         oSolicitud.LICENCIARESPONSABLE = dr["OPILIC"].ToString();
@@ -72,8 +80,29 @@ namespace CapaDatos
 
                         if (oSolicitud.LUGAR == "SEGU")
                         {
-                            oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
-                            oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            if (oSolicitud.DEPENDENCIA.Trim() == "TWR")
+                            {
+                                oSolicitud.IFRDEP = Int16.Parse(dr["OPIIFR"].ToString());
+                                oSolicitud.IFRARR = Int16.Parse(dr["OPIIF1"].ToString());
+                                oSolicitud.VFRDEP = Int16.Parse(dr["OPIVFR"].ToString());
+                                oSolicitud.VFRARR = Int16.Parse(dr["OPIVF1"].ToString());
+                                oSolicitud.OVR = Int16.Parse(dr["OPIOVR"].ToString());
+                                oSolicitud.TGL = Int16.Parse(dr["OPITGL"].ToString());
+
+                                oSolicitud.TOTALIFR = oSolicitud.IFRDEP + oSolicitud.IFRARR;
+                                oSolicitud.TOTALVFR = oSolicitud.VFRDEP + oSolicitud.VFRARR;
+                                oSolicitud.TOTALDEP = oSolicitud.IFRDEP + oSolicitud.VFRDEP;
+                                oSolicitud.TOTALARR = oSolicitud.IFRARR + oSolicitud.VFRARR;
+                                oSolicitud.TOTALGENERAL = oSolicitud.TOTALIFR + oSolicitud.TOTALVFR + oSolicitud.OVR + oSolicitud.TGL;
+
+                            }
+                            else
+                            {
+
+
+                                oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
+                                oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            }
                         }
                         else
                         {
@@ -133,7 +162,7 @@ namespace CapaDatos
                     {
                         tbItsControlAtc oSolicitud = new tbItsControlAtc();
                         oSolicitud.LUGAR = dr["OPILUG"].ToString();
-                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString();
+                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString().Trim();
                         oSolicitud.FECHAELABORACION = dr["OPIFEC"].ToString();
                         oSolicitud.TURNO = dr["OPITUR"].ToString();
                         oSolicitud.LICENCIARESPONSABLE = dr["OPILIC"].ToString();
@@ -151,8 +180,29 @@ namespace CapaDatos
 
                         if (oSolicitud.LUGAR == "SEGU")
                         {
-                            oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
-                            oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            if (oSolicitud.DEPENDENCIA.Trim() == "TWR")
+                            {
+                                oSolicitud.IFRDEP = Int16.Parse(dr["OPIIFR"].ToString());
+                                oSolicitud.IFRARR = Int16.Parse(dr["OPIIF1"].ToString());
+                                oSolicitud.VFRDEP = Int16.Parse(dr["OPIVFR"].ToString());
+                                oSolicitud.VFRARR = Int16.Parse(dr["OPIVF1"].ToString());
+                                oSolicitud.OVR = Int16.Parse(dr["OPIOVR"].ToString());
+                                oSolicitud.TGL = Int16.Parse(dr["OPITGL"].ToString());
+
+                                oSolicitud.TOTALIFR = oSolicitud.IFRDEP + oSolicitud.IFRARR;
+                                oSolicitud.TOTALVFR = oSolicitud.VFRDEP + oSolicitud.VFRARR;
+                                oSolicitud.TOTALDEP = oSolicitud.IFRDEP + oSolicitud.VFRDEP;
+                                oSolicitud.TOTALARR = oSolicitud.IFRARR + oSolicitud.VFRARR;
+                                oSolicitud.TOTALGENERAL = oSolicitud.TOTALIFR + oSolicitud.TOTALVFR + oSolicitud.OVR + oSolicitud.TGL;
+
+                            }
+                            else
+                            {
+
+
+                                oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
+                                oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            }
                         }
                         else
                         {
@@ -196,14 +246,30 @@ namespace CapaDatos
 
         //por fecha de emision
 
-        public List<tbItsControlAtc> DetalleDocumentosFecha(string Fecha)//(string canio, string cdireccion, string tipoSolicitud)
+        public List<tbItsControlAtc> DetalleDocumentosFecha(string Fecha, string ciudad, string codigo, string Aeropuerto)//(string canio, string cdireccion, string tipoSolicitud)
         {
             List<tbItsControlAtc> listarSolicitud = new List<tbItsControlAtc>();
             StringBuilder sbSol = new StringBuilder();
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "'");
+                if (codigo == "CONT" || codigo == "CON1" || codigo == "COT3")
+                {
+                    sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "' AND OPILUG='" + ciudad + "'   ORDER BY OPILUG");
+                }
+                else
+                {
+                    if (Aeropuerto != "")
+                    {
+                        sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "' AND OPILUG='" + Aeropuerto + "'   ORDER BY OPILUG");
+                    }
+                    else
+                    {
+                        sbSol.Append("SELECT * FROM OPIARC where  OPIFEC ='" + Fecha + "'  ORDER BY OPILUG");
+                    }
+                    
+                }
+                
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -221,7 +287,7 @@ namespace CapaDatos
                     {
                         tbItsControlAtc oSolicitud = new tbItsControlAtc();
                         oSolicitud.LUGAR = dr["OPILUG"].ToString();
-                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString();
+                        oSolicitud.DEPENDENCIA = dr["OPIDEP"].ToString().Trim();
                         oSolicitud.FECHAELABORACION = dr["OPIFEC"].ToString();
                         oSolicitud.TURNO = dr["OPITUR"].ToString();
                         oSolicitud.LICENCIARESPONSABLE = dr["OPILIC"].ToString();
@@ -240,8 +306,30 @@ namespace CapaDatos
 
                         if (oSolicitud.LUGAR == "SEGU")
                         {
-                            oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
-                            oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            if (oSolicitud.DEPENDENCIA.Trim() == "TWR")
+                            {
+                                oSolicitud.IFRDEP = Int16.Parse(dr["OPIIFR"].ToString());
+                                oSolicitud.IFRARR = Int16.Parse(dr["OPIIF1"].ToString());
+                                oSolicitud.VFRDEP = Int16.Parse(dr["OPIVFR"].ToString());
+                                oSolicitud.VFRARR = Int16.Parse(dr["OPIVF1"].ToString());
+                                oSolicitud.OVR = Int16.Parse(dr["OPIOVR"].ToString());
+                                oSolicitud.TGL = Int16.Parse(dr["OPITGL"].ToString());
+
+                                oSolicitud.TOTALIFR = oSolicitud.IFRDEP + oSolicitud.IFRARR;
+                                oSolicitud.TOTALVFR = oSolicitud.VFRDEP + oSolicitud.VFRARR;
+                                oSolicitud.TOTALDEP = oSolicitud.IFRDEP + oSolicitud.VFRDEP;
+                                oSolicitud.TOTALARR = oSolicitud.IFRARR + oSolicitud.VFRARR;
+                                oSolicitud.TOTALGENERAL = oSolicitud.TOTALIFR + oSolicitud.TOTALVFR + oSolicitud.OVR + oSolicitud.TGL;
+
+                            }
+                            else
+                            {
+
+
+                                oSolicitud.SOBSEGU = Int16.Parse(dr["OPISOB"].ToString());
+                                oSolicitud.TOTGENSEGU = Int16.Parse(dr["OPITOT"].ToString());
+                            }
+
                         }
                         else
                         {

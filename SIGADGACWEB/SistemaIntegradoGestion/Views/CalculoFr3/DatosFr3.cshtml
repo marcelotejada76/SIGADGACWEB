@@ -31,7 +31,7 @@
 
         </div>
 
-       
+
         <div class="row justify-content-center">
             <div class="col-4">
                 <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>Aeropuerto Cobro</label></div>
@@ -124,158 +124,207 @@
 
     }
 
-    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+        <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
 
-                <div class="modal-header bg-gradient-primary text-white">
-                    <h6 class="modal-title text-white" id="modalLabel"> CALCULO FR3</h6>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-
-
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="card-body border-top p-9">
-
-                            <div class="container">
-
-                                <div class="row justify-content-start">
-                                    <div class="col-4">
-                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>AEROPUERTO COBRO</label></div>
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="AtoM" readonly="readonly" />
-                                    </div>
-                                    <div class="col-4">
-                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>MATRICULA</label></div>
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="MatriculaM" readonly="readonly" />
-                                    </div>
-                                </div>
-                                <div class="row justify-content-start">
-                                    <div class="col-6">
-                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>RUTA</label></div>
-
-                                    </div>
-                                </div>
-                                <div class="row justify-content-start">
-                                    <div class="col-3">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="OrigenM" readonly="readonly" />
-                                    </div>
-                                    <div class="col-3">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="DestinoM" readonly="readonly" />
-                                    </div>
-                                    <div class="col-3">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="Destino1M" readonly="readonly" />
-                                    </div>
-                                    <div class="col-3">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="Destino2M" readonly="readonly" />
-                                    </div>
-                                </div>
-                                <div class="row justify-content-start">
-                                    <div class="col-4">
-                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>FECHA ING. PLATAFORMA</label></div>
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="FechaIM" readonly="readonly" />
-                                    </div>
-                                    <div class="col-4">
-                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>FECHA SAL. PLATAFORMA</label></div>
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="FechaFM" readonly="readonly" />
-                                    </div>
-                                </div>
-                                <div class="row justify-content-start">
-                                    <div class="col-4">
-                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>HORA ING. PLATAFORMA</label></div>
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="HoraIM" readonly="readonly" />
-                                    </div>
-                                    <div class="col-4">
-                                        <div style="font-size:12px" class="fs-6 fw-bold mt-2 mb-3"><label>HORA SAL. PLATAFORMA</label></div>
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="HoraFM" readonly="readonly" />
-                                    </div>
-                                </div>
-
-                                <hr />
-
-                                <div class="input-group mb-3">
-                                    <div class="col-4">
-                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>DERECHO ESTACIONAMIENTO</label></div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="Estacionamiento" readonly="readonly" />
-                                    </div>
-                                    <div class="col-3">
-                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>PERIODOS</label></div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="Periodos" readonly="readonly" />
-                                    </div>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="col-4">
-                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>DERECHO ATERR DIURNO</label></div>
-                                    </div>
-                                    <div class="col-4">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="Aterrizaje" readonly="readonly" />
-                                    </div>
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <div class="col-4">
-                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>ILUMINACION DE PISTA</label></div>
-                                    </div>
-                                    <div class="col-4">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="Iluminacion" readonly="readonly" />
-                                    </div>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="col-4">
-                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>CHARTER</label></div>
-                                    </div>
-                                    <div class="col-4">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="Charter" readonly="readonly" />
-                                    </div>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="col-4">
-                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>DERECHO PROT VLO</label></div>
-                                    </div>
-                                    <div class="col-4">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="Proteccion" readonly="readonly" />
-                                    </div>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="col-4">
-                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>DER.PROT.ANTES Y DESPUES DE RUTA</label></div>
-                                    </div>
-                                    <div class="col-4">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="ProteccionAntes" readonly="readonly" />
-                                    </div>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="col-4">
-                                        <div style="font-size:12px;color:blue " class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL</label></div>
-                                    </div>
-                                    <div class="col-4">
-                                        <input style="font-size:12px" class="form-control form-control-sm" id="Total" readonly="readonly" />
-                                    </div>
-                                </div>
+                    <div class="modal-header bg-gradient-primary text-white">
+                        <h6 class="modal-title text-white" id="modalLabel"> CALCULO FR3</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
 
-                                <hr />
-                                <div style="font-size:10px;color:orangered " class="fs-6 fw-bold mt-2 mb-3"><label>NOTA: El Valor de Iluminacion de Pista aplica por Aeropuerto y Horario de puesta del Sol</label></div>
+                    <div class="modal-body bg-light">
+
+                        <!-- DATOS GENERALES -->
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-header bg-primary text-white py-2">
+                                <strong>Datos Generales del Vuelo</strong>
                             </div>
+                            <div class="card-body">
 
+                                <div class="row mb-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted small">Aeropuerto de Cobro</label>
+                                        <input class="form-control form-control-sm" id="AtoM" readonly>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted small">Matrícula</label>
+                                        <input class="form-control form-control-sm" id="MatriculaM" readonly>
+                                    </div>
+                                </div>
+
+                                <label class="form-label text-muted small mt-2">Ruta</label>
+                                <div class="row mb-2">
+                                    <div class="col-md-3"><input class="form-control form-control-sm" id="OrigenM" readonly></div>
+                                    <div class="col-md-3"><input class="form-control form-control-sm" id="DestinoM" readonly></div>
+                                    <div class="col-md-3"><input class="form-control form-control-sm" id="Destino1M" readonly></div>
+                                    <div class="col-md-3"><input class="form-control form-control-sm" id="Destino2M" readonly></div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted small">Distancia</label>
+                                        <input class="form-control form-control-sm" id="Distancia" readonly>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                        <!-- FECHAS Y HORAS -->
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-header bg-secondary text-white py-2">
+                                <strong>Ingreso / Salida Plataforma</strong>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="row mb-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted small">Fecha Ingreso</label>
+                                        <input class="form-control form-control-sm" id="FechaIM" readonly>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted small">Fecha Salida</label>
+                                        <input class="form-control form-control-sm" id="FechaFM" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted small">Hora Ingreso</label>
+                                        <input class="form-control form-control-sm" id="HoraIM" readonly>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted small">Hora Salida</label>
+                                        <input class="form-control form-control-sm" id="HoraFM" readonly>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- LIQUIDACIÓN -->
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-header bg-dark text-white py-2">
+                                <strong>Detalle de Liquidación</strong>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="row mb-2">
+                                    <div class="col-md-6 text-primary small fw-bold">Periodos</div>
+                                    <div class="col-md-4"><input class="form-control form-control-sm" id="Periodos" readonly></div>
+                                </div>
+                                <!-- FILA MONETARIA -->
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-md-6 small fw-bold text-primary">
+                                        Derecho de Estacionamiento
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">$</span>
+                                            <input class="form-control text-end fw-semibold" id="Estacionamiento" readonly>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-md-6 small fw-bold text-primary">
+                                        Derecho Aterrizaje Diurno
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">$</span>
+                                            <input class="form-control text-end fw-semibold" id="Aterrizaje" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-md-6 small fw-bold text-primary">
+                                        Iluminación de Pista
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">$</span>
+                                            <input class="form-control text-end fw-semibold" id="Iluminacion" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-md-6 small fw-bold text-primary">
+                                        Charter
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">$</span>
+                                            <input class="form-control text-end fw-semibold" id="Charter" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-md-6 small fw-bold text-primary">
+                                        Derecho Protección Vuelo
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">$</span>
+                                            <input class="form-control text-end fw-semibold" id="Proteccion" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-md-6 small fw-bold text-primary">
+                                        Protección Antes / Después Ruta
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">$</span>
+                                            <input class="form-control text-end fw-semibold" id="ProteccionAntes" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <!-- TOTAL -->
+                                <div class="row align-items-center">
+                                    <div class="col-md-6 fw-bold fs-6 text-danger">
+                                        TOTAL A PAGAR
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text fw-bold">$</span>
+                                            <input class="form-control text-end fw-bold text-danger" id="Total" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- NOTA -->
+                        <div class="alert alert-warning small py-2">
+                            <strong>Nota:</strong> El valor de Iluminación de Pista aplica según aeropuerto y horario de puesta del sol.
+                        </div>
 
                     </div>
+
+                    <div class="modal-footer py-2">
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                    </div>
+
                 </div>
+
+
             </div>
         </div>
-
-    </div>
 </body>
 
 </html>
@@ -312,6 +361,7 @@
             $("#ProteccionAntes").val("");
             $("#Total").val("");
             $("#Periodos").val("");
+            $("#Distancia").val("");
 
             $.ajax({
                 url: $.MisUrls.url._DetalleFr3,
@@ -341,6 +391,7 @@
                     $("#ProteccionAntes").val(e.DERECHOPROTANTESYDESPUES);
                     $("#Total").val(e.TOTAL);
                     $("#Periodos").val(e.PERIODO);
+                    $("#Distancia").val(e.NDISTANCIA);
 
 
                 },

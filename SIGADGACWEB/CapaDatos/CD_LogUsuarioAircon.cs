@@ -32,7 +32,7 @@ namespace CapaDatos
 
 
 
-        public List<tbLogUsuarioAircon> ConsultaLogUsuarioAircon()
+        public List<tbLogUsuarioAircon> ConsultaLogUsuarioAircon(string ciudad, string codigo)
         {
             
             int diaproceso = (-2);
@@ -45,7 +45,15 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPRARC  WHERE OPRFE2 >= '"+fechaProceso+"'  ORDER BY OPRFE2 DESC ,OPREST");
+                if (codigo == "CONT" || codigo == "CON1" || codigo == "COT3")
+                {
+                    sbSol.Append("SELECT * FROM OPRARC  WHERE OPRFE2 >= '" + fechaProceso + "' AND OPREST='"+ciudad+"'   ORDER BY OPRFE2 DESC ,OPREST");
+                }
+                else
+                {
+                    sbSol.Append("SELECT * FROM OPRARC  WHERE OPRFE2 >= '" + fechaProceso + "'  ORDER BY OPRFE2 DESC ,OPREST");
+                }
+                
 
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -209,7 +217,7 @@ namespace CapaDatos
             }
             return listarSolicitud;
         }
-        public List<tbLogUsuarioAircon> LogUsuarioFecha(string Fecha)
+        public List<tbLogUsuarioAircon> LogUsuarioFecha(string Fecha, string ciudad, string codigo)
         {
 
             List<tbLogUsuarioAircon> listarSolicitud = new List<tbLogUsuarioAircon>();
@@ -217,7 +225,15 @@ namespace CapaDatos
             string query = string.Empty;
             try
             {
-                sbSol.Append("SELECT * FROM OPRARC  WHERE OPRFE2 ='" + Fecha + "'  ORDER BY OPREST");
+                if (codigo == "CONT" || codigo == "CON1" || codigo == "COT3")
+                {
+                    sbSol.Append("SELECT * FROM OPRARC  WHERE OPRFE2 ='" + Fecha + "'  AND OPREST='" + ciudad + "'  ORDER BY OPREST");
+                }
+                else
+                {
+                    sbSol.Append("SELECT * FROM OPRARC  WHERE OPRFE2 ='" + Fecha + "'  ORDER BY OPREST");
+                }
+                
 
                 query = sbSol.ToString();
                 iDB2Command cmd;

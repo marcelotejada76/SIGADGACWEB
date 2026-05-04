@@ -1,0 +1,338 @@
+﻿@model IEnumerable<CapaModelo.tbBasesCoactivas>
+@{
+<h3 class="fw-bold text-center text-uppercase text-primary my-4">
+    Gestión de Bases Coactivas
+</h3>
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .material-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #5a5a5a;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    .material-input {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+        .material-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    .btn-modern {
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-modern i {
+            margin-right: 6px;
+        }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+</style>
+
+<div class="container-fluid">
+    @*<div class="card-header card-header-stretch mb-3">
+        <div class="card-title">
+            <p class="text-blue">Listado Bases Coactivas</p>
+        </div>
+    </div>*@
+
+
+    @using (Html.BeginForm("ListadoBasesCoactivas", "BasesCoactivas", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
+    {
+        <div class="row align-items-end mb-4">
+            <div class="col-sm-3">
+                <label class="material-label">Nro.Proceso /Persona Juridica</label>
+                <input type="text" style="text-transform:uppercase" name="Comprobante" id="Comprobante" class="form-control material-input" required />
+            </div>
+
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-modern btn-success">
+                    🔍 Buscar
+                </button>
+            </div>
+        </div>
+
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm">
+                        <thead>
+                            <tr>
+                                <th class="th-ejecutivo">Nro. Proceso</th>
+                                <th class="th-ejecutivo">Persona Juridica</th>
+                                <th class="th-ejecutivo">Ruc Cedula</th>
+                                <th class="th-ejecutivo">Nro. Titulo Credito</th>
+                                <th class="th-ejecutivo">Fecha Emision</th>
+                                <th class="th-ejecutivo">Estado</th>
+                                <th colspan="2">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.NroProceso)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PersonaJuridica)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.RucCedula)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NroTituloCredito)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaEmision)</td>
+                                    <td>
+                                        @if (item.Estado == "AC")
+                                        {
+                                            <span class="badge bg-info text-dark fs-6 py-2 px-4 rounded-pill shadow-sm">Activo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary fs-6 py-2 px-4 rounded-pill shadow-sm">No Activo</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                           href="#"
+                                           onclick="Consultar('@item.NroProceso', '@item.PersonaJuridica')">
+                                            <i class="bi bi-search"></i> Consulta
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+
+
+
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> INFORME BASES COACTIVAS</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>NRO. PROCESO</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NroProceso" readonly="readonly" />
+                                </div>
+                                <div class="col-7">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ESTADO</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="Estado" readonly="readonly" />
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-start">
+
+                                <div class="col-4">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>RUC/CEDULA</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="Ruc" readonly="readonly" />
+                                </div>
+                                <div class="col-7">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>PERSONA JURIDICA</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="Persona" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+
+
+                                <div class="col-md-7">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ESTADO EMPRESA</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="EstadoEmpresa" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-start">
+
+                                <div class="col-4">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>NRO. TITULO CREDITO</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="Titulo" readonly="readonly" />
+                                </div>
+                                <div class="col-7">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>FECHA EMISION</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="FechaEmision" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>CUANTIA</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="Cuantia" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+                            <div class="row justify-content-start">
+
+                                <div class="col-7">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ESTADO PROCESAL</label></div>
+                                    <textarea style="font-size:12px" class="form-control form-control-sm" id="EstadoProcesal" readonly="readonly"></textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>FECHA ACTUACION</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="FechaActuacion" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+                            <div class="row justify-content-start">
+
+                                <div class="col-7">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>DETALLE ACCION</label></div>
+                                    <textarea style="font-size:12px"
+                                              class="form-control form-control-sm"
+                                              id="DetalleAccion"
+                                              rows="3"
+                                              readonly>
+                                    </textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>NRO FOJAS</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="Fojas" readonly="readonly" />
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+
+        function Consultar(NroProceso, Persona) {
+
+
+            //$("#Lic").val("");
+            $("#NroProceso").val("");
+            $("#Persona").val("");
+            $("#Ruc").val("");
+            $("#EstadoEmpresa").val("");
+            $("#Titulo").val("");
+            $("#FechaEmision").val("");
+            $("#Cuantia").val("");
+            $("#EstadoProcesal").val("");
+            $("#FechaActuacion").val("");
+            $("#DetalleAccion").val("");
+            $("#Fojas").val("");
+            $("#Estado").val("");
+
+
+            $.ajax({
+                url: $.MisUrls.url._DetalleBasesCoactivas,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { NroProceso: NroProceso, Persona: Persona },
+                success: function (e) {
+
+                    $("#NroProceso").val(e.NroProceso);
+                    $("#Persona").val(e.PersonaJuridica);
+                    $("#Ruc").val(e.RucCedula);
+                    $("#EstadoEmpresa").val(e.EstadoEmpresa);
+                    $("#Titulo").val(e.NroTituloCredito);
+                    $("#FechaEmision").val(e.FechaEmision);
+                    $("#Cuantia").val(e.Cuantia);
+                    $("#EstadoProcesal").val(e.EstadoProcesal);
+                    $("#FechaActuacion").val(e.FechaActuacion);
+                    $("#DetalleAccion").val(e.DetalleAccion);
+                    $("#Fojas").val(e.NroFojas);
+                    $("#Estado").val(e.Estado);
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>
+}

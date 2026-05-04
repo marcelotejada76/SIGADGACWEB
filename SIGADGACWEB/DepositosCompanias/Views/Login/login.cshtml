@@ -1,0 +1,351 @@
+﻿@model DepositosCompanias.Models.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/imganes/logo2.jpg" />
+    <title>DGAC | Login</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/Content/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link href="~/Content/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Content/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition login-page">
+    @{
+        TempData.Keep("Captcha");
+    }
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <img style="width:180px" src="~/Content/imganes/logo_header.png" />
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Ingresa los siguientes datos para iniciar sesión</p>
+                <p class="login-box-msg">Enter the following information to start your session</p>
+                <div class="col-lg-12">
+                    @using (Html.BeginForm("login", "Login", FormMethod.Post, new { id = "loginForm", enctype = "multipart/form-data", }))
+                    {
+                        <div class="form-group">
+                            <label for="username">Correo electrónico / <i class="text-blue"><b>Email address</b></i></label>
+                            <div class="input-group mb-3">
+                                @Html.TextBoxFor(model => model.Username, new { @class = "form-control ", maxlength = "100", autocomplete = "off", placeholder = "Email" })
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope fa-autoprefixer"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contrasena">Contraseña / <i class="text-blue"><b>Password</b></i></label>
+                            <div class="input-group mb-3">
+                                @Html.TextBoxFor(model => model.Contrasena, new { @class = "form-control ", maxlength = "100", @type = "password", autocomplete = "off", placeholder = "Password" })
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <img src="@Model.ImageData" class="col-sm-5 form-control-lg" alt="Captcha" />
+                            <div class="col-sm-5">
+                                @Html.TextBoxFor(m => m.CaptchaAnswer)
+                                <span style="color:red">@ViewBag.Error</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-8">
+                                <div class="icheck-primary d-inline">
+                                    <input type="checkbox" name="terms" id="Check1">
+                                    <label for="Check1">
+                                    </label>
+                                </div>
+                                <a href="#" onclick="modalTerminos();" style="font-size:12px" class="text-primary m-l-5"> <strong>Acepto los términos / </strong><i class="text-blue"><b>Agree to the terms</b></i> </a>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="submit" id="ingresar" name="ingresar" class="btn btn-primary btn-block btn-sm "> Siguiente/Next</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12 font-14">
+                                <div style="font-size:12px" class="checkbox checkbox-primary pull-left p-t-0">
+                                    ¿Eres un usuario nuevo?  <a href="#" onclick="modalNuevoUsuario();" class="text-info m-l-5"><b>Registrarte aquí / Register here</b></a>
+                                </div>  <a href="#" onclick="ReseteraClave();" style="font-size:12px" class="text-blue pull-right"><strong>Olvidé mi contraseña / Recover password</strong></a>
+                            </div>
+                        </div>
+                        @*<div class="form-group row">
+                            <div class="col-md-12 font-14">
+                                <div style="font-size:12px" class="checkbox checkbox-primary pull-left p-t-0">
+                                    <a href="@Url.Action("DownloadFile", "VueloPrivado")" class="text-lightblue m-l-5"><b>Manual usuario / </b> <b class="text-blue"> Download user manual</b></a>
+                                </div>
+                            </div>
+                        </div>*@
+                        if (ViewBag.Error != null)
+                        {
+                            <script type="text/javascript">
+                                window.onload = function () {
+                                    Swal.fire("Mensaje", set(@Html.Raw(Json.Encode(ViewBag.Error))), "warning");
+                                };
+                                function set(value) {
+                                    return value;
+                                }
+                            </script>
+                        }
+                    }
+
+                </div>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+
+    <!-- Modal load-->
+    <div class="modal fade" id="modalload" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <img src="~/Content/imganes/Loading.gif" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalTexto" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+        <div class="modal-dialog modal modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary text-center">Acepto los términos</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="card">
+                        <div class="card-body table-responsive p-3">
+                            <div style="font-size:13px; height:280px; overflow: auto; ">
+                                <div class="textoEspanol">
+                                    <p style="text-align:justify">
+                                        Al enviar este formulario, DECLARO que conozco y me someto a la legislación ecuatoriana aplicable; que toda la información proporcionada para obtener la autorización solicitada ES CIERTA, COMPLETA Y ACTUALIZADA.
+                                    </p>
+                                    <p style="text-align:justify">
+                                        El operador es responsable que las operaciones se realicen cumpliendo con las leyes y regulaciones del Ecuador; No se transporta sustancias prohibidas o mercancías peligrosas, excepto que exista autorización escrita de las Autoridades competentes y la Dirección General de Aviación Civil del Ecuador. De acuerdo a la Resolución Nro. DGAC-DGAC-2025-0056-R.
+                                    </p>
+                                </div>
+                                <div class="textoIngles text-blue">
+                                    <p style="text-align:justify">
+                                        By submitting this form, I DECLARE that know, I submit to applicable Ecuadorian legislation; that all information provided to obtain the requested authorization IS TRUE, COMPLETE AND UP-TO-DATE.
+                                    </p>
+                                    <p style="text-align:justify">
+                                        The operator is responsible that operations are carried out in compliance with laws and Ecuadorian regulations; No prohibited substances or dangerous goods are transported, unless there is written authorization from the competent Authorities and Dirección General de Aviación Civil del Ecuador. According to Resolution No. DGAC-DGAC-2025-0056-R.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalResetearClave" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-primary text-center">Resetear contraseña</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <span class="text-black">Para restablecer su contraseña, ingrese el correo electrónico registrado</span>
+                        </div>
+                        <div>
+                            <span class="text-blue">To reset your password, enter the registered email</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="remail" class="control-label">Correo Electrónico:<span class="text-danger">*</span></label>
+                                        <div class="ccontrols">
+                                            <input type="email" class="form-control" id="remail" name="remail">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger btn-sm col-sm-4" data-dismiss="modal">Cancelar /Cancel</button>
+                                        <button class='btn btn-primary btn-sm col-sm-4' type='button' id="btnCodigoVerificacion" onclick='ValidaCorreoElectronico()'>Siguiente /Next</button>
+                                    </div>
+                                </div>
+                                <div id="loadImagen" style="display: none;">
+                                    <img src="~/Content/imganes/Loading.gif" />
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="modal-footer">
+                                <button class='btn btn-outline-primary input-sm' type='button' id="btnResetearUsuario" style="display: none;" onclick='ReseteraUsuario()'>Grabar</button>
+                                <button type="button" class="btn btn-default input-sm" data-dismiss="modal"> Cerrar</button>
+                            </div>*@
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modalNewUsuario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <form enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h6 class="modal-title text-primary text-center">Crear una cuenta / Create Account</h6>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" style="font-size:14px">
+                        <div class="card-body">
+                            <input type="hidden" id="CodigoUsuario" name="CodigoUsuario" />
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label for="NombreUsuario" class="col-sm-4 control-label">Nombres / <i class="text-blue"><b>Names</b></i>:<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control text-uppercase" style="font-size:12px;" maxlength="40" id="NombreUsuario" name="NombreUsuario" onkeypress="return soloLetras(event)" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="ApellidoUsuario" class="col-sm-4 control-label">Apellidos / <i class="text-blue"><b>Last Names</b></i>:<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control text-uppercase" style="font-size:12px;" maxlength="40" id="ApellidoUsuario" name="ApellidoUsuario" onkeypress="return soloLetras(event)" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="Correo" class="col-sm-4 control-label">Correo electrónico / <i class="text-blue"><b>Email address</b></i>:<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input type="email" class="form-control" style="font-size:12px;" maxlength="100" id="Correo" name="Correo" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="Correo" class="col-sm-4 control-label">Ruc Companía / <i class="text-blue"><b>Nit Company</b></i>:<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" style="font-size:12px;" maxlength="100" id="NumeroRuc" name="NumeroRuc" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="Clave" class="col-sm-4 control-label">Contraseña / <i class="text-blue"><b>Password</b></i><span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input type="password" class="form-control" style="font-size:12px;" maxlength="100" id="Clave" name="Clave" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="Clave" class="col-sm-4 control-label">Reconfirmar contraseña / <i class="text-blue"><b>Confirm password</b></i>:<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input type="password" class="form-control" style="font-size:12px;" maxlength="100" id="Clave1" name="Clave1" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label">Campos con <span class="text-danger">*</span> son obligatorios / <span class="text-blue">Fields with * are required</span></label>
+                                    </div>
+                                    <div id="loadImagenAeronaveGrabar" style="display: none;">
+                                        <img src="~/Content/imganes/Loading.gif" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger btn-sm col-sm-3" data-dismiss="modal"><img src="~/Content/imganes/cancel.png" style="width:30px" /> Regresar / Return</button>
+                            <button class='btn btn-primary btn-sm col-sm-3' type='button' id="btnGrabarAeronave" onclick='saveUser()'> <i><img src="~/Content/imganes/save.png" style="width:30px" />  Grabar / Save</i> </button>
+
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCambiarContrasena" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <form enctype="multipart/form-data">
+                    <input type="hidden" id="codigoAleario" name="codigoAleario">
+                    <input type="hidden" id="EmailUsuario" name="EmailUsuario" />
+                    <div class="modal-header">
+                        <h6 class="modal-title text-primary text-center">Cambiar contraseña</h6>
+                    </div>
+                    <div class="modal-body" style="font-size:14px">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="rpasswordAnterior" class="control-label">Contraseña enviado al correo<span class="text-danger">*</span></label>
+                                <div class="ccontrols">
+                                    <input type="password" class="form-control" id="rpasswordAnterior" name="rpassword">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="rpasswordNueva" class="control-label">Contraseña<span class="text-danger">*</span></label>
+                                <div class="ccontrols">
+                                    <input type="password" class="form-control" id="rpasswordNueva" name="rpasswordNueva">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="rpasswordConfirmar" class="control-label">Confirmar contraseña<span class="text-danger">*</span></label>
+                                <div class="controls">
+                                    <input type="password" class="form-control" id="rpasswordConfirmar" name="rpasswordConfirmar">
+                                </div>
+                            </div>
+                            <div id="loadImagen" style="display: none;">
+                                <img src="~/Content/imganes/Loading.gif" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger btn-sm col-sm-5" data-dismiss="modal"><img src="~/Content/imganes/cancel.png" style="width:25px" /> Cancela /Cancel</button>
+
+                            <button class='btn btn-primary btn-sm col-sm-4' type='button' id="btnGrabarAeronave" onclick='ReseteraUsuario()'> <i><img src="~/Content/imganes/save.png" style="width:25px" />  Grabar /Save</i> </button>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.login-box -->
+    <!-- jQuery -->
+    <script src="~/Content/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <!-- jquery-validation -->
+    <script src="~/Content/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/Content/plugins/jquery-validation/additional-methods.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Content/dist/js/adminlte.min.js"></script>
+
+    <script type="text/javascript">
+        $.extend({ MisUrls: { url: {}, urls: function (a) { $.extend($.MisUrls.url, a); } } });
+        //usuario
+        $.MisUrls.urls({ _FormularioValidaExisteEmail: '@Url.Action("ValidaExisteEmail", "Login")' });
+        $.MisUrls.urls(
+            { _FormularioValidaExisteEmailCodigoVerificador: '@Url.Action("ValidaExisteEmailCodigoVerificador", "Login")' });
+        $.MisUrls.urls({ _FormularioEnviaCorreoNumeroCodigoVerificador: '@Url.Action("EnviaCorreoNumeroCodigoVerificador", "Login")' });
+        $.MisUrls.urls({ _FormularioCambiaContrasenaUsuario: '@Url.Action("CambiaContrasenaUsuario", "Login")' });
+        $.MisUrls.urls({ _FormularioLogin: '@Url.Action("login", "Login")' });
+        $.MisUrls.urls({ _FormularioRegistrarUsuario: '@Url.Action("NuevoUsuario", "Login")' });
+
+    </script>
+    <script src="~/Scripts/Views/loginUsuario.js"></script>
+</body>
+</html>
+

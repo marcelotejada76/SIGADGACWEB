@@ -29,71 +29,126 @@ namespace CapaDatos
             }
         }
 
-        public List<tbBancoRuminahui> DetalleDepositos()//(string canio, string cdireccion, string tipoSolicitud)
+        //public List<tbBancoRuminahui> DetalleDepositos()//(string canio, string cdireccion, string tipoSolicitud)
+        //{
+        //    DateTime fecha = DateTime.Now.AddDays(-90);
+        //    string fechaProceso = fecha.ToString("yyyyMMdd"); //fecha del sistema
+
+
+        //    List<tbBancoRuminahui> listarSolicitud = new List<tbBancoRuminahui>();
+        //    StringBuilder sbSol = new StringBuilder();
+        //    string query = string.Empty;
+        //    try
+        //    {
+        //        sbSol.Append("SELECT * FROM FICARC04 where FICFEC >='"+fechaProceso+"' ORDER BY FICFEC DESC ");
+
+        //        query = sbSol.ToString();
+        //        iDB2Command cmd;
+
+
+        //        using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+        //        {
+        //            cmd = new iDB2Command(query, oConexion);
+        //            oConexion.Open();
+        //            iDB2DataReader dr = cmd.ExecuteReader();
+
+
+
+        //            while (dr.Read())
+        //            {
+        //                tbBancoRuminahui oSolicitud = new tbBancoRuminahui();
+        //                oSolicitud.FECHAPROCESO = dr["FICFEC"].ToString();
+        //                oSolicitud.NUMEROCOMPROBANTE = dr["FICNUM"].ToString();
+        //                oSolicitud.HORA = dr["FICHOR"].ToString();
+        //                oSolicitud.OFICINA = dr["FICOFI"].ToString();
+        //                oSolicitud.CONCEPTO = dr["FICCON"].ToString();
+        //                oSolicitud.NUMEROFACTURA = dr["FICNU1"].ToString();
+        //                oSolicitud.CODIGOCOMPROBANTE = dr["FICCOD"].ToString();
+        //                oSolicitud.MONTO = decimal.Parse(dr["FICMON"].ToString());
+        //                oSolicitud.FECHABCOCENTRAL = dr["FICFE1"].ToString();
+        //                oSolicitud.NUMCOMPBCOCENTRAL = dr["FICNU5"].ToString();
+        //                oSolicitud.ESTADO = dr["FICPRO"].ToString();
+        //                string ZONA = dr["FICENV"].ToString();
+        //                string deszona = "";
+        //                if (ZONA == "1")
+        //                {
+        //                    deszona = "QUITO";
+        //                }
+        //                else
+        //                {
+        //                    deszona = "GUAYAQUIL";
+        //                }
+        //                oSolicitud.ZONAL = deszona;
+        //                oSolicitud.DEPOSITANTE = dr["FICDEP"].ToString();
+
+        //                listarSolicitud.Add(oSolicitud);
+        //            }
+        //            dr.Close();
+        //            oConexion.Close();
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //throw ex;
+        //    }
+        //    return listarSolicitud;
+        //}
+
+
+
+        public List<tbBancoRuminahui> DetalleDepositos()
         {
-            List<tbBancoRuminahui> listarSolicitud = new List<tbBancoRuminahui>();
-            StringBuilder sbSol = new StringBuilder();
-            string query = string.Empty;
+            DateTime fecha = DateTime.Now.AddDays(-90);
+            string fechaProceso = fecha.ToString("yyyyMMdd");
+
+            var listarSolicitud = new List<tbBancoRuminahui>();
             try
             {
-                sbSol.Append("SELECT * FROM FICARC ORDER BY FICFEC");
-
-                query = sbSol.ToString();
-                iDB2Command cmd;
-
-
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                using (iDB2Command cmd = new iDB2Command(@"SELECT 
+                                                      FICFEC, FICNUM, FICHOR, FICOFI, FICCON, 
+                                                      FICNU1, FICCOD, FICMON, FICFE1, FICNU5, 
+                                                      FICPRO, FICENV, FICDEP
+                                                   FROM FICARC04
+                                                   WHERE FICFEC >= @fecha
+                                                   ORDER BY FICFEC DESC", oConexion))
                 {
-                    cmd = new iDB2Command(query, oConexion);
+                    cmd.Parameters.AddWithValue("@fecha", fechaProceso);
                     oConexion.Open();
-                    iDB2DataReader dr = cmd.ExecuteReader();
 
-
-
-                    while (dr.Read())
+                    using (iDB2DataReader dr = cmd.ExecuteReader())
                     {
-                        tbBancoRuminahui oSolicitud = new tbBancoRuminahui();
-                        oSolicitud.FECHAPROCESO = dr["FICFEC"].ToString();
-                        oSolicitud.NUMEROCOMPROBANTE = dr["FICNUM"].ToString();
-                        oSolicitud.HORA = dr["FICHOR"].ToString();
-                        oSolicitud.OFICINA = dr["FICOFI"].ToString();
-                        oSolicitud.CONCEPTO = dr["FICCON"].ToString();
-                        oSolicitud.NUMEROFACTURA = dr["FICNU1"].ToString();
-                        oSolicitud.CODIGOCOMPROBANTE = dr["FICCOD"].ToString();
-                        oSolicitud.MONTO = decimal.Parse(dr["FICMON"].ToString());
-                        oSolicitud.FECHABCOCENTRAL = dr["FICFE1"].ToString();
-                        oSolicitud.NUMCOMPBCOCENTRAL = dr["FICNU5"].ToString();
-                        oSolicitud.ESTADO = dr["FICPRO"].ToString();
-                        string ZONA = dr["FICENV"].ToString();
-                        string deszona = "";
-                        if (ZONA == "1")
+                        while (dr.Read())
                         {
-                            deszona = "QUITO";
+                            var oSolicitud = new tbBancoRuminahui
+                            {
+                                FECHAPROCESO = dr["FICFEC"].ToString(),
+                                NUMEROCOMPROBANTE = dr["FICNUM"].ToString(),
+                                HORA = dr["FICHOR"].ToString(),
+                                OFICINA = dr["FICOFI"].ToString(),
+                                CONCEPTO = dr["FICCON"].ToString(),
+                                NUMEROFACTURA = dr["FICNU1"].ToString(),
+                                CODIGOCOMPROBANTE = dr["FICCOD"].ToString(),
+                                MONTO = dr.GetDecimal(dr.GetOrdinal("FICMON")),
+                                FECHABCOCENTRAL = dr["FICFE1"].ToString(),
+                                NUMCOMPBCOCENTRAL = dr["FICNU5"].ToString(),
+                                ESTADO = dr["FICPRO"].ToString(),
+                                ZONAL = dr["FICENV"].ToString() == "1" ? "QUITO" : "GUAYAQUIL",
+                                DEPOSITANTE = dr["FICDEP"].ToString()
+                            };
+                            listarSolicitud.Add(oSolicitud);
                         }
-                        else
-                        {
-                            deszona = "GUAYAQUIL";
-                        }
-                        oSolicitud.ZONAL = deszona;
-                        oSolicitud.DEPOSITANTE = dr["FICDEP"].ToString();
-
-                        listarSolicitud.Add(oSolicitud);
                     }
-                    dr.Close();
-                    oConexion.Close();
                 }
-
             }
             catch (Exception ex)
             {
-                //throw ex;
+                // Log error
             }
             return listarSolicitud;
         }
 
-
-
-      
 
 
         //fecha de deposito

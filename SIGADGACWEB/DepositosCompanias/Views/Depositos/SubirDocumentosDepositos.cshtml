@@ -1,0 +1,450 @@
+﻿@model CapaModelo.tbSubirDepositos
+
+@{
+    ViewBag.Title = "Documentos Financieros";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    /* Estilos Corporativos Premium */
+    .executive-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: none;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+    }
+
+    .executive-header {
+        background: linear-gradient(135deg, #0f4c81 0%, #1e629f 100%); /* Azul corporativo */
+        color: white;
+        padding: 1.5rem;
+        border-bottom: none;
+    }
+
+        .executive-header h5 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+    /* Tarjeta de Información del Cliente */
+    .info-banner {
+        background-color: #f8fbfd;
+        border-left: 4px solid #0f4c81;
+        padding: 1.25rem 1.5rem;
+        border-radius: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #6c757d;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.2rem;
+    }
+
+    .info-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .badge-periodo {
+        background-color: #e9ecef;
+        color: #0f4c81;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    /* Tabla Elegante */
+    .table-executive {
+        width: 100%;
+        margin-bottom: 0;
+        color: #2c3e50;
+    }
+
+        .table-executive thead th {
+            background-color: #f4f7fa;
+            color: #495057;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e9ecef;
+            padding: 1rem;
+        }
+
+        .table-executive tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f3f5;
+            font-size: 0.95rem;
+        }
+
+        .table-executive tbody tr:hover {
+            background-color: #f8fbfd;
+        }
+
+    .archivo-link {
+        color: #0f4c81;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+        .archivo-link:hover {
+            color: #1e629f;
+            text-decoration: underline;
+        }
+
+    .btn-action-icon {
+        color: #dc3545;
+        background: none;
+        border: none;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+        .btn-action-icon:hover {
+            background-color: #ffeaea;
+            color: #c82333;
+            text-decoration: none;
+        }
+
+    /* Formulario de Carga */
+    .form-group label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.4rem;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.95rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(15, 76, 129, 0.25);
+        }
+
+        .form-control:disabled {
+            background-color: #f1f3f5;
+            opacity: 1;
+            color: #6c757d;
+        }
+
+    .custom-file-label {
+        border-radius: 6px;
+        padding: 0.6rem 0.8rem;
+        height: calc(1.5em + 1.2rem + 2px);
+    }
+
+        .custom-file-label::after {
+            height: calc(1.5em + 1.2rem);
+            padding: 0.6rem 0.8rem;
+            background-color: #f8f9fa;
+            color: #495057;
+            border-radius: 0 6px 6px 0;
+        }
+
+    .btn-primary-executive {
+        background-color: #0f4c81;
+        border-color: #0f4c81;
+        color: white;
+        font-weight: 600;
+        border-radius: 6px;
+        padding: 0.75rem 1rem;
+        transition: all 0.2s;
+    }
+
+        .btn-primary-executive:hover {
+            background-color: #0b3b66;
+            border-color: #0b3b66;
+            box-shadow: 0 4px 10px rgba(15, 76, 129, 0.3);
+            color: white;
+        }
+
+    /* Visor PDF */
+    .pdf-viewer-container {
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #2b3035;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    /* Utilidades */
+    .text-truncate-multi {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    #btnEnviar:disabled {
+        background-color: #cccccc !important;
+        border-color: #cccccc !important;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+
+    /* Asegura que el contenedor de la tarjeta y la tarjeta misma ocupen el 100% */
+    .col-lg-7 {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pdf-viewer-container {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0 !important; /* Quitar cualquier padding de Bootstrap */
+    }
+
+    #iframeCetificado {
+        flex: 1 1 auto;
+        border: none;
+    }
+</style>
+
+<section class="content-header pt-4 pb-3">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <h2 class="m-0 font-weight-bold" style="color: #2c3e50;">Carga de Documentos (Depósitos)</h2>
+            </div>
+            @*<div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right bg-transparent p-0 m-0">
+                    <li class="breadcrumb-item"><a href="#" style="color: #0f4c81;">@Session["ActionResul"]</a></li>
+                    <li class="breadcrumb-item active">Documento Dep&oacute;sito</li>
+                </ol>
+            </div>*@
+        </div>
+    </div>
+</section>
+
+<div class="container-fluid pb-4">
+    <div class="mb-4">
+        <a class="btn btn-outline-secondary rounded-pill shadow-sm" href="CargaDepositosClientes">
+            <i class="fas fa-arrow-left mr-2"></i> Volver a Inicio
+        </a>
+    </div>
+
+    @using (Html.BeginForm("SubirDocumentosDepositos", "Depositos", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <input type="hidden" id="Directory" name="Directory" value="@ViewBag.DireccionDirectory" />
+        @Html.HiddenFor(m => m.Año)
+        @Html.HiddenFor(m => m.Mes)
+        @Html.HiddenFor(m => m.UsuarioRuc)
+        @Html.HiddenFor(m => m.RazonSocial)
+
+        <!-- Banner de Información -->
+        <div class="executive-card mb-4">
+            <div class="info-banner m-3">
+                <div class="info-item">
+                    <span class="info-label">RUC / Identificación</span>
+                    <span class="info-value">@Model.UsuarioRuc</span>
+                </div>
+                <div class="info-item flex-grow-1">
+                    <span class="info-label">Razón Social</span>
+                    <span class="info-value">@Model.RazonSocial</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Periodo</span>
+                    <span class="badge-periodo"><i class="far fa-calendar-alt mr-2"></i>@Model.Año - @Model.Mes.ToString()</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Columna Izquierda: Formulario y Tabla -->
+            <div class="col-lg-5">
+
+                <!-- Tarjeta: Nuevo Registro -->
+                <div class="executive-card">
+                    <div class="executive-header d-flex align-items-center">
+                        <i class="fas fa-cloud-upload-alt fa-lg mr-3"></i>
+                        <h5>Nuevo Registro</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info border-0 rounded" style="background-color: #e8f4fd; color: #0f4c81; font-size: 0.85rem;">
+                            <i class="fas fa-info-circle mr-1"></i> El nombre del archivo PDF debe ser el número de depósito y la fecha.
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label>Documento Depósito (PDF)</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="documentFile" name="documentFile" accept=".pdf">
+                                <label id="labelFile" class="custom-file-label text-truncate" for="documentFile">Seleccionar archivo...</label>
+                            </div>
+                            <small class="text-muted mt-1 d-block"><i class="fas fa-paperclip mr-1"></i> Tamaño máximo permitido: 4 MB</small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nro. Comprobante</label>
+                                    <input type="text" class="form-control" id="comprobante" name="comprobante" placeholder="Ej: 123456" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Fecha Depósito</label>
+                                    <input type="date" class="form-control" id="fechadeposito" name="fechadeposito" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label>Concepto / Observaciones</label>
+                            <textarea class="form-control" id="concepto" name="concepto" rows="2" placeholder="Describa el concepto del depósito..." disabled></textarea>
+                        </div>
+
+                        <button id="btnEnviar" class="btn btn-primary-executive btn-block shadow-sm" disabled>
+                            <i class="fas fa-save mr-2"></i> Grabar Información
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Visor PDF -->
+            <div class="col-lg-7">
+                <div class="executive-card h-100 mb-0">
+                    <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="far fa-eye text-primary mr-2" style="color: #0f4c81 !important;"></i>
+                            <h6 class="m-0 font-weight-bold" style="color: #2c3e50;">Visor de Documentos</h6>
+                        </div>
+                        <span class="badge badge-light text-muted border">Vista Previa PDF</span>
+                    </div>
+                    <div class="card-body p-0 pdf-viewer-container d-flex flex-column" style="min-height: 600px;">
+                        <iframe id="iframeCetificado" class="flex-grow-1 w-100 border-0" style="min-height: 600px;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <!-- Tarjeta: Archivos Depositados -->
+                <div class="executive-card">
+                    <div class="card-header bg-white py-3 border-bottom d-flex align-items-center">
+                        <i class="fas fa-folder-open text-primary mr-2" style="color: #0f4c81 !important;"></i>
+                        <h6 class="m-0 font-weight-bold" style="color: #2c3e50;">Archivos Depositados</h6>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+                            <table id="tbExploradorArchivos" class="table table-executive">
+                                <thead>
+                                    <tr>
+                                        <th>Archivo</th>
+                                        <th>Comprobante</th>
+                                        <th>Fecha</th>
+                                        <th>Concepto</th>
+                                        <th class="text-center">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.oModelArchivo != null && Model.oModelArchivo.Count > 0)
+                                    {
+                                        foreach (var item in Model.oModelArchivo)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="archivo-link" title="@item.NombreArchivo" onclick="abrirArchivo(JSON.stringify('@item.NombreArchivo'));">
+                                                        <i class="far fa-file-pdf text-danger mr-1"></i>
+                                                        <span class="d-inline-block text-truncate" style="max-width: 200px; vertical-align: bottom;">@item.NombreArchivo</span>
+                                                    </a>
+
+                                                </td>
+                                                <td><span class="font-weight-bold text-dark">@item.Comprobante</span></td>
+                                                <td>@item.FechaDeposito</td>
+                                                <td class="align-middle celda-recortada" title="@item.Concepto">
+                                                    <span class="text-muted small">@item.Concepto</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a id="eliminar" href="#" class="btn-action-icon" title="Eliminar archivo" onclick="eliminar(JSON.stringify('@item.NombreArchivo'));">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="4" class="text-center py-4 text-muted">
+                                                <i class="far fa-folder-open fa-2x mb-2 d-block opacity-50"></i>
+                                                No hay documentos depositados.
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay Loading -->
+        <div id="loadingBuscar" class="position-fixed w-100 h-100" style="display:none; top:0; left:0; background: rgba(255,255,255,0.85); z-index: 9999; backdrop-filter: blur(3px);">
+            <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; color: #0f4c81 !important;">
+                    <span class="sr-only">Cargando...</span>
+                </div>
+                <h5 class="mt-3 text-muted font-weight-bold" style="color: #0f4c81 !important;">Procesando...</h5>
+            </div>
+        </div>
+
+        if (@ViewBag.mensajeError != null)
+        {
+            if (@ViewBag.mensajeError.Length > 0)
+            {
+                <script type="text/javascript">
+                    window.onload = function () {
+                        Swal.fire({
+                            title: "",
+                            text: set(@Html.Raw(Json.Encode(@ViewBag.mensajeError))),
+                            icon: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: '#0f4c81',
+                            confirmButtonText: 'Aceptar',
+                            allowOutsideClick: false,
+                        });
+                    };
+                   function set(value) {
+                        return value;
+                   }
+                </script>
+            }
+        }
+    }
+</div>
+
+@section scripts{
+    @*<script src="@Url.Content("~/Scripts/Views/Depositos/SubirDepositos.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/Views/Depositos/SubirDepositos.js?v=" + DateTime.Now.Ticks)" type="text/javascript"></script>
+}

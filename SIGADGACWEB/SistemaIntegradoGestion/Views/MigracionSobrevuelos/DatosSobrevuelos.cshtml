@@ -1,0 +1,162 @@
+﻿+
+@model IEnumerable<CapaModelo.tbFr3>
+@{
+    ViewBag.Title = "MigracionSobrevuelos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Movimientos de Sobrevuelos a Facturar</title>
+    <style>
+        /* mismos estilos que antes */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f9fc;
+        }
+
+        .contenedor {
+            width: 650px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        .btn-dgac {
+            background-color: #004085;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .btn-dgac:hover {
+                background-color: #0062cc;
+            }
+
+        .lbl-enriquecido {
+            font-size: 18px;
+            font-weight: bold;
+            color: #004085;
+            text-align: center;
+        }
+
+        #divProcesando {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            #divProcesando img {
+                width: 70px;
+                height: 70px;
+            }
+    </style>
+
+    <script>
+        async function mostrar_procesar() {
+            const fechaInicial = document.getElementById("FechaInicial").value;
+            const fechaFinal = document.getElementById("FechaFinal").value;
+            const lblMensaje = document.getElementById("lblMensaje");
+            const btn = document.getElementById("btnProcesar");
+
+            if (!fechaInicial || !fechaFinal) {
+                lblMensaje.innerText = "⚠️ Ingrese ambas fechas.";
+                return;
+            }
+
+            // Muestra el loader
+            document.getElementById("divProcesando").style.display = "block";
+            lblMensaje.innerText = "";
+            btn.disabled = true;
+            btn.style.opacity = "0.6";
+
+            try {
+                const response = await fetch("/MigracionSobrevuelos/ProcesarFacturacion", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        FechaInicial: fechaInicial,
+                        FechaFinal: fechaFinal
+                    })
+                });
+
+                if (!response.ok) throw new Error("Error HTTP: " + response.status);
+
+                const result = await response.json();
+                lblMensaje.innerText = result.mensaje || "✅ Proceso completado correctamente.";
+            } catch (err) {
+                lblMensaje.innerText = "❌ Error al procesar: " + err.message;
+            } finally {
+                document.getElementById("divProcesando").style.display = "none";
+                btn.disabled = false;
+                btn.style.opacity = "1";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="contenedor">
+        
+        <table>
+
+            <tr>
+
+                <td colspan="4" style="text-align: center; background-color: #004085; color: white; font-size: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; padding: 12px; border-radius: 6px;">
+                    MOVIMIENTOS SOBREVUELOS A FACTURAR<br />
+
+                </td>
+            </tr>
+
+            
+
+            <tr style="height: 60px;">
+                <td style="font-weight: 600; color: #004085; text-align: right; padding-right: 15px; font-size: 15px; width: 200px;">
+                    Fecha Inicial:
+                </td>
+                <td colspan="3">
+                    <input type="date" id="FechaInicial" class="input" />
+                </td>
+            </tr>
+            <tr style="height: 60px;">
+                <td style="font-weight: 600; color: #004085; text-align: right; padding-right: 15px; font-size: 15px; width: 200px;">
+                    Fecha Final:
+                </td>
+                <td colspan="3">
+                    <input type="date" id="FechaFinal" class="input" />
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan="3" style="text-align: center; padding-top: 15px;">
+                    <button id="btnProcesar" class="btn-dgac" type="button" onclick="mostrar_procesar()">Procesar</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: center; padding-top: 12px;">
+                    <label id="lblMensaje" class="lbl-enriquecido"></label>
+                </td>
+            </tr>
+        </table>
+
+        <div id="divProcesando">
+            <label>Procesando, espere por favor...</label><br />
+      
+            <img src="~/Content/imganes/Cargando.gif" alt="Procesando..." />
+        </div>
+    </div>
+</body>
+</html>
+

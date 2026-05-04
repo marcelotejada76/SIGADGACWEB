@@ -1,0 +1,82 @@
+﻿@model IEnumerable<CapaModelo.tbActualizacionMatriculas>
+@{
+    ViewBag.Title = "ListadoMatriculas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!--begin::Container-->
+    <div class="card-header card-header-stretch mb-3">
+        <div class="card-title">
+            <p class="text-blue">Listado Matriculas HC</p>
+        </div>
+    </div>
+    @using (Html.BeginForm("ListadoMatriculas", "ActualizacionMatriculas", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
+    {
+        <div class="row align-items-end mb-4">
+            
+            <div class="col-sm-3">
+                <label class="material-label">Matricula</label>
+                <input type="text" name="Matricula" id="Matricula" class="form-control material-input" />
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-modern btn-success">
+                    🔍 Buscar
+                </button>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Matricula</th>
+                                <th>Peso</th>
+                                <th>Region</th>
+
+                                <th class=" control-label control-lab"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.MATRICULA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PESOMAXESTRUCTURAL)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.REGION)</td>
+
+
+                                    <td>
+                                        <a id="Consultar" href="@Url.Action("DetalleMatricula", "ActualizacionMatriculas", new {Matricula=item.MATRICULA })">
+                                            <i>
+                                                <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                            </i>
+                                            Consulta
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+    </script>
+}

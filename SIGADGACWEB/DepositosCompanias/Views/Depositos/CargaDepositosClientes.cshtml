@@ -1,0 +1,134 @@
+﻿@model IEnumerable<CapaModelo.tbSubirDepositos>
+@{
+    ViewBag.Title = "CargaDepositosClientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<style>
+    /* Azul Institucional DGAC */
+    .btn-dgac-blue {
+        background-color: #003366;
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+        .btn-dgac-blue:hover {
+            background-color: #002244;
+            color: #ffcc00; /* Dorado al pasar el mouse */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    /* Estilo Outline Ejecutivo */
+    .btn-outline-dgac {
+        border: 1px solid #003366;
+        color: #003366;
+        background: transparent;
+        font-weight: 500;
+    }
+
+        .btn-outline-dgac:hover {
+            background-color: #003366;
+            color: white;
+        }
+
+    /* Ajuste de iconos */
+    .btn-sm i {
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="card-title">
+                    <h4>
+                        <p class="text-blue">LISTADO  DEPOSITOS POR COMPAÑIA </p>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <br />
+    @using (Html.BeginForm("CargaDepositosClientes", "DepositosFinancieros", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+        <div class="row">
+
+            <div class="col-12">
+                <table id="tbDetalle" class="table table-bordered table-hover table-sm display" style="width:100%">
+                    <thead>
+                        <tr class="text-sm text-center">
+                            <th class="th-ejecutivo">Año</th>
+                            <th class="th-ejecutivo">Mes</th>
+                            <th class="th-ejecutivo">Ruc</th>
+                            <th class="th-ejecutivo">Razon Social</th>
+                            <th class="th-ejecutivo">Registros</th>
+                            <th class="th-ejecutivo">Acciones</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr class="text-sm text-center">
+                            <td>@Html.DisplayFor(modelItem => item.Año)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Mes)</td>
+                            <td>@Html.DisplayFor(modelItem => item.UsuarioRuc)</td>
+                            <td>@Html.DisplayFor(modelItem => item.RazonSocial)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Registros)</td>
+
+                            <td class="text-left">
+                                <a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosDepositos", "Depositos", new {Año =item.Año, Mes=item.Mes,UsuarioRuc= item.UsuarioRuc.ToString(),RazonSocial=item.RazonSocial.ToString()})">
+                                    @*<a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("SubirDocumentosDepositos", "Depositos", new { canio = item.Año, ruc = item.UsuarioRuc.ToString(), vista = "SinAfectacionPresupuestaria" })">*@
+                                    <i><img src="~/Content/imganes/adjunto.png" style="width:15px" /></i> Adjuntar archivos
+                                    
+                                </a>
+                                @*<a id="documentosAdjuntos" class="btn btn-sm  btn-outline-primary" href="@Url.Action("ConsultarSolicitud", "ModificacionPoa", new { canio = item.Año, numSolicitud = item.UsuarioRuc.ToString(), vista = "SinAfectacionPresupuestaria" })">
+                <i><img src="~/Content/imganes/buscar.png" style="width:15px" /></i> Visualizar
+            </a>*@
+
+                            </td>
+
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+</div>
+
+@*@section scripts{
+    <script src="@Url.Content("~/Scripts/Views/sinAfectacionPresupuestaria.js")" type="text/javascript"></script>
+}*@

@@ -4,7 +4,13 @@
     ViewBag.Title = "Revisar Aprobar Solicitud Certificado POA";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style type="text/css">
+    .modal-fullscreen-responsive {
+        margin: 0 auto;
+        width: 95%;
+        max-width: 100%;
+    }
+</style>
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -35,7 +41,7 @@
             <input hidden id="numSolicitud" />
             <input hidden id="codigoSubsistema" value="@Session["CodigoSubsistema"].ToString()" />
             <input hidden id="codigoRol" value="@Session["CodigoRol"].ToString()" />
-            <input hidden id="numSolicitud" />
+            @*<input hidden id="numSolicitud" />*@
             <div class="row">
                 <div class="col-12">
                     <table id="tbDetalle" class="table table-bordered table-hover table-sm display" style="width:100%">
@@ -99,7 +105,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="formModalEnviar" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-fullscreen-responsive" role="document">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary text-white">
                 <label class="col-form-label col-form-label-sm" style="font-size:small"> @Session["DireccionSubSistema"].ToString() <span>(Revisar o Aprobar Certificado POA)</span></label> 
@@ -148,14 +154,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="modal-footer col-12 p-0">
-                                        <button type="button" id="btnCerrar" class="btn btn-sm btn-default cerrarVentana"><img src='~/Content/imganes/cancel.png' style='width:20px' />Cerrar </button>
-                                        <button type="button" id="btnAprobar" class="btn btn-sm btn-primary grabar-Autorizacion" onclick="ExportaToPDF()"><img src='~/Content/imganes/save.png' style='width:20px' /> Revisar-Aprobar</button>                                        
-                                    </div>
-                                </div>
+
                             </div>
-                           
+                            <div class="card-footer">
+                                <div class="form-group">
+                                    <button type="button" id="btnBuscar" class="btn btn-sm btn-default previoDocumentoVentana " onclick="visualizaPreDocumento()" ><img src='~/Content/imganes/buscar.png' style='width:20px' />Previo-Documento </button>&nbsp;&nbsp;
+                                    <button type="button" id="btnCerrar" class="btn btn-sm btn-default cerrarVentana"><img src='~/Content/imganes/cancel.png' style='width:20px' />Cerrar </button>&nbsp;&nbsp;
+                                    <button type="button" id="btnAprobar" class="btn btn-sm btn-primary float-right grabar-Autorizacion" onclick="ExportaToPDF()"><img src='~/Content/imganes/save.png' style='width:20px' /> Revisar-Aprobar</button>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-8">

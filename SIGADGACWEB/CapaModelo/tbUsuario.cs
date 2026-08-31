@@ -65,6 +65,12 @@ namespace CapaModelo
         public string HoraModificado { get; set; }
         public string EstadoCertificado { get; set; }
         public string EstadoAutoridad { get; set; }
-       
+        //financiero
+        public string CodigoApellido { get; set; }
+        public string Departamento { get; set; }
+        public string OidCentroContable { get; set; }
+        public string OidUbicacion { get; set; }
+
+
     }
 }

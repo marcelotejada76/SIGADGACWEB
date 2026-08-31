@@ -34,15 +34,19 @@ namespace CapaDatos
             List<tbItsControlAtc> listarSolicitud = new List<tbItsControlAtc>();
             StringBuilder sbSol = new StringBuilder();
             string query = string.Empty;
+
+            DateTime fecha = DateTime.Now.AddDays(-10);
+            string fechaProceso = fecha.ToString("yyyyMMdd");
+
             try
             {
                 if (codigo=="CONT" || codigo == "CON1" || codigo == "COT3")
                 {
-                    sbSol.Append("SELECT * FROM OPIARC WHERE OPILUG='"+ciudad+"' ORDER BY  opifec DESC,OPILUG");
+                    sbSol.Append("SELECT * FROM OPIARC WHERE OPILUG='"+ciudad+"' and opifec >='"+ fechaProceso+ "' ORDER BY  opifec DESC,OPILUG");
                 }
                 else
                 {
-                    sbSol.Append("SELECT * FROM OPIARC ORDER BY  opifec DESC,OPILUG");
+                    sbSol.Append("SELECT * FROM OPIARC where opifec >='" + fechaProceso + "' ORDER BY  opifec DESC,OPILUG");
                 }
                 
 

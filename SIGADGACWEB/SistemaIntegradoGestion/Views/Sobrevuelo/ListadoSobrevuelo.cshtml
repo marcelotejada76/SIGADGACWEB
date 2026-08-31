@@ -1,611 +1,761 @@
 @model IEnumerable<CapaModelo.tbSobrevuelo>
 @{
-    ViewBag.Title = "ListadoTasas";
+    ViewBag.Title = "Listado de Sobrevuelos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <head>
-    @*<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>*@
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://rawcdn.githack.com/bbecquet/Leaflet.RotatedMarker/master/leaflet.rotatedMarker.js"></script>
 </head>
 
 <style>
-
-    .modal-body {
-        padding: 0;
+    /* EXECUTIVE DESIGN SYSTEM */
+    :root {
+        --dgac-blue: #0f4c81;
+        --dgac-light-blue: #e8f0f8;
+        --dgac-accent: #007bff;
+        --dgac-success: #28a745;
+        --text-primary: #2c3e50;
+        --text-secondary: #6c757d;
+        --border-radius-sm: 8px;
+        --border-radius-md: 12px;
+        --border-radius-lg: 16px;
+        --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+        --shadow-md: 0 8px 16px rgba(0,0,0,0.08);
+        --shadow-lg: 0 15px 35px rgba(0,0,0,0.15);
+        --transition: all 0.3s ease;
     }
 
-    #mapModal .modal-content {
+    body {
+        background-color: #f8f9fa;
+        color: var(--text-primary);
+        font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Page Header */
+    .page-header {
+        background: white;
+        border-radius: var(--border-radius-md);
+        padding: 1.5rem 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-left: 5px solid var(--dgac-blue);
+    }
+
+    .page-title {
+        color: var(--dgac-blue);
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Executive Card */
+    .executive-card {
+        background: white;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        border: none;
         overflow: hidden;
-        transition: all 0.3s ease;
+        margin-bottom: 2rem;
     }
 
-    #mapModal .modal-header {
-        border-bottom: none;
+    /* Search Container */
+    .search-container {
+        padding: 2rem;
+        background: linear-gradient(to right, #ffffff, var(--dgac-light-blue));
+        border-bottom: 1px solid rgba(0,0,0,0.05);
     }
 
-    #mapModal .close:hover {
-        opacity: 0.7;
+    .search-label {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--text-secondary);
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
     }
 
-
-    .modal-full-custom {
-        max-width: 98% !important; /* Más ancho que modal-xl */
-        margin: auto;
+    .search-input {
+        border-radius: var(--border-radius-sm);
+        border: 1px solid #ced4da;
+        padding: 0.6rem 1rem;
+        transition: var(--transition);
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
     }
 
-    #modalMap {
-        background-color: #f5f5f5;
-        border: 1px solid #dee2e6;
+    .search-input:focus {
+        border-color: var(--dgac-accent);
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     }
 
-    .modal-header {
-        border-bottom: 1px solid #dee2e6;
-    }
-
-    .th-ejecutivo {
-        font-size: 1.1rem;
+    .btn-search {
+        border-radius: var(--border-radius-sm);
+        padding: 0.6rem 1.5rem;
         font-weight: 600;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* Table Styles */
+    .table-container {
+        padding: 1rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+        border-collapse: separate;
+        border-spacing: 0 8px;
     }
 
     .table th {
-        background: linear-gradient(to right, #0d6efd, #66b2ff);
-        color: white;
-        font-size: 13px;
-        text-align: center;
+        background-color: transparent;
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-top: none;
+        border-bottom: 2px solid #e9ecef;
+        padding: 1rem;
+    }
+
+    .table tbody tr {
+        background-color: white;
+        box-shadow: var(--shadow-sm);
+        border-radius: var(--border-radius-sm);
+        transition: var(--transition);
+    }
+
+    .table tbody tr:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        background-color: #f8fbff;
+        border-left: 3px solid var(--dgac-accent);
     }
 
     .table td {
         vertical-align: middle;
-        font-size: 14px;
+        padding: 1rem;
+        border-top: none;
+        border-bottom: none;
+        font-size: 0.95rem;
+        color: var(--text-primary);
     }
 
-    .card-title p {
-        font-size: 20px;
+    .table tbody tr td:first-child {
+        border-top-left-radius: var(--border-radius-sm);
+        border-bottom-left-radius: var(--border-radius-sm);
+    }
+
+    .table tbody tr td:last-child {
+        border-top-right-radius: var(--border-radius-sm);
+        border-bottom-right-radius: var(--border-radius-sm);
+    }
+
+    /* Badges */
+    .badge-callsign {
+        background-color: var(--dgac-light-blue);
+        color: var(--dgac-blue);
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-family: monospace;
+        font-size: 0.9rem;
+    }
+
+    .badge-route {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #f1f3f5;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    /* Action Buttons */
+    .action-btn {
+        border-radius: 20px;
+        padding: 0.3rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-consulta {
+        background-color: white;
+        color: var(--dgac-blue);
+        border: 1px solid var(--dgac-blue);
+    }
+
+    .btn-consulta:hover {
+        background-color: var(--dgac-blue);
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .btn-mapa {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+    }
+
+    .btn-mapa:hover {
+        background: linear-gradient(135deg, #0056b3, #004085);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 123, 255, 0.4);
+        color: white;
+    }
+    
+    .btn-mapa img {
+        height: 14px;
+        filter: brightness(0) invert(1);
+    }
+
+    /* Modals Customization */
+    .modal-content {
+        border-radius: var(--border-radius-lg);
+        border: none;
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+    }
+
+    .modal-header-premium {
+        background: linear-gradient(135deg, var(--dgac-blue), #1a6ab4);
+        color: white;
+        border-bottom: none;
+        padding: 1.5rem 2rem;
+    }
+
+    .modal-title {
         font-weight: 700;
-        margin-bottom: 0;
-        color: #007bff;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .modal-header-premium .close {
+        color: white;
+        opacity: 0.8;
+        text-shadow: none;
+    }
+
+    .modal-header-premium .close:hover {
+        opacity: 1;
+    }
+
+    /* Form Details */
+    .form-group-custom {
+        background: #f8f9fa;
+        border-radius: var(--border-radius-sm);
+        padding: 0.8rem 1.2rem;
+        margin-bottom: 1rem;
+        border: 1px solid #e9ecef;
+    }
+
+    .form-group-custom label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+        display: block;
+    }
+
+    .form-control-plaintext-custom {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        width: 100%;
+        border: none;
+        background: transparent;
+    }
+
+    .form-control-plaintext-custom:focus {
+        outline: none;
+    }
+
+    .section-title {
+        color: var(--dgac-blue);
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--dgac-light-blue);
+    }
+
+    /* Map Modal Custom */
+    .modal-full-custom {
+        max-width: 95% !important;
+        margin: 1.75rem auto;
+    }
+
+    #modalMap {
+        height: 70vh;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .map-overlay-info {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 1rem;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        backdrop-filter: blur(10px);
+        min-width: 250px;
+    }
+
+    .plane-marker-visible {
+        /* Convierte a rojo brillante (#dc3545) y añade sombra para máxima visibilidad */
+        filter: brightness(0) saturate(100%) invert(32%) sepia(99%) saturate(3002%) hue-rotate(344deg) brightness(96%) contrast(93%) drop-shadow(0px 3px 4px rgba(0,0,0,0.5));
     }
 </style>
-<div class="container-fluid">
-    <!--begin::Container-->
-    <div class="card-header card-header-stretch mb-3">
-        <div class="card-title">
-            <p class="text-blue">SOBREVUELOS</p>
-        </div>
+
+<div class="container-fluid py-4">
+    
+    <div class="page-header">
+        <h1 class="page-title">
+            <i class="bi bi-airplane-engines text-primary"></i> 
+            Registro de Sobrevuelos
+        </h1>
     </div>
 
+    @using (Html.BeginForm("ListadoSobrevuelo", "Sobrevuelo", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
+    {
+        <div class="executive-card">
+            <div class="search-container">
+                <div class="row align-items-end">
+                    <div class="col-md-4 col-sm-6">
+                        <label class="search-label">Fecha de Emision</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white"><i class="bi bi-calendar3 text-primary"></i></span>
+                            </div>
+                            <input type="date" class="form-control search-input border-left-0" name="FechaEmision" >
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <label class="search-label">Matricula</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white"><i class="bi bi-calendar3 text-primary"></i></span>
+                            </div>
+                            <input type="text" class="form-control search-input border-left-0" name="Matricula" >
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mt-3 mt-sm-0">
+                        <button type="submit" class="btn btn-success btn-search w-100">
+                            <i class="bi bi-search"></i> Buscar Registros
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-</div>
-
-
-
-@using (Html.BeginForm("ListadoSobrevuelo", "Sobrevuelo", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
-{
-    <div class="row mb-8">
-        <div class="col-sm-3">
-            <div class="fs-3 fw-bold mt-2 mb-2"><label>FECHA DE EMISION</label></div>
-        </div>
-        <div class="col-sm-4 fv-row">
-
-            @*<input style="text-transform:uppercase" class="form-control form-control-solid" id="FechaEmision" name="FechaEmision" />*@
-            <input type="date" class="form-control form-control-solid" name="FechaEmision">
-
-        </div>
-        <div>
-            @*<a class="btn btn-success" href="ListadoFacturasP5">Buscar</a>*@
-            <button type="submit" class="btn btn-sm btn-success" data-dismiss="modal">Buscar </button>
-
-
-        </div>
-    </div>
-
-
-
-    <div class="card card-default">
-        <div class="card-body">
-            <div class="row">
-
-                <table id="tbDetalle" class="table table-bordered table-hover table-sm">
+            <div class="table-container table-responsive">
+                <table id="tbDetalle" class="table table-hover">
                     <thead>
                         <tr>
-
-                            <th class="th-ejecutivo">Fecha Vlo</th>
-                            <th class="th-ejecutivo">Call Sing</th>
-                            <th class="th-ejecutivo">Matricula</th>
-                            <th class="th-ejecutivo">Origen</th>
-                            <th class="th-ejecutivo">Destino</th>
-                            <th class="th-ejecutivo">Distancia</th>
-                            <th class="th-ejecutivo">Operador</th>
-                            <th class="th-ejecutivo">CiaFactura</th>
-                            <th class="th-ejecutivo">Facturable</th>
-
-                            <th class=" control-label control-lab"></th>
+                            <th>Fecha Vlo</th>
+                            <th>Call Sign</th>
+                            <th>Matricula</th>
+                            <th>Ruta</th>
+                            <th>Distancia</th>
+                            <th>Operador</th>
+                            <th>Facturable</th>
+                            <th class="text-center">Detalles</th>
+                            <th class="text-center">Rastreo</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><strong>@Html.DisplayFor(modelItem => item.FechaVuelo)</strong></td>
+                                    <td><span class="badge-callsign">@Html.DisplayFor(modelItem => item.CAllSingn)</span></td>
+                                    <td><strong>@Html.DisplayFor(modelItem => item.Matricula)</strong></td>
+                                    <td>
+                                        <div class="badge-route">
+                                            <span class="text-primary fw-bold">@Html.DisplayFor(modelItem => item.Origen)</span>
+                                            <i class="bi bi-arrow-right text-muted"></i>
+                                            <span class="text-success fw-bold">@Html.DisplayFor(modelItem => item.Destino)</span>
+                                        </div>
+                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Distancia) NM</td>
+                                    <td>
+                                        <div class="text-truncate" style="max-width: 150px;" title="@item.Operador">
+                                            @Html.DisplayFor(modelItem => item.Operador)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if(item.Facturable == "S")
+                                        {
+                                            <span class="badge badge-success px-2 py-1"><i class="bi bi-check-circle"></i> VALIDADO</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-secondary px-2 py-1">PENDIENTE</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn action-btn btn-consulta" onclick="Consultar('@item.FechaVuelo', '@item.CAllSingn', '@item.Matricula')">
+                                            <i class="bi bi-file-text"></i> Ficha
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn action-btn btn-mapa"
+                                           data-toggle="modal"
+                                           data-target="#mapModal"
+                                           data-latorigen="@item.LatitudOrigen"
+                                           data-lonorigen="@item.LongitudOrigen"
+                                           data-latdestino="@item.LatitudDestino"
+                                           data-londestino="@item.LongitudDestino"
+                                           data-origen="@item.Origen"
+                                           data-destino="@item.Destino"
+                                           data-fecha="@item.FechaVuelo"
+                                           data-callsign="@item.CAllSingn"
+                                           data-matricula="@item.Matricula"
+                                           data-tiempo="@item.InitialTime"
+                                           data-operador="@item.Operador"
+                                           data-factura="@item.CiaFactura"
+                                           data-modelo="@item.MOdelo"
+                                           data-ruta="@item.Ruta"
+                                           onclick="loadMap(this)">
+                                            <i class="bi bi-geo-alt"></i> Mapa
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
                         {
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.FechaVuelo)</td>
-                                <td>@Html.DisplayFor(modelItem => item.CAllSingn)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Matricula)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Origen)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Destino)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Distancia)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Operador)</td>
-                                <td>@Html.DisplayFor(modelItem => item.CiaFactura)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Facturable)</td>
-
-                                <td>
-                                    <a id="Consultar"
-                                       class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-0"
-                                       style="font-size:11px;"
-                                       href="#"
-                                       onclick="Consultar('@item.FechaVuelo', '@item.CAllSingn', '@item.Matricula')">
-                                        <i class="bi bi-search" style="font-size:12px;"></i> Consulta
-                                    </a>
-
+                                <td colspan="9" class="text-center py-5 text-muted">
+                                    <i class="bi bi-inbox fs-1 d-block mb-3" style="font-size: 2rem;"></i>
+                                    No hay registros disponibles. Seleccione una fecha y realice una búsqueda.
                                 </td>
-
-                                <td>
-                                    @*<a id="Consultar" class="btn btn-lg btn-secondary" href="#" onclick="Consultar('@item.FechaVuelo','@item.CAllSingn')">*@
-                                    <a href="#" class="btn btn-sm btn-primary"
-                                       data-toggle="modal"
-                                       data-target="#mapModal"
-                                       data-latorigen="@item.LatitudOrigen"
-                                       data-lonorigen="@item.LongitudOrigen"
-                                       data-latdestino="@item.LatitudDestino"
-                                       data-londestino="@item.LongitudDestino"
-                                       data-origen="@item.Origen"
-                                       data-destino="@item.Destino"
-                                       data-fecha="@item.FechaVuelo"
-                                       data-callsign="@item.CAllSingn"
-                                       data-matricula="@item.Matricula"
-                                       data-tiempo="@item.InitialTime"
-                                       data-operador="@item.Operador"
-                                       data-factura="@item.CiaFactura"
-                                       data-modelo="@item.MOdelo"
-                                       data-ruta="@item.Ruta"
-                                       onclick="loadMap(this)">
-                                        Mapa
-                                        <img src="~/Content/imganes/plane.png" />
-
-                                    </a>
-
-
-                                </td>
-
                             </tr>
                         }
                     </tbody>
                 </table>
-
-
             </div>
         </div>
-    </div>
-}
-
-
-<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-full-custom" role="document">
-        <div class="modal-content shadow-lg border-0 rounded-3">
-            <div class="modal-header bg-primary text-white rounded-top">
-                <h5 class="modal-title font-weight-bold" id="mapModalLabel">🛫 Ruta del Vuelo</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body p-0">
-                <!-- Contenedor de mapa más grande -->
-                <div id="modalMap" style="height: 600px; width: 100%; border-radius: 0 0 0.5rem 0.5rem;"></div>
-            </div>
-        </div>
-    </div>
+    }
 </div>
 
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<!-- Modal Consulta Técnica -->
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
-
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6 class="modal-title text-white" id="modalLabel"> DATOS SOBREVUELO</h6>
+            <div class="modal-header-premium">
+                <h5 class="modal-title" id="modalLabel">
+                    <i class="bi bi-card-heading"></i> Ficha Tecnica de Sobrevuelo
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
-            <div class="modal-body">
+            <div class="modal-body p-4">
+                
                 <div class="row">
-                    <div class="card-body border-top p-9">
+                    <!-- Datos de Vuelo -->
+                    <div class="col-md-12">
+                        <h6 class="section-title"><i class="bi bi-info-circle"></i> Informacion General del Vuelo</h6>
+                    </div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Fecha Vuelo</label><input class="form-control-plaintext-custom" id="FECHAEMISION" readonly /></div></div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Call Sign</label><input class="form-control-plaintext-custom text-primary" id="CALLSING" readonly /></div></div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Matricula</label><input class="form-control-plaintext-custom text-primary" id="MATRICULA" readonly /></div></div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Modelo</label><input class="form-control-plaintext-custom" id="MODELO" readonly /></div></div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Peso MTOW</label><input class="form-control-plaintext-custom" id="PESO" readonly /></div></div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Numero Vlo</label><input class="form-control-plaintext-custom" id="NUMEROVLO" readonly /></div></div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Fecha Real Vlo</label><input class="form-control-plaintext-custom" id="FECHAREAL" readonly /></div></div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Hora Real Vlo</label><input class="form-control-plaintext-custom" id="HORAREAL" readonly /></div></div>
+                </div>
 
-                        <div class="container">
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <label for="FECHAEMISION"
-                                           class="form-label fw-bold text-secondary small mb-1">
-                                        Fecha Vuelo
-                                    </label>
-                                    @*<div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Vuelo</label></div>*@
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="FECHAEMISION" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    @*<div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Call Sing</label></div>*@
-                                    <label for="CALLSING"
-                                           class="form-label fw-bold text-secondary small mb-1">
-                                        Call Sing
-                                    </label>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="CALLSING" readonly="readonly" />
-                                </div>
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Matricula</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="MATRICULA" readonly="readonly" />
-                                </div>
-
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Modelo</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="MODELO" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Peso MTOW</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="PESO" readonly="readonly" />
-                                </div>
-
-                            </div>
-
-
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Origen</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="ORIGEN" readonly="readonly" />
-
-                                </div>
-
-                                <div class="col-8">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="NOMBREORIGEN" readonly="readonly" />
-                                </div>
-
-                            </div>
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Destino</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="DESTINO" readonly="readonly" />
-                                </div>
-                                <div class="col-8">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="NOMBREDESTINO" readonly="readonly" />
-                                </div>
-                            </div>
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>NumeroVlo</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="NUMEROVLO" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Distancia Millas</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="DISTANCIA" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Initial Time</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="INITIALTIME" readonly="readonly" />
-                                </div>
-                            </div>
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Fecha Real Vlo</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="FECHAREAL" readonly="readonly" />
-                                </div>
-
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Hora Real Vlo</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="HORAREAL" readonly="readonly" />
-                                </div>
-
-                            </div>
-
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Operador</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="OPERADOR" readonly="readonly" />
-                                </div>
-
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="OACIVUELA" readonly="readonly" />
-                                </div>
-
-                            </div>
-
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Facturar A</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="FACTURA" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label></label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="OACIFACTURA" readonly="readonly" />
-                                </div>
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Autorizacion</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="AUTORIZACION" readonly="readonly" />
-                                </div>
-                                <div class="col-4">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Aerovia</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="AEROVIA" readonly="readonly" />
-                                </div>
-                            </div>
-                            <div class="row justify-content-start">
-                                <div class="col-12">
-                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Ruta</label></div>
-                                    <textarea class="form-control" id="RUTA" rows="3"></textarea>
-                                </div>
+                <div class="row">
+                    <!-- Trayectoria -->
+                    <div class="col-md-12">
+                        <h6 class="section-title"><i class="bi bi-compass"></i> Trayectoria y Navegacion</h6>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-custom">
+                            <label>Origen</label>
+                            <div class="d-flex gap-2">
+                                <input class="form-control-plaintext-custom w-25 text-primary" id="ORIGEN" readonly />
+                                <input class="form-control-plaintext-custom w-75 text-muted" id="NOMBREORIGEN" readonly />
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-custom">
+                            <label>Destino</label>
+                            <div class="d-flex gap-2">
+                                <input class="form-control-plaintext-custom w-25 text-success" id="DESTINO" readonly />
+                                <input class="form-control-plaintext-custom w-75 text-muted" id="NOMBREDESTINO" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Distancia (NM)</label><input class="form-control-plaintext-custom" id="DISTANCIA" readonly /></div></div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Initial Time</label><input class="form-control-plaintext-custom" id="INITIALTIME" readonly /></div></div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Autorizacion</label><input class="form-control-plaintext-custom" id="AUTORIZACION" readonly /></div></div>
+                    <div class="col-md-3 col-sm-6"><div class="form-group-custom"><label>Aerovia</label><input class="form-control-plaintext-custom" id="AEROVIA" readonly /></div></div>
+                    <div class="col-md-12"><div class="form-group-custom"><label>Ruta Completa</label><textarea class="form-control-plaintext-custom" id="RUTA" rows="2" readonly style="resize:none;"></textarea></div></div>
+                </div>
 
+                <div class="row">
+                    <!-- Entidades -->
+                    <div class="col-md-12">
+                        <h6 class="section-title"><i class="bi bi-building"></i> Informacion Autorizacion Sobrevuelos</h6>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card bg-light border-0 p-3 h-100">
+                            <h6 class="text-uppercase text-muted font-weight-bold mb-3" style="font-size:0.8rem;">Datos del Operador</h6>
+                            <div class="form-group-custom mb-2"><label>Compania / OACI</label>
+                                <div class="d-flex">
+                                    <input class="form-control-plaintext-custom w-75" id="CIAOPERADOR" readonly />
+                                    <input class="form-control-plaintext-custom w-25 text-right font-weight-bold" id="OACIVUELA" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group-custom mb-2"><label>Direccion</label><textarea class="form-control-plaintext-custom" id="DIRECCIONOPERADOR" rows="2" style="resize:none;" readonly></textarea></div>
+                            <div class="form-group-custom mb-2"><label>Telefono</label><input class="form-control-plaintext-custom" id="TELEFONOOPERADOR" readonly /></div>
+                            <div class="form-group-custom mb-0"><label>Correo</label><textarea class="form-control-plaintext-custom" id="CORREOOPERADOR" rows="2" style="resize:none;" readonly></textarea></div>
+                        </div>
                     </div>
 
+                    <div class="col-md-6 mt-3 mt-md-0">
+                        <div class="card bg-light border-0 p-3 h-100">
+                            <h6 class="text-uppercase text-muted font-weight-bold mb-3" style="font-size:0.8rem;">Datos de Facturacion</h6>
+                            <div class="form-group-custom mb-2"><label>Compania / OACI</label>
+                                <div class="d-flex">
+                                    <input class="form-control-plaintext-custom w-75" id="CIAFACTURA" readonly />
+                                    <input class="form-control-plaintext-custom w-25 text-right font-weight-bold" id="OACIFACTURA" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group-custom mb-2"><label>Direccion</label><textarea class="form-control-plaintext-custom" id="DIRECCIONFACTURA" rows="2" style="resize:none;" readonly></textarea></div>
+                            <div class="form-group-custom mb-2"><label>Telefono</label><input class="form-control-plaintext-custom" id="TELEFONOFACTURA" readonly /></div>
+                            <div class="form-group-custom mb-0"><label>Correo</label><textarea class="form-control-plaintext-custom" id="CORREOFACTURA" rows="2" style="resize:none;" readonly></textarea></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-3">
+                        <div class="card bg-light border-0 p-3">
+                            <h6 class="text-uppercase text-muted font-weight-bold mb-3" style="font-size:0.8rem;">Datos del Aplicante</h6>
+                            <div class="row">
+                                <div class="col-md-4"><div class="form-group-custom mb-2"><label>Nombre</label><input class="form-control-plaintext-custom" id="NOMBREAPLICANTE" readonly /></div></div>
+                                <div class="col-md-4"><div class="form-group-custom mb-2"><label>Telefono</label><input class="form-control-plaintext-custom" id="TELEFONOAPLICANTE" readonly /></div></div>
+                                <div class="col-md-4"><div class="form-group-custom mb-2"><label>Correo</label><textarea class="form-control-plaintext-custom" id="CORREOAPLICANTE" rows="2" style="resize:none;" readonly></textarea></div></div>
+                                <div class="col-md-12"><div class="form-group-custom mb-0"><label>Direccion</label><textarea class="form-control-plaintext-custom" id="DIRECCIONAPLICANTE" rows="2" style="resize:none;" readonly></textarea></div></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-
+            <div class="modal-footer bg-light border-top-0">
+                <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">Cerrar</button>
+            </div>
         </div>
     </div>
 </div>
 
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://rawcdn.githack.com/bbecquet/Leaflet.RotatedMarker/master/leaflet.rotatedMarker.js"></script>
-
+<!-- Modal Mapa -->
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-full-custom">
+        <div class="modal-content">
+            <div class="modal-header-premium d-flex justify-content-between align-items-center">
+                <h5 class="modal-title m-0">
+                    <i class="bi bi-radar"></i> Radar de Sobrevuelo
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0 position-relative">
+                <div id="modalMap"></div>
+                
+                <div class="map-overlay-info d-none d-md-block" id="mapOverlayInfo">
+                    <h6 class="text-primary font-weight-bold mb-3 border-bottom pb-2">Detalle de Ruta</h6>
+                    <div class="mb-2"><small class="text-muted text-uppercase d-block">Call Sign</small><strong id="mapCallsign">---</strong></div>
+                    <div class="mb-2"><small class="text-muted text-uppercase d-block">Operador</small><span id="mapOperador">---</span></div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <div><small class="text-muted text-uppercase d-block">Origen</small><strong class="text-primary" id="mapOrigen">---</strong></div>
+                        <div class="text-right"><small class="text-muted text-uppercase d-block">Destino</small><strong class="text-success" id="mapDestino">---</strong></div>
+                    </div>
+                    <div><small class="text-muted text-uppercase d-block">Distancia</small><strong id="mapDistancia">---</strong> NM</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     let mapModalInstance = null;
-    mapModalInstance.invalidateSize();
+    let planeMarker = null;
+    let animationInterval = null;
+
     function loadMap(btn) {
         const latOrigen = parseFloat(btn.dataset.latorigen);
         const lonOrigen = parseFloat(btn.dataset.lonorigen);
         const latDestino = parseFloat(btn.dataset.latdestino);
         const lonDestino = parseFloat(btn.dataset.londestino);
-        const origen = btn.dataset.origen;
-        const destino = btn.dataset.destino;
-        const fecha = btn.dataset.fecha;
-        const callsign = btn.dataset.callsign;
-        const matricula = btn.dataset.matricula;
-        const tiempo = btn.dataset.tiempo;
-        const operador = btn.dataset.operador;
-        const factura = btn.dataset.factura;
-        const modelo = btn.dataset.modelo;
-        const ruta = btn.dataset.ruta;
-
-        //const distancia = calcularDistanciaHaversine(latOrigen, lonOrigen, latDestino, lonDestino).toFixed(2); // km
+        
+        // Actualizar Info en Overlay
+        document.getElementById('mapCallsign').innerText = btn.dataset.callsign || 'N/A';
+        document.getElementById('mapOperador').innerText = btn.dataset.operador || 'N/A';
+        document.getElementById('mapOrigen').innerText = btn.dataset.origen || 'N/A';
+        document.getElementById('mapDestino').innerText = btn.dataset.destino || 'N/A';
+        
         const distancia = calcularDistanciaNautica(latOrigen, lonOrigen, latDestino, lonDestino).toFixed(2);
+        document.getElementById('mapDistancia').innerText = distancia;
 
-
-        // Esperar a que el modal se muestre
         $('#mapModal').on('shown.bs.modal', function () {
             if (mapModalInstance != null) {
-                mapModalInstance.remove(); // Limpiar mapa anterior
+                mapModalInstance.remove(); 
+                clearInterval(animationInterval);
             }
 
-            mapModalInstance = L.map('modalMap').setView([(latOrigen + latDestino) / 2, (lonOrigen + lonDestino) / 2], 4);
+            mapModalInstance = L.map('modalMap', {
+                zoomControl: false // Personalizamos la posición
+            }).setView([(latOrigen + latDestino) / 2, (lonOrigen + lonDestino) / 2], 5);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: ''
+            L.control.zoom({ position: 'bottomright' }).addTo(mapModalInstance);
+
+            // Capa base moderna y limpia (CartoDB Positron)
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
             }).addTo(mapModalInstance);
 
-            L.marker([latOrigen, lonOrigen]).addTo(mapModalInstance)
-                .bindPopup(
-                    "<div style='font-size:10px;'>Origen: " + origen +
-                    "<br/>CallSign: " + callsign +
-                    "<br/>Matricula: " + matricula +
-                    "<br/>Modelo: " + modelo +
-                    "<br/>Operador: " + operador + "</div>"
-                );
-
-
-            L.marker([latDestino, lonDestino]).addTo(mapModalInstance)
-                .bindPopup(
-                    "<div style='font-size:10px; max-width:220px; white-space:normal; overflow-wrap:break-word; overflow-y:auto; max-height:80px;'>"
-                    + "<b>Destino:</b> " + destino +
-                    "<br/><b>InitialTime:</b> " + tiempo +
-                    "<br/><b>Distancia:</b> " + distancia + " NM" +
-                    "<br/><b>Ruta:</b> " + ruta +
-                    "</div>"
-                );
-
-            //"Destino: " + destino + "<br/>InitialTime: " + tiempo + "<br/>Distancia: " + distancia + " millas náuticas");
-
-
-            var polyline = L.polyline([
-                [latOrigen, lonOrigen],
-                [latDestino, lonDestino]
-            ], {
-                    color: 'blue',
-                    weight: 3,
-                    opacity: 0.7
-                }).addTo(mapModalInstance);
-            mapModalInstance.invalidateSize();
-            mapModalInstance.fitBounds(polyline.getBounds());
-
-
-            // Crear el icono de avión
-            const planeIcon = L.icon({
-                iconUrl: 'https://apps.aviacioncivil.gob.ec/sigadgac/Content/imganes/avionmapa.png',
-                iconSize: [46, 46],
-                iconAnchor: [23, 23]
+            // Iconos personalizados
+            const originIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: "<div style='background-color:#007bff; width:12px; height:12px; border-radius:50%; border:2px solid white; box-shadow:0 0 5px rgba(0,0,0,0.5);'></div>",
+                iconSize: [12, 12],
+                iconAnchor: [6, 6]
             });
 
-            // Función para calcular el rumbo (heading)
-            function calcularRumbo(lat1, lon1, lat2, lon2) {
-                const rad = deg => deg * Math.PI / 180;
-                const deg = rad => rad * 180 / Math.PI;
+            const destIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: "<div style='background-color:#28a745; width:12px; height:12px; border-radius:50%; border:2px solid white; box-shadow:0 0 5px rgba(0,0,0,0.5);'></div>",
+                iconSize: [12, 12],
+                iconAnchor: [6, 6]
+            });
 
-                const dLon = rad(lon2 - lon1);
-                const y = Math.sin(dLon) * Math.cos(rad(lat2));
-                const x = Math.cos(rad(lat1)) * Math.sin(rad(lat2)) -
-                    Math.sin(rad(lat1)) * Math.cos(rad(lat2)) * Math.cos(dLon);
-                const brng = Math.atan2(y, x);
-                return (deg(brng) + 360) % 360;
-            }
+            L.marker([latOrigen, lonOrigen], {icon: originIcon}).addTo(mapModalInstance)
+                .bindTooltip("<b>Origen:</b> " + btn.dataset.origen, {permanent: false, direction: "top", offset: [0, -5]});
 
-            // Crear el marcador del avión en el punto de origen
-            const planeMarker = L.marker([latOrigen, lonOrigen], {
-                icon: planeIcon,
-                rotationAngle: calcularRumbo(latOrigen, lonOrigen, latDestino, lonDestino),
-                rotationOrigin: 'left left'
+            L.marker([latDestino, lonDestino], {icon: destIcon}).addTo(mapModalInstance)
+                .bindTooltip("<b>Destino:</b> " + btn.dataset.destino, {permanent: false, direction: "top", offset: [0, -5]});
+
+            // Línea de ruta con estilo visible
+            var polyline = L.polyline([[latOrigen, lonOrigen], [latDestino, lonDestino]], {
+                color: '#dc3545', // Rojo para destacar contra el mapa claro
+                weight: 4,
+                opacity: 0.9,
+                dashArray: '10, 10',
+                lineJoin: 'round'
             }).addTo(mapModalInstance);
 
+            mapModalInstance.invalidateSize();
+            mapModalInstance.fitBounds(polyline.getBounds(), {padding: [50, 50]});
 
-            // Función para calcular una posición lateral (offset) en grados
-            function aplicarOffsetLateral(lat, lon, rumbo, distanciaOffsetMetros) {
-                const R = 6378137; // Radio de la Tierra en metros (WGS84)
-                const offsetAngulo = rumbo + 90; // 90° para ir a la izquierda, -90° a la derecha
-                const offsetRad = offsetAngulo * Math.PI / 180;
+            // Avión
+            const planeIcon = L.icon({
+                iconUrl: 'https://apps.aviacioncivil.gob.ec/sigadgac/Content/imganes/avionmapa.png',
+                iconSize: [32, 32],
+                iconAnchor: [16, 16],
+                className: 'plane-marker-visible' // Aplica el filtro rojo y la sombra
+            });
 
-                const dLat = (distanciaOffsetMetros * Math.cos(offsetRad)) / R;
-                const dLon = (distanciaOffsetMetros * Math.sin(offsetRad)) / (R * Math.cos(lat * Math.PI / 180));
+            planeMarker = L.marker([latOrigen, lonOrigen], {
+                icon: planeIcon,
+                rotationAngle: calcularRumbo(latOrigen, lonOrigen, latDestino, lonDestino),
+                rotationOrigin: 'center center'
+            }).addTo(mapModalInstance);
 
-                const newLat = lat + (dLat * 180 / Math.PI);
-                const newLon = lon + (dLon * 180 / Math.PI);
-
-                return [newLat, newLon];
-            }
-
-
-            // Animar el avión en la línea
-            function animarAvion() {
-                const steps = 300;  // Más pasos = movimiento más suave
-                let currentStep = 0;
-
-                const latStep = (latDestino - latOrigen) / steps;
-                const lonStep = (lonDestino - lonOrigen) / steps;
-
-                const interval = setInterval(() => {
-                    if (currentStep > steps) {
-                        clearInterval(interval);
-                        return;
-                    }
-
-                    const newLat = latOrigen + latStep * currentStep;
-                    const newLon = lonOrigen + lonStep * currentStep;
-
-                    // Actualizar posición
-                    planeMarker.setLatLng([newLat, newLon]);
-
-                    // Calcular rumbo dinámico (si quieres que gire en tiempo real)
-                    const rumbo = calcularRumbo(newLat, newLon, latDestino, lonDestino);
-                    planeMarker.setRotationAngle(rumbo);
-
-                    currentStep++;
-                }, 30); // Velocidad (30 ms entre pasos)
-
-                const newLat = latOrigen + latStep * currentStep;
-                const newLon = lonOrigen + lonStep * currentStep;
-
-                // Aplicar offset lateral (ej: 500 metros a la izquierda)
-                const rumbo = calcularRumbo(newLat, newLon, latDestino, lonDestino);
-                const [offsetLat, offsetLon] = aplicarOffsetLateral(newLat, newLon, rumbo, 500); // 500 metros al lado
-
-                // Actualizar posición con offset
-                planeMarker.setLatLng([offsetLat, offsetLon]);
-
-                // Rotar según rumbo real de la línea
-                planeMarker.setRotationAngle(rumbo);
-            }
-
-            // Llamar a la animación
-            animarAvion();
-
-
+            animarAvion(latOrigen, lonOrigen, latDestino, lonDestino);
         });
-
-
     }
-    //distancia
-    function calcularDistanciaHaversine(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Radio de la Tierra en kilómetros
 
+    function calcularRumbo(lat1, lon1, lat2, lon2) {
         const rad = deg => deg * Math.PI / 180;
+        const deg = rad => rad * 180 / Math.PI;
 
-        const dLat = rad(lat2 - lat1);
         const dLon = rad(lon2 - lon1);
-
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(rad(lat1)) * Math.cos(rad(lat2)) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return R * c; // Distancia en kilómetros
+        const y = Math.sin(dLon) * Math.cos(rad(lat2));
+        const x = Math.cos(rad(lat1)) * Math.sin(rad(lat2)) -
+            Math.sin(rad(lat1)) * Math.cos(rad(lat2)) * Math.cos(dLon);
+        const brng = Math.atan2(y, x);
+        return (deg(brng) + 360) % 360;
     }
 
-    //nauticas
+    function animarAvion(latOrigen, lonOrigen, latDestino, lonDestino) {
+        const steps = 400;  
+        let currentStep = 0;
+
+        const latStep = (latDestino - latOrigen) / steps;
+        const lonStep = (lonDestino - lonOrigen) / steps;
+        const rumbo = calcularRumbo(latOrigen, lonOrigen, latDestino, lonDestino);
+        
+        planeMarker.setRotationAngle(rumbo);
+
+        clearInterval(animationInterval);
+        animationInterval = setInterval(() => {
+            if (currentStep > steps) {
+                currentStep = 0; // Loop animation
+            }
+
+            const newLat = latOrigen + latStep * currentStep;
+            const newLon = lonOrigen + lonStep * currentStep;
+
+            planeMarker.setLatLng([newLat, newLon]);
+            currentStep++;
+        }, 40); 
+    }
+
     function calcularDistanciaNautica(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Radio de la Tierra en km
-
+        const R = 6371; 
         const rad = deg => deg * Math.PI / 180;
-
         const dLat = rad(lat2 - lat1);
         const dLon = rad(lon2 - lon1);
-
         const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(rad(lat1)) * Math.cos(rad(lat2)) *
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        const distanciaKm = R * c;
-
-        const distanciaMN = distanciaKm * 0.539957; // Convertir a millas náuticas
-
-        return distanciaMN;
+        return (R * c) * 0.539957; 
     }
 
     function Consultar(FechaVuelo, CAllSingn, Matricula) {
-
-        $("#CALLSING").val("");
-        $("#FECHAEMISION").val("");
-        $("#MATRICULA").val("");
-        $("#MODELO").val("");
-        $("#AERONAVE").val("");
-        $("#PESO").val("");
-        $("#NUMEROVLO").val("");
-        $("#DISTANCIA").val("");
-        $("#INITIALTIME").val("");
-        $("#OPERADOR").val("");
-        $("#FACTURA").val("");
-        $("#OACIVUELA").val("");
-        $("#OACIFACTURA").val("");
-        $("#PESO").val("");
-        $("#ORIGEN").val("");
-        $("#DESTINO").val("");
-        $("#NOMBREORIGEN").val("");
-        $("#NOMBREDESTINO").val("");
-        $("#FECHAREAL").val("");
-        $("#HORAREAL").val("");
-        $("#AUTORIZACION").val("");
-        $("#AEROVIA").val("");
+        // Clear all
+        $(".form-control-plaintext-custom").val("");
         $("#RUTA").val("");
 
         $.ajax({
@@ -615,13 +765,10 @@
             dataType: "json",
             data: { FechaVuelo: FechaVuelo, CAllSingn: CAllSingn, Matricula: Matricula },
             success: function (e) {
-
-                $("#CALLSING").val(e.CAllSingn);
+                $("#CALLSING").val(e.CAllSingn || 'N/A');
                 $("#FECHAEMISION").val(e.FechaVuelo);
                 $("#MATRICULA").val(e.Matricula);
                 $("#MODELO").val(e.MOdelo);
-
-                $("#AERONAVE").val(e.Matricula);
                 $("#PESO").val(e.Peso);
                 $("#NUMEROVLO").val(e.NumeroVlo);
                 $("#DISTANCIA").val(e.Distancia);
@@ -630,7 +777,6 @@
                 $("#FACTURA").val(e.CiaFactura);
                 $("#OACIVUELA").val(e.OaciVuela);
                 $("#OACIFACTURA").val(e.OaciFactura);
-                $("#PESO").val(e.Peso);
                 $("#ORIGEN").val(e.Origen);
                 $("#DESTINO").val(e.Destino);
                 $("#NOMBREORIGEN").val(e.NombreOrigen);
@@ -640,14 +786,24 @@
                 $("#AUTORIZACION").val(e.Autorizacion);
                 $("#AEROVIA").val(e.Aerovia);
                 $("#RUTA").val(e.Ruta);
+                $("#CIAOPERADOR").val(e.CIAOPERADOR);
+                $("#DIRECCIONOPERADOR").val(e.DIRECCIONOPERADOR);
+                $("#TELEFONOOPERADOR").val(e.TELEFONOOPERADOR);
+                $("#CORREOOPERADOR").val(e.CORREOOPERADOR);
+                $("#CIAFACTURA").val(e.CIAFACTURA);
+                $("#DIRECCIONFACTURA").val(e.DIRECCIONFACTURA);
+                $("#TELEFONOFACTURA").val(e.TELEFONOFACTURA);
+                $("#CORREOFACTURA").val(e.COORREOFACTURA);
+                $("#NOMBREAPLICANTE").val(e.NOMBREAPLICANTE);
+                $("#DIRECCIONAPLICANTE").val(e.DIRECCIONAPLICANTE);
+                $("#TELEFONOAPLICANTE").val(e.TELEFONOAPLICANTE);
+                $("#CORREOAPLICANTE").val(e.CORREOAPLICANTE);
             },
             error: function (errormessage) {
-                Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                alert("Error al cargar los datos de consulta.");
             }
         });
 
-
         $('#largeModal').modal('show');
     }
-
 </script>

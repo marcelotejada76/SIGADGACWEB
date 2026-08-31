@@ -1,0 +1,289 @@
+@model IEnumerable<CapaModelo.tbDocumentosDescarga>
+@{
+    ViewBag.Title = "Descarga de Archivos Históricos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int totalRegistros = Model != null ? Model.Count() : 0;
+}
+
+<style>
+    .historical-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+
+    .historical-header {
+        background: linear-gradient(135deg, #0f4c81 0%, #1e6bb8 100%);
+        color: #ffffff;
+        border-radius: 12px 12px 0 0 !important;
+        padding: 1.25rem 1.75rem;
+    }
+
+    .historical-header h4 {
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        font-size: 1.35rem;
+    }
+
+    .search-box {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.25rem;
+        border: 1px solid #e9ecef;
+    }
+
+    .search-input-group .input-group-text {
+        background-color: #ffffff;
+        border-right: none;
+        border-radius: 8px 0 0 8px;
+        color: #0f4c81;
+    }
+
+    .search-input-group .form-control {
+        border-left: none;
+        border-radius: 0 8px 8px 0;
+        font-size: 0.95rem;
+    }
+
+    .search-input-group .form-control:focus {
+        box-shadow: none;
+        border-color: #ced4da;
+    }
+
+    .btn-dgac-search {
+        background-color: #0f4c81;
+        color: #ffffff;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.5rem 1.25rem;
+        transition: background-color 0.2s;
+    }
+
+    .btn-dgac-search:hover {
+        background-color: #0b3961;
+        color: #ffffff;
+    }
+
+    .table-historical {
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .table-historical thead th {
+        background-color: #f1f5f9;
+        color: #334155;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e2e8f0;
+        padding: 1rem;
+    }
+
+    .table-historical tbody tr {
+        transition: background-color 0.2s;
+    }
+
+    .table-historical tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .table-historical tbody td {
+        padding: 0.85rem 1rem;
+        vertical-align: middle;
+    }
+
+    .btn-download-action {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: #ffffff !important;
+        font-weight: 600;
+        font-size: 0.875rem;
+        border-radius: 6px;
+        padding: 0.4rem 1rem;
+        border: none;
+        box-shadow: 0 2px 5px rgba(40, 167, 69, 0.25);
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .btn-download-action:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(40, 167, 69, 0.35);
+        color: #ffffff !important;
+        text-decoration: none;
+    }
+
+    .badge-filetype {
+        font-weight: 600;
+        font-size: 0.75rem;
+        padding: 0.35em 0.65em;
+        border-radius: 4px;
+        text-transform: uppercase;
+    }
+
+    .counter-badge {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.35rem 0.75rem;
+        border-radius: 20px;
+    }
+</style>
+
+<div class="container-fluid py-4">
+    <div class="card historical-card">
+        <!-- Card Header -->
+        <div class="historical-header d-flex justify-content-between align-items-center flex-wrap">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-folder-symlink-fill mr-3" style="font-size: 1.75rem;"></i>
+                <div>
+                    <h4>DOCUMENTOS HISTORICAL PROCESADOS</h4>
+                    <small class="text-white-50">Consulta y descarga de archivos de la carpeta HISTORICAL compartida PROCESADOS</small>
+                </div>
+            </div>
+            <div class="mt-2 mt-sm-0">
+                <span class="counter-badge" id="lblTotalRegistros">
+                    <i class="bi bi-files mr-1"></i> Total Registros: @totalRegistros
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            @if (ViewBag.mensajeError != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill mr-2"></i> @ViewBag.mensajeError
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+
+            <!-- Formulario de Búsqueda -->
+            @using (Html.BeginForm("ListadoDescargaArchivosHistorical", "DescargaArchivosHistorical", FormMethod.Post, new { id = "searchForm" }))
+            {
+                <div class="search-box mb-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-9 mb-3 mb-md-0">
+                            <div class="input-group search-input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                </div>
+                                <input type="text" name="Nombre" id="txtBuscar" class="form-control" placeholder="Buscar archivo por nombre..." value="@Request.Form["Nombre"]" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-flex">
+                            <button type="submit" class="btn btn-dgac-search w-100">
+                                <i class="bi bi-funnel-fill mr-1"></i> Buscar
+                            </button>
+                            <button type="button" id="btnLimpiar" class="btn btn-outline-secondary ml-2" title="Limpiar filtro">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Tabla de Resultados -->
+            <div class="table-responsive">
+                <table id="tbArchivosHistorical" class="table table-historical align-middle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;" class="text-center">#</th>
+                            <th style="width: 120px;" class="text-center">Tipo</th>
+                            <th>Nombre del Archivo</th>
+                            <th style="width: 160px;" class="text-center">Acci&oacute;n</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBody">
+                        @if (Model != null && Model.Any())
+                        {
+                            int index = 1;
+                            foreach (var item in Model)
+                            {
+                                string ext = System.IO.Path.GetExtension(item.NombreArchivo).ToLower();
+                                string badgeClass = "badge-secondary";
+                                string iconClass = "bi-file-earmark";
+
+                                if (ext == ".pdf") { badgeClass = "badge-danger"; iconClass = "bi-file-earmark-pdf-fill"; }
+                                else if (ext == ".xls" || ext == ".xlsx" || ext == ".csv") { badgeClass = "badge-success"; iconClass = "bi-file-earmark-excel-fill"; }
+                                else if (ext == ".doc" || ext == ".docx") { badgeClass = "badge-primary"; iconClass = "bi-file-earmark-word-fill"; }
+                                else if (ext == ".zip" || ext == ".rar" || ext == ".7z") { badgeClass = "badge-warning text-dark"; iconClass = "bi-file-earmark-zip-fill"; }
+                                else if (ext == ".txt" || ext == ".xml" || ext == ".json") { badgeClass = "badge-info"; iconClass = "bi-file-earmark-code-fill"; }
+
+                                <tr class="archivo-row">
+                                    <td class="text-center text-muted font-weight-bold">@index</td>
+                                    <td class="text-center">
+                                        <span class="badge badge-filetype @badgeClass">
+                                            <i class="bi @iconClass mr-1"></i> @(string.IsNullOrEmpty(ext) ? "FILE" : ext.Replace(".", "").ToUpper())
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-file-earmark-text text-secondary mr-2" style="font-size: 1.2rem;"></i>
+                                            <span class="font-weight-medium text-dark fileNameText">@item.NombreArchivo</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn-download-action" href="@Url.Action("DescargaDcto", "DescargaArchivosHistorical", new { Nombre = item.NombreArchivo })" title="Descargar @item.NombreArchivo">
+                                            <i class="bi bi-download"></i> Descargar
+                                        </a>
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                        else
+                        {
+                            <tr id="trEmptyState">
+                                <td colspan="4" class="text-center py-5">
+                                    <div class="text-muted">
+                                        <i class="bi bi-folder-x d-block mb-3 text-secondary" style="font-size: 3rem;"></i>
+                                        <h5 class="font-weight-normal">No se encontraron archivos en la carpeta compartida.</h5>
+                                        <small>Verifique la ruta o ajuste los criterios de b&uacute;squeda.</small>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            // Filtro rápido en tiempo real por JavaScript en la tabla
+            $("#txtBuscar").on("keyup", function () {
+                var value = $(this).val().toLowerCase().trim();
+                var visibleCount = 0;
+
+                $(".archivo-row").each(function () {
+                    var text = $(this).find(".fileNameText").text().toLowerCase();
+                    if (text.indexOf(value) > -1) {
+                        $(this).show();
+                        visibleCount++;
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+                $("#lblTotalRegistros").html('<i class="bi bi-files mr-1"></i> Total Registros: ' + visibleCount);
+            });
+
+            // Botón Limpiar búsqueda
+            $("#btnLimpiar").on("click", function () {
+                $("#txtBuscar").val("");
+                $(".archivo-row").show();
+                $("#lblTotalRegistros").html('<i class="bi bi-files mr-1"></i> Total Registros: ' + $(".archivo-row").length);
+            });
+        });
+    </script>
+}

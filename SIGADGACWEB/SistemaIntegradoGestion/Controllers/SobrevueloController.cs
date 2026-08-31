@@ -54,10 +54,8 @@ namespace SistemaIntegradoGestion.Controllers
        
 
         [HttpPost]
-        public ActionResult ListadoSobrevuelo(DateTime FechaEmision)
+        public ActionResult ListadoSobrevuelo(DateTime ? FechaEmision, string Matricula)
         {
-            string Fecha = FechaEmision.ToString("yyyyMMdd");
-            // NombreCompania = NombreCompania.ToUpper();
 
             if (Session["Usuario"] == null)
                 return RedirectToAction("login", "Login");
@@ -65,8 +63,32 @@ namespace SistemaIntegradoGestion.Controllers
             SesionUsuario = (tbUsuario)Session["Usuario"];
 
             List<tbSobrevuelo> listado = new List<tbSobrevuelo>();
+            if (FechaEmision != null && Matricula != "")
+            {
+                string Fecha = FechaEmision.Value.ToString("yyyyMMdd");
+                listado = CD_Sobrevuelo.Instancia.ListadoSobrevuelosMatriculaFecha(Matricula, Fecha);
+            }
+            else
+            {
+
+
+                if (FechaEmision != null)
+                {
+                    //string Fecha = FechaEmision.ToString("yyyyMMdd");
+                    string Fecha = FechaEmision.Value.ToString("yyyyMMdd");
+                    listado = CD_Sobrevuelo.Instancia.ListadoSobrevuelosFecha(Fecha);
+                }
+
+                if (!string.IsNullOrEmpty(Matricula))
+                {
+                    listado = CD_Sobrevuelo.Instancia.ListadoSobrevuelosMatricula(Matricula);
+                }
+
+            }            
+            // NombreCompania = NombreCompania.ToUpper();
+
             //Compania.ToUpper();
-            listado = CD_Sobrevuelo.Instancia.ListadoSobrevuelosFecha(Fecha);
+            //listado = CD_Sobrevuelo.Instancia.ListadoSobrevuelosFecha(Fecha);
             //if (listado.Count==0)
             //{
             //    listado = CD_Matriculas.Instancia.DetallePorMatriculasP5(NombreCompania);

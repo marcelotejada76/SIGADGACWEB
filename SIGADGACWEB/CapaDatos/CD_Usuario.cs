@@ -2,15 +2,16 @@ using CapaModelo;
 using IBM.Data.DB2.iSeries;
 using System;
 using System.Collections.Generic;
+using System.Data.Odbc;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CapaDatos
 {
-   public class CD_Usuario
+    public class CD_Usuario
     {
-        public static CD_Usuario _instancia = null;       
+        public static CD_Usuario _instancia = null;
         private string CadenaConexion;
         private CD_Usuario()
         {
@@ -53,7 +54,7 @@ namespace CapaDatos
             iDB2Command cmd;
             try
             {
-                
+
 
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
                 {
@@ -114,7 +115,7 @@ namespace CapaDatos
         /// <returns></returns>
         public bool GetUsuarioExistePorCodigo(string codigoUsuario)
         {
-          
+
             StringBuilder sb = new StringBuilder();
             string query = string.Empty;
             bool estadoExiste = false;
@@ -143,7 +144,7 @@ namespace CapaDatos
             }
             return estadoExiste;
 
-            
+
         }
 
         /// <summary>
@@ -214,7 +215,7 @@ namespace CapaDatos
                     //8003  La contraseña del usuario en el sistema 10.1.1.2 ha caducado
                     //8011  El usuario en el sistema 10.1.1.2 ha sido inhabilitado
                     //8270  El perfil de usuario se inhabilitará con la próxima contraseña incorrecta
-                     //mensajeError = ex.MessageCode + ex.Errors.ToString() +"; "+ ex.MessageDetails + "; " + ex.Message + "; " + ex.InnerException + "; " + ex.SqlState;
+                    //mensajeError = ex.MessageCode + ex.Errors.ToString() +"; "+ ex.MessageDetails + "; " + ex.Message + "; " + ex.InnerException + "; " + ex.SqlState;
 
                     string codigo = Convert.ToString(ex.MessageCode);
 
@@ -726,7 +727,7 @@ namespace CapaDatos
                         ioUsuario.Cargo = dr["Cargo"].ToString();
                         ioUsuario.CedulaIdentificacion = dr["CedulaIdentificacion"].ToString();
                         ioUsuario.EstadoCertificado = dr["EstadoCertificado"].ToString();
-                      //  ioUsuario.oListaMenu = ObtenerDetalleMenuXUsuario(ioUsuario.CodigoUsuario);
+                        //  ioUsuario.oListaMenu = ObtenerDetalleMenuXUsuario(ioUsuario.CodigoUsuario);
                     }
                     oConexion.Close();
                     oConexion.Dispose();
@@ -806,6 +807,236 @@ namespace CapaDatos
 
 
 
+        public List<tbUsuario> UsuarioOperaciones()
+        {
+            //string fECHA = DateTime.Now.ToString("yyyyMMdd");
+            List<tbUsuario> listarSolicitud = new List<tbUsuario>();
+            StringBuilder sbSol = new StringBuilder();
+            string query = string.Empty;
+            try
+            {
+                sbSol.Append("SELECT USUCOD AS USUARIO,CONCAT(TRIM(USUAPE), CONCAT(' ', TRIM(USUNOM))) AS NOMBRES, USUCOR AS CORREO, USUCO9 AS AEROPUERTO" +
+                    " FROM USUARC LEFT JOIN USUAR1 ON USUCO8 = USUCOD WHERE SUBSTRING(USUCOD, 1, 4) = 'FACA' AND USUEST = 'AC' ");
+
+                query = sbSol.ToString();
+                iDB2Command cmd;
+
+
+                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                {
+                    cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+                    iDB2DataReader dr = cmd.ExecuteReader();
+
+
+
+                    while (dr.Read())
+                    {
+                        tbUsuario oSolicitud = new tbUsuario();
+                        oSolicitud.CodigoUsuario = dr["USUARIO"].ToString();
+                        oSolicitud.NombresUsuario = dr["NOMBRES"].ToString();
+                        oSolicitud.Correo = dr["CORREO"].ToString();
+                        oSolicitud.CodigoCiudad = dr["AEROPUERTO"].ToString();
+
+
+                        listarSolicitud.Add(oSolicitud);
+                    }
+
+                    dr.Close();
+                    oConexion.Close();
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
+            return listarSolicitud;
+        }
+
+        public List<tbUsuario> UsuarioOperaciones(string Usuario)
+        {
+            //string fECHA = DateTime.Now.ToString("yyyyMMdd");
+            List<tbUsuario> listarSolicitud = new List<tbUsuario>();
+            StringBuilder sbSol = new StringBuilder();
+            string query = string.Empty;
+            try
+            {
+                sbSol.Append("SELECT USUCOD AS USUARIO,CONCAT(TRIM(USUAPE), CONCAT(' ', TRIM(USUNOM))) AS NOMBRES, USUCOR AS CORREO, USUCO9 AS AEROPUERTO" +
+                    " FROM USUARC LEFT JOIN USUAR1 ON USUCO8 = USUCOD WHERE USUCOD='" + Usuario + "' ");
+
+                query = sbSol.ToString();
+                iDB2Command cmd;
+
+
+                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                {
+                    cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+                    iDB2DataReader dr = cmd.ExecuteReader();
+
+
+
+                    while (dr.Read())
+                    {
+                        tbUsuario oSolicitud = new tbUsuario();
+                        oSolicitud.CodigoUsuario = dr["USUARIO"].ToString();
+                        oSolicitud.NombresUsuario = dr["NOMBRES"].ToString();
+                        oSolicitud.Correo = dr["CORREO"].ToString();
+                        oSolicitud.CodigoCiudad = dr["AEROPUERTO"].ToString();
+
+
+                        listarSolicitud.Add(oSolicitud);
+                    }
+
+                    dr.Close();
+                    oConexion.Close();
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
+            return listarSolicitud;
+        }
+
+
+        public bool ActualizarDatosUsuario(tbUsuario CodigoUsuario)
+        {
+
+            bool status = false;
+            iDB2Command cmd;
+            using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+            {
+                try
+                {
+                    var DatosFinancieros = ObtenerDatosUsuarioFinanciero(CodigoUsuario.CodigoCiudad);
+
+                   bool Respuesta= ActualizaUsuarioP550(CodigoUsuario.CodigoUsuario, DatosFinancieros.CodigoApellido, DatosFinancieros.Departamento,
+                       DatosFinancieros.OidCentroContable,DatosFinancieros.OidUbicacion);
+                    if (Respuesta == true)
+                    {
+
+
+                        var osistema = CD_Sistema.Instancia.GetFechaHoraSistema();
+                        string fechaModifica = (osistema != null && !string.IsNullOrEmpty(osistema.FechaSistema)) ? osistema.FechaSistema : DateTime.Now.ToString("yyyyMMdd");
+                        string horaModifica = (osistema != null && !string.IsNullOrEmpty(osistema.HoraSistema)) ? osistema.HoraSistema : DateTime.Now.ToString("HH:mm:ss");
+
+                        oConexion.Open();
+
+                        // Actualización de ciudad/aeropuerto en USUAR1
+                        StringBuilder sbUsuario = new StringBuilder();
+                        sbUsuario.Append("UPDATE USUAR1 SET USUCO9 = @CodigoCiudad, ");
+                        sbUsuario.Append(" USUOID = @CodigoContable ");
+                        sbUsuario.Append(" WHERE USUCO8 = '" + CodigoUsuario.CodigoUsuario + "'");
+                        cmd = new iDB2Command(sbUsuario.ToString(), oConexion);
+                        cmd.DeriveParameters();
+                        cmd.Parameters["@CodigoCiudad"].Value = campoNull(CodigoUsuario.CodigoCiudad).ToString().Replace(".", ",");
+                        cmd.Parameters["@CodigoContable"].Value = campoNull(DatosFinancieros.OidCentroContable).ToString().Replace(".", ",");
+                        cmd.ExecuteNonQuery();
+                        cmd.Dispose();
+
+                        // Actualización de campos de auditoría en USUARC
+                        StringBuilder sbAuditoria = new StringBuilder();
+                        sbAuditoria.Append("UPDATE USUARC SET USUUS1 = @UsuarioModificacion, USUFE1 = @FechaModificacion, USUHO1 = @HoraModificacion ");
+                        sbAuditoria.Append(" WHERE USUCOD = '" + CodigoUsuario.CodigoUsuario + "'");
+                        cmd = new iDB2Command(sbAuditoria.ToString(), oConexion);
+                        cmd.DeriveParameters();
+                        cmd.Parameters["@UsuarioModificacion"].Value = campoNull(CodigoUsuario.UsuarioModificacion);
+                        cmd.Parameters["@FechaModificacion"].Value = fechaModifica;
+                        cmd.Parameters["@HoraModificacion"].Value = horaModifica;
+
+                        status = Convert.ToBoolean(cmd.ExecuteNonQuery());
+                        cmd.Dispose();
+                        oConexion.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return status;
+        }
+
+
+        public tbUsuario ObtenerDatosUsuarioFinanciero(string codAeropuerto)
+        {
+            tbUsuario ioUsuario = new tbUsuario();
+            string query = "SELECT *FROM FIDAR8 where fidco7='" + codAeropuerto + "'";
+            iDB2Command cmd;
+            try
+            {
+                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                {
+                    cmd = new iDB2Command(query, oConexion);
+                    oConexion.Open();
+                    iDB2DataReader dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        ioUsuario = new tbUsuario();
+                        ioUsuario.CodigoApellido = dr["FIDCO6"].ToString();
+                        ioUsuario.Departamento = dr["FIDDEP"].ToString();
+                        ioUsuario.OidCentroContable = dr["FIDOI1"].ToString();
+                        ioUsuario.OidUbicacion = dr["FIDOI2"].ToString();
+
+                    }
+                    oConexion.Close();
+                    oConexion.Dispose();
+                    dr.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ioUsuario = null;
+            }
+            return ioUsuario;
+        }
+
+        public bool ActualizaUsuarioP550(string Usuario, string nombre, string Codigo, string Oidcentro, string OidUbicacion)
+        {
+            Usuario = Usuario.ToLower();
+            bool respuesta = false;
+
+            StringBuilder sbSol = new StringBuilder();
+            string query = string.Empty;
+            try
+            {
+                sbSol.Append("update USUARIO SET APELLIDO='"+nombre.Trim()+"',DEPARTAMENTO='"+Codigo.Trim() + "', OIDCENTROCONTABLE="+Oidcentro+ ", " +
+                    "OIDUBICACION=" + OidUbicacion + " WHERE CODIGO='" + Usuario.Trim()+"' ");
+
+                query = sbSol.ToString();
+                OdbcCommand cmd;
+
+
+
+                using (OdbcConnection oConexion = new OdbcConnection(ConexionP550.CadenaConexion))
+                {
+                    cmd = new OdbcCommand(query, oConexion);
+                    oConexion.Open();
+                    OdbcDataReader dr = cmd.ExecuteReader();
+                   
+                    dr.Close();
+                    oConexion.Close();
+                     respuesta = true;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                respuesta = false;
+            }
+
+            return respuesta;
+        }
         /// <summary>
         /// Metodo Actualiza el registro de usuario
         /// </summary>

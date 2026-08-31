@@ -1,0 +1,220 @@
+@model CapaModelo.tbUsuario
+@{
+    ViewBag.Title = "Detalle Matricula";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    input[readonly] {
+        background-color: #e9ecef !important; /* gris claro */
+        color: #6c757d; /* texto gris */
+        cursor: not-allowed; /* icono de prohibido */
+    }
+
+    input[disabled] {
+        background-color: #e9ecef !important;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .readonly-field {
+        background-color: #e9ecef !important; /* gris Bootstrap */
+        color: #6c757d !important; /* texto gris */
+        cursor: not-allowed; /* cursor bloqueado */
+    }
+
+    .editable-field {
+        background-color: #fff3cd !important; /* fondo sombreado suave */
+        border: 2px solid #ffc107 !important; /* borde resaltado amarillo */
+        color: #212529 !important;
+        font-weight: bold;
+    }
+</style>
+
+
+
+
+<div class="container-fluid">
+
+    <div class="card-header card-header-stretch">
+        <div class="card-title d-flex align-items-center">
+            <div class="row">
+                <div class="col-md-9">
+                    <h3 class="fw-bolder m-0 text-gray-800">
+                        Detalle Usuario
+                    </h3>
+                </div>
+                <div class="col-md-12">
+                    <a class="btn btn-success" href="ListadoUsuarios">Listado Usuarios</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORMULARIO -->
+    <form id="frmUsuario">
+        <div class="row">
+            <div class="card-body border-top p-9">
+
+                <div class="row mb-8">
+                    <div class="col-sm-3">
+                        <label class="fs-6 fw-bold mt-2 mb-3">Codigo Usuario</label>
+                    </div>
+                    <div class="col-sm-8 fv-row">
+                        @Html.TextBoxFor(m => m.CodigoUsuario, new { @class = "form-control form-control-sm  readonly-field", @readonly = "readonly", @id = "txtCodigoUsuario" })
+                    </div>
+                </div>
+
+                <div class="row mb-8">
+                    <div class="col-sm-3">
+                        <label class="fs-6 fw-bold mt-2 mb-3">Nombres apellidos</label>
+                    </div>
+                    <div class="col-sm-8 fv-row">
+                        @Html.TextBoxFor(m => m.NombreCorto, new { @class = "form-control form-control-sm  readonly-field", @readonly = "readonly", @id = "txtNombres" })
+                    </div>
+                </div>
+
+
+                <div class="row mb-8">
+                    <div class="col-sm-3">
+                        <label class="fs-6 fw-bold mt-2 mb-3">Correo</label>
+                    </div>
+                    <div class="col-sm-8 fv-row">
+                        @Html.TextBoxFor(m => m.Correo, new { @class = "form-control form-control-sm  readonly-field", @readonly = "readonly", @id = "txtCorreo" })
+                    </div>
+                </div>
+
+                <div class="row mb-8">
+                    <div class="col-sm-3">
+                        <label class="fs-6 fw-bold mt-2 mb-3">Aeropuerto</label>
+                    </div>
+                    <div class="col-sm-8 fv-row">
+                        @Html.DropDownListFor(m => m.CodigoCiudad, new List<SelectListItem>
+                        {
+                            new SelectListItem { Value = "", Text = "-- Seleccione Aeropuerto --" },
+                            new SelectListItem { Value = "SEGS", Text = "SEGS - SEYMOUR" },
+                            new SelectListItem { Value = "SECA", Text = "SECA - CIUDAD DE CATAMAYO" },
+                            new SelectListItem { Value = "SECU", Text = "SECU - MARISCAL LAMAR" },
+                            new SelectListItem { Value = "SECO", Text = "SECO - FRANCISCO DE ORELLANA" },
+                            new SelectListItem { Value = "SEGU", Text = "SEGU - JOSE JOAQUIN OLMEDO INTERNACIONAL" },
+                            new SelectListItem { Value = "SEII", Text = "SEII - ISABELA" },
+                            new SelectListItem { Value = "SEJD", Text = "SEJD - JUMANDY" },
+                            new SelectListItem { Value = "SETM", Text = "SETM - CAMILO PONCE ENRIQUEZ (ANTERIOR)" },
+                            new SelectListItem { Value = "SELT", Text = "SELT - INTERNACIONAL COTOPAXI" },
+                            new SelectListItem { Value = "SEMC", Text = "SEMC - CRNEL. EDMUNDO CARVAJAL" },
+                            new SelectListItem { Value = "SEMT", Text = "SEMT - INTERNACIONAL ELOY ALFARO" },
+                            new SelectListItem { Value = "SENL", Text = "SENL - LAGO AGRIO" },
+                            new SelectListItem { Value = "SESA", Text = "SESA - GENERAL ULPIANO PAEZ" },
+                            new SelectListItem { Value = "SEST", Text = "SEST - SAN CRISTOBAL" },
+                            new SelectListItem { Value = "SESV", Text = "SESV - LOS PERALES" },
+                            new SelectListItem { Value = "SERO", Text = "SERO - REGIONAL SANTA ROSA" },
+                            new SelectListItem { Value = "SESM", Text = "SESM - RIO AMAZONAS" },
+                            new SelectListItem { Value = "SEQM", Text = "SEQM - AEROPUERTO INTERNACIONAL MARISCAL SUCRE" },
+                            new SelectListItem { Value = "SETN", Text = "SETN - CRNEL. CARLOS CONCHA TORRES" },
+                            new SelectListItem { Value = "SETE", Text = "SETE - MAYOR GALO TORRES" },
+                            new SelectListItem { Value = "SETU", Text = "SETU - TCRN.LUIS A. MANTILLA" }
+                        }, new {
+                            @class = "form-select form-select-sm form-control readonly-field",
+                            @id = "Ciudad",
+                            @disabled = "disabled"
+                        })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="text-end">
+            <!-- Botón para habilitar edición -->
+            <button type="button" class="btn btn-warning me-2" id="btnEditar">Editar</button>
+
+            <!-- Botón AJAX -->
+            <button type="button" id="btnGuardar" class="btn btn-primary" disabled>Guardar</button>
+        </div>
+    </form>
+
+    <!-- Aquí se muestran los mensajes -->
+    <div id="alertContainer" class="mt-3"></div>
+</div>
+
+<!-- Overlay Loading / Procesando en Base de Datos -->
+<div id="loadingOverlay" class="position-fixed w-100 h-100" style="display:none; top:0; left:0; background: rgba(255,255,255,0.85); z-index: 9999; backdrop-filter: blur(3px);">
+    <div class="d-flex flex-column justify-content-center align-items-center h-100">
+        <div class="spinner-border text-primary" role="status" style="width: 3.5rem; height: 3.5rem;">
+            <span class="sr-only">Procesando...</span>
+        </div>
+        <h5 class="mt-3 fw-bold text-dark">Procesando actualizaci&oacute;n en la base de datos...</h5>
+        <p class="text-muted fs-7">Por favor espere un momento.</p>
+    </div>
+</div>
+
+
+@section scripts {
+
+
+    <script>
+        // Habilitar edición
+        $("#btnEditar").click(function () {
+            var $campoModificable = $(".form-control, .form-select").not("#txtCodigoUsuario,#txtNombres,#txtCorreo");
+            $campoModificable.removeAttr("readonly").removeAttr("disabled").removeClass("readonly-field").addClass("editable-field");
+            $("#btnGuardar").prop("disabled", false);
+            $campoModificable.first().focus();
+        });
+
+
+
+        // Guardar con AJAX
+        $("#btnGuardar").click(function () {
+            $("#errorPeso").text("");
+
+            var dataForm = $("#frmUsuario").serialize();
+
+            $.ajax({
+                url: '@Url.Action("ActualizarUsuario", "CambioUsuarioOperaciones")',
+                type: "POST",
+                data: dataForm,
+                beforeSend: function () {
+                    $("#loadingOverlay").fadeIn(200);
+                    $("#btnGuardar").prop("disabled", true).html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Guardando...');
+                },
+                success: function (resp) {
+                    if (resp.Success) {
+                        mostrarMensaje("success", resp.Message);
+                        bloquearCampos();
+                    } else {
+                        mostrarMensaje("danger", resp.Message);
+                        $("#btnGuardar").prop("disabled", false);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    mostrarMensaje("danger", "Ocurri&oacute; un error: " + error);
+                    $("#btnGuardar").prop("disabled", false);
+                },
+                complete: function () {
+                    $("#loadingOverlay").fadeOut(200);
+                    $("#btnGuardar").html('Guardar');
+                }
+            });
+        });
+
+        // Función para mostrar alertas
+        function mostrarMensaje(tipo, mensaje) {
+            let alertHtml = `
+                <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+                    ${mensaje}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>`;
+            $("#alertContainer").html(alertHtml);
+        }
+
+       
+
+        // Cuando vuelva a guardarse, re-bloquear todo
+        function bloquearCampos() {
+            $(".form-control, .form-select").attr("readonly", true).attr("disabled", true).addClass("readonly-field").removeClass("editable-field");
+        }
+    </script>
+}

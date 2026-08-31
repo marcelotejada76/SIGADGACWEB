@@ -1,0 +1,271 @@
+﻿@model IEnumerable<CapaModelo.tbUsuario>
+@{
+    ViewBag.Title = "ListadoUsuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .material-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #5a5a5a;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    .material-input {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+        .material-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    .btn-modern {
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-modern i {
+            margin-right: 6px;
+        }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+</style>
+<div class="container-fluid">
+    
+    <div class="card-header bg-primary text-white py-3 mb-4 rounded">
+        <h4 class="mb-0 text-center fw-bold" style="letter-spacing: 1px;">
+            USUARIOS OPERACIONES
+        </h4>
+    </div>
+    <br />
+    @using (Html.BeginForm("ListadoUsuarios", "CambioUsuarioOperaciones", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
+    {
+    <div class="row align-items-end mb-4">
+        <div class="col-sm-3">
+            <label class="material-label">Usuario</label>
+            <input type="text" name="Usuario" id="Usuario" class="form-control material-input" required />
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-modern btn-success">
+                🔍 Buscar
+            </button>
+        </div>
+    </div>
+
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <table id="tbDetalle" style="font-size:14px" class="table table-bordered table-hover table-sm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="th-ejecutivo">Usuario</th>
+                                <th class="th-ejecutivo">Nombres Apellidos</th>
+                                <th class="th-ejecutivo">Correo</th>
+                                <th class="th-ejecutivo">Aeropuerto</th>
+                                <th colspan="2">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.CodigoUsuario)</td>
+                                <td>@Html.DisplayFor(modelItem => item.NombresUsuario)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Correo)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CodigoCiudad)</td>
+
+                                @*<td>
+                                    <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                       href="#"
+                                       onclick="Consultar('@item.CodigoUsuario')">
+                                        <i class="bi bi-search"></i> Consulta
+                                    </a>
+
+                                </td>*@
+
+
+                                <td>
+                                    <a id="Consultar" href="@Url.Action("DetalleUsuario", "CambioUsuarioOperaciones", new {CodigoUsuario=item.CodigoUsuario })">
+                                        <i>
+                                            <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
+
+                                        </i>
+                                        Consulta
+                                    </a>
+                                </td>
+
+
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gradient-primary text-white">
+                <h6 class="modal-title text-white" id="modalLabel"> DATOS USUARIO</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card-body border-top p-9">
+
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Codigo Usuario</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="CODIGOUSUARIO" readonly="readonly" />
+                                </div>
+                               
+                            </div>
+
+                            <div class="row justify-content-start">
+                                <div class="col-6">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Apellidos</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="APELLIDOS" readonly="readonly" />
+                                </div>
+                                <div class="col-6">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Nombres </label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="NOMBRES" readonly="readonly" />
+                                </div>
+                            </div>
+
+
+                            <div class="row justify-content-start">
+                                <div class="col-8">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Correo</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="CORREO" readonly="readonly" />
+                                </div>
+
+
+                                <div class="col-4">
+                                    <div class="fs-6 fw-bold mt-2 mb-3" style="font-size:12px"><label>Aeropuerto</label></div>
+                                    <input style="font-size:12px" class="form-control form-control-sm" id="AEROPUERTO" readonly="readonly" />
+                                </div>
+
+                            </div>
+
+
+
+                            @*<div class="row justify-content-start">
+            <div class="col-4">
+                <div class="fs-6 fw-bold mt-2 mb-3"><label>Usuario Crea</label></div>
+                <input style="font-size:14px" class="form-control form-control-sm" id="USUARIOCREA" readonly="readonly" />
+            </div>
+            <div class="col-4">
+                <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Crea</label></div>
+                <input style="font-size:14px" class="form-control form-control-sm" id="FECHACREA" readonly="readonly" />
+            </div>
+            <div class="col-4">
+                <div class="fs-6 fw-bold mt-2 mb-3"><label>Hora Crea</label></div>
+                <input style="font-size:14px" class="form-control form-control-sm" id="HORACREA" readonly="readonly" />
+            </div>
+        </div>*@
+                            @*<div class="row justify-content-start">
+            <input style="font-size:14px;color:blue" class="form-control form-control-sm" id="NOMBREUSUARIO" readonly="readonly" />
+        </div>*@
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @*<script>
+        $(document).ready(function () {
+
+        });
+      
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+
+        function Consultar(CodigoUsuario) {
+         
+
+            $.ajax({
+                url: $.MisUrls.url._CargaDetalleUsuario,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { codigoUsuario: CodigoUsuario },
+                
+                success: function (e) {
+
+                    $("#CODIGOUSUARIO").val(e.CodigoUsuario);
+                    $("#APELLIDOS").val(e.ApellidoUsuario);
+                    $("#NOMBRES").val(e.NombreUsuario);
+                    $("#CORREO").val(e.Correo);
+                    $("#AEROPUERTO").val(e.CodigoCiudad);
+                  
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+    </script>*@
+}

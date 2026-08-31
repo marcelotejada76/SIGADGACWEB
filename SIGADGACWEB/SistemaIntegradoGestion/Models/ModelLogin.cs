@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +9,7 @@ namespace SistemaIntegradoGestion.Models
     {
         private string usuario;
         private string clave;
+        private string captchaInput;
         private string mensaje;
 
         public ModelLogin() { }
@@ -28,6 +29,12 @@ namespace SistemaIntegradoGestion.Models
         {
             get { return clave; }
             set { clave = value; }
+        }
+
+        public string CaptchaInput
+        {
+            get { return captchaInput; }
+            set { captchaInput = value; }
         }
 
         public string Mensaje

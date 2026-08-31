@@ -67,6 +67,10 @@
     <Reference Include="FastMember.Signed, Version=1.3.0.0, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
       <HintPath>..\packages\FastMember.Signed.1.3.0\lib\net45\FastMember.Signed.dll</HintPath>
     </Reference>
+    <Reference Include="IBM.Data.DB2.iSeries, Version=12.0.0.0, Culture=neutral, PublicKeyToken=9cdb2ebfb1f93a26, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\IBM\Client Access\IBM.Data.DB2.iSeries.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.9\lib\itextsharp.dll</HintPath>
     </Reference>
@@ -171,6 +175,10 @@
     <Compile Include="Controllers\ActualizacionContraseñaController.cs" />
     <Compile Include="Controllers\AeronaveComponenteController.cs" />
     <Compile Include="Controllers\ActualizaDeudorController.cs" />
+    <Compile Include="Controllers\CambioUsuarioOperaciones.cs" />
+    <Compile Include="Controllers\DescargaArchivosAftnController.cs" />
+    <Compile Include="Controllers\DescargaArchivosHistoricalController.cs" />
+    <Compile Include="Controllers\PlanIncentivoController.cs" />
     <Compile Include="Controllers\BasesCoactivasController.cs" />
     <Compile Include="Controllers\LiquidacionCoactivasController.cs" />
     <Compile Include="Controllers\MigracionVuelosNacInController.cs" />
@@ -2600,6 +2608,11 @@
     <Content Include="Views\AeronaveComponente\ListadoMatriculas.cshtml" />
     <Content Include="Views\DepositosVista\SubirDocumentosRecaudacion.cshtml" />
     <Content Include="Views\ActualizacionContraseña\CambioContraseña.cshtml" />
+    <Content Include="Views\PlanIncentivo\ListadoPlanIncentivo.cshtml" />
+    <Content Include="Views\CambioUsuarioOperaciones\ListadoUsuarios.cshtml" />
+    <Content Include="Views\CambioUsuarioOperaciones\DetalleUsuario.cshtml" />
+    <Content Include="Views\DescargaArchivosHistorical\ListadoDescargaArchivosHistorical.cshtml" />
+    <Content Include="Views\DescargaArchivosAftn\ListadoDescargaArchivosAftn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

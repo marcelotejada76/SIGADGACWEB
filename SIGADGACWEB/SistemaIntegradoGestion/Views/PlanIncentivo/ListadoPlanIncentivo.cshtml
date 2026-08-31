@@ -1,0 +1,949 @@
+﻿@model IEnumerable<CapaModelo.tbPlanIncentivo>
+@{
+    <h3 class="fw-bold text-center text-uppercase text-primary my-4">
+        Gestión Plan de Incentivos
+    </h3>
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .material-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #5a5a5a;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    .material-input {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+        .material-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    .btn-modern {
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-modern i {
+            margin-right: 6px;
+        }
+
+    .table th {
+        background: linear-gradient(to right, #0d6efd, #66b2ff);
+        color: white;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .card-title p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #007bff;
+    }
+
+    .th-ejecutivo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+</style>
+
+<div class="container-fluid">
+    @*<div class="card-header card-header-stretch mb-3">
+            <div class="card-title">
+                <p class="text-blue">Listado Bases Coactivas</p>
+            </div>
+        </div>*@
+
+
+    @using (Html.BeginForm("ListadoPlanIncentivo", "PlanIncentivo", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
+    {
+        <div class="row align-items-end mb-4">
+            <div class="col-sm-3">
+                <label class="material-label">Nro. Vuelo</label>
+                <input type="text" style="text-transform:uppercase" name="Vuelo" id="Vuelo" class="form-control material-input" required />
+            </div>
+
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-modern btn-success">
+                    🔍 Buscar
+                </button>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-modern btn-primary" onclick="AbrirNuevoPlan()">
+                    <i class="bi bi-plus-circle"></i> Nuevo Plan
+                </button>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tbDetalle" class="table table-bordered table-hover table-sm">
+                        <thead>
+                            <tr>
+                                @*<th class="th-ejecutivo">Nro. Vuelo</th>*@
+                                <th class="th-ejecutivo">Compania</th>
+                                <th class="th-ejecutivo">Frecuencia</th>
+                                <th class="th-ejecutivo">Fecha de Inicio</th>
+                                <th class="th-ejecutivo">Fecha Final</th>
+                                <th class="th-ejecutivo">Estado</th>
+                                <th colspan="2">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    @*<td>@Html.DisplayFor(modelItem => item.NUMEROVUELO)</td>*@
+                                    <td>@Html.DisplayFor(modelItem => item.COMPAÑIAOACI)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FRECUENCIA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAINICIO)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAFIN)</td>
+                                    <td>
+                                        @if (item.ESTADO == "A")
+                                        {
+                                            <span class="badge bg-info text-dark fs-6 py-2 px-4 rounded-pill shadow-sm">Activo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary fs-6 py-2 px-4 rounded-pill shadow-sm">No Activo</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                           href="#"
+                                           onclick="Consultar('@item.OID', '@item.NUMEROVUELO')">
+                                            <i class="bi bi-search"></i> Consulta
+                                        </a>
+                                        <a class="btn btn-outline-primary btn-sm rounded-pill px-3"
+                                           href="#"
+                                           onclick="EditarPlan('@item.OID', '@item.NUMEROVUELO')">
+                                            <i class="bi bi-pencil"></i> Editar
+                                        </a>
+                                        @if (item.MIGRADO == "P")
+                                        {
+                                            <a class="btn btn-outline-dark btn-sm rounded-pill px-3"
+                                               href="#"
+                                               onclick='MigraPlan("@item.OID", "@item.NUMEROVUELO")'>
+                                                <i class="bi bi-pencil"></i> Procesar
+                                            </a>
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-dark text-white p-3" style="background-color: #1a365d !important; border-bottom: 3px solid #d69e2e;">
+                <h6 class="modal-title font-weight-bold text-white text-uppercase" id="modalLabel">
+                    <i class="fas fa-file-invoice mr-2"></i> Ficha Técnica - Informe Plan de Incentivo
+                </h6>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-4 bg-light">
+                <div class="container-fluid p-0">
+                    <div class="card card-body border-0 shadow-sm mb-4 p-3">
+                        <small class="text-muted font-weight-bold text-uppercase mb-3" style="color: #1a365d !important; border-left: 3px solid #1a365d; padding-left: 8px;">
+                            Información del Contrato y Permisos
+                        </small>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Compañía OACI</div>
+                                <input type="text" class="form-control form-control-sm bg-white font-weight-bold text-dark border-secondary-subtle" id="Compania" readonly style="font-size:12px; color: #2d3748 !important;" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Contrato</div>
+                                <input type="text" class="form-control form-control-sm bg-white font-weight-bold text-dark border-secondary-subtle" id="Contrato" readonly style="font-size:12px;" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Permiso de Operación</div>
+                                <input type="text" class="form-control form-control-sm bg-white font-weight-bold text-dark border-secondary-subtle" id="Permiso" readonly style="font-size:12px;" />
+                            </div>
+                            <div class="col-md-12">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Observaciones al Contrato</div>
+                                <input type="text" class="form-control form-control-sm bg-white text-dark border-secondary-subtle" id="Observaciones" readonly style="font-size:12px;" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-body border-0 shadow-sm mb-4 p-3">
+                        <small class="text-muted font-weight-bold text-uppercase mb-3" style="color: #1a365d !important; border-left: 3px solid #1a365d; padding-left: 8px;">
+                            Detalles de Operación y Fechas de Control
+                        </small>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Tipo de Vuelo</div>
+                                <input type="text" class="form-control form-control-sm bg-white text-dark border-secondary-subtle" id="TipoVlo" readonly style="font-size:12px;" />
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Número de Vuelo</div>
+                                <input type="text" class="form-control form-control-sm bg-white text-dark border-secondary-subtle" id="NumeroVlo" readonly style="font-size:12px;" />
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Identificador Vuelo (ATC)</div>
+                                <input type="text" class="form-control form-control-sm bg-white text-dark border-secondary-subtle" id="Vuelo1" readonly style="font-size:12px;" />
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Frecuencia</div>
+                                <input type="text" class="form-control form-control-sm bg-white text-dark border-secondary-subtle" id="Frecuencia" readonly style="font-size:12px;" />
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Fecha de Inicio</div>
+                                <input type="text" class="form-control form-control-sm bg-white text-dark border-secondary-subtle" id="FechaInicio" readonly style="font-size:12px;" />
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Fecha Final</div>
+                                <input type="text" class="form-control form-control-sm bg-white text-dark border-secondary-subtle" id="FechaFin" readonly style="font-size:12px;" />
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Fecha Cancelación</div>
+                                <input type="text" class="form-control form-control-sm bg-white text-dark border-secondary-subtle" id="FechaCancela" readonly style="font-size:12px;" />
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Estado Operativo</div>
+                                <input type="text" class="form-control form-control-sm text-center font-weight-bold border-secondary-subtle" id="Estado" readonly style="font-size:12px; background-color: #f7fafc;" />
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="small font-weight-bold text-secondary mb-1 text-uppercase">Motivo de Cancelación</div>
+                                <input type="text" class="form-control form-control-sm bg-white text-dark border-secondary-subtle font-weight-500" id="Motivo" readonly style="font-size:12px;" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-body border-0 shadow-sm p-3 bg-white">
+                        <small class="text-muted font-weight-bold text-uppercase mb-3 text-secondary" style="font-size: 11px;">
+                            <i class="fas fa-history mr-1"></i> Trazabilidad y Auditoría de Registro
+                        </small>
+                        <div class="row">
+                            <div class="col-md-6 border-right">
+                                <div class="text-center mb-2">
+                                    <span class="badge badge-secondary px-3 py-1 text-uppercase" style="background-color: #e2e8f0; color: #4a5568;">Datos de Creación</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label class="small text-muted font-weight-bold mb-0">USUARIO</label>
+                                        <input class="form-control form-control-sm bg-white border-0 p-0 text-dark font-weight-bold" id="UserCr" readonly style="font-size:12px;" />
+                                    </div>
+                                    <div class="col-4">
+                                        <label class="small text-muted font-weight-bold mb-0">FECHA</label>
+                                        <input class="form-control form-control-sm bg-white border-0 p-0 text-dark font-weight-bold" id="DateCr" readonly style="font-size:12px;" />
+                                    </div>
+                                    <div class="col-4">
+                                        <label class="small text-muted font-weight-bold mb-0">HORA</label>
+                                        <input class="form-control form-control-sm bg-white border-0 p-0 text-dark font-weight-bold" id="HoraCr" readonly style="font-size:12px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-center mb-2">
+                                    <span class="badge badge-secondary px-3 py-1 text-uppercase" style="background-color: #e2e8f0; color: #4a5568;">Última Modificación</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label class="small text-muted font-weight-bold mb-0">USUARIO</label>
+                                        <input class="form-control form-control-sm bg-white border-0 p-0 text-dark font-weight-bold" id="UserMd" readonly style="font-size:12px;" />
+                                    </div>
+                                    <div class="col-4">
+                                        <label class="small text-muted font-weight-bold mb-0">FECHA</label>
+                                        <input class="form-control form-control-sm bg-white border-0 p-0 text-dark font-weight-bold" id="DateMd" readonly style="font-size:12px;" />
+                                    </div>
+                                    <div class="col-4">
+                                        <label class="small text-muted font-weight-bold mb-0">HORA</label>
+                                        <input class="form-control form-control-sm bg-white border-0 p-0 text-dark font-weight-bold" id="HoraMd" readonly style="font-size:12px;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-white border-top p-2">
+                <button type="button" class="btn btn-sm btn-secondary font-weight-bold px-4" data-dismiss="modal" style="background-color: #4a5568; border-color: #4a5568;">
+                    <i class="fas fa-times mr-1"></i> Finalizar Consulta
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalFormPlan" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow-lg">
+
+            <div class="modal-header bg-dark text-white p-3" style="background-color: #1a365d !important; border-bottom: 3px solid #d69e2e;">
+                <h6 class="modal-title font-weight-bold uppercase-text text-white" id="modalFormTitle">
+                    <i class="fas fa-file-contract mr-2"></i> Registro / Edición - Plan de Incentivos DGAC
+                </h6>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body p-4 bg-light">
+                <form id="formPlan" class="needs-validation" novalidate>
+                    <input type="hidden" id="formOid" name="OID" value="0" />
+
+                    <div class="card card-body border-0 shadow-sm mb-3 p-3">
+                        <small class="text-muted font-weight-bold text-uppercase mb-2 text-primary" style="color: #1a365d !important;">
+                            <i class="fas fa-info-circle mr-1"></i> Datos Principales del Contrato
+                        </small>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label class="font-weight-bold text-secondary small mb-1">Compañía OACI <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-sm text-uppercase" id="formCompania" name="COMPAÑIAOACI" style="text-transform: uppercase; font-weight: 500;" required />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label class="font-weight-bold text-secondary small mb-1">Código o Nro. Contrato <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-sm text-uppercase" id="formContrato" name="CONTRATO" style="text-transform: uppercase; font-weight: 500;" required />
+                            </div>
+                            <div class="col-md-12 mb-0">
+                                <label class="font-weight-bold text-secondary small mb-1">Observaciones al Contrato <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-sm text-uppercase" id="formObservaciones" name="CONTRATOTXT" style="text-transform: uppercase;" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-body border-0 shadow-sm mb-3 p-3">
+                        <small class="text-muted font-weight-bold text-uppercase mb-2 text-primary" style="color: #1a365d !important;">
+                            <i class="fas fa-plane mr-1"></i> Detalles Operativos del Vuelo
+                        </small>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label class="font-weight-bold text-secondary small mb-1">Permiso de Operación <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-sm text-uppercase" id="formPermiso" name="PERMISO" style="text-transform: uppercase;" required />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label class="font-weight-bold text-secondary small mb-1">Frecuencia Semanal</label>
+                                <select class="form-control form-control-sm custom-select custom-select-sm" id="formFrecuencia" name="FRECUENCIA">
+                                    <option value="D">Doméstico</option>
+                                    <option value="1-3">1 a 3 Frecuencias</option>
+                                    <option value="4-7">4 a 7 Frecuencias</option>
+                                    <option value="8-N">Más de 7 Frecuencias</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <label class="font-weight-bold text-secondary small mb-1">Tipo de Vuelo</label>
+                                <select class="form-control form-control-sm custom-select custom-select-sm" id="formTipoVlo" name="TIPOVUELO">
+                                    <option value="D">Doméstico</option>
+                                    <option value="I">Internacional</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                @*<label class="font-weight-bold text-secondary small mb-1">Número de Vuelo</label>*@
+                                @*<input type="text" class="form-control form-control-sm text-uppercase" id="formNumeroVlo" name="NUMEROVUELO" style="text-transform: uppercase;" />*@
+                                <input type="hidden" id="formNumeroVlo" name="NUMEROVUELO" value="555" />
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                @*<label class="font-weight-bold text-secondary small mb-1">Identificador Vuelo (ATC)</label>*@
+                                @*<input type="text" class="form-control form-control-sm text-uppercase" id="formVuelo1" name="VUELO" style="text-transform: uppercase;" />*@
+                                <input type="hidden" id="formVuelo1" name="VUELO" value="ATC1" />
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="card card-body border-0 shadow-sm p-3">
+                        <small class="text-muted font-weight-bold text-uppercase mb-2 text-primary" style="color: #1a365d !important;">
+                            <i class="fas fa-calendar-alt mr-1"></i> Vigencia y Auditoría de Estado
+                        </small>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="font-weight-bold text-secondary small mb-1">Fecha de Inicio Vigencia</label>
+                                <input type="date" class="form-control form-control-sm" id="formFechaInicio" name="FECHAINICIO" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="font-weight-bold text-secondary small mb-1">Fecha Fin Vigencia</label>
+                                <input type="date" class="form-control form-control-sm" id="formFechaFin" name="FECHAFIN" />
+                            </div>
+                            <div class="col-md-4 mb-0">
+                                <label class="font-weight-bold text-secondary small mb-1">Fecha de Cancelación</label>
+                                <input type="date" class="form-control form-control-sm" id="formFechaCancela" name="FECHACANCELA" />
+                            </div>
+                            <div class="col-md-4 mb-0">
+                                <label class="font-weight-bold text-secondary small mb-1">Motivo de Cancelación</label>
+                                <input type="text" class="form-control form-control-sm text-uppercase" id="formMotivoCancela" name="CANCELADAPOR" style="text-transform: uppercase;" placeholder="N/A" />
+                            </div>
+                            <div class="col-md-4 mb-0">
+                                <label class="font-weight-bold text-secondary small mb-1">Estado Operativo</label>
+                                <select class="form-control form-control-sm custom-select custom-select-sm font-weight-bold text-dark" id="formEstado" name="ESTADO" style="background-color: #e6fffa; color: #234e52 !important;">
+                                    <option value="A" style="color: green; font-weight: bold;">ACTIVO</option>
+                                    <option value="N" style="color: red; font-weight: bold;">NO ACTIVO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer bg-white border-top p-3">
+                <button type="button" class="btn btn-sm btn-outline-secondary font-weight-bold px-3" data-dismiss="modal">
+                    <i class="fas fa-times mr-1"></i> Cerrar
+                </button>
+                <button type="button" class="btn btn-sm btn-primary font-weight-bold px-4 shadow-sm" id="btnGuardarPlan" onclick="GuardarPlan()" disabled style="background-color: #1a365d; border-color: #1a365d;">
+                    <i class="fas fa-save mr-1"></i> Guardar Registro
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*PROCESA MENSUAL*@
+<div class="modal fade" id="modalFormPlan1" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow-lg">
+
+            <div class="modal-header bg-dark text-white p-3" style="background-color: #1a365d !important; border-bottom: 3px solid #d69e2e;">
+                <h6 class="modal-title font-weight-bold uppercase-text text-white" id="modalFormTitleProcesa">
+                    <i class="fas fa-file-contract mr-2"></i> Proceso Mensual - Plan de Incentivos DGAC
+                </h6>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body p-4 bg-light">
+                <form id="formPlanProcesa" class="needs-validation" novalidate>
+                    <input type="hidden" id="formOidProcesa" name="OID" value="0" />
+
+                    <div class="card card-body border-0 shadow-sm mb-3 p-3">
+                        <small class="text-muted font-weight-bold text-uppercase mb-2 text-primary" style="color: #1a365d !important;">
+                            <i class="fas fa-info-circle mr-1"></i> Datos Principales Porcentaje por Vuelo, para el Proceso del Incentivo
+                        </small>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <label class="font-weight-bold text-secondary small mb-1">Numero de Vuelo <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm text-uppercase" id="formNumeroVloProcesa" name="NUMEROVUELO" style="text-transform: uppercase; font-weight: 500;" required />
+                        </div>
+                        
+                    </div>
+
+                    <div class="card card-body border-0 shadow-sm mb-3 p-3">
+                        <small class="text-muted font-weight-bold text-uppercase mb-2 text-primary" style="color: #1a365d !important;">
+                            <i class="fas fa-info-circle mr-1"></i> Si esta Seguro de cargar el Porcentaje por Vuelo, precione Procesar, Caso contrario Cerrar,
+                            Una vez procesado ya no se puede revertir los calculos
+                        </small>
+
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer bg-white border-top p-3">
+                <button type="button" class="btn btn-sm btn-outline-secondary font-weight-bold px-3" data-dismiss="modal">
+                    <i class="fas fa-times mr-1"></i> Cerrar
+                </button>
+                <button type="button" class="btn btn-sm btn-primary font-weight-bold px-4 shadow-sm" id="MigraPlan" onclick="ProcesarPlan()" disabled style="background-color: #1a365d; border-color: #1a365d;">
+                    <i class="fas fa-save mr-1"></i> Procesar 
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+
+
+
+        $(document).ready(function () {
+
+            $('#MigraPlan').prop('disabled', false).css('opacity', '1');
+
+            // Agrega esto al final de tu archivo script para gestionar la apertura limpia
+            window.AbrirNuevoPlan = function () {
+                // 1. Ejecuta la liberación total de campos que ya programamos
+                if (typeof modoNuevoPlan === "function") {
+                    modoNuevoPlan();
+                }
+
+                // 2. Levanta el modal manualmente sin restricciones
+                $('#modalFormPlan').modal('show');
+            };
+
+            // --- 1. FUNCIÓN DE VALIDACIÓN MANUAL ---
+            function evaluarEstadoBoton() {
+                // Campos obligatorios principales
+                var compania = $('#formCompania').val().trim();
+                var contrato = $('#formContrato').val().trim();
+                var observaciones = $('#formObservaciones').val().trim();
+                var permiso = $('#formPermiso').val().trim();
+                var numeroVuelo = $('#formNumeroVlo').val().trim();
+
+                if (compania === "" || contrato === "" || observaciones === "" || permiso === "" || numeroVuelo === "") {
+                    $('#btnGuardarPlan').prop('disabled', true).css('opacity', '0.6');
+                    return;
+                }
+
+                // Detección de nuevo registro y validación de fechas
+                var fechaInicio = $('#formFechaInicio').val();
+                var fontFechaFin = $('#formFechaFin').val();
+                var esNuevoRegistro = ($('#UserCr').val() === "" || $('#UserCr').text() === "");
+
+                if (esNuevoRegistro) {
+                    if (fechaInicio === "" || fontFechaFin === "") {
+                        if (fechaInicio === "") $('#formFechaInicio').addClass('is-invalid');
+                        if (fontFechaFin === "") $('#formFechaFin').addClass('is-invalid');
+                        $('#btnGuardarPlan').prop('disabled', true).css('opacity', '0.6');
+                        return;
+                    } else {
+                        $('#formFechaInicio').removeClass('is-invalid').addClass('is-valid');
+                        $('#formFechaFin').removeClass('is-invalid').addClass('is-valid');
+                    }
+                }
+
+                // Validación de Frecuencia vs Tipo de Vuelo
+                var frecuencia = $('#formFrecuencia').val().trim().toUpperCase();
+                var tipoVuelo = $('#formTipoVlo').val().trim().toUpperCase();
+
+                if (frecuencia !== "" && frecuencia !== "D" && tipoVuelo !== "I") {
+                    $('#formTipoVlo').addClass('is-invalid');
+                    $('#btnGuardarPlan').prop('disabled', true).css('opacity', '0.6');
+                    return;
+                } else if (frecuencia !== "") {
+                    $('#formTipoVlo').removeClass('is-invalid');
+                }
+
+                // Validación de regla cruzada de Cancelación (Fecha y Motivo)
+                var fechaCancela = $('#formFechaCancela').val();
+                var motivoCancela = $('#formMotivoCancela').val().trim();
+
+                var cancelacionValida = false;
+                if (fechaCancela === "" && motivoCancela === "") {
+                    cancelacionValida = true;
+                } else if (fechaCancela !== "" && motivoCancela !== "") {
+                    cancelacionValida = true;
+                } else {
+                    cancelacionValida = false;
+                }
+
+                // Se activa o desactiva el botón de guardado
+                if (cancelacionValida) {
+                    $('#btnGuardarPlan').prop('disabled', false).css('opacity', '1');
+                } else {
+                    $('#btnGuardarPlan').prop('disabled', true).css('opacity', '0.6');
+                }
+            }
+
+
+            // --- 2. GESTIÓN DE PERMISOS POR CONTROL DE FLUJO (EXPLICITO) ---
+
+            // Invocar cuando el usuario va a registrar un Plan desde cero
+            window.modoNuevoPlan = function () {
+                $('#formPlan')[0].reset();
+                $('.is-valid, .is-invalid').removeClass('is-valid is-invalid');
+
+                // Liberación absoluta de campos
+                $('#formPlan').find('input, select, textarea').each(function () {
+                    $(this).prop('readonly', false)
+                        .prop('disabled', false)
+                        .removeAttr('readonly')
+                        .css('background-color', '#ffffff');
+                });
+                evaluarEstadoBoton();
+            };
+
+            // Invocar en la respuesta exitosa de tu AJAX de edición, tras cargar los datos
+            window.modoModificarPlan = function () {
+                // Bloqueo estricto preventivo de campos históricos
+                $('#formPlan').find('input, select, textarea').each(function () {
+                    var idCampo = $(this).attr('id');
+
+                    if (idCampo !== 'formFechaCancela' && idCampo !== 'formMotivoCancela') {
+                        $(this).prop('readonly', true);
+                        $(this).attr('readonly', 'readonly');
+
+                        if ($(this).is('select')) {
+                            $(this).prop('disabled', true);
+                        }
+                        $(this).css('background-color', '#edf2f7'); // Tono gris de solo lectura
+                    }
+                });
+
+                // Asegurar habilitación de los campos de cancelación
+                $('#formFechaCancela, #formMotivoCancela')
+                    .prop('readonly', false)
+                    .prop('disabled', false)
+                    .removeAttr('readonly')
+                    .css('background-color', '#ffffff');
+
+                evaluarEstadoBoton();
+            };
+
+
+            // --- 3. EVENTOS Y AUTOMATIZACIONES EN TIEMPO REAL ---
+
+            // Control automatizado de Frecuencia
+            $('#formFrecuencia').on('input change', function () {
+                this.value = this.value.toUpperCase();
+                var valorFrecuencia = $(this).val().trim();
+
+                if (valorFrecuencia !== "" && valorFrecuencia !== "D") {
+                    $('#formTipoVlo').val('I');
+                }
+                evaluarEstadoBoton();
+            });
+
+            $('#formTipoVlo').on('change input', function () {
+                this.value = this.value.toUpperCase();
+                evaluarEstadoBoton();
+            });
+
+            $('#formFechaInicio, #formFechaFin').on('change input', function () {
+                if ($(this).val() !== "") {
+                    $(this).removeClass('is-invalid').addClass('is-valid');
+                }
+                evaluarEstadoBoton();
+            });
+
+            $('#formPlan').on('input change', function () {
+                evaluarEstadoBoton();
+            });
+
+            // --- ¡AQUÍ COLOCAMOS EL NUEVO CALCULO DE FECHAS (INICIO + 3 AÑOS)! ---
+            $('#formFechaInicio').on('change input', function () {
+                var fechaInicioVal = $(this).val();
+
+                if (fechaInicioVal !== "") {
+                    $(this).removeClass('is-invalid').addClass('is-valid');
+
+                    // Validamos si es un NUEVO PLAN antes de hacer el cálculo automático
+                    var esNuevoRegistro = ($('#UserCr').val() === "" || $('#UserCr').text() === "");
+
+                    if (esNuevoRegistro) {
+                        var partes = fechaInicioVal.split('-'); // [Año, Mes, Día]
+
+                        if (partes.length === 3) {
+                            var anio = parseInt(partes[0], 10);
+                            var mes = partes[1];
+                            var dia = partes[2];
+
+                            // Sumamos los 3 años correspondientes
+                            var nuevoAnio = anio + 3;
+                            var fechaFinCalculada = nuevoAnio + '-' + mes + '-' + dia;
+
+                            // Asignamos el valor calculado a la Fecha Fin
+                            $('#formFechaFin').val(fechaFinCalculada).removeClass('is-invalid').addClass('is-valid');
+                        }
+                    }
+                }
+                evaluarEstadoBoton();
+            });
+
+            // Evento individual para la fecha fin por si el usuario la modifica manualmente después
+            $('#formFechaFin').on('change input', function () {
+                if ($(this).val() !== "") {
+                    $(this).removeClass('is-invalid').addClass('is-valid');
+                }
+                evaluarEstadoBoton();
+            });
+
+
+            // 1. CONTROL DE LA FECHA DE CANCELACIÓN
+            $('#formFechaCancela').on('change input', function () {
+                if ($(this).val() !== "") {
+                    $('#formEstado').val('N'); // Cambia a Inactivo
+                    $(this).removeClass('is-invalid').addClass('is-valid');
+
+                    if ($('#formMotivoCancela').val().trim() === "") {
+                        $('#formMotivoCancela').addClass('is-invalid')
+                            .attr('placeholder', '¡OBLIGATORIO POR CANCELACIÓN!');
+                    } else {
+                        $('#formMotivoCancela').removeClass('is-invalid').addClass('is-valid');
+                    }
+                } else {
+                    // Si borra la fecha, evaluamos si aún queda texto en el motivo
+                    if ($('#formMotivoCancela').val().trim() !== "") {
+                        $('#formEstado').val('N'); // Sigue siendo inactivo por el motivo
+                        $(this).addClass('is-invalid'); // Pero la fecha se vuelve obligatoria
+                    } else {
+                        // Si ambos están vacíos, vuelve a estar Activo
+                        $(this).removeClass('is-invalid is-valid');
+                        $('#formMotivoCancela').val('').removeClass('is-invalid is-valid').attr('placeholder', '');
+                        $('#formEstado').val('A');
+                    }
+                }
+                evaluarEstadoBoton();
+            });
+
+
+            // 2. CONTROL DEL MOTIVO DE CANCELACIÓN (CORREGIDO)
+            $('#formMotivoCancela').on('input', function () {
+                this.value = this.value.toUpperCase();
+
+                if ($(this).val().trim() !== "") {
+                    $('#formEstado').val('N'); // ¡SOLUCIÓN! Asegura "N" apenas empiece a escribir
+                    $(this).removeClass('is-invalid').addClass('is-valid');
+
+                    if ($('#formFechaCancela').val() === "") {
+                        $('#formFechaCancela').addClass('is-invalid');
+                    } else {
+                        $('#formFechaCancela').removeClass('is-invalid').addClass('is-valid');
+                    }
+                } else {
+                    // Si borra el motivo, evaluamos si aún queda una fecha puesta
+                    if ($('#formFechaCancela').val() !== "") {
+                        $('#formEstado').val('N'); // Sigue inactivo por la fecha
+                        $(this).removeClass('is-valid').addClass('is-invalid'); // El motivo se vuelve obligatorio
+                    } else {
+                        // Si ambos están vacíos, vuelve a estar Activo
+                        $(this).removeClass('is-valid is-invalid');
+                        $('#formFechaCancela').removeClass('is-invalid is-valid');
+                        $('#formEstado').val('A');
+                    }
+                }
+                evaluarEstadoBoton();
+            });
+
+        });
+
+        function modalAdjunto() {
+            $('#FormModal').modal('show');
+        }
+
+      
+
+        function Consultar(Oid, NumeroVuelo) {
+
+            $("#Permiso").val("");
+            $("#TipoVlo").val("");
+            $("#Compania").val("");
+            $("#Contrato").val("");
+            $("#Observaciones").val("");
+            $("#NumeroVlo").val("");
+            $("#Vuelo1").val("");
+            $("#Frecuencia").val("");
+            $("#FechaInicio").val("");
+            $("#FechaFin").val("");
+            $("#FechaCancela").val("");
+            $("#Motivo").val("");
+            $("#UserCr").val("");
+            $("#DateCr").val("");
+            $("#HoraCr").val("");
+            $("#UserMd").val("");
+            $("#DateMd").val("");
+            $("#HoraMd").val("");
+            $("#Estado").val("");
+
+
+            $.ajax({
+                url: $.MisUrls.url._DetallePlanIncentivo,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Oid: Oid, NumeroVuelo: NumeroVuelo },
+                success: function (e) {
+
+                    $("#Compania").val(e.COMPAÑIAOACI);
+                    $("#Contrato").val(e.CONTRATO);
+                    $("#Observaciones").val(e.CONTRATOTXT);
+                    $("#Permiso").val(e.PERMISO);
+                    $("#Frecuencia").val(e.FRECUENCIA);
+                    $("#Permiso").val(e.PERMISO);
+                    $("#TipoVlo").val(e.TIPOVUELO);
+                    $("#NumeroVlo").val(e.NUMEROVUELO);
+                    $("#Vuelo1").val(e.VUELO);
+                    $("#FechaInicio").val(e.FECHAINICIO);
+                    $("#FechaFin").val(e.FECHAFIN);
+                    $("#FechaCancela").val(e.FECHACANCELA);
+                    $("#Motivo").val(e.CANCELADAPOR);
+                    $("#UserCr").val(e.USERCR);
+                    $("#DateCr").val(e.DATECR);
+                    $("#HoraCr").val(e.HORACR);
+                    $("#UserMd").val(e.USERMD);
+                    $("#DateMd").val(e.DATEMD);
+                    $("#HoraMd").val(e.HORAMD);
+                    $("#Estado").val(e.ESTADO);
+
+                },
+                error: function (errormessage) {
+                    Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
+                }
+            });
+
+
+            $('#largeModal').modal('show');
+        }
+
+
+        function NuevoPlan() {
+            $('#formPlan')[0].reset();
+            $('#formOid').val(0);
+            $('#modalFormTitle').text('Nuevo Plan Incentivo');
+            $('#modalFormPlan').modal('show');
+        }
+
+        function EditarPlan(Oid, NumeroVuelo) {
+            $('#formPlan')[0].reset();
+            $('#formOid').val(Oid);
+            $('#modalFormTitle').text('Editar Plan Incentivo');
+
+            var detUrl = '/PlanIncentivo/CargaPlanIncentivo';
+            if ($.MisUrls && $.MisUrls.url && $.MisUrls.url._DetallePlanIncentivo) {
+                detUrl = $.MisUrls.url._DetallePlanIncentivo;
+            }
+
+            $.ajax({
+                url: detUrl,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Oid: Oid, NumeroVuelo: NumeroVuelo },
+                success: function (e) {
+                    $("#formCompania").val(e.COMPAÑIAOACI);
+                    $("#formContrato").val(e.CONTRATO);
+                    $("#formObservaciones").val(e.CONTRATOTXT);
+                    $("#formPermiso").val(e.PERMISO);
+
+
+                    var frecue = e.FRECUENCIA;
+                    if (frecue === 'Domestico') tipo = 'D';
+                    if (frecue === '1 a 3 Frecuencias') tipo = '1-3';
+                    if (frecue === '4 a 7 Frecuencias') tipo = '4-7';
+                    if (frecue === 'Mas de 7 Frecuencias') tipo = '8-N';
+                    $("#formFrecuencia").val(frecue);
+
+
+                    //$("#formFrecuencia").val(e.FRECUENCIA);
+
+                    var tipo = e.TIPOVUELO;
+                    if (tipo === 'Domestico') tipo = 'D';
+                    if (tipo === 'Internacional') tipo = 'I';
+                    $("#formTipoVlo").val(tipo);
+
+                    $("#formNumeroVlo").val(e.NUMEROVUELO);
+                    $("#formFechaCancela").val(e.FECHACANCELA);
+                    $("#formMotivoCancela").val(e.CANCELADAPOR);
+                    $("#formVuelo1").val(e.VUELO);
+                    $("#formFechaInicio").val(e.FECHAINICIO);
+                    $("#formFechaFin").val(e.FECHAFIN);
+
+                    var est = e.ESTADO;
+                    if (est === 'ACTIVO') est = 'A';
+                    if (est === 'NO ACTIVO') est = 'N';
+                    $("#formEstado").val(est);
+                    modoModificarPlan();
+                    $('#modalFormPlan').modal('show');
+                },
+                error: function (errormessage) {
+                    Swal.fire("Error", "No se pudo cargar el detalle", "error");
+                }
+            });
+        }
+
+        function MigraPlan(Oid, NumeroVuelo) {
+          
+            $('#formPlanProcesa')[0].reset();
+            $('#formOidProcesa').val(Oid);
+
+            var detUrl = '/PlanIncentivo/CargaPlanIncentivo';
+            if ($.MisUrls && $.MisUrls.url && $.MisUrls.url._ProcesarPlanIncentivo) {
+                detUrl = $.MisUrls.url._ProcesarPlanIncentivo;
+            }
+
+            $.ajax({
+                url: detUrl,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: { Oid: Oid, NumeroVuelo: NumeroVuelo },
+                success: function (e) {
+                    $("#formNumeroVloProcesa").val(e.NUMEROVUELO);
+
+                    $('#modalFormPlan1').modal('show');
+                },
+                error: function (errormessage) {
+                    Swal.fire("Error", "No se pudo cargar el detalle", "error");
+                }
+            });
+        }
+
+
+        function GuardarPlan() {
+            var data = $('#formPlan').serialize();
+            $.ajax({
+                url: '/PlanIncentivo/GuardarPlanIncentivo',
+                type: "POST",
+                data: data,
+                success: function (res) {
+                    if (res.success) {
+                        Swal.fire("Éxito", res.message, "success").then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire("Error", res.message, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("Error", "Hubo un problema al guardar", "error");
+                }
+            });
+        }
+
+
+        function ProcesarPlan() {
+            var numeroVuelo = $('#formNumeroVloProcesa').val();
+            if (!numeroVuelo || numeroVuelo.trim() === '') {
+                Swal.fire("Advertencia", "El campo Número de Vuelo es obligatorio para procesar el plan.", "warning");
+                return;
+            }
+
+            var data = $('#formPlanProcesa').serialize();
+            $.ajax({
+                url: '/PlanIncentivo/EjecutaPlan',
+                type: "POST",
+                data: data,
+                success: function (res) {
+                    if (res.success) {
+                        Swal.fire("Éxito", res.message, "success").then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire("Error", res.message, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("Error", "Hubo un problema al procesar", "error");
+                }
+            });
+        }
+
+    </script>
+}

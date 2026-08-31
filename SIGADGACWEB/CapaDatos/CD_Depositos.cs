@@ -593,7 +593,15 @@ namespace CapaDatos
                 correo.Priority = MailPriority.Normal;
                 //Configuracion del servidor smtp
                 // SmtpClient smtp = new SmtpClient("172.20.16.21");
-                SmtpClient smtp = new SmtpClient("172.20.17.87");
+
+                //obtenemos la direccion del correoIP
+                string DireccionCorreo = ConexionDB2.DireccionCorreo();
+
+                SmtpClient smtp = new SmtpClient(DireccionCorreo.Trim());
+
+                //Configuracion del servidor smtp
+                //SmtpClient smtp = new SmtpClient("172.20.16.21");
+                //SmtpClient smtp = new SmtpClient("172.20.17.87");
                 smtp.Send(correo);
 
             }
@@ -690,7 +698,15 @@ namespace CapaDatos
                 correo.Priority = MailPriority.Normal;
                 //Configuracion del servidor smtp
                 // SmtpClient smtp = new SmtpClient("172.20.16.21");
-                SmtpClient smtp = new SmtpClient("172.20.17.87");
+
+                //obtenemos la direccion del correoIP
+                string DireccionCorreo = ConexionDB2.DireccionCorreo();
+
+                SmtpClient smtp = new SmtpClient(DireccionCorreo.Trim());
+
+                //Configuracion del servidor smtp
+                //SmtpClient smtp = new SmtpClient("172.20.16.21");
+                //SmtpClient smtp = new SmtpClient("172.20.17.87");
                 smtp.Send(correo);
 
             }

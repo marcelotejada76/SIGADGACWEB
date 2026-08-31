@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="CamposUceo.cs" />
     <Compile Include="CD_AdjuntoCiaAviacion.cs" />
+    <Compile Include="CD_PlanIncentivo.cs" />
     <Compile Include="CD_DetalleCertAeronav.cs" />
     <Compile Include="CD_Compania.cs" />
     <Compile Include="CD_ActualizaCarteraVencida.cs" />

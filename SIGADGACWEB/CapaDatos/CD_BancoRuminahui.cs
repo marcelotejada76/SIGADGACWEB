@@ -99,7 +99,7 @@ namespace CapaDatos
 
         public List<tbBancoRuminahui> DetalleDepositos()
         {
-            DateTime fecha = DateTime.Now.AddDays(-90);
+            DateTime fecha = DateTime.Now.AddDays(-10);
             string fechaProceso = fecha.ToString("yyyyMMdd");
 
             var listarSolicitud = new List<tbBancoRuminahui>();

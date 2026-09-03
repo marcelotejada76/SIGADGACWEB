@@ -1,381 +1,595 @@
-﻿@model IEnumerable<CapaModelo.tbItsControlAtc>
+@model IEnumerable<CapaModelo.tbItsControlAtc>
 @{
-    ViewBag.Title = "ListadoControladoresATC";
+    ViewBag.Title = "Listado de Informes Diarios ITS";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var totalIts = Model != null ? Model.Count() : 0;
+    var totalLugares = Model != null ? Model.Select(x => x.LUGAR).Where(l => !string.IsNullOrEmpty(l)).Distinct().Count() : 0;
+    var totalDependencias = Model != null ? Model.Select(x => x.DEPENDENCIA).Where(d => !string.IsNullOrEmpty(d)).Distinct().Count() : 0;
+    var totalImpresos = Model != null ? Model.Count(x => x.ESTADOD == "IMPRESO") : 0;
+    var totalPendientes = Model != null ? Model.Count(x => x.ESTADOD != "IMPRESO") : 0;
+
+    var resumenLugaresDep = Model != null ? Model
+        .GroupBy(x => string.IsNullOrEmpty(x.LUGAR) ? "N/A" : x.LUGAR)
+        .Select(g => new {
+            Lugar = g.Key,
+            CantidadTotal = g.Count(),
+            Dependencias = g.GroupBy(d => string.IsNullOrEmpty(d.DEPENDENCIA) ? "N/A" : d.DEPENDENCIA)
+                            .Select(dg => new { Dependencia = dg.Key, Cantidad = dg.Count() })
+                            .OrderByDescending(x => x.Cantidad)
+                            .ToList()
+        })
+        .OrderByDescending(x => x.CantidadTotal)
+        .ToList() : null;
 }
 
-
 <style>
-    .material-label {
+    .card-kpi {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 10px;
+    }
+    .card-kpi:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.08) !important;
+    }
+    .badge-pill-custom {
+        padding: 0.5em 0.85em;
+        font-size: 0.82rem;
         font-weight: 600;
-        font-size: 13px;
-        color: #5a5a5a;
-        margin-bottom: 4px;
+        border-radius: 50rem;
+    }
+    .table-executive thead th {
+        background-color: #1a2226;
+        color: #ffffff;
+        font-size: 0.85rem;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+        padding: 12px 15px;
     }
-
-    .material-input {
-        border-radius: 8px;
-        border: 1px solid #ced4da;
-        transition: box-shadow 0.3s ease, border-color 0.3s ease;
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-
-        .material-input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-            outline: none;
-        }
-
-    .btn-modern {
-        border-radius: 8px;
-        padding: 6px 16px;
-        font-size: 14px;
-        font-weight: 600;
-        transition: background-color 0.2s ease;
-    }
-
-        .btn-modern i {
-            margin-right: 6px;
-        }
-
-    .table th {
-        background: linear-gradient(to right, #0d6efd, #66b2ff);
-        color: white;
-        font-size: 13px;
-        text-align: center;
-    }
-
-    .table td {
+    .table-executive tbody td {
         vertical-align: middle;
-        font-size: 14px;
+        padding: 12px 15px;
+        font-size: 0.9rem;
     }
-
-    .card-title p {
-        font-size: 20px;
+    .detail-label {
+        font-size: 0.78rem;
         font-weight: 700;
-        margin-bottom: 0;
-        color: #007bff;
-    }
-    .th-ejecutivo {
-        font-size: 1.1rem;
-        font-weight: 600;
         text-transform: uppercase;
+        color: #6c757d;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.35rem;
+    }
+    .detail-value {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #212529;
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        padding: 8px 12px;
+        height: auto;
+    }
+    .detail-value-highlight {
+        background-color: #eaf2fd;
+        border-color: #b6d4fe;
+        color: #004085;
+        font-weight: 700;
     }
 </style>
 
-<div class="container-fluid">
-    <div class="card-header card-header-stretch mb-3">
-        <div class="card-title">
-            <p class="text-blue">Listado Documentos ITS</p>
+<div class="container-fluid pt-3">
+
+    <!-- Header Principal -->
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 pb-2 border-bottom">
+        <div class="mb-2 mb-md-0">
+            <h2 class="font-weight-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+                <i class="fas fa-file-invoice text-primary mr-2"></i> Tablero Ejecutivo de Informes Diarios ITS
+            </h2>
+            <p class="text-muted mb-0 small">
+                Monitoreo consolidado de bitácora e informes de control de tránsito aéreo (ITS)
+            </p>
         </div>
     </div>
 
-    @using (Html.BeginForm("ListadoAtcDiario", "ControlAtcDiario", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
+    <!-- KPI Metric Cards -->
+    <div class="row mb-4">
+        <!-- Total Informes -->
+        <div class="col-xl col-md-4 col-sm-6 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #0056b3 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Total Informes</span>
+                            <h3 class="mb-0 font-weight-bold text-dark mt-1">@totalIts</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="fas fa-file-alt text-primary fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lugares / Aeropuertos -->
+        <div class="col-xl col-md-4 col-sm-6 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #6f42c1 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Lugares / ATO</span>
+                            <h3 class="mb-0 font-weight-bold mt-1" style="color: #6f42c1;">@totalLugares</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="fas fa-map-marker-alt fa-lg" style="color: #6f42c1;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dependencias -->
+        <div class="col-xl col-md-4 col-sm-6 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #20c997 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Dependencias</span>
+                            <h3 class="mb-0 font-weight-bold mt-1" style="color: #20c997;">@totalDependencias</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="fas fa-sitemap fa-lg" style="color: #20c997;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informes Impresos -->
+        <div class="col-xl col-md-6 col-sm-6 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #28a745 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Impresos</span>
+                            <h3 class="mb-0 font-weight-bold text-success mt-1">@totalImpresos</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="fas fa-check-circle text-success fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informes Pendientes -->
+        <div class="col-xl col-md-6 col-sm-6 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #ffc107 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Pendientes</span>
+                            <h3 class="mb-0 font-weight-bold text-warning mt-1">@totalPendientes</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="fas fa-clock text-warning fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Totales por Lugar y Dependencias -->
+    @if (resumenLugaresDep != null && resumenLugaresDep.Any())
     {
-    <div class="row align-items-end mb-4">
-        <div class="col-sm-3">
-            <label class="material-label">Fecha Elaboración</label>
-            <input type="date" name="FechaElab" id="FechaElab" class="form-control material-input" required />
-        </div>
-        <div class="col-sm-3">
-            <label class="material-label">Aeropuerto</label>
-            <input type="text" name="Aeropuerto" id="Aeropuerto" class="form-control material-input"  />
-        </div>
-        <div class="col-sm-2">
-            <button type="submit" class="btn btn-modern btn-success">
-                🔍 Buscar
-            </button>
-        </div>
-    </div>
-
-        <div class="card shadow-sm border-0">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="tbDetalle" class="table table-bordered table-hover table-sm">
-                        <thead>
-                            <tr>
-                                <th class="th-ejecutivo">Lugar</th>
-                                <th class="th-ejecutivo">Dependencia</th>
-                                <th class="th-ejecutivo">Fecha Elaboración</th>
-                                <th class="th-ejecutivo">Turno</th>
-                                <th class="th-ejecutivo">Responsable Turno</th>
-                                <th class="th-ejecutivo">Estado</th>
-                                <th colspan="2">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.LUGAR)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.DEPENDENCIA)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.FECHAELABORACION)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.TURNO)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.NOMBRERESPONSABLE)</td>
-                                    <td>
-                                        @if (item.ESTADOD == "IMPRESO")
-                                        {
-                                            <span class="badge bg-info text-dark fs-6 py-2 px-4 rounded-pill shadow-sm">Impreso</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary fs-6 py-2 px-4 rounded-pill shadow-sm">Pendiente</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
-                                           href="#"
-                                           onclick="Consultar('@item.LUGAR', '@item.DEPENDENCIA', '@item.FECHAELABORACION', '@item.TURNO')">
-                                            <i class="bi bi-search"></i> Consulta
-                                        </a>
-                                        
-                                    </td>
-                                    <td>
-                                        <a id="Descarga" class="btn btn-outline-secondary btn-sm rounded-pill px-3"  href="@Url.Action("DescargaIts", "ControlAtcDiario", new { Lugar = item.LUGAR, Dependencia = item.DEPENDENCIA, Fechaelab = item.FECHAELABORACION, Turno = item.TURNO })">
-                                            <i class="bi bi-download"></i> Descarga
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+        <div class="card border-0 shadow-sm rounded-lg mb-4">
+            <div class="card-header bg-white py-2 border-bottom d-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-dark" style="font-size: 0.95rem;">
+                    <i class="fas fa-map-marker-alt text-primary mr-2"></i> Resumen de Informes por Lugar y Dependencias
+                </h6>
+                <span class="badge badge-light border rounded-pill px-3 py-1 font-weight-bold text-primary" style="font-size: 0.8rem;">
+                    <i class="fas fa-building mr-1"></i> @resumenLugaresDep.Count Lugar(es)
+                </span>
+            </div>
+            <div class="card-body p-3 bg-light">
+                <div class="d-flex flex-wrap align-items-stretch" style="gap: 15px;">
+                    @foreach (var lug in resumenLugaresDep)
+                    {
+                        <div class="card border-0 shadow-sm bg-white p-3" style="border-radius: 10px; min-width: 260px; flex: 1 1 260px; border-left: 4px solid #007bff !important;">
+                            <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+                                <span class="text-uppercase text-dark font-weight-bold" style="font-size: 1rem;">
+                                    <i class="fas fa-plane-arrival text-danger mr-1"></i> Aeropuerto @lug.Lugar
+                                </span>
+                                <span class="badge badge-primary rounded-pill px-3 py-1 font-weight-bold" style="font-size: 0.85rem;">
+                                    @lug.CantidadTotal total
+                                </span>
+                            </div>
+                            
+                            <!-- Sub-cuadros por Dependencia -->
+                            <div class="d-flex flex-wrap" style="gap: 8px;">
+                                @foreach (var dep in lug.Dependencias)
+                                {
+                                    <div class="bg-light border rounded p-2 flex-grow-1 text-center" style="min-width: 100px;">
+                                        <span class="text-muted font-weight-bold d-block" style="font-size: 0.72rem; letter-spacing: 0.5px;">
+                                            <i class="fas fa-sitemap text-info mr-1"></i> @dep.Dependencia
+                                        </span>
+                                        <span class="font-weight-bold text-dark" style="font-size: 1.05rem;">
+                                            @dep.Cantidad <span class="small text-muted font-weight-normal" style="font-size: 0.75rem;">inf.</span>
+                                        </span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     }
-</div>
 
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-
-
-
-    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6 class="modal-title text-white" id="modalLabel"> INFORME DIARIO ITS</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="card-body border-top p-9">
-
-                        <div class="container">
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LUGAR</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Lugar" readonly="readonly" />
-
-                                </div>
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>DEPENDENCIA</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Dependencia" readonly="readonly" />
-                                </div>
-
-
-                            </div>
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>FECHA ELABORACION</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Fechaelab" readonly="readonly" />
-                                </div>
-                                <div class="col-md-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>TURNO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Turno" readonly="readonly" />
-                                </div>
-                            </div>
-
-
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LICENCIA RESPONSABLE TURNO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Licresponsable" readonly="readonly" />
-                                </div>
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ATCO RESPONSABLE TURNO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsable" readonly="readonly" />
-                                </div>
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>LICENCIA RESPOSABLE TURNO SALIENTE</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Licturnosaliente" readonly="readonly" />
-                                </div>
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ATCO RESPONSABLE TURNO SALIENTE</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Nombreresponsablesal" readonly="readonly" />
-                                </div>
-
-
-                            </div>
-
-                            <p class="bg-success " align='center' style="font-size:14px">DETALLE CONTROLADORES</p>
-
-
-
-                            <table id="tbDetalleControladores" class="table table-bordered table-hover table-sm" style="width:100% ; font-size:11px">
-                                <thead>
-                                    <tr>
-                                        <th>LICENCIA </th>
-                                        <th>NOMBRE</th>
-                                        <th>VIGENCIA CEMAC</th>
-                                        <th>LESTADO</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:12px"></tbody>
-
-
-                            </table>
-
-                            <p class="bg-success " align='center' style="font-size:14px">DETALLE NOTAMS</p>
-
-                            <table id="tbDetalleNotams" class="table table-striped" style="width:100% ; font-size:10px">
-
-                                <thead>
-                                    <tr class="table-secondary">
-
-                                        <th class="bg-info">CODIGO </th>
-                                        <th class="bg-info">DESCRIPCION</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:10px"></tbody>
-
-
-                            </table>
-
-
-
-                            <p class="bg-success " align='center' style="font-size:14px">DETALLE EVENTOS Y NOVEDADES</p>
-
-
-
-
-                            <table id="tbDetalleEventos" class="table table-striped" style="width:100%; font-size:10px ">
-                                <thead>
-                                    <tr class="table-secondary">
-                                        <th class="bg-info">HORA UTC </th>
-                                        <th class="bg-info">EVENTOS</th>
-                                        <th class="bg-info">DESCRIPCION DE LA NOVEDAD</th>
-                                        <th class="bg-info">RESPONSABLE</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size:10px"></tbody>
-
-
-                            </table>
-
-                            <p class="bg-success " align='center' style="font-size:14px">NUMERO DE OPERACIONES</p>
-
-
-
-                            <div class="row justify-content-start " id="costadisplay" style="display: none;">
-                                <div class="col-5">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>SOBREVUELOS </label></div>
-                                    <input style="font-size:12px;color:brown;background-color:#c1cedb" class="form-control form-control-sm" id="SOBREVUELOS" readonly="readonly" />
-                                </div>
-                                <div class="col-5">
-                                    <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL </label></div>
-                                    <input style="font-size:12px;color:#aa87de;background-color:#c1cedb" class="form-control form-control-sm" fw id="TOTAL" readonly="readonly" />
-                                </div>
-
-                            </div>
-
-
-                            <div class="row justify-content-start " id="sierradisplay" style="display: none">
-
-
-                                <div class="row justify-content-start ">
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>IFR DEP</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="IFRDEP" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>IFR ARR</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="IFRARR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>VFR DEP</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="VFRDEP" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>VFR ARR</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="VFRARR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>OVR</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="OVR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TGL</label></div>
-                                        <input style="font-size:12px;background-color:#ccccba" class="form-control form-control-sm" id="TGL" readonly="readonly" />
-                                    </div>
-
-
-                                </div>
-                                <div class="row justify-content-start ">
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL IFR </label></div>
-                                        <input style="font-size:12px;color:brown;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALIFR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL VFR</label></div>
-                                        <input style="font-size:12px;color:#aa87de;background-color:#c1cedb" class="form-control form-control-sm" fw id="TOTALVFR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL DEP</label></div>
-                                        <input style="font-size:12px;color:chocolate;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALDEP" readonly="readonly" />
-                                    </div>
-                                    <div class="col-2">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL ARR</label></div>
-                                        <input style="font-size:12px;color:#07390f;background-color:#c1cedb" class="form-control form-control-sm" id="TOTALARR" readonly="readonly" />
-                                    </div>
-                                    <div class="col-6">
-                                        <div style="font-size:10px" class="fs-6 fw-bold mt-2 mb-3"><label>TOTAL GENERAL</label></div>
-                                        <input style="font-size:16px;color:#f3fb13;background-color:#32587d" class="form-control form-control-sm" id="TOTALGENERAL" readonly="readonly" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+    <!-- Card Filtro de Búsqueda -->
+    <div class="card border-0 shadow-sm rounded-lg mb-4">
+        <div class="card-body p-3">
+            @using (Html.BeginForm("ListadoAtcDiario", "ControlAtcDiario", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
+            {
+                <div class="row align-items-center">
+                    <div class="col-md-3 mb-2 mb-md-0">
+                        <label class="font-weight-bold text-muted mb-0 small text-uppercase" style="letter-spacing: 0.5px;">
+                            <i class="fas fa-calendar-alt mr-1 text-primary"></i> Fecha Elaboración
+                        </label>
                     </div>
-
+                    <div class="col-md-3 mb-2 mb-md-0">
+                        <input type="date" name="FechaElab" id="FechaElab" class="form-control" required />
+                    </div>
+                    <div class="col-md-3 mb-2 mb-md-0">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light border-right-0"><i class="fas fa-plane-departure text-muted"></i></span>
+                            </div>
+                            <input type="text" name="Aeropuerto" id="Aeropuerto" class="form-control border-left-0 text-uppercase" placeholder="Aeropuerto (Ej: SEGU)" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-md-right">
+                        <button type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">
+                            <i class="fas fa-search mr-1"></i> Buscar Informes
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            }
+        </div>
+    </div>
+
+    <!-- Main Table Executive Card -->
+    <div class="card border-0 shadow-sm rounded-lg mb-4">
+        <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0 font-weight-bold text-dark" style="font-size: 1.05rem;">
+                <i class="fas fa-list-ul text-primary mr-2"></i> Listado Registrado de Informes ITS
+            </h5>
+            <span class="badge badge-light border px-3 py-2 font-weight-normal" style="border-radius: 20px;">
+                <i class="fas fa-layer-group text-primary mr-1"></i> @totalIts Registros
+            </span>
+        </div>
+        <div class="card-body p-3">
+            <div class="table-responsive">
+                <table id="tbDetalle" class="table table-hover table-striped table-executive w-100">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-map-marker-alt mr-1"></i> Lugar</th>
+                            <th><i class="fas fa-sitemap mr-1"></i> Dependencia</th>
+                            <th><i class="fas fa-calendar-alt mr-1"></i> Fecha Elaboración</th>
+                            <th><i class="fas fa-clock mr-1"></i> Turno</th>
+                            <th><i class="fas fa-user-shield mr-1"></i> Responsable Turno</th>
+                            <th class="text-center"><i class="fas fa-info-circle mr-1"></i> Estado</th>
+                            <th class="text-center"><i class="fas fa-cogs mr-1"></i> Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="font-weight-bold text-dark">
+                                        <span class="badge badge-light border text-primary font-weight-bold px-2 py-1">
+                                            <i class="fas fa-plane-arrival text-muted mr-1"></i> @Html.DisplayFor(modelItem => item.LUGAR)
+                                        </span>
+                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.DEPENDENCIA)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FECHAELABORACION)</td>
+                                    <td>
+                                        <span class="badge badge-light border text-dark font-weight-bold">
+                                            @Html.DisplayFor(modelItem => item.TURNO)
+                                        </span>
+                                    </td>
+                                    <td class="font-weight-bold text-dark">
+                                        <i class="fas fa-user text-muted mr-1" style="font-size:0.8rem"></i> @Html.DisplayFor(modelItem => item.NOMBRERESPONSABLE)
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.ESTADOD == "IMPRESO")
+                                        {
+                                            <span class="badge bg-success text-white badge-pill-custom shadow-sm">
+                                                <i class="fas fa-check-circle mr-1"></i> Impreso
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary text-white badge-pill-custom shadow-sm">
+                                                <i class="fas fa-clock mr-1"></i> Pendiente
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill shadow-sm font-weight-bold mr-1" onclick="Consultar('@item.LUGAR', '@item.DEPENDENCIA', '@item.FECHAELABORACION', '@item.TURNO')">
+                                                <i class="fas fa-search mr-1"></i> Consulta
+                                            </button>
+                                            <a class="btn btn-sm btn-outline-secondary rounded-pill shadow-sm font-weight-bold" href="@Url.Action("DescargaIts", "ControlAtcDiario", new { Lugar = item.LUGAR, Dependencia = item.DEPENDENCIA, Fechaelab = item.FECHAELABORACION, Turno = item.TURNO })">
+                                                <i class="fas fa-download mr-1"></i> Descarga
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
+    <!-- Modal Detalle Ejecutivo -->
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; overflow: hidden;">
+                <div class="modal-header bg-dark text-white py-3">
+                    <h5 class="modal-title font-weight-bold text-white m-0" id="modalLabel">
+                        <i class="fas fa-file-invoice text-primary mr-2"></i> Detalle de Informe Diario ITS
+                    </h5>
+                    <button type="button" class="close text-white opacity-100" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    
+                    <!-- Bloque 1: Datos Generales del Informe -->
+                    <div class="card border-0 shadow-sm bg-white mb-3" style="border-radius: 8px;">
+                        <div class="card-header bg-white border-bottom py-2">
+                            <h6 class="font-weight-bold text-primary m-0"><i class="fas fa-info-circle mr-2"></i>Datos Generales del Informe</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-md-3 form-group mb-2">
+                                    <label class="detail-label">Lugar / ATO</label>
+                                    <input class="form-control detail-value detail-value-highlight" id="Lugar" readonly />
+                                </div>
+                                <div class="col-md-3 form-group mb-2">
+                                    <label class="detail-label">Dependencia</label>
+                                    <input class="form-control detail-value" id="Dependencia" readonly />
+                                </div>
+                                <div class="col-md-3 form-group mb-2">
+                                    <label class="detail-label">F. Elaboración</label>
+                                    <input class="form-control detail-value" id="Fechaelab" readonly />
+                                </div>
+                                <div class="col-md-3 form-group mb-2">
+                                    <label class="detail-label">Turno</label>
+                                    <input class="form-control detail-value font-weight-bold text-primary" id="Turno" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 2: Responsables de Turno -->
+                    <div class="card border-0 shadow-sm bg-white mb-3" style="border-radius: 8px;">
+                        <div class="card-header bg-white border-bottom py-2">
+                            <h6 class="font-weight-bold text-primary m-0"><i class="fas fa-user-shield mr-2"></i>Responsables de Turno</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">Lic. Resp. Turno Entrante</label>
+                                    <input class="form-control detail-value" id="Licresponsable" readonly />
+                                </div>
+                                <div class="col-md-8 form-group mb-2">
+                                    <label class="detail-label">Nombre Responsable Entrante</label>
+                                    <input class="form-control detail-value font-weight-bold" id="Nombreresponsable" readonly />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">Lic. Resp. Turno Saliente</label>
+                                    <input class="form-control detail-value" id="Licturnosaliente" readonly />
+                                </div>
+                                <div class="col-md-8 form-group mb-2">
+                                    <label class="detail-label">Nombre Responsable Saliente</label>
+                                    <input class="form-control detail-value" id="Nombreresponsablesal" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 3: Controladores de Turno -->
+                    <div class="card border-0 shadow-sm bg-white mb-3" style="border-radius: 8px;">
+                        <div class="card-header bg-white border-bottom py-2">
+                            <h6 class="font-weight-bold text-primary m-0"><i class="fas fa-users mr-2"></i>Detalle de Controladores de Turno</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="table-responsive">
+                                <table id="tbDetalleControladores" class="table table-sm table-striped table-hover table-executive mb-0 w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>Licencia</th>
+                                            <th>Nombre del Controlador</th>
+                                            <th>Vigencia CEMAC</th>
+                                            <th class="text-center">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 4: NOTAMs -->
+                    <div class="card border-0 shadow-sm bg-white mb-3" style="border-radius: 8px;">
+                        <div class="card-header bg-white border-bottom py-2">
+                            <h6 class="font-weight-bold text-primary m-0"><i class="fas fa-broadcast-tower mr-2"></i>Detalle de NOTAMs</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="table-responsive">
+                                <table id="tbDetalleNotams" class="table table-sm table-striped table-hover table-executive mb-0 w-100">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 150px;">Código NOTAM</th>
+                                            <th>Descripción / Detalle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 5: Eventos y Novedades -->
+                    <div class="card border-0 shadow-sm bg-white mb-3" style="border-radius: 8px;">
+                        <div class="card-header bg-white border-bottom py-2">
+                            <h6 class="font-weight-bold text-primary m-0"><i class="fas fa-exclamation-triangle mr-2"></i>Detalle de Eventos y Novedades de Bitácora</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="table-responsive">
+                                <table id="tbDetalleEventos" class="table table-sm table-striped table-hover table-executive mb-0 w-100">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 100px;">Hora UTC</th>
+                                            <th style="width: 140px;">Evento</th>
+                                            <th>Descripción de la Novedad</th>
+                                            <th style="width: 180px;">Usuario</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 6: Operaciones -->
+                    <div class="card border-0 shadow-sm bg-white mb-0" style="border-radius: 8px;">
+                        <div class="card-header bg-white border-bottom py-2">
+                            <h6 class="font-weight-bold text-primary m-0"><i class="fas fa-calculator mr-2"></i>Resumen Consolidado de Operaciones</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            
+                            <!-- Panel Costa / Sobrevuelos -->
+                            <div class="row" id="costadisplay" style="display: none;">
+                                <div class="col-md-6 form-group mb-2">
+                                    <label class="detail-label">Sobrevuelos</label>
+                                    <input class="form-control detail-value font-weight-bold text-primary" id="SOBREVUELOS" readonly />
+                                </div>
+                                <div class="col-md-6 form-group mb-2">
+                                    <label class="detail-label">Total Operaciones</label>
+                                    <input class="form-control detail-value font-weight-bold text-success" id="TOTAL" readonly />
+                                </div>
+                            </div>
+
+                            <!-- Panel Sierra / Detallado -->
+                            <div id="sierradisplay" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-2 form-group mb-2">
+                                        <label class="detail-label">IFR DEP</label>
+                                        <input class="form-control detail-value text-center" id="IFRDEP" readonly />
+                                    </div>
+                                    <div class="col-md-2 form-group mb-2">
+                                        <label class="detail-label">IFR ARR</label>
+                                        <input class="form-control detail-value text-center" id="IFRARR" readonly />
+                                    </div>
+                                    <div class="col-md-2 form-group mb-2">
+                                        <label class="detail-label">VFR DEP</label>
+                                        <input class="form-control detail-value text-center" id="VFRDEP" readonly />
+                                    </div>
+                                    <div class="col-md-2 form-group mb-2">
+                                        <label class="detail-label">VFR ARR</label>
+                                        <input class="form-control detail-value text-center" id="VFRARR" readonly />
+                                    </div>
+                                    <div class="col-md-2 form-group mb-2">
+                                        <label class="detail-label">OVR</label>
+                                        <input class="form-control detail-value text-center" id="OVR" readonly />
+                                    </div>
+                                    <div class="col-md-2 form-group mb-2">
+                                        <label class="detail-label">TGL</label>
+                                        <input class="form-control detail-value text-center" id="TGL" readonly />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-3 form-group mb-2">
+                                        <label class="detail-label">Total IFR</label>
+                                        <input class="form-control detail-value font-weight-bold" id="TOTALIFR" readonly />
+                                    </div>
+                                    <div class="col-md-3 form-group mb-2">
+                                        <label class="detail-label">Total VFR</label>
+                                        <input class="form-control detail-value font-weight-bold" id="TOTALVFR" readonly />
+                                    </div>
+                                    <div class="col-md-3 form-group mb-2">
+                                        <label class="detail-label">Total DEP</label>
+                                        <input class="form-control detail-value font-weight-bold" id="TOTALDEP" readonly />
+                                    </div>
+                                    <div class="col-md-3 form-group mb-2">
+                                        <label class="detail-label">Total ARR</label>
+                                        <input class="form-control detail-value font-weight-bold" id="TOTALARR" readonly />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12 form-group mb-0">
+                                        <label class="detail-label">Total General de Operaciones</label>
+                                        <input class="form-control detail-value detail-value-highlight text-center font-weight-bold" id="TOTALGENERAL" style="font-size: 1.25rem;" readonly />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer bg-white border-top py-2">
+                    <button type="button" class="btn btn-secondary px-4 rounded-pill font-weight-bold" data-dismiss="modal">
+                        <i class="fas fa-times mr-1"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
 @section scripts{
     <script>
         $(document).ready(function () {
+            if ($.fn.dataTable.isDataTable('#tbDetalle')) {
+                $('#tbDetalle').DataTable().destroy();
+            }
 
+            $('#tbDetalle').DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "language": {
+                    "sProcessing":     "Procesando...",
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                    "sZeroRecords":    "No se encontraron resultados",
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sSearch":         "Buscar:",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":     "Último",
+                        "sNext":     "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
         });
 
-        function modalAdjunto() {
-            $('#FormModal').modal('show');
-        }
-
-
-
         function Consultar(Lugar, Dependencia, Fechaelab, Turno) {
-
-
-            //$("#Lic").val("");
             $("#Lugar").val("");
             $("#Dependencia").val("");
             $("#Fechaelab").val("");
@@ -390,16 +604,13 @@
             $("#VFRARR").val("");
             $("#OVR").val("");
             $("#TGL").val("");
-            $("#SOBREVUELO").val("");
+            $("#SOBREVUELOS").val("");
             $("#TOTAL").val("");
-
-
             $("#TOTALIFR").val("");
             $("#TOTALVFR").val("");
             $("#TOTALDEP").val("");
             $("#TOTALARR").val("");
             $("#TOTALGENERAL").val("");
-
 
             $.ajax({
                 url: $.MisUrls.url._DetalleControladorAtcDiario,
@@ -408,7 +619,6 @@
                 dataType: "json",
                 data: { Lugar: Lugar, Dependencia: Dependencia, Fechaelab: Fechaelab, Turno: Turno },
                 success: function (e) {
-
                     $("#Lugar").val(e.LUGAR);
                     $("#Dependencia").val(e.DEPENDENCIA);
                     $("#Fechaelab").val(e.FECHAELABORACION);
@@ -433,113 +643,59 @@
 
                     $("#tbDetalleControladores tbody").html("");
                     $.each(e.oDetalleControladorAtc, function (i, row) {
-
                         $("<tr>").append(
-                            $("<td>").text(row["LICENCIACONTROLADOR"]),
+                            $("<td>").html('<span class="font-weight-bold text-primary">' + row["LICENCIACONTROLADOR"] + '</span>'),
                             $("<td>").text(row["NOMBRECONTROLADOR"]),
                             $("<td>").text(row["VIGENCIACEMAC"]),
-                            $("<td>").text(row["ESTADO"]))
-
-                            .appendTo("#tbDetalleControladores tbody");
-                    })
+                            $("<td class='text-center'>").html(row["ESTADO"] === 'ACTIVO' ? '<span class="badge bg-success text-white px-2 py-1">ACTIVO</span>' : '<span class="badge bg-secondary text-white px-2 py-1">' + row["ESTADO"] + '</span>')
+                        ).appendTo("#tbDetalleControladores tbody");
+                    });
 
                     $("#tbDetalleNotams tbody").html("");
                     $.each(e.oDetalleNotamsAtc, function (i, row) {
+                        var detalleText = [
+                            row["DESCRIPCION"], row["DESCRIPCION1"], row["DESCRIPCION2"],
+                            row["DESCRIPCION3"], row["DESCRIPCION4"], row["DESCRIPCION5"],
+                            row["DESCRIPCION6"], row["DESCRIPCION7"], row["DESCRIPCION8"],
+                            row["DESCRIPCION9"], row["DESCRIPCION10"], row["DESCRIPCION11"], row["DESCRIPCION12"]
+                        ].filter(Boolean).join(" ");
 
                         $("<tr>").append(
-                            $("<td >").text(row["CODIGONOTAMS"]),
-                            $("<p> ").text(row["DESCRIPCION"]),
-                            $("<p> ").text(row["DESCRIPCION1"]),
-                            $("<p> ").text(row["DESCRIPCION2"]),
-                            $("<p> ").text(row["DESCRIPCION3"]),
-                            $("<p> ").text(row["DESCRIPCION4"]),
-                            $("<p> ").text(row["DESCRIPCION5"]),
-                            $("<p> ").text(row["DESCRIPCION6"]),
-                            $("<p> ").text(row["DESCRIPCION7"]),
-                            $("<p> ").text(row["DESCRIPCION8"]),
-                            $("<p> ").text(row["DESCRIPCION9"]),
-                            $("<p> ").text(row["DESCRIPCION10"]),
-                            $("<p> ").text(row["DESCRIPCION11"]),
-                            $("<p> ").text(row["DESCRIPCION12"]))
-
-                            .appendTo("#tbDetalleNotams tbody");
-                    })
-
-                    $("#tbDetalleEventos tbody").html("");
-
-
-                    $.each(e.oDetalleEventosAtc, function (i, row) {
-                        // Crear la fila
-                        const $row = $("<tr>");
-
-                        // Crear celdas
-
-                        const $tdHoraUtc = $("<td>").text(row["HORAUTC"]);
-                        const $tdCodigoEvento = $("<td>").text(row["CODIGOEVENTO"]);
-                        const $tdDescripcion = $("<td>").text(row["DESCRIPCION"]);
-                        const $tdUsuario = $("<td>").text(row["USUARIO"]);
-                        //const $tdImpreso = $("<td>").text(row["IMPRESOALERTA"]);
-
-                        // Cambiar color del <td> según una condición
-                        if (row["IMPRESOALERTA"] === "I") { // Cambia la condición según tu necesidad
-
-                            $tdHoraUtc.css({
-                                "color": "#c0392b",
-                                "font-weight": "bold"
-                            });
-                            $tdCodigoEvento.css({
-                                "color": "#c0392b",
-                                "font-weight": "bold"
-                            });
-                            $tdDescripcion.css({
-                                "color": "#c0392b",
-                                "font-weight": "bold"
-                            });
-                            $tdUsuario.css({
-                                "color": "#c0392b",
-                                "font-weight": "bold"
-                            });
-                            //$tdCodigoEvento.css("font-color", "#f4d03f");
-                            //$tdDescripcion.css("font-color", "#f4d03f");
-                            //$tdUsuario.css("font-color", "#f4d03f");
-                        }
-
-                        // Agregar celdas a la fila
-                        $row.append($tdHoraUtc, $tdCodigoEvento, $tdDescripcion, $tdUsuario);
-
-                        // Agregar la fila al tbody
-                        $row.appendTo("#tbDetalleEventos tbody");
+                            $("<td>").html('<span class="badge badge-light border text-primary font-weight-bold">' + row["CODIGONOTAMS"] + '</span>'),
+                            $("<td>").text(detalleText)
+                        ).appendTo("#tbDetalleNotams tbody");
                     });
 
+                    $("#tbDetalleEventos tbody").html("");
+                    $.each(e.oDetalleEventosAtc, function (i, row) {
+                        const $row = $("<tr>");
+                        const $tdHoraUtc = $("<td>").text(row["HORAUTC"]);
+                        const $tdCodigoEvento = $("<td>").html('<span class="font-weight-bold">' + row["CODIGOEVENTO"] + '</span>');
+                        const $tdDescripcion = $("<td>").text(row["DESCRIPCION"]);
+                        const $tdUsuario = $("<td>").text(row["USUARIO"]);
 
+                        if (row["IMPRESOALERTA"] === "I") {
+                            $tdHoraUtc.addClass("text-danger font-weight-bold");
+                            $tdCodigoEvento.addClass("text-danger font-weight-bold");
+                            $tdDescripcion.addClass("text-danger font-weight-bold");
+                            $tdUsuario.addClass("text-danger font-weight-bold");
+                        }
 
-                    //$.each(e.oDetalleEventosAtc, function (i, row) {
-
-                    //    $("<tr>").append(
-                    //        $("<td >").text(row["HORAUTC"]),
-                    //        $("<td >").text(row["CODIGOEVENTO"]),
-                    //        $("<td >").text(row["DESCRIPCION"]),
-                    //        $("<td >").text(row["USUARIO"]))
-
-
-                    //        .appendTo("#tbDetalleEventos tbody");
-                    //})
+                        $row.append($tdHoraUtc, $tdCodigoEvento, $tdDescripcion, $tdUsuario);
+                        $row.appendTo("#tbDetalleEventos tbody");
+                    });
 
                     if (e.LUGAR == "SEGU") {
                         if (e.DEPENDENCIA == "TWR") {
                             $("#costadisplay").hide();
                             $("#sierradisplay").show();
-
                         }
                         else {
-
-
                             $("#costadisplay").show();
                             $("#sierradisplay").hide();
                         }
                     }
                     else {
-
                         $("#costadisplay").hide();
                         $("#sierradisplay").show();
                     }
@@ -549,10 +705,7 @@
                 }
             });
 
-
             $('#largeModal').modal('show');
         }
-
-
     </script>
 }

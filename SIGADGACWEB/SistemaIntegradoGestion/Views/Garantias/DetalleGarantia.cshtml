@@ -1,285 +1,319 @@
-﻿
+
 @model CapaModelo.tbGarantias
 @{
-    ViewBag.Title = "DetalleGarantia";
+    ViewBag.Title = "Detalle de Garantía";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int dias = 0;
+    bool isParsed = int.TryParse(Model.Dias_a_Caducar, out dias);
+    if (!isParsed) { dias = 999; }
 }
+
 <style>
-    /*Here We will add some css for style our treeview*/
-    .collapse {
-        width: 15px;
-        background-image: url('../Images/ui-icons_454545_256x240.png');
-        background-repeat: no-repeat;
-        background-position: -36px -17px;
-        display: inline-block;
-        cursor: pointer;
+    .executive-card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        background-color: #ffffff;
+        margin-bottom: 1.5rem;
     }
-
-    .expand {
-        width: 15px;
-        background-image: url('../Images/ui-icons_454545_256x240.png');
-        background-repeat: no-repeat;
-        background-position: -50px -17px;
-        display: inline-block;
-        cursor: pointer;
+    .executive-card .card-header {
+        background-color: #ffffff;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 1rem 1.25rem;
     }
-
-    .treeview ul {
-        font: 14px Arial, Sans-Serif;
-        margin: 0px;
-        padding-left: 20px;
-        list-style: none;
+    .executive-card .card-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #1a2226;
+        margin: 0;
     }
-
-    .treeview > li > a {
-        font-weight: bold;
+    .detail-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #6c757d;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.35rem;
     }
-
-    .treeview li {
+    .detail-value {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #212529;
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        padding: 8px 12px;
+        min-height: 38px;
+        display: flex;
+        align-items: center;
     }
-
-        .treeview li a {
-            padding: 4px;
-            font-size: 12px;
-            display: inline-block;
-            text-decoration: none;
-            width: auto;
-        }
+    .detail-value-highlight {
+        background-color: #eaf2fd;
+        border-color: #b6d4fe;
+        color: #004085;
+        font-weight: 700;
+    }
+    .badge-pill-custom {
+        padding: 0.5em 0.85em;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border-radius: 50rem;
+    }
 </style>
 
-<div class="container-fluid">
+<div class="container-fluid pt-3">
 
-    <div class="card-header card-header-stretch">
-        <div class="card-title d-flex align-items-center">
-            <div class="row">
-                <div class="col-md-9">
-                    <h3 class="fw-bolder m-0 text-gray-800">
-                       Detalle Garantías
+    <!-- Hero Header Banner -->
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 pb-2 border-bottom">
+        <div class="mb-2 mb-md-0">
+            <div class="d-flex align-items-center mb-1">
+                <a class="btn btn-sm btn-outline-secondary rounded-circle mr-2 d-flex align-items-center justify-content-center" href="@Url.Action("ListadoGarantias", "Garantias")" style="width: 34px; height: 34px;" title="Volver al Listado">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h2 class="font-weight-bold text-dark mb-0" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+                    Garantía N° <span class="text-primary">@Model.NumeroGarantia</span>
+                </h2>
+            </div>
+            <p class="text-muted mb-0 small pl-md-5">
+                Expedida a favor de <strong class="text-dark">@Model.Compania_Contratista</strong> (RUC: @Model.Ruc)
+            </p>
+        </div>
+        <div>
+            <a class="btn btn-outline-primary px-4 rounded-pill shadow-sm font-weight-bold" href="@Url.Action("ListadoGarantias", "Garantias")">
+                <i class="fas fa-list mr-2"></i> Volver al Listado
+            </a>
+        </div>
+    </div>
+
+    <!-- Summary KPI Highlight Banner -->
+    <div class="row mb-4">
+        <!-- Valor Garantía -->
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card executive-card border-0 shadow-sm h-100" style="border-left: 4px solid #0056b3 !important;">
+                <div class="card-body py-3">
+                    <span class="detail-label">Valor Garantía</span>
+                    <h3 class="font-weight-bold text-primary mb-0 mt-1">
+                        $ @Model.Valor_Garantia.ToString("N2")
                     </h3>
                 </div>
-                <div class="col-md-12">
-                    <a class="btn btn-success" href="ListadoGarantias">Listado Garantias</a>
+            </div>
+        </div>
+
+        <!-- Estado Caducidad -->
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card executive-card border-0 shadow-sm h-100" style="border-left: 4px solid @(dias <= 20 ? "#dc3545" : (dias <= 30 ? "#ffc107" : "#28a745")) !important;">
+                <div class="card-body py-3">
+                    <span class="detail-label">Días a Caducar / Estado</span>
+                    <div class="mt-1">
+                        @if (dias <= 0)
+                        {
+                            <span class="badge bg-danger text-white badge-pill-custom shadow-sm">
+                                <i class="fas fa-times-circle mr-1"></i> Vencida (@dias días)
+                            </span>
+                        }
+                        else if (dias <= 20)
+                        {
+                            <span class="badge bg-danger text-white badge-pill-custom shadow-sm">
+                                <i class="fas fa-exclamation-triangle mr-1"></i> Crítico: @dias días restantes
+                            </span>
+                        }
+                        else if (dias <= 30)
+                        {
+                            <span class="badge bg-warning text-dark badge-pill-custom shadow-sm">
+                                <i class="fas fa-clock mr-1"></i> Advertencia: @dias días restantes
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success text-white badge-pill-custom shadow-sm">
+                                <i class="fas fa-check-circle mr-1"></i> Vigente (@dias días restantes)
+                            </span>
+                        }
+                        <span class="badge badge-light border ml-2 px-2 py-1 font-weight-bold">
+                            Estado: @(string.IsNullOrEmpty(Model.Estado) ? "ACTIVO" : Model.Estado)
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vigencia -->
+        <div class="col-lg-4 col-md-12 mb-3">
+            <div class="card executive-card border-0 shadow-sm h-100" style="border-left: 4px solid #17a2b8 !important;">
+                <div class="card-body py-3">
+                    <span class="detail-label">Periodo de Cobertura</span>
+                    <div class="d-flex align-items-center mt-1">
+                        <i class="fas fa-calendar-alt text-info mr-2 fa-lg"></i>
+                        <div>
+                            <span class="font-weight-bold text-dark">@Model.Vigencia_Desde</span>
+                            <span class="text-muted mx-1">hasta</span>
+                            <span class="font-weight-bold text-dark">@Model.Vigencia_Hasta</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Layout Grid -->
     <div class="row">
-        <div class="card-body border-top p-9">
+        <!-- Columna Izquierda: Información del Contrato -->
+        <div class="col-lg-6 mb-4">
+            <div class="card executive-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-file-contract text-primary mr-2"></i> Información del Contrato y Garantía
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="form-group mb-3">
+                        <label class="detail-label"><i class="fas fa-id-card mr-1 text-muted"></i> RUC Contratista</label>
+                        <div class="detail-value detail-value-highlight">@Model.Ruc</div>
+                    </div>
 
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Ruc</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Ruc" readonly="readonly" />
-                </div>
-            </div>
+                    <div class="form-group mb-3">
+                        <label class="detail-label"><i class="fas fa-building mr-1 text-muted"></i> Compañía Contratista</label>
+                        <div class="detail-value">@Model.Compania_Contratista</div>
+                    </div>
 
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Compañia Contratista</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Compania_Contratista" readonly="readonly" />
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Numero Garantia</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.NumeroGarantia" readonly="readonly" />
-                </div>
-            </div>
+                    <div class="form-group mb-3">
+                        <label class="detail-label"><i class="fas fa-hashtag mr-1 text-muted"></i> Número de Garantía</label>
+                        <div class="detail-value">@Model.NumeroGarantia</div>
+                    </div>
 
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Fecha Expedición</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Fecha_Expedicion" readonly="readonly" />
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Administrador Contrato</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Administrador_Contrato" readonly="readonly" />
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Tipo Garantía</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Tipo_Garantia" readonly="readonly" />
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Concepto Garantia</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    @Html.TextAreaFor(m => m.Concepto_Garantia, new { @class="form-control form-control-solid",@readonly= "readonly" , @rows = "3" })
-                    @*<textarea class="form-control form-control-solid" value="@Model.Concepto_Garantia" rows="3" readonly="readonly"> </textarea>*@
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Ruc Cia. Seguros</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Ruc_Cia_Seguros" readonly="readonly" />
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Razon Social Cia. Seguros</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Razon_Social_Aseguradora" readonly="readonly" />
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Vigencia Desde</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Vigencia_Desde" readonly="readonly" />
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Vigencia Hasta</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Vigencia_Hasta" readonly="readonly" />
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label> Dias a Caducar</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    @if (int.Parse(@Model.Dias_a_Caducar) <= 20)
-                    {
-                        <input style="font-size:23px; background-color: #bbb8a6"  class="form-control form-control-sm, text-danger"  value="@Model.Dias_a_Caducar" readonly="readonly" />
-                        
-                    }
-                    else
-                    {
+                    <div class="form-group mb-3">
+                        <label class="detail-label"><i class="fas fa-user-shield mr-1 text-muted"></i> Administrador del Contrato</label>
+                        <div class="detail-value">@Model.Administrador_Contrato</div>
+                    </div>
 
-                        <input class="form-control form-control-sm" value="@Model.Dias_a_Caducar" readonly="readonly" />
-                    }
-                    
-                </div>
-
-               
-
-
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Seguro de</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Seguro_de" readonly="readonly" />
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Estado</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Estado" readonly="readonly" />
-                </div>
-            </div>
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Valor Garantía</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    <input class="form-control form-control-sm" value="@Model.Valor_Garantia" readonly="readonly" />
-                </div>
-            </div>
-
-            <div class="row mb-8">
-                <div class="col-sm-3">
-                    <div class="fs-6 fw-bold mt-2 mb-3"><label>Observaciones</label></div>
-                </div>
-                <div class="col-sm-8 fv-row">
-                    @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control form-control-sm", @readonly = "readonly", @rows = "4" })
-                    @*<input class="form-control form-control-solid" value="@Model.Observaciones" readonly="readonly" />*@
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <hr />
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <div class="fs-6 fw-bold mt-2 mb-3">
-                    <label>Usuario Creación </label>
-                    <input class="form-control" value="@Model.Usuario_Creacion" readonly="readonly" />
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="detail-label"><i class="fas fa-bookmark mr-1 text-muted"></i> Tipo de Garantía</label>
+                            <div class="detail-value">@Model.Tipo_Garantia</div>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="detail-label"><i class="fas fa-shield-alt mr-1 text-muted"></i> Seguro De</label>
+                            <div class="detail-value">@Model.Seguro_de</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <div class="fs-6 fw-bold mt-2 mb-3">
-                    <label>Fecha Creación </label>
-                    <input class="form-control" value="@Model.Fecha_Creacion" readonly="readonly" />
+
+        <!-- Columna Derecha: Aseguradora y Vigencia -->
+        <div class="col-lg-6 mb-4">
+            <div class="card executive-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-university text-primary mr-2"></i> Compañía Aseguradora / Afianzadora
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="form-group mb-3">
+                        <label class="detail-label"><i class="fas fa-id-card mr-1 text-muted"></i> RUC Aseguradora</label>
+                        <div class="detail-value">@Model.Ruc_Cia_Seguros</div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="detail-label"><i class="fas fa-building mr-1 text-muted"></i> Razón Social Aseguradora</label>
+                        <div class="detail-value">@Model.Razon_Social_Aseguradora</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="detail-label"><i class="fas fa-calendar-check mr-1 text-muted"></i> Fecha Expedición</label>
+                            <div class="detail-value">@Model.Fecha_Expedicion</div>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="detail-label"><i class="fas fa-flag mr-1 text-muted"></i> Estado de la Garantía</label>
+                            <div class="detail-value font-weight-bold text-success">@Model.Estado</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="detail-label"><i class="fas fa-calendar-plus mr-1 text-muted"></i> Vigencia Desde</label>
+                            <div class="detail-value">@Model.Vigencia_Desde</div>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="detail-label"><i class="fas fa-calendar-minus mr-1 text-muted"></i> Vigencia Hasta</label>
+                            <div class="detail-value">@Model.Vigencia_Hasta</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <div class="fs-6 fw-bold mt-2 mb-3">
-                    <label>Hora Creación </label>
-                    <input class="form-control" value="@Model.Hora_Creacion" readonly="readonly" />
+
+        <!-- Fila Completa: Concepto y Observaciones -->
+        <div class="col-12 mb-4">
+            <div class="card executive-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-align-left text-primary mr-2"></i> Concepto y Observaciones
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="detail-label"><i class="fas fa-comment-alt mr-1 text-muted"></i> Concepto de la Garantía</label>
+                            <div class="p-3 bg-light rounded border text-dark" style="min-height: 100px; white-space: pre-wrap; font-size: 0.92rem;">@Model.Concepto_Garantia</div>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="detail-label"><i class="fas fa-sticky-note mr-1 text-muted"></i> Observaciones Adicionales</label>
+                            <div class="p-3 bg-light rounded border text-dark" style="min-height: 100px; white-space: pre-wrap; font-size: 0.92rem;">@Model.Observaciones</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <div class="fs-6 fw-bold mt-2 mb-3">
-                    <label>Usuario Modificación </label>
-                    <input class="form-control" value="@Model.Usuario_Modificacion" readonly="readonly" />
+
+        <!-- Fila Completa: Auditoría y Trazabilidad -->
+        <div class="col-12 mb-4">
+            <div class="card executive-card">
+                <div class="card-header bg-light">
+                    <h5 class="card-title text-muted" style="font-size: 0.95rem;">
+                        <i class="fas fa-history mr-2"></i> Trazabilidad y Datos de Auditoría
+                    </h5>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <div class="fs-6 fw-bold mt-2 mb-3">
-                    <label>Fecha Modificación </label>
-                    <input class="form-control" value="@Model.Fecha_Modificacion" readonly="readonly" />
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <div class="fs-6 fw-bold mt-2 mb-3">
-                    <label>Hora Modificación </label>
-                    <input class="form-control" value="@Model.Hora_Modificacion" readonly="readonly" />
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-4 form-group mb-3">
+                            <label class="detail-label">Usuario Creación</label>
+                            <div class="detail-value small">@Model.Usuario_Creacion</div>
+                        </div>
+                        <div class="col-md-4 form-group mb-3">
+                            <label class="detail-label">Fecha Creación</label>
+                            <div class="detail-value small">@Model.Fecha_Creacion</div>
+                        </div>
+                        <div class="col-md-4 form-group mb-3">
+                            <label class="detail-label">Hora Creación</label>
+                            <div class="detail-value small">@Model.Hora_Creacion</div>
+                        </div>
+
+                        <div class="col-md-4 form-group mb-3">
+                            <label class="detail-label">Usuario Modificación</label>
+                            <div class="detail-value small">@Model.Usuario_Modificacion</div>
+                        </div>
+                        <div class="col-md-4 form-group mb-3">
+                            <label class="detail-label">Fecha Modificación</label>
+                            <div class="detail-value small">@Model.Fecha_Modificacion</div>
+                        </div>
+                        <div class="col-md-4 form-group mb-3">
+                            <label class="detail-label">Hora Modificación</label>
+                            <div class="detail-value small">@Model.Hora_Modificacion</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <br />
-
 </div>
 
 @section scripts{
     <script>
         $(document).ready(function () {
-
-        })
-
+        });
     </script>
 }
 

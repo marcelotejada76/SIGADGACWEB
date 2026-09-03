@@ -49,7 +49,7 @@ namespace CapaDatos
                     "left join opiar1 as ori on opmori = ori.opiica " +
                     "left join opiar1 as des on opmdes = des.opiica " +
                     "left join aerar101 on opmre2=aerma1 " +
-                    "WHERE opmfec = '" + fechaProceso + "' AND OPMSOB = 'S' ORDER BY OPMCAL ");
+                    "WHERE opmfec = '" + fechaProceso + "' AND OPMSOB = 'S' and OPMORI<>'ZZZZ' AND OPMDES<>'ZZZZ' ORDER BY OPMCAL ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -135,7 +135,7 @@ namespace CapaDatos
                     "left join opiar1 as ori on opmori = ori.opiica " +
                     "left join opiar1 as des on opmdes = des.opiica  " +
                     "left join aerar101 on opmre2 = aerma1 " +
-                    " WHERE opmfec = '" + Fecha + "' AND OPMSOB = 'S' ");
+                    " WHERE opmfec = '" + Fecha + "' AND OPMSOB = 'S'  and OPMORI<>'ZZZZ' AND OPMDES<>'ZZZZ' ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -220,7 +220,7 @@ namespace CapaDatos
                     "left join opiar1 as ori on opmori = ori.opiica " +
                     "left join opiar1 as des on opmdes = des.opiica  " +
                     "left join aerar101 on opmre2 = aerma1 " +
-                    " WHERE opmre2 = '" + Matricula + "' AND OPMSOB = 'S' ");
+                    " WHERE opmre2 = '" + Matricula + "' AND OPMSOB = 'S' and OPMORI<>'ZZZZ' AND OPMDES<>'ZZZZ' ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -307,7 +307,7 @@ namespace CapaDatos
                     "left join opiar1 as ori on opmori = ori.opiica " +
                     "left join opiar1 as des on opmdes = des.opiica  " +
                     "left join aerar101 on opmre2 = aerma1 " +
-                    " WHERE opmre2 = '" + Matricula + "' AND OPMFEC = '" + Fecha + "' AND OPMSOB = 'S' ");
+                    " WHERE opmre2 = '" + Matricula + "' AND OPMFEC = '" + Fecha + "' AND OPMSOB = 'S' and OPMORI<>'ZZZZ' AND OPMDES<>'ZZZZ' ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 iDB2Command cmd;
@@ -400,7 +400,7 @@ namespace CapaDatos
                     "left join opiar1 as ori on opmori = ori.opiica " +
                     "left join opiar1 as des on opmdes = des.opiica  " +
                     "left join aerar101 on opmre2 = aerma1  LEFT JOIN SOLARC ON OPMAUT=SOLAUT " +
-                    " WHERE opmfec = '" + FechaVuelo + "' AND OPMCAL='" + CAllSingn + "' AND OPMRE2='" + Matricula + "'  AND OPMSOB = 'S'  ");
+                    " WHERE opmfec = '" + FechaVuelo + "' AND OPMCAL='" + CAllSingn + "' AND OPMRE2='" + Matricula + "'  AND OPMSOB = 'S' and OPMORI<>'ZZZZ' AND OPMDES<>'ZZZZ'  ");
                 //sbSol.Append("FROM DGACDAT.SOLAR1 WHERE SOLAN1 = '" + canio + "' AND SOLTIP='" + tipoSolicitud + "' AND SOLCO5 = '" + cdireccion + "'");
                 query = sbSol.ToString();
                 iDB2Command cmd;

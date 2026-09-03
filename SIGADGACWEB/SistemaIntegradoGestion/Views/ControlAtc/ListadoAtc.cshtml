@@ -1,441 +1,399 @@
-﻿@model IEnumerable<CapaModelo.tbAtc>
+@model IEnumerable<CapaModelo.tbAtc>
 @{
-    ViewBag.Title = "ListadoControladoresATC";
+    ViewBag.Title = "Listado Controladores ATC";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var totalRegistros = Model != null ? Model.Count() : 0;
 }
-<style>
-    body {
-        transition: background-color 0.3s, color 0.3s;
+
+@functions {
+    public class EstadoVigenciaModel
+    {
+        public string CssClass { get; set; }
+        public string Icon { get; set; }
+        public string Tooltip { get; set; }
     }
 
-    .executive-card {
-        background-color: var(--bg);
-        color: var(--text);
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        border: 1px solid var(--border);
-    }
+    public static EstadoVigenciaModel ObtenerEstadoVigencia(string fechaStr)
+    {
+        if (string.IsNullOrWhiteSpace(fechaStr))
+            return new EstadoVigenciaModel { CssClass = "badge bg-light text-muted border", Icon = "", Tooltip = "Sin fecha" };
 
-        .executive-card input[readonly] {
-            background-color: var(--input-bg);
-            border: 1px solid var(--border);
-            color: var(--text);
+        DateTime fechaVigencia;
+        string[] formats = { "yyyy/MM/dd", "yyyy-MM-dd", "dd/MM/yyyy", "dd-MM-yyyy", "yyyyMMdd", "MM/dd/yyyy" };
+
+        bool parsed = DateTime.TryParseExact(fechaStr.Trim(), formats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out fechaVigencia);
+        if (!parsed)
+        {
+            parsed = DateTime.TryParse(fechaStr, out fechaVigencia);
         }
 
-    .executive-label {
-        font-weight: 600;
-        font-size: 14px;
-        margin-bottom: 4px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
+        if (parsed)
+        {
+            var diasRestantes = (fechaVigencia.Date - DateTime.Now.Date).TotalDays;
 
-        .executive-label i {
-            color: var(--icon);
-        }
-
-    /* Light mode */
-    :root {
-        --bg: #ffffff;
-        --text: #212529;
-        --border: #ced4da;
-        --input-bg: #f8f9fa;
-        --icon: #0d6efd;
-    }
-
-    /* Dark mode (use class "dark-mode" on body or wrapper) */
-    .dark-mode {
-        --bg: #1e1e2f;
-        --text: #f1f1f1;
-        --border: #3e3e5e;
-        --input-bg: #2c2c40;
-        --icon: #66ccff;
-    }
-    .estado-tag {
-        font-size: 12px;
-        font-weight: 600;
-        padding: 6px 10px;
-        border-radius: 8px;
-        display: inline-block;
-        text-align: center;
-        color: white;
-        background-color: #ccc; /* fallback */
-        opacity: 0.95;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-        .estado-tag:hover {
-            transform: scale(1.03);
-            opacity: 1;
-        }
-
-    .estado-activo {
-        background-color: #5cd6c0; /* verde agua suave */
-        color: #044f45;
-    }
-
-    .estado-noactivo {
-        background-color: #f08e8e; /* rojo coral apagado */
-        color: #5b1c1c;
-    }
-
-    .estado-entrenamiento {
-        background-color: #f5b97d; /* naranja claro suave */
-        color: #5e3d16;
-    }
-    .executive-card input[readonly] {
-        background-color: var(--input-bg);
-        border: 1px solid var(--border);
-        color: var(--text);
-        border-radius: 8px;
-        padding: 8px 12px;
-        font-size: 14px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
-    }
-
-        .executive-card input[readonly]:focus {
-            border-color: var(--icon);
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15); /* efecto azul suave */
-            outline: none;
-        }
-    .material-input-group {
-        position: relative;
-        margin-top: 1.5rem;
-    }
-
-        .material-input-group input {
-            font-size: 14px;
-            padding: 12px 10px 8px 10px;
-            display: block;
-            width: 100%;
-            border: none;
-            border-bottom: 2px solid #ccc;
-            background-color: transparent;
-            color: var(--text);
-            transition: all 0.3s ease;
-        }
-
-            .material-input-group input:focus {
-                outline: none;
-                border-bottom: 2px solid var(--icon);
-                background-color: transparent;
+            if (diasRestantes < 0)
+            {
+                return new EstadoVigenciaModel { CssClass = "badge bg-danger text-white px-2 py-1 shadow-sm font-weight-bold", Icon = "fas fa-exclamation-circle mr-1", Tooltip = "Caducado (" + fechaStr + ")" };
             }
-
-        .material-input-group label {
-            position: absolute;
-            top: 12px;
-            left: 10px;
-            font-size: 14px;
-            color: #aaa;
-            transition: 0.3s ease all;
-            pointer-events: none;
+            else if (diasRestantes <= 30)
+            {
+                return new EstadoVigenciaModel { CssClass = "badge bg-warning text-dark px-2 py-1 shadow-sm font-weight-bold", Icon = "fas fa-exclamation-triangle mr-1", Tooltip = "Próximo a caducar en " + Math.Max(0, (int)diasRestantes) + " días" };
+            }
+            else
+            {
+                return new EstadoVigenciaModel { CssClass = "badge bg-success text-white px-2 py-1 shadow-sm font-weight-bold", Icon = "fas fa-check-circle mr-1", Tooltip = "Vigente (" + fechaStr + ")" };
+            }
         }
-
-        .material-input-group input:focus + label,
-        .material-input-group input:not(:placeholder-shown) + label {
-            top: -10px;
-            left: 5px;
-            font-size: 12px;
-            color: var(--icon);
-            background-color: var(--bg);
-            padding: 0 4px;
-        }
-
-    /* Variables de color */
-    :root {
-        --bg: #fff;
-        --text: #333;
-        --icon: #007bff;
+        return new EstadoVigenciaModel { CssClass = "badge bg-light text-dark border", Icon = "", Tooltip = fechaStr };
     }
+}
 
-    .dark-mode {
-        --bg: #1e1e2f;
-        --text: #f1f1f1;
-        --icon: #66ccff;
-    }
-    .material-label {
+<style>
+    .badge-pill-custom {
+        padding: 0.5em 0.85em;
+        font-size: 0.82rem;
         font-weight: 600;
-        font-size: 13px;
-        color: #5a5a5a;
-        margin-bottom: 4px;
+        border-radius: 50rem;
+    }
+    .table-executive thead th {
+        background-color: #1a2226;
+        color: #ffffff;
+        font-size: 0.85rem;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+        padding: 12px 15px;
     }
-
-    .material-input {
-        border-radius: 8px;
-        border: 1px solid #ced4da;
-        transition: box-shadow 0.3s ease, border-color 0.3s ease;
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-
-        .material-input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-            outline: none;
-        }
-
-    .btn-modern {
-        border-radius: 8px;
-        padding: 6px 16px;
-        font-size: 14px;
-        font-weight: 600;
-        transition: background-color 0.2s ease;
-    }
-
-        .btn-modern i {
-            margin-right: 6px;
-        }
-
-    .table th {
-        background: linear-gradient(to right, #0d6efd, #66b2ff);
-        color: white;
-        font-size: 13px;
-        text-align: center;
-    }
-
-    .table td {
+    .table-executive tbody td {
         vertical-align: middle;
-        font-size: 14px;
+        padding: 12px 15px;
+        font-size: 0.9rem;
     }
-
-    .card-title p {
-        font-size: 20px;
+    .detail-label {
+        font-size: 0.78rem;
         font-weight: 700;
-        margin-bottom: 0;
-        color: #007bff;
-    }
-
-    .th-ejecutivo {
-        font-size: 1.1rem;
-        font-weight: 600;
         text-transform: uppercase;
+        color: #6c757d;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.35rem;
+    }
+    .detail-value {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #212529;
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        padding: 8px 12px;
+        height: auto;
+    }
+    .detail-value-highlight {
+        background-color: #eaf2fd;
+        border-color: #b6d4fe;
+        color: #004085;
+        font-weight: 700;
     }
 </style>
 
+<div class="container-fluid pt-3">
 
-
-<div class="container-fluid">
-    <!--begin::Container-->
-
-    <div class="card-header card-header-stretch">
-        <div class="card-title d-flex align-items-center">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>
-                        <p class="text-blue"> CONTROLADORES ATC</p>
-                    </h4>
-                </div>
-
-            </div>
+    <!-- Header Principal -->
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 pb-2 border-bottom">
+        <div class="mb-2 mb-md-0">
+            <h2 class="font-weight-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+                <i class="fas fa-user-shield text-primary mr-2"></i> Controladores ATC
+            </h2>
+            <p class="text-muted mb-0 small">
+                Monitoreo y consulta del personal y controladores de tránsito aéreo
+            </p>
         </div>
     </div>
-    <br />
-    @using (Html.BeginForm("ListadoAtc", "ControlAtc", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data", }))
-    {
-        <div class="row align-items-end mb-4">
-            <div class="col-sm-3">
-                <label class="form-label">LICENCIA / APELLIDO</label>
-            </div>
-            <div class="col-sm-6">
-                <input class="form-control form-control-modern text-uppercase" id="Licencia" name="Licencia" />
-            </div>
-            <div class="col-sm-3">
-                <button type="submit" class="btn btn-modern btn-success">
-                    🔍 Buscar
-                </button>
-            </div>
+
+    <!-- Card Filtro de Búsqueda -->
+    <div class="card border-0 shadow-sm rounded-lg mb-4">
+        <div class="card-body p-3">
+            @using (Html.BeginForm("ListadoAtc", "ControlAtc", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
+            {
+                <div class="row align-items-center">
+                    <div class="col-md-3 mb-2 mb-md-0">
+                        <label class="font-weight-bold text-muted mb-0 small text-uppercase" style="letter-spacing: 0.5px;">
+                            <i class="fas fa-search mr-1 text-primary"></i> Licencia / Apellido
+                        </label>
+                    </div>
+                    <div class="col-md-7 mb-2 mb-md-0">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light border-right-0"><i class="fas fa-id-card text-muted"></i></span>
+                            </div>
+                            <input type="text" style="text-transform:uppercase" class="form-control border-left-0 pl-0" id="Licencia" name="Licencia" placeholder="Ingrese número de licencia o apellido..." />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">
+                            <i class="fas fa-search mr-1"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+            }
         </div>
+    </div>
 
-        <div class="card card-default">
-            <div class="card-body">
-                <div class="row">
-                    <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th class="th-ejecutivo">Licencia</th>
-                                <th class="th-ejecutivo">Nombres</th>
-                                <th class="th-ejecutivo">Institución</th>
-                                <th class="th-ejecutivo">Dependencia</th>
-                                <th class="th-ejecutivo">Vigencia Cemac</th>
-                                <th class="th-ejecutivo">Estado</th>
-
-                                <th class=" control-label control-lab"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
+    <!-- Main Table Executive Card -->
+    <div class="card border-0 shadow-sm rounded-lg mb-4">
+        <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0 font-weight-bold text-dark" style="font-size: 1.05rem;">
+                <i class="fas fa-list-ul text-primary mr-2"></i> Registro Consolidado de Controladores ATC
+            </h5>
+            <span class="badge badge-light border px-3 py-2 font-weight-normal" style="border-radius: 20px;">
+                <i class="fas fa-layer-group text-primary mr-1"></i> @totalRegistros Registros
+            </span>
+        </div>
+        <div class="card-body p-3">
+            <div class="table-responsive">
+                <table id="tbDetalle" class="table table-hover table-striped table-executive w-100">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-id-card mr-1"></i> Licencia</th>
+                            <th><i class="fas fa-user mr-1"></i> Nombres</th>
+                            <th><i class="fas fa-building mr-1"></i> Institución</th>
+                            <th><i class="fas fa-sitemap mr-1"></i> Dependencia</th>
+                            <th><i class="fas fa-calendar-alt mr-1"></i> Vigencia CEMAC</th>
+                            <th class="text-center"><i class="fas fa-info-circle mr-1"></i> Estado</th>
+                            <th class="text-center"><i class="fas fa-cogs mr-1"></i> Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
                             {
                                 <tr>
-
-                                    <td>@Html.DisplayFor(modelItem => item.Licencia)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.ApellidoNombre)</td>
+                                    <td>
+                                        <span class="badge badge-light border text-primary font-weight-bold px-2 py-1" style="font-size:0.9rem">
+                                            @Html.DisplayFor(modelItem => item.Licencia)
+                                        </span>
+                                    </td>
+                                    <td class="font-weight-bold text-dark">
+                                        <i class="fas fa-user text-muted mr-1" style="font-size:0.8rem"></i> @Html.DisplayFor(modelItem => item.ApellidoNombre)
+                                    </td>
                                     <td>@Html.DisplayFor(modelItem => item.Institucion)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Dependencia)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.VigenciaCemac)</td>
                                     <td>
+                                        @{
+                                            var vigInfo = ObtenerEstadoVigencia(item.VigenciaCemac);
+                                        }
+                                        <span class="@vigInfo.CssClass" title="@vigInfo.Tooltip">
+                                            @if (!string.IsNullOrEmpty(vigInfo.Icon))
+                                            {
+                                                <i class="@vigInfo.Icon"></i>
+                                            }
+                                            @item.VigenciaCemac
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
                                         @if (item.Estado == "ACTIVO")
                                         {
-                                            <p class="estado-tag estado-activo">@Html.DisplayFor(modelItem => item.Estado)</p>
+                                            <span class="badge bg-success text-white badge-pill-custom shadow-sm">
+                                                <i class="fas fa-check-circle mr-1"></i> @item.Estado
+                                            </span>
                                         }
                                         else if (item.Estado == "NO ACTIVO")
                                         {
-                                            <p class="estado-tag estado-noactivo">@Html.DisplayFor(modelItem => item.Estado)</p>
+                                            <span class="badge bg-danger text-white badge-pill-custom shadow-sm">
+                                                <i class="fas fa-times-circle mr-1"></i> @item.Estado
+                                            </span>
                                         }
                                         else if (item.Estado == "ENTRENAMIENTO")
                                         {
-                                            <p class="estado-tag estado-entrenamiento">@Html.DisplayFor(modelItem => item.Estado)</p>
+                                            <span class="badge bg-warning text-dark badge-pill-custom shadow-sm">
+                                                <i class="fas fa-user-clock mr-1"></i> @item.Estado
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary text-white badge-pill-custom shadow-sm">
+                                                @item.Estado
+                                            </span>
                                         }
                                     </td>
-
-
-                                    <td>
-
-                                        @*<a id="Consultar"
-                                               href="#"
-                                               onclick="Consultar(@item.Licencia)"
-                                               style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background-color: #3498db; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;">
-                                                <img src="~/Content/imganes/consultar-documento.png" style="width:18px; height:18px;" alt="Consultar" />
-                                                Consulta
-                                            </a>*@
-
-                                    <td>
-                                        <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
-                                           href="#"
-                                           onclick="Consultar('@item.Licencia')">
-                                            <i class="bi bi-search"></i> Consulta
-                                        </a>
-
-                                    </td>
-
-                                    @*<a id="Consultar" href="#" onclick="Consultar(@item.Licencia)">
-                                            <i>
-                                                <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
-
-                                            </i>
-                                            Consulta
-                                        </a>*@
-
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-outline-primary px-3 rounded-pill shadow-sm font-weight-bold" onclick="Consultar('@item.Licencia')">
+                                            <i class="fas fa-search mr-1"></i> Ver Detalle
+                                        </button>
                                     </td>
                                 </tr>
                             }
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    }
-</div>
-
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6 class="modal-title text-white" id="modalLabel"> CONTROLADOR ATC</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-
-
-            <div class="modal-body">
-                <div class="executive-card">
-                    <div class="text-end mb-4">
-                        <img id="imgControlador" alt="Foto" style="width:90px; height:90px; border-radius:8px;" />
-                    </div>
-
-                    <div class="row g-3">
-                        <div class="col-md-3">
-                            <label class="executive-label"><i class="fas fa-id-card"></i> Licencia</label>
-                            @*<input class="form-control form-control-sm" id="Lic" readonly />*@
-                            <input class="form-control form-control-sm shadow-sm rounded-3" id="Lic" readonly />
-
-                        </div>
-
-
-                        <div class="col-md-3">
-                            <label class="executive-label"><i class="fas fa-id-badge"></i> Cédula</label>
-                            <input class="form-control form-control-sm" id="Cedula" readonly />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="executive-label"><i class="fas fa-user"></i> Apellido y Nombres</label>
-                            <input class="form-control form-control-sm" id="Nombres" readonly />
-                        </div>
-
-                        <div class="col-md-12">
-                            <label class="executive-label"><i class="fas fa-building"></i> Institución</label>
-                            <input class="form-control form-control-sm" id="Institucion" readonly />
-                        </div>
-
-                        <div class="col-md-12">
-                            <label class="executive-label"><i class="fas fa-sitemap"></i> Dependencia</label>
-                            <input class="form-control form-control-sm" id="Dependencia" readonly />
-                        </div>
-
-                        <div class="col-md-12">
-                            <label class="executive-label"><i class="fas fa-code-branch"></i> Código Dependencia</label>
-                            <input class="form-control form-control-sm" id="CodigoDependencia" readonly />
-                        </div>
-
-                        <div class="col-md-12">
-                            <label class="executive-label"><i class="fas fa-map-marker-alt"></i> Ciudad</label>
-                            <input class="form-control form-control-sm" id="Ciudad" readonly />
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="executive-label"><i class="fas fa-calendar-alt"></i> Vigencia CEMAC</label>
-                            <input class="form-control form-control-sm" id="Vigencia" readonly />
-                        </div>
-
-                        <div class="col-md-8">
-                            <label class="executive-label"><i class="fas fa-info-circle"></i> Estado</label>
-                            <input class="form-control form-control-sm" id="Estado" readonly />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-</div>
 
-@*oscuro*@
-@*<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark-mode');
-        }
-    });
-</script>*@
+    <!-- Modal Detalle Ejecutivo -->
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; overflow: hidden;">
+                <div class="modal-header bg-dark text-white py-3">
+                    <h5 class="modal-title font-weight-bold text-white m-0" id="modalLabel">
+                        <i class="fas fa-user-shield text-primary mr-2"></i> Detalle de Controlador ATC
+                    </h5>
+                    <button type="button" class="close text-white opacity-100" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <div class="card border-0 shadow-sm bg-white mb-0" style="border-radius: 8px;">
+                        <div class="card-body p-4">
+                            
+                            <!-- Foto y Datos Clave -->
+                            <div class="row align-items-center mb-4 pb-3 border-bottom">
+                                <div class="col-md-3 text-center mb-3 mb-md-0">
+                                    <img id="imgControlador" alt="Foto Controlador" class="img-thumbnail shadow-sm rounded-circle" style="width: 105px; height: 105px; object-fit: cover; border: 3px solid #007bff;" src="" />
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-6 form-group mb-2">
+                                            <label class="detail-label"><i class="fas fa-id-card mr-1 text-muted"></i> Licencia</label>
+                                            <input type="text" class="form-control detail-value detail-value-highlight" id="Lic" readonly="readonly" />
+                                        </div>
+                                        <div class="col-md-6 form-group mb-2">
+                                            <label class="detail-label"><i class="fas fa-id-badge mr-1 text-muted"></i> Cédula</label>
+                                            <input type="text" class="form-control detail-value font-weight-bold" id="Cedula" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <label class="detail-label"><i class="fas fa-user mr-1 text-muted"></i> Apellidos y Nombres</label>
+                                        <input type="text" class="form-control detail-value font-weight-bold text-dark" id="Nombres" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Información Institucional -->
+                            <div class="row">
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="detail-label"><i class="fas fa-building mr-1 text-muted"></i> Institución</label>
+                                    <input type="text" class="form-control detail-value" id="Institucion" readonly="readonly" />
+                                </div>
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="detail-label"><i class="fas fa-sitemap mr-1 text-muted"></i> Dependencia</label>
+                                    <input type="text" class="form-control detail-value" id="Dependencia" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="detail-label"><i class="fas fa-code-branch mr-1 text-muted"></i> Código Dependencia</label>
+                                    <input type="text" class="form-control detail-value" id="CodigoDependencia" readonly="readonly" />
+                                </div>
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="detail-label"><i class="fas fa-map-marker-alt mr-1 text-muted"></i> Ciudad</label>
+                                    <input type="text" class="form-control detail-value" id="Ciudad" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="detail-label"><i class="fas fa-calendar-alt mr-1 text-muted"></i> Vigencia CEMAC</label>
+                                    <input type="text" class="form-control detail-value font-weight-bold" id="Vigencia" readonly="readonly" />
+                                </div>
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="detail-label"><i class="fas fa-info-circle mr-1 text-muted"></i> Estado</label>
+                                    <input type="text" class="form-control detail-value font-weight-bold text-success" id="Estado" readonly="readonly" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-white border-top py-2">
+                    <button type="button" class="btn btn-secondary px-4 rounded-pill font-weight-bold" data-dismiss="modal">
+                        <i class="fas fa-times mr-1"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 @section scripts{
     <script>
         $(document).ready(function () {
+            if ($.fn.dataTable.isDataTable('#tbDetalle')) {
+                $('#tbDetalle').DataTable().destroy();
+            }
 
+            $('#tbDetalle').DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "language": {
+                    "sProcessing":     "Procesando...",
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                    "sZeroRecords":    "No se encontraron resultados",
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sSearch":         "Buscar:",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":     "Último",
+                        "sNext":     "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
         });
 
-        function modalAdjunto() {
-            $('#FormModal').modal('show');
+        function aplicarEstiloVigenciaModal(fechaStr) {
+            var $input = $("#Vigencia");
+            $input.removeClass("bg-danger text-white bg-warning text-dark bg-success text-white detail-value-highlight");
+
+            if (!fechaStr) {
+                $input.val("");
+                return;
+            }
+
+            var fechaVig = null;
+            var parts = fechaStr.trim().split(/[\/\-\s]/);
+
+            if (parts.length === 3) {
+                if (parts[0].length === 4) {
+                    fechaVig = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+                } else if (parts[2].length === 4) {
+                    fechaVig = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+                }
+            } else if (fechaStr.trim().length === 8 && !isNaN(fechaStr.trim())) {
+                var str = fechaStr.trim();
+                fechaVig = new Date(parseInt(str.substring(0, 4), 10), parseInt(str.substring(4, 6), 10) - 1, parseInt(str.substring(6, 8), 10));
+            }
+
+            if (fechaVig && !isNaN(fechaVig.getTime())) {
+                var hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+                fechaVig.setHours(0, 0, 0, 0);
+
+                var diffDays = Math.ceil((fechaVig - hoy) / (1000 * 60 * 60 * 24));
+
+                if (diffDays < 0) {
+                    $input.addClass("bg-danger text-white font-weight-bold");
+                    $input.val(fechaStr + " — (CADUCADO)");
+                } else if (diffDays <= 30) {
+                    $input.addClass("bg-warning text-dark font-weight-bold");
+                    $input.val(fechaStr + " — (PRÓXIMO A CADUCAR: " + diffDays + " DÍAS)");
+                } else {
+                    $input.addClass("bg-success text-white font-weight-bold");
+                    $input.val(fechaStr + " — (VIGENTE)");
+                }
+            } else {
+                $input.val(fechaStr);
+            }
         }
 
-
-
         function Consultar(Licencia) {
-
-
-            //$("#Lic").val("");
+            $("#Lic").val("");
             $("#Nombres").val("");
             $("#Institucion").val("");
             $("#Dependencia").val("");
@@ -444,8 +402,7 @@
             $("#Estado").val("");
             $("#CodigoDependencia").val("");
             $("#Cedula").val("");
-
-
+            $('#imgControlador').attr('src', '');
 
             $.ajax({
                 url: $.MisUrls.url._DetalleControladorAtc,
@@ -454,29 +411,25 @@
                 dataType: "json",
                 data: { Licencia: Licencia },
                 success: function (e) {
-
                     $("#Lic").val(e.Licencia);
                     $("#Nombres").val(e.ApellidoNombre);
                     $("#Institucion").val(e.Institucion);
                     $("#Dependencia").val(e.Dependencia);
                     $("#Ciudad").val(e.Ciudad);
-                    $("#Vigencia").val(e.VigenciaCemac);
                     $("#Estado").val(e.Estado);
                     $("#Cedula").val(e.Cedula);
                     $("#CodigoDependencia").val(e.CodigoDependencia);
-                    $('#imgControlador').attr('src', e.Url);
-
-
+                    if (e.Url) {
+                        $('#imgControlador').attr('src', e.Url);
+                    }
+                    aplicarEstiloVigenciaModal(e.VigenciaCemac);
                 },
                 error: function (errormessage) {
                     Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
                 }
             });
 
-
             $('#largeModal').modal('show');
         }
-
-
     </script>
 }

@@ -1,55 +1,207 @@
-﻿@model IEnumerable<CapaModelo.tbGarantias>
+@model IEnumerable<CapaModelo.tbGarantias>
 @{
-    ViewBag.Title = "ListadoGarantias";
+    ViewBag.Title = "Listado de Garantías";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var totalGarantias = Model != null ? Model.Count() : 0;
+    var garantiasVigentes = Model != null ? Model.Count(x => {
+        int d;
+        return int.TryParse(x.Dias_a_Caducar, out d) && d > 30;
+    }) : 0;
+    var garantiasPorVencer = Model != null ? Model.Count(x => {
+        int d;
+        return int.TryParse(x.Dias_a_Caducar, out d) && d > 20 && d <= 30;
+    }) : 0;
+    var garantiasCriticas = Model != null ? Model.Count(x => {
+        int d;
+        return int.TryParse(x.Dias_a_Caducar, out d) && d <= 20;
+    }) : 0;
 }
 
-<div class="container-fluid">
-    <!--begin::Container-->
-   
+<style>
+    .card-kpi {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 10px;
+    }
+    .card-kpi:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.08) !important;
+    }
+    .badge-pill-custom {
+        padding: 0.5em 0.85em;
+        font-size: 0.82rem;
+        font-weight: 600;
+        border-radius: 50rem;
+    }
+    .table-executive thead th {
+        background-color: #1a2226;
+        color: #ffffff;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+        padding: 12px 15px;
+    }
+    .table-executive tbody td {
+        vertical-align: middle;
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+</style>
 
-    <div class="card card-default">
-        <div class="card-body">
-            <div class="row">
-                <table id="tbDetalle" class="table table-bordered table-hover table-sm" style="width:100%">
+<div class="container-fluid pt-3">
+
+    <!-- Header Principal -->
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 pb-2 border-bottom">
+        <div class="mb-2 mb-md-0">
+            <h2 class="font-weight-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+                <i class="fas fa-shield-alt text-primary mr-2"></i> Tablero Ejecutivo de Garantías
+            </h2>
+            <p class="text-muted mb-0 small">
+                Monitoreo consolidado de garantías contractuales, pólizas y vencimientos
+            </p>
+        </div>
+    </div>
+
+    <!-- KPI Metric Cards -->
+    <div class="row mb-4">
+        <!-- Total Garantías -->
+        <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #0056b3 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Total Garantías</span>
+                            <h3 class="mb-0 font-weight-bold text-dark mt-1">@totalGarantias</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                            <i class="fas fa-file-contract text-primary fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vigentes -->
+        <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #28a745 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Vigentes (> 30 Días)</span>
+                            <h3 class="mb-0 font-weight-bold text-success mt-1">@garantiasVigentes</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                            <i class="fas fa-check-circle text-success fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Por Vencer -->
+        <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #ffc107 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Por Vencer (21 - 30 Días)</span>
+                            <h3 class="mb-0 font-weight-bold text-warning mt-1">@garantiasPorVencer</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                            <i class="fas fa-exclamation-triangle text-warning fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Críticas / Alerta -->
+        <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #dc3545 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Alerta Crítica (≤ 20 Días)</span>
+                            <h3 class="mb-0 font-weight-bold text-danger mt-1">@garantiasCriticas</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                            <i class="fas fa-bell text-danger fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Table Executive Card -->
+    <div class="card border-0 shadow-sm rounded-lg mb-4">
+        <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0 font-weight-bold text-dark" style="font-size: 1.05rem;">
+                <i class="fas fa-list-ul text-primary mr-2"></i> Listado Registrado de Garantías
+            </h5>
+            <span class="badge badge-light border px-3 py-2 font-weight-normal" style="border-radius: 20px;">
+                <i class="fas fa-layer-group text-primary mr-1"></i> @totalGarantias Registros
+            </span>
+        </div>
+        <div class="card-body p-3">
+            <div class="table-responsive">
+                <table id="tbDetalle" class="table table-hover table-striped table-executive w-100">
                     <thead>
                         <tr>
-                            <th>Ruc</th>
-                            <th>Número Garantia</th>
-                            <th>Compañia Contratista</th>
-                            <th>Dias a Caducar</th>
-
-                            <th class=" control-label control-lab"></th>
+                            <th><i class="fas fa-id-card mr-1"></i> RUC</th>
+                            <th><i class="fas fa-hashtag mr-1"></i> N° Garantía</th>
+                            <th><i class="fas fa-building mr-1"></i> Compañía Contratista</th>
+                            <th class="text-center"><i class="fas fa-hourglass-half mr-1"></i> Días a Caducar</th>
+                            <th class="text-center"><i class="fas fa-cogs mr-1"></i> Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
+                            int dias = 0;
+                            bool isParsed = int.TryParse(item.Dias_a_Caducar, out dias);
+                            if (!isParsed) { dias = 999; }
+
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Ruc)</td>
-                                <td>@Html.DisplayFor(modelItem => item.NumeroGarantia)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Compania_Contratista)</td>
+                                <td class="font-weight-bold text-dark">
+                                    <i class="fas fa-copy text-muted mr-1" title="RUC Contratista" style="font-size:0.8rem"></i> @Html.DisplayFor(modelItem => item.Ruc)
+                                </td>
                                 <td>
-                                    @if (int.Parse(item.Dias_a_Caducar) <= 20)
+                                    <span class="badge badge-light border text-dark font-weight-bold px-2 py-1">
+                                        @Html.DisplayFor(modelItem => item.NumeroGarantia)
+                                    </span>
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Compania_Contratista)</td>
+                                <td class="text-center">
+                                    @if (dias <= 0)
                                     {
-
-                                        <p class="text-danger" , style="font-size:22px;background-color: #bbb8a6">   @Html.DisplayFor(modelItem => item.Dias_a_Caducar)</p>
-
+                                        <span class="badge bg-danger text-white badge-pill-custom shadow-sm">
+                                            <i class="fas fa-times-circle mr-1"></i> Vencida (@dias días)
+                                        </span>
+                                    }
+                                    else if (dias <= 20)
+                                    {
+                                        <span class="badge bg-danger text-white badge-pill-custom shadow-sm">
+                                            <i class="fas fa-exclamation-triangle mr-1"></i> Crítico: @dias días
+                                        </span>
+                                    }
+                                    else if (dias <= 30)
+                                    {
+                                        <span class="badge bg-warning text-dark badge-pill-custom shadow-sm">
+                                            <i class="fas fa-clock mr-1"></i> Próximo: @dias días
+                                        </span>
                                     }
                                     else
                                     {
-
-                                        @Html.DisplayFor(modelItem => item.Dias_a_Caducar)
+                                        <span class="badge bg-success text-white badge-pill-custom shadow-sm">
+                                            <i class="fas fa-check-circle mr-1"></i> Vigente (@dias días)
+                                        </span>
                                     }
                                 </td>
-
-                                <td>
-                                    <a id="Consultar" href="@Url.Action("DetalleGarantia", "Garantias", new {Ruc=item.Ruc })">
-                                        <i>
-                                            <img src="~/Content/imganes/consultar-documento.png" style="width:15px" />
-
-                                        </i>
-                                        Consulta
+                                <td class="text-center">
+                                    <a id="Consultar" class="btn btn-sm btn-outline-primary px-3 rounded-pill shadow-sm font-weight-bold" href="@Url.Action("DetalleGarantia", "Garantias", new { Ruc = item.Ruc })">
+                                        <i class="fas fa-search mr-1"></i> Ver Detalle
                                     </a>
                                 </td>
                             </tr>
@@ -61,132 +213,34 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="FormModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6>DOCUMENTOS HABILITANTES</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" style="font-size:12px">
-                <div class="card">
-                    <form class="form-horizontal">
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <div class="col-sm-12">
-                                    <h3 class="card-title text-primary">Información de los documentos habilitantes</h3>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <nav class="mt-3">
-                                    <ul class="nav nav-treeview nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i class="nav-icon fas fa-book"></i>
-                                                <p>
-                                                    DTIC
-                                                    <i class="fas fa-angle-left right"></i>
-                                                </p>
-                                            </a>
-                                            <ul class="nav nav-treeview">
-                                                <li class="nav-item">
-                                                    <a href="pages/examples/invoice.html" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>Invoice</p>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages/examples/profile.html" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>Profile</p>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages/examples/e-commerce.html" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>E-commerce</p>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages/examples/projects.html" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>Projects</p>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages/examples/project-add.html" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>Project Add</p>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages/examples/project-edit.html" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>Project Edit</p>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages/examples/project-detail.html" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>Project Detail</p>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages/examples/contacts.html" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>Contacts</p>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages/examples/faq.html" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>FAQ</p>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="pages/examples/contact-us.html" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>Contact us</p>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-
-                                </nav>
-                            </div>
-
-
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><img src='~/Content/imganes/cancel.png' style='width:20px' />Cerrar </button>
-                        <button type="button" class="btn btn-sm btn-primary" onclick="Guardar()"><img src='~/Content/imganes/save.png' style='width:20px' /> Guardar </button>
-                    </div>
-                </div>
-                <div id="loadImagen" style="display: none;">
-                    <img src="~/Content/imganes/Loading.gif" />
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-
 @section scripts{
     <script>
         $(document).ready(function () {
+            if ($.fn.dataTable.isDataTable('#tbDetalle')) {
+                $('#tbDetalle').DataTable().destroy();
+            }
 
+            $('#tbDetalle').DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "language": {
+                    "sProcessing":     "Procesando...",
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                    "sZeroRecords":    "No se encontraron resultados",
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sSearch":         "Buscar:",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":     "Último",
+                        "sNext":     "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
         });
-
-        function modalAdjunto() {
-            $('#FormModal').modal('show');
-        }
-
     </script>
 }

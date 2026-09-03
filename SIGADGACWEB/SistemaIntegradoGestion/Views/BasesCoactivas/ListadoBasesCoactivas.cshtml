@@ -1,293 +1,436 @@
-﻿@model IEnumerable<CapaModelo.tbBasesCoactivas>
+@model IEnumerable<CapaModelo.tbBasesCoactivas>
 @{
-<h3 class="fw-bold text-center text-uppercase text-primary my-4">
-    Gestión de Bases Coactivas
-</h3>
-
+    ViewBag.Title = "Listado de Bases Coactivas";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var totalBases = Model != null ? Model.Count() : 0;
+    var totalPersonas = Model != null ? Model.Select(x => x.PersonaJuridica).Where(p => !string.IsNullOrEmpty(p)).Distinct().Count() : 0;
+    var totalActivos = Model != null ? Model.Count(x => x.Estado == "AC") : 0;
+    var totalInactivos = Model != null ? Model.Count(x => x.Estado != "AC") : 0;
+
+    var resumenPersona = Model != null ? Model
+        .GroupBy(x => string.IsNullOrEmpty(x.PersonaJuridica) ? "N/A" : x.PersonaJuridica)
+        .Select(g => new { Persona = g.Key, Cantidad = g.Count() })
+        .OrderByDescending(x => x.Cantidad)
+        .ToList() : null;
 }
 
-
 <style>
-    .material-label {
+    .card-kpi {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 10px;
+    }
+    .card-kpi:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.08) !important;
+    }
+    .badge-pill-custom {
+        padding: 0.5em 0.85em;
+        font-size: 0.82rem;
         font-weight: 600;
-        font-size: 13px;
-        color: #5a5a5a;
-        margin-bottom: 4px;
+        border-radius: 50rem;
+    }
+    .table-executive thead th {
+        background-color: #1a2226;
+        color: #ffffff;
+        font-size: 0.85rem;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+        padding: 12px 15px;
     }
-
-    .material-input {
-        border-radius: 8px;
-        border: 1px solid #ced4da;
-        transition: box-shadow 0.3s ease, border-color 0.3s ease;
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-
-        .material-input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-            outline: none;
-        }
-
-    .btn-modern {
-        border-radius: 8px;
-        padding: 6px 16px;
-        font-size: 14px;
-        font-weight: 600;
-        transition: background-color 0.2s ease;
-    }
-
-        .btn-modern i {
-            margin-right: 6px;
-        }
-
-    .table th {
-        background: linear-gradient(to right, #0d6efd, #66b2ff);
-        color: white;
-        font-size: 13px;
-        text-align: center;
-    }
-
-    .table td {
+    .table-executive tbody td {
         vertical-align: middle;
-        font-size: 14px;
+        padding: 12px 15px;
+        font-size: 0.9rem;
     }
-
-    .card-title p {
-        font-size: 20px;
+    .detail-label {
+        font-size: 0.78rem;
         font-weight: 700;
-        margin-bottom: 0;
-        color: #007bff;
-    }
-
-    .th-ejecutivo {
-        font-size: 1.1rem;
-        font-weight: 600;
         text-transform: uppercase;
+        color: #6c757d;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.35rem;
+    }
+    .detail-value {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #212529;
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        padding: 8px 12px;
+        height: auto;
+    }
+    .detail-value-highlight {
+        background-color: #eaf2fd;
+        border-color: #b6d4fe;
+        color: #004085;
+        font-weight: 700;
     }
 </style>
 
-<div class="container-fluid">
-    @*<div class="card-header card-header-stretch mb-3">
-        <div class="card-title">
-            <p class="text-blue">Listado Bases Coactivas</p>
+<div class="container-fluid pt-3">
+
+    <!-- Header Principal -->
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 pb-2 border-bottom">
+        <div class="mb-2 mb-md-0">
+            <h2 class="font-weight-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+                <i class="fas fa-gavel text-primary mr-2"></i> Tablero Ejecutivo de Bases Coactivas
+            </h2>
+            <p class="text-muted mb-0 small">
+                Monitoreo consolidado de expedientes, títulos de crédito y estados procesales coactivos
+            </p>
         </div>
-    </div>*@
+    </div>
 
-
-    @using (Html.BeginForm("ListadoBasesCoactivas", "BasesCoactivas", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
-    {
-        <div class="row align-items-end mb-4">
-            <div class="col-sm-3">
-                <label class="material-label">Nro.Proceso /Persona Juridica</label>
-                <input type="text" style="text-transform:uppercase" name="Comprobante" id="Comprobante" class="form-control material-input" required />
-            </div>
-
-            <div class="col-sm-2">
-                <button type="submit" class="btn btn-modern btn-success">
-                    🔍 Buscar
-                </button>
-            </div>
-        </div>
-
-
-        <div class="card shadow-sm border-0">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="tbDetalle" class="table table-bordered table-hover table-sm">
-                        <thead>
-                            <tr>
-                                <th class="th-ejecutivo">Nro. Proceso</th>
-                                <th class="th-ejecutivo">Persona Juridica</th>
-                                <th class="th-ejecutivo">Ruc Cedula</th>
-                                <th class="th-ejecutivo">Nro. Titulo Credito</th>
-                                <th class="th-ejecutivo">Fecha Emision</th>
-                                <th class="th-ejecutivo">Estado</th>
-                                <th colspan="2">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.NroProceso)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.PersonaJuridica)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.RucCedula)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.NroTituloCredito)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.FechaEmision)</td>
-                                    <td>
-                                        @if (item.Estado == "AC")
-                                        {
-                                            <span class="badge bg-info text-dark fs-6 py-2 px-4 rounded-pill shadow-sm">Activo</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary fs-6 py-2 px-4 rounded-pill shadow-sm">No Activo</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        <a id="Consultar" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
-                                           href="#"
-                                           onclick="Consultar('@item.NroProceso', '@item.PersonaJuridica')">
-                                            <i class="bi bi-search"></i> Consulta
-                                        </a>
-
-                                    </td>
-
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    }
-</div>
-
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-
-
-
-    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-
-            <div class="modal-header bg-gradient-primary text-white">
-                <h6 class="modal-title text-white" id="modalLabel"> INFORME BASES COACTIVAS</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="card-body border-top p-9">
-
-                        <div class="container">
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>NRO. PROCESO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="NroProceso" readonly="readonly" />
-                                </div>
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ESTADO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Estado" readonly="readonly" />
-                                </div>
-
-                            </div>
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>RUC/CEDULA</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Ruc" readonly="readonly" />
-                                </div>
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>PERSONA JURIDICA</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Persona" readonly="readonly" />
-                                </div>
-
-                            </div>
-
-                            <div class="row justify-content-start">
-
-
-                                <div class="col-md-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ESTADO EMPRESA</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="EstadoEmpresa" readonly="readonly" />
-                                </div>
-                            </div>
-
-                            <div class="row justify-content-start">
-
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>NRO. TITULO CREDITO</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Titulo" readonly="readonly" />
-                                </div>
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>FECHA EMISION</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="FechaEmision" readonly="readonly" />
-                                </div>
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>CUANTIA</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Cuantia" readonly="readonly" />
-                                </div>
-
-
-                            </div>
-                            <div class="row justify-content-start">
-
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>ESTADO PROCESAL</label></div>
-                                    <textarea style="font-size:12px" class="form-control form-control-sm" id="EstadoProcesal" readonly="readonly"></textarea>
-                                </div>
-
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>FECHA ACTUACION</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="FechaActuacion" readonly="readonly" />
-                                </div>
-
-
-                            </div>
-                            <div class="row justify-content-start">
-
-                                <div class="col-7">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>DETALLE ACCION</label></div>
-                                    <textarea style="font-size:12px"
-                                              class="form-control form-control-sm"
-                                              id="DetalleAccion"
-                                              rows="3"
-                                              readonly>
-                                    </textarea>
-                                </div>
-
-                            </div>
-
-                            <div class="row justify-content-start">
-                                <div class="col-4">
-                                    <div class="p-0 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-bottom"><label>NRO FOJAS</label></div>
-                                    <input style="font-size:12px" class="form-control form-control-sm" id="Fojas" readonly="readonly" />
-                                </div>
-
-
-                            </div>
-
+    <!-- KPI Metric Cards -->
+    <div class="row mb-4">
+        <!-- Total Expedientes -->
+        <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #0056b3 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Total Expedientes</span>
+                            <h3 class="mb-0 font-weight-bold text-dark mt-1">@totalBases</h3>
                         </div>
-
+                        <div class="rounded-circle bg-light p-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                            <i class="fas fa-balance-scale text-primary fa-lg"></i>
+                        </div>
                     </div>
-
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+        <!-- Personas Jurídicas -->
+        <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #6f42c1 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Empresas / Personas</span>
+                            <h3 class="mb-0 font-weight-bold mt-1" style="color: #6f42c1;">@totalPersonas</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                            <i class="fas fa-building fa-lg" style="color: #6f42c1;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Procesos Activos -->
+        <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #28a745 !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Procesos Activos</span>
+                            <h3 class="mb-0 font-weight-bold text-success mt-1">@totalActivos</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                            <i class="fas fa-check-circle text-success fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Procesos Inactivos -->
+        <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+            <div class="card card-kpi border-0 shadow-sm bg-white" style="border-left: 4px solid #6c757d !important;">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-uppercase text-muted font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.5px;">Procesos Inactivos</span>
+                            <h3 class="mb-0 font-weight-bold text-secondary mt-1">@totalInactivos</h3>
+                        </div>
+                        <div class="rounded-circle bg-light p-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                            <i class="fas fa-times-circle text-secondary fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Card Totales por Persona Jurídica -->
+    @if (resumenPersona != null && resumenPersona.Any())
+    {
+        <div class="card border-0 shadow-sm rounded-lg mb-4">
+            <div class="card-header bg-white py-2 border-bottom d-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-dark" style="font-size: 0.95rem;">
+                    <i class="fas fa-building text-primary mr-2"></i> Resumen de Procesos por Persona Jurídica
+                </h6>
+                <span class="badge badge-light border rounded-pill px-3 py-1 font-weight-bold text-primary" style="font-size: 0.8rem;">
+                    <i class="fas fa-building mr-1"></i> @resumenPersona.Count Empresa(s)
+                </span>
+            </div>
+            <div class="card-body p-3 bg-light">
+                <div class="d-flex flex-wrap align-items-center" style="gap: 12px;">
+                    @foreach (var per in resumenPersona)
+                    {
+                        <div class="card border-0 shadow-sm bg-white px-3 py-2" style="border-radius: 10px; min-width: 220px; border-left: 4px solid #007bff !important;">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div style="max-width: 170px;">
+                                    <span class="text-uppercase text-muted font-weight-bold small d-block mb-1 text-truncate" title="@per.Persona">
+                                        <i class="fas fa-building text-primary mr-1"></i> @per.Persona
+                                    </span>
+                                    <h5 class="mb-0 font-weight-bold text-dark" style="font-size: 1.1rem;">
+                                        @per.Cantidad <span class="small text-muted font-weight-normal">proceso(s)</span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Card Filtro de Búsqueda -->
+    <div class="card border-0 shadow-sm rounded-lg mb-4">
+        <div class="card-body p-3">
+            @using (Html.BeginForm("ListadoBasesCoactivas", "BasesCoactivas", FormMethod.Post, new { id = "registerForm", enctype = "multipart/form-data" }))
+            {
+                <div class="row align-items-center">
+                    <div class="col-md-3 mb-2 mb-md-0">
+                        <label class="font-weight-bold text-muted mb-0 small text-uppercase" style="letter-spacing: 0.5px;">
+                            <i class="fas fa-search mr-1 text-primary"></i> Proceso / Persona Jurídica
+                        </label>
+                    </div>
+                    <div class="col-md-6 mb-2 mb-md-0">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light border-right-0"><i class="fas fa-gavel text-muted"></i></span>
+                            </div>
+                            <input type="text" style="text-transform:uppercase" name="Comprobante" id="Comprobante" class="form-control border-left-0" placeholder="Ingrese Nro. Proceso o Persona Jurídica..." required />
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-md-right">
+                        <button type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">
+                            <i class="fas fa-search mr-1"></i> Buscar Coactivas
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Main Table Executive Card -->
+    <div class="card border-0 shadow-sm rounded-lg mb-4">
+        <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0 font-weight-bold text-dark" style="font-size: 1.05rem;">
+                <i class="fas fa-list-ul text-primary mr-2"></i> Expedientes Registrados de Bases Coactivas
+            </h5>
+            <span class="badge badge-light border px-3 py-2 font-weight-normal" style="border-radius: 20px;">
+                <i class="fas fa-layer-group text-primary mr-1"></i> @totalBases Registros
+            </span>
+        </div>
+        <div class="card-body p-3">
+            <div class="table-responsive">
+                <table id="tbDetalle" class="table table-hover table-striped table-executive w-100">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-file-alt mr-1"></i> Nro. Proceso</th>
+                            <th><i class="fas fa-building mr-1"></i> Persona Jurídica</th>
+                            <th><i class="fas fa-id-card mr-1"></i> RUC / Cédula</th>
+                            <th><i class="fas fa-hashtag mr-1"></i> Nro. Título Crédito</th>
+                            <th><i class="fas fa-calendar-alt mr-1"></i> Fecha Emisión</th>
+                            <th class="text-center"><i class="fas fa-info-circle mr-1"></i> Estado</th>
+                            <th class="text-center"><i class="fas fa-cogs mr-1"></i> Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="font-weight-bold text-dark">
+                                        <span class="badge badge-light border text-primary font-weight-bold px-2 py-1">
+                                            <i class="fas fa-file-invoice text-muted mr-1"></i> @Html.DisplayFor(modelItem => item.NroProceso)
+                                        </span>
+                                    </td>
+                                    <td class="font-weight-bold text-dark">@Html.DisplayFor(modelItem => item.PersonaJuridica)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.RucCedula)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NroTituloCredito)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaEmision)</td>
+                                    <td class="text-center">
+                                        @if (item.Estado == "AC")
+                                        {
+                                            <span class="badge bg-info text-white badge-pill-custom shadow-sm">
+                                                <i class="fas fa-check-circle mr-1"></i> Activo
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary text-white badge-pill-custom shadow-sm">
+                                                <i class="fas fa-times-circle mr-1"></i> No Activo
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill shadow-sm font-weight-bold" onclick="Consultar('@item.NroProceso', '@item.PersonaJuridica')">
+                                            <i class="fas fa-search mr-1"></i> Consulta
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Ejecutivo -->
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; overflow: hidden;">
+                <div class="modal-header bg-dark text-white py-3">
+                    <h5 class="modal-title font-weight-bold text-white m-0" id="modalLabel">
+                        <i class="fas fa-gavel text-primary mr-2"></i> Informe de Base Coactiva
+                    </h5>
+                    <button type="button" class="close text-white opacity-100" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    
+                    <!-- Bloque 1: Información Principal del Proceso -->
+                    <div class="card border-0 shadow-sm bg-white mb-3" style="border-radius: 8px;">
+                        <div class="card-header bg-white border-bottom py-2">
+                            <h6 class="font-weight-bold text-primary m-0"><i class="fas fa-info-circle mr-2"></i>Información Principal del Proceso</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">Nro. Proceso</label>
+                                    <input class="form-control detail-value detail-value-highlight" id="NroProceso" readonly />
+                                </div>
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">Estado Proceso</label>
+                                    <input class="form-control detail-value font-weight-bold text-primary" id="Estado" readonly />
+                                </div>
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">RUC / Cédula</label>
+                                    <input class="form-control detail-value font-weight-bold" id="Ruc" readonly />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8 form-group mb-2">
+                                    <label class="detail-label">Persona Jurídica / Razón Social</label>
+                                    <input class="form-control detail-value font-weight-bold text-dark" id="Persona" readonly />
+                                </div>
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">Estado Empresa</label>
+                                    <input class="form-control detail-value" id="EstadoEmpresa" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 2: Detalle de Título de Crédito y Cuantía -->
+                    <div class="card border-0 shadow-sm bg-white mb-3" style="border-radius: 8px;">
+                        <div class="card-header bg-white border-bottom py-2">
+                            <h6 class="font-weight-bold text-primary m-0"><i class="fas fa-file-invoice-dollar mr-2"></i>Detalle de Título de Crédito y Cuantía</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">Nro. Título Crédito</label>
+                                    <input class="form-control detail-value font-weight-bold" id="Titulo" readonly />
+                                </div>
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">Fecha Emisión</label>
+                                    <input class="form-control detail-value" id="FechaEmision" readonly />
+                                </div>
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">Cuantía ($)</label>
+                                    <input class="form-control detail-value font-weight-bold text-success" id="Cuantia" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 3: Estado Procesal y Actuaciones -->
+                    <div class="card border-0 shadow-sm bg-white mb-0" style="border-radius: 8px;">
+                        <div class="card-header bg-white border-bottom py-2">
+                            <h6 class="font-weight-bold text-primary m-0"><i class="fas fa-balance-scale mr-2"></i>Estado Procesal y Actuaciones</h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-md-8 form-group mb-2">
+                                    <label class="detail-label">Estado Procesal</label>
+                                    <textarea class="form-control detail-value" id="EstadoProcesal" rows="2" style="resize:none;" readonly></textarea>
+                                </div>
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">Fecha Actuación</label>
+                                    <input class="form-control detail-value" id="FechaActuacion" readonly />
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-8 form-group mb-2">
+                                    <label class="detail-label">Detalle de Acción</label>
+                                    <textarea class="form-control detail-value" id="DetalleAccion" rows="3" style="resize:none;" readonly></textarea>
+                                </div>
+                                <div class="col-md-4 form-group mb-2">
+                                    <label class="detail-label">Nro. Fojas</label>
+                                    <input class="form-control detail-value font-weight-bold text-primary" id="Fojas" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer bg-white border-top py-2">
+                    <button type="button" class="btn btn-secondary px-4 rounded-pill font-weight-bold" data-dismiss="modal">
+                        <i class="fas fa-times mr-1"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
 @section scripts{
     <script>
         $(document).ready(function () {
+            if ($.fn.dataTable.isDataTable('#tbDetalle')) {
+                $('#tbDetalle').DataTable().destroy();
+            }
 
+            $('#tbDetalle').DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "pageLength": 10,
+                "language": {
+                    "sProcessing":     "Procesando...",
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                    "sZeroRecords":    "No se encontraron resultados",
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sSearch":         "Buscar:",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":     "Último",
+                        "sNext":     "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
         });
 
         function modalAdjunto() {
             $('#FormModal').modal('show');
         }
 
-
-
         function Consultar(NroProceso, Persona) {
-
-
-            //$("#Lic").val("");
             $("#NroProceso").val("");
             $("#Persona").val("");
             $("#Ruc").val("");
@@ -301,7 +444,6 @@
             $("#Fojas").val("");
             $("#Estado").val("");
 
-
             $.ajax({
                 url: $.MisUrls.url._DetalleBasesCoactivas,
                 type: "GET",
@@ -309,7 +451,6 @@
                 dataType: "json",
                 data: { NroProceso: NroProceso, Persona: Persona },
                 success: function (e) {
-
                     $("#NroProceso").val(e.NroProceso);
                     $("#Persona").val(e.PersonaJuridica);
                     $("#Ruc").val(e.RucCedula);
@@ -322,17 +463,13 @@
                     $("#DetalleAccion").val(e.DetalleAccion);
                     $("#Fojas").val(e.NroFojas);
                     $("#Estado").val(e.Estado);
-
                 },
                 error: function (errormessage) {
                     Swal.fire("Mensaje", "Financiero: " + errormessage, "warning");
                 }
             });
 
-
             $('#largeModal').modal('show');
         }
-
-
     </script>
 }

@@ -3,13 +3,49 @@
     ViewBag.Title = "Listado de Informes Diarios ITS";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var totalIts = Model != null ? Model.Count() : 0;
-    var totalLugares = Model != null ? Model.Select(x => x.LUGAR).Where(l => !string.IsNullOrEmpty(l)).Distinct().Count() : 0;
-    var totalDependencias = Model != null ? Model.Select(x => x.DEPENDENCIA).Where(d => !string.IsNullOrEmpty(d)).Distinct().Count() : 0;
-    var totalImpresos = Model != null ? Model.Count(x => x.ESTADOD == "IMPRESO") : 0;
-    var totalPendientes = Model != null ? Model.Count(x => x.ESTADOD != "IMPRESO") : 0;
+    var fechaHoy1 = DateTime.Now.ToString("yyyyMMdd");
+    var fechaHoy2 = DateTime.Now.ToString("yyyy-MM-dd");
+    var fechaHoy3 = DateTime.Now.ToString("dd/MM/yyyy");
+    var fechaHoy4 = DateTime.Now.ToString("dd-MM-yyyy");
 
-    var resumenLugaresDep = Model != null ? Model
+    Func<string, bool> esFechaHoy = (fechaStr) =>
+    {
+        if (string.IsNullOrWhiteSpace(fechaStr)) return false;
+        var str = fechaStr.Trim();
+        if (str == fechaHoy1 || str == fechaHoy2 || str == fechaHoy3 || str == fechaHoy4) return true;
+
+        DateTime f;
+        string[] formats = { "yyyyMMdd", "yyyy-MM-dd", "dd/MM/yyyy", "dd-MM-yyyy", "yyyy/MM/dd", "MM/dd/yyyy" };
+        if (DateTime.TryParseExact(str, formats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out f))
+        {
+            return f.Date == DateTime.Today;
+        }
+        if (DateTime.TryParse(str, out f))
+        {
+            return f.Date == DateTime.Today;
+        }
+        return false;
+    };
+
+    bool esPost = Request.HttpMethod != null && Request.HttpMethod.Equals("POST", StringComparison.OrdinalIgnoreCase);
+
+    IEnumerable<CapaModelo.tbItsControlAtc> modelTotales;
+    if (!esPost && Model != null)
+    {
+        modelTotales = Model.Where(x => esFechaHoy(x.FECHAELABORACION)).ToList();
+    }
+    else
+    {
+        modelTotales = Model ?? new List<CapaModelo.tbItsControlAtc>();
+    }
+
+    var totalIts = modelTotales.Count();
+    var totalLugares = modelTotales.Select(x => x.LUGAR).Where(l => !string.IsNullOrEmpty(l)).Distinct().Count();
+    var totalDependencias = modelTotales.Select(x => x.DEPENDENCIA).Where(d => !string.IsNullOrEmpty(d)).Distinct().Count();
+    var totalImpresos = modelTotales.Count(x => x.ESTADOD == "IMPRESO");
+    var totalPendientes = modelTotales.Count(x => x.ESTADOD != "IMPRESO");
+
+    var resumenLugaresDep = modelTotales.Any() ? modelTotales
         .GroupBy(x => string.IsNullOrEmpty(x.LUGAR) ? "N/A" : x.LUGAR)
         .Select(g => new {
             Lugar = g.Key,
@@ -89,6 +125,14 @@
             <p class="text-muted mb-0 small">
                 Monitoreo consolidado de bitácora e informes de control de tránsito aéreo (ITS)
             </p>
+        </div>
+        <div>
+            @if (!esPost)
+            {
+                <span class="badge badge-primary px-3 py-2 font-weight-bold shadow-sm" style="font-size: 0.85rem; border-radius: 20px;">
+                    <i class="far fa-calendar-alt mr-1"></i> Totales Fecha Actual: @DateTime.Now.ToString("dd/MM/yyyy")
+                </span>
+            }
         </div>
     </div>
 
@@ -187,6 +231,12 @@
             <div class="card-header bg-white py-2 border-bottom d-flex align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-dark" style="font-size: 0.95rem;">
                     <i class="fas fa-map-marker-alt text-primary mr-2"></i> Resumen de Informes por Lugar y Dependencias
+                    @if (!esPost)
+                    {
+                        <span class="badge badge-info font-weight-normal ml-2" style="font-size: 0.78rem;">
+                            <i class="far fa-calendar-alt mr-1"></i> Hoy (@DateTime.Now.ToString("dd/MM/yyyy"))
+                        </span>
+                    }
                 </h6>
                 <span class="badge badge-light border rounded-pill px-3 py-1 font-weight-bold text-primary" style="font-size: 0.8rem;">
                     <i class="fas fa-building mr-1"></i> @resumenLugaresDep.Count Lugar(es)

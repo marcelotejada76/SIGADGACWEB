@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CamposUceo.cs" />
+    <Compile Include="CD_ActualizaMatClienCiud.cs" />
     <Compile Include="CD_AdjuntoCiaAviacion.cs" />
     <Compile Include="CD_PlanIncentivo.cs" />
     <Compile Include="CD_DetalleCertAeronav.cs" />
@@ -135,9 +136,11 @@
     <Compile Include="ConexionDB2.cs" />
     <Compile Include="ConexionP550.cs" />
     <Compile Include="ConexionServerConfiar.cs" />
+    <Compile Include="DatosGlobales.cs" />
     <Compile Include="EstadoPublicacion.cs">
       <DependentUpon>ModelConfiar.tt</DependentUpon>
     </Compile>
+    <Compile Include="InsertarPower9.cs" />
     <Compile Include="InsertarTablaP5.cs" />
     <Compile Include="LiquidacionCoactiva.cs" />
     <Compile Include="ModelConfiar.Context.cs">
@@ -157,6 +160,7 @@
     </Compile>
     <Compile Include="NumLetra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TablasRecuperadas.cs" />
     <Compile Include="ValidaCampos.cs" />
     <Compile Include="ValidaDuplicados.cs" />
     <Compile Include="ValidaRegistros.cs" />

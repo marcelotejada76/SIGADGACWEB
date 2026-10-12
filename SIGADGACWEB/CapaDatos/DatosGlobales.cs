@@ -1,0 +1,164 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CapaDatos
+{
+    class DatosGlobales
+    {
+        public string Nombre;
+        public string Descripcion;
+        public string MODELO;
+        public int PESOMAXIMO;
+        public string TIPOMOTOR;
+        public int NUMEROMOTOR;
+        public string DESIGNADOR;
+        //aeronave
+        public Int32 OIDAERONAVE;
+        public Int32 OIDCIA;
+        public string MATRICULA;
+        public string MATRICULAINDRA;
+        public int REGION;
+        public int APROBADO;
+        public string NUMEROSERIE;
+        public int DESTINADOAUSO;
+        public double HORASTOTALT;
+        public int ESTADO;
+        public double HORASTOTALAR;
+        public double HORASTOTALR;
+        public double HORASTOTALAT;
+        public double CICLOSTOTAL;
+        public string ANIOFABRICACION;
+        public double CICLOSTOTALA;
+        public double PESOMAXATERRIZAJE;
+        public string ESPECIFICACION;
+        public double PESOMAXESTRUCTURAL;
+        public string CONDVUELO;
+        public int NUMPASAJEROS;
+        public int NUMPERSEXTRAS;
+        public double PESOVACIOKG;
+        public string AUTONOMIA;
+        public int CATEGORIA;
+        public int NUMTRIPULANTES;
+        public int NIBRAS;
+        public double CAPGALCOMBUSTIBLE;
+        public char GLIDESLOPE;
+        public char PILOTOAUTOMATICO;
+        public char VHF;
+        public char HF;
+        public char ADF;
+        public char VOR;
+        public char BCN;
+        public char RADAR;
+        public char DME;
+        public char ESELVA;
+        public char ELT;
+        public char BOTIQUIN;
+        public char EMAR;
+        public char EXTINGUIDOR;
+        public char EOXIGENO;
+        public char SENIALES;
+        public string FECHAINGPAIS;
+        public string FECHAULTINSPECCION;
+        public string ULTIMOPAIS;
+        public string LUGARINSPECCION;
+        public double GALONES_HORA;
+        public string EXCEPCIONES;
+        public string FECHAULTPB;
+        public string FECHAFINPB;
+        public string USUARIOCREA;
+        public string FECHACREA;
+        public string USUARIOMODIFICA;
+        public string FECHAMODIFICA;
+        public string BASEOPERACION;
+        public string SISALTIMETRICO;
+        public string TRANSPONDER;
+        public string BRUJULA;
+        public string PITOT;
+        public double TIEMPOTOTAL;
+        public int REG;
+        public string NUMEROREGISTRO;
+        public string FECHAREGISTRO;
+        public string CATEGORIAAERONAVE;
+        public string FECHAEXPEDICION;
+        public char TIPOMATRICULA;
+        public char ESTADOMATRICULA;
+        public double MTOW;
+        public int LIMITANTEOPERA;
+
+        public string FECHACANCELACION;
+        public double REMRELOJ;
+        public char NACIONALIDAD_MATRICULA;
+        public string ULTPROPIETARIO;
+        public string DESCANCELACION;
+        public string INSCRIPMATRIEXT;
+        public string OIDOPERADOR;
+        public string ARRENDADO;
+        public string FECHAVALIDO;
+        public string OBSERVACION, DIRECCION, TELEFONO;
+        public string GRAVAMEN;
+        public double AVALUO;
+
+        public string CODIGOOACI;
+
+        //deudor con matricula
+        public DateTime fechadeudor;
+        public string CEDULA_RUC;
+        public string NOMBRECLIENTE;
+        public int NUMEROFACTURA;
+        //public string FECHA;
+        public string FECHARECEPCION;
+        //public string FECHAVENCIMIENTO;
+        public Double VALORFACTURA;
+        public Double SALDOVALOR;
+        public string MATRICULALIMPIA;
+        public string SOBREVUELO, TABLA, NIVEL;
+
+        //COMPAÑIA
+
+        public Int32 OIDPAIS, OID, OIDCIUDAD;
+        public string SIGLAS_IATA;
+        public string CODIGO_OACI, NOMBRE, PROPIETARIO;
+        //  public string DIRECCION;
+        public string REPRESENTANTELEGAL;
+        public string DIRECCREPRELEGAL;
+        public string TELEFREPRELEGAL;
+        public Int32 OIDCIUDADREPLEGAL;
+        public string REPRESENTANTETECNI;
+        //public string TELEFONO;
+        public string FAX;
+        public string EMAIL;
+        public Int32 CUPO;
+        public string CARGOREPRESENLEGAL;
+        public Int32 LISTAPRECIOS;
+        public string VIGENCIACOA;
+        public string CARGOREPRESENTECNI;
+        public Int32 DIASCREDITO;
+        public string REPRESENTANTEPERMI;
+        public Int32 OIDCTACONT;
+        public string CUENTACONTABLE;
+        public string CARGOREPRESENPERMI;
+        public int COPIAS;
+        public int NUMEROPAGOS;
+        public double IVA;
+        public double RETENCIONIVA;
+        public double RETENCIONFUENTE;
+        public string NACIONAL_EXTRANJER;
+        public string TIPOOBJETO, CODIGO, CODIGOIATA;
+        public string TIPOCOMPANIA;
+        public Int32 OIDZONA, OIDREGION, OIDPROVINCIA;
+        public Int32 OIDCTACONTANT;
+        public string EMAILREPRELEGAL;
+        public string FAXREPRELEGAL;
+        public string DIRECREPRETECNI;
+        public string TELFREPRETECNI;
+        public string FAXREPRETECNI;
+        public Int32 OIDCIUDADREPTECNI;
+        public string RUC;
+        public string AFTN;
+        public string NOMBRECOMERCIAL;
+        public string CODEMPRESA;
+    }
+}

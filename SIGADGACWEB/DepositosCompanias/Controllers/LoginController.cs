@@ -1,16 +1,19 @@
-﻿using CapaDatos;
+using CapaDatos;
 using CapaModelo;
 using DepositosCompanias.Models;
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using ASPSnippets.Captcha;
 using DepositosCompanias.Utilitario;
+using Newtonsoft.Json;
 
 namespace DepositosCompanias.Controllers
 {
@@ -32,68 +35,49 @@ namespace DepositosCompanias.Controllers
         // GET: Login
         public ActionResult login()
         {
-            this.Captcha = new Captcha(125, 40, 20f, "#FFFFFF", "#36759C", Mode.AlphaNumeric);
+            ViewBag.TurnstileSiteKey = ConfigurationManager.AppSettings["CloudflareTurnstile:SiteKey"];
             LoginModel login = new LoginModel();
-            login.ImageData = this.Captcha.ImageData;
-
             return View(login);
         }
 
         [HttpPost]
         public ActionResult login(LoginModel oLogin)
         {
+            ViewBag.TurnstileSiteKey = ConfigurationManager.AppSettings["CloudflareTurnstile:SiteKey"];
             tbUsuario oUsuario = new tbUsuario();
             try
             {
-                if (oLogin.CaptchaAnswer != null)
+                string turnstileToken = Request.Form["cf-turnstile-response"];
+                string turnstileError;
+                if (!ValidateTurnstile(turnstileToken, out turnstileError))
                 {
-                    if (this.Captcha.IsValid(oLogin.CaptchaAnswer))
-                    {
-                        oUsuario = CD_Usuario.Instancia.ObtenerUsuario(oLogin.Username, SeguridadEncriptar.GetSHA256(oLogin.Contrasena));
-
-                        if (oUsuario == null)
-                        {
-                            ViewBag.Error = "Usuario y/o Password Incorrectos..!!";
-                            return View();
-                        }
-
-                        Session["Usuario"] = oUsuario;
-                        if ((oUsuario.NombreUsuario != null) && (oUsuario.ApellidoUsuario != null))
-                            Session["name"] = oUsuario.NombreUsuario.Trim() + " " + oUsuario.ApellidoUsuario.Trim();
-                        else
-                            Session["name"] = oUsuario.NombreUsuario.Trim();
-
-                        Session["correo"] = oUsuario.Correo.Trim();
-
-                        //return RedirectToAction("Contact", "Home");
-                        return RedirectToAction("CargaDepositosClientes", "Depositos");
-                    }
-                    else
-                    {
-                        this.Captcha = new Captcha(125, 40, 20f, "#FFFFFF", "#36759C", Mode.AlphaNumeric);
-                        ViewBag.Error = "Captcha invalid";
-                    }
-
-
-
-                    if ((oLogin.Username == null) && (oLogin.Contrasena == null))
-                    {
-                        return View(oLogin);
-                    }
+                    ViewBag.Error = turnstileError;
+                    return View(oLogin);
                 }
+
+                oUsuario = CD_Usuario.Instancia.ObtenerUsuario(oLogin.Username, SeguridadEncriptar.GetSHA256(oLogin.Contrasena));
+
+                if (oUsuario == null)
+                {
+                    ViewBag.Error = "Usuario y/o Password Incorrectos..!!";
+                    return View(oLogin);
+                }
+
+                Session["Usuario"] = oUsuario;
+                if ((oUsuario.NombreUsuario != null) && (oUsuario.ApellidoUsuario != null))
+                    Session["name"] = oUsuario.NombreUsuario.Trim() + " " + oUsuario.ApellidoUsuario.Trim();
                 else
-                {
-                    ViewBag.Error = "Captcha invalid";
-                }
+                    Session["name"] = oUsuario.NombreUsuario.Trim();
 
+                Session["correo"] = oUsuario.Correo.Trim();
 
+                return RedirectToAction("CargaDepositosClientes", "Depositos");
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
             }
 
-            oLogin.ImageData = this.Captcha.ImageData;
             return View(oLogin);
         }
         //public ActionResult login(LoginModel oLogin)
@@ -360,5 +344,74 @@ namespace DepositosCompanias.Controllers
             //Send the File to Download.
             return File(bytes, "application/octet-stream", fileName);
         }
+
+        private bool ValidateTurnstile(string token, out string errorMessage)
+        {
+            errorMessage = null;
+
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                errorMessage = "Por favor, complete la verificación de seguridad (Cloudflare).";
+                return false;
+            }
+
+            string secretKey = ConfigurationManager.AppSettings["CloudflareTurnstile:SecretKey"];
+            if (string.IsNullOrWhiteSpace(secretKey))
+            {
+                errorMessage = "La clave secreta de Cloudflare Turnstile no está configurada en Web.config.";
+                return false;
+            }
+
+            try
+            {
+                // Habilitar soporte TLS 1.2 requerido por Cloudflare
+                ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+
+                using (var client = new WebClient())
+                {
+                    var values = new System.Collections.Specialized.NameValueCollection();
+                    values["secret"] = secretKey;
+                    values["response"] = token;
+
+                    string remoteIp = Request.UserHostAddress;
+                    if (!string.IsNullOrEmpty(remoteIp))
+                    {
+                        values["remoteip"] = remoteIp;
+                    }
+
+                    byte[] responseBytes = client.UploadValues("https://challenges.cloudflare.com/turnstile/v0/siteverify", "POST", values);
+                    string responseString = System.Text.Encoding.UTF8.GetString(responseBytes);
+
+                    var verifyResult = JsonConvert.DeserializeObject<TurnstileVerifyResponse>(responseString);
+                    if (verifyResult != null && verifyResult.Success)
+                    {
+                        return true;
+                    }
+
+                    errorMessage = "La verificación de seguridad de Cloudflare ha fallado. Por favor, intente nuevamente.";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Error de comunicación con el servicio de verificación de Cloudflare: " + ex.Message;
+                return false;
+            }
+        }
+    }
+
+    public class TurnstileVerifyResponse
+    {
+        [JsonProperty("success")]
+        public bool Success { get; set; }
+
+        [JsonProperty("error-codes")]
+        public List<string> ErrorCodes { get; set; }
+
+        [JsonProperty("challenge_ts")]
+        public string ChallengeTs { get; set; }
+
+        [JsonProperty("hostname")]
+        public string Hostname { get; set; }
     }
 }

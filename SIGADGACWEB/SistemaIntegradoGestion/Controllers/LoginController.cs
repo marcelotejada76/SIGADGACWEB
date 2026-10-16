@@ -2,13 +2,16 @@ using CapaDatos;
 using SistemaIntegradoGestion.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 
 namespace SistemaIntegradoGestion.Controllers
 {
@@ -17,91 +20,22 @@ namespace SistemaIntegradoGestion.Controllers
         // GET: Login
         public ActionResult login()
         {
+            ViewBag.TurnstileSiteKey = ConfigurationManager.AppSettings["CloudflareTurnstile:SiteKey"];
             ModelLogin modelLogin = new ModelLogin();
             return View(modelLogin);
         }
 
+        // Stub de compatibilidad para evitar 404 en navegadores con recursos cacheados
         [HttpGet]
         public ActionResult GetCaptchaImage()
         {
-            Random random = new Random();
-            // Generar código numérico de 4 dígitos para máxima claridad y legibilidad
-            string captchaText = random.Next(1000, 9999).ToString();
-            Session["CaptchaText"] = captchaText;
-
-            int width = 160;
-            int height = 44;
-
-            using (Bitmap bitmap = new Bitmap(width, height))
-            using (Graphics g = Graphics.FromImage(bitmap))
-            {
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-
-                // Fondo degradado suave
-                using (LinearGradientBrush brush = new LinearGradientBrush(
-                    new Rectangle(0, 0, width, height),
-                    Color.FromArgb(240, 244, 248),
-                    Color.FromArgb(218, 225, 233),
-                    45f))
-                {
-                    g.FillRectangle(brush, 0, 0, width, height);
-                }
-
-                // Líneas de ruido visual
-                for (int i = 0; i < 4; i++)
-                {
-                    int x1 = random.Next(width);
-                    int y1 = random.Next(height);
-                    int x2 = random.Next(width);
-                    int y2 = random.Next(height);
-                    using (Pen pen = new Pen(Color.FromArgb(120, random.Next(100, 200), random.Next(100, 200), random.Next(100, 200)), 1.5f))
-                    {
-                        g.DrawLine(pen, x1, y1, x2, y2);
-                    }
-                }
-
-                // Puntos de ruido
-                for (int i = 0; i < 40; i++)
-                {
-                    int x = random.Next(width);
-                    int y = random.Next(height);
-                    bitmap.SetPixel(x, y, Color.FromArgb(random.Next(150, 255), random.Next(100, 180), random.Next(100, 180)));
-                }
-
-                // Dibujar el texto del Captcha (4 dígitos bien espaciados)
-                using (Font font = new Font("Arial", 22, FontStyle.Bold))
-                {
-                    for (int i = 0; i < captchaText.Length; i++)
-                    {
-                        string character = captchaText[i].ToString();
-                        float x = 16 + (i * 34);
-                        float y = random.Next(3, 8);
-
-                        g.TranslateTransform(x, y);
-                        float angle = random.Next(-10, 10);
-                        g.RotateTransform(angle);
-
-                        using (SolidBrush textBrush = new SolidBrush(Color.FromArgb(20, 50, 90)))
-                        {
-                            g.DrawString(character, font, textBrush, 0, 0);
-                        }
-
-                        g.RotateTransform(-angle);
-                        g.TranslateTransform(-x, -y);
-                    }
-                }
-
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    bitmap.Save(ms, ImageFormat.Png);
-                    return File(ms.ToArray(), "image/png");
-                }
-            }
+            return new EmptyResult();
         }
 
         [HttpPost]
         public ActionResult login(ModelLogin login)
         {
+            ViewBag.TurnstileSiteKey = ConfigurationManager.AppSettings["CloudflareTurnstile:SiteKey"];
             string estado = string.Empty;
             try
             {
@@ -124,23 +58,14 @@ namespace SistemaIntegradoGestion.Controllers
                     return View(login);
                 }
 
-                // 2. Validación del CAPTCHA
-                string sessionCaptcha = Session["CaptchaText"] as string;
-
-                if (string.IsNullOrWhiteSpace(login.CaptchaInput))
+                // 2. Validación de Cloudflare Turnstile
+                string turnstileToken = Request.Form["cf-turnstile-response"];
+                string turnstileError;
+                if (!ValidateTurnstile(turnstileToken, out turnstileError))
                 {
-                    login.Mensaje = "Debe ingresar el código de verificación CAPTCHA..!!";
+                    login.Mensaje = turnstileError;
                     return View(login);
                 }
-
-                if (sessionCaptcha == null || !string.Equals(login.CaptchaInput.Trim(), sessionCaptcha, StringComparison.OrdinalIgnoreCase))
-                {
-                    login.Mensaje = "El código CAPTCHA ingresado es incorrecto..!!";
-                    return View(login);
-                }
-
-                // Limpiar el código usado de la sesión
-                Session["CaptchaText"] = null;
 
                 // 3. Autenticación de Usuario
                 estado = CD_Usuario.Instancia.getValidaUsuarioIDB2(login.Usuario, login.Clave);
@@ -176,5 +101,73 @@ namespace SistemaIntegradoGestion.Controllers
             return View(login);
         }
 
+        private bool ValidateTurnstile(string token, out string errorMessage)
+        {
+            errorMessage = null;
+
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                errorMessage = "Por favor, complete la verificación de seguridad (Cloudflare).";
+                return false;
+            }
+
+            string secretKey = ConfigurationManager.AppSettings["CloudflareTurnstile:SecretKey"];
+            if (string.IsNullOrWhiteSpace(secretKey))
+            {
+                errorMessage = "La clave secreta de Cloudflare Turnstile no está configurada en Web.config.";
+                return false;
+            }
+
+            try
+            {
+                // Habilitar soporte TLS 1.2 requerido por Cloudflare
+                ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+
+                using (var client = new WebClient())
+                {
+                    var values = new System.Collections.Specialized.NameValueCollection();
+                    values["secret"] = secretKey;
+                    values["response"] = token;
+
+                    string remoteIp = Request.UserHostAddress;
+                    if (!string.IsNullOrEmpty(remoteIp))
+                    {
+                        values["remoteip"] = remoteIp;
+                    }
+
+                    byte[] responseBytes = client.UploadValues("https://challenges.cloudflare.com/turnstile/v0/siteverify", "POST", values);
+                    string responseString = System.Text.Encoding.UTF8.GetString(responseBytes);
+
+                    var verifyResult = JsonConvert.DeserializeObject<TurnstileVerifyResponse>(responseString);
+                    if (verifyResult != null && verifyResult.Success)
+                    {
+                        return true;
+                    }
+
+                    errorMessage = "La verificación de seguridad de Cloudflare ha fallado. Por favor, intente nuevamente.";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Error de comunicación con el servicio de verificación de Cloudflare: " + ex.Message;
+                return false;
+            }
+        }
+    }
+
+    public class TurnstileVerifyResponse
+    {
+        [JsonProperty("success")]
+        public bool Success { get; set; }
+
+        [JsonProperty("error-codes")]
+        public List<string> ErrorCodes { get; set; }
+
+        [JsonProperty("challenge_ts")]
+        public string ChallengeTs { get; set; }
+
+        [JsonProperty("hostname")]
+        public string Hostname { get; set; }
     }
 }

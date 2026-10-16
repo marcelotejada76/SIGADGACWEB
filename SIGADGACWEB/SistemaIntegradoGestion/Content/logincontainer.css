@@ -262,3 +262,11 @@ body.login-page {
     transform: rotate(180deg);
 }
 
+/* --- Cloudflare Turnstile --- */
+.turnstile-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    min-height: 65px;
+}
+

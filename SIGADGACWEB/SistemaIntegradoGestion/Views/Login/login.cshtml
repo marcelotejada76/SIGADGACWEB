@@ -1,4 +1,4 @@
-﻿@model SistemaIntegradoGestion.Models.ModelLogin
+@model SistemaIntegradoGestion.Models.ModelLogin
 @{
     Layout = null;
 }
@@ -23,6 +23,7 @@
     
     <!-- Custom Login CSS -->
     <link href="@Url.Content("~/Content/logincontainer.css?v=" + DateTime.Now.Ticks)" rel="stylesheet" />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body class="login-page">
     <div class="login-wrapper">
@@ -56,17 +57,8 @@
                         @Html.TextBoxFor(model => model.Clave, new { @class = "form-control text-uppercase", @type = "password", autocomplete = "off", maxlength = "10" })
                     </div>
 
-                    <div class="form-group modern-input-group">
-                        <label for="CaptchaInput">C&oacute;digo de Seguridad (CAPTCHA) *</label>
-                        <div class="captcha-box-wrapper">
-                            @Html.TextBoxFor(model => model.CaptchaInput, new { @class = "form-control text-uppercase", autocomplete = "off", maxlength = "4", placeholder = "Código" })
-                            <div class="captcha-image-box">
-                                <img id="imgCaptcha" src="@Url.Action("GetCaptchaImage", "Login")" alt="CAPTCHA" />
-                            </div>
-                            <button type="button" class="btn btn-refresh-captcha" id="btnRefreshCaptcha" title="Generar nuevo c&oacute;digo">
-                                &#x21bb;
-                            </button>
-                        </div>
+                    <div class="turnstile-container">
+                        <div class="cf-turnstile" data-sitekey="@(ViewBag.TurnstileSiteKey ?? System.Configuration.ConfigurationManager.AppSettings["CloudflareTurnstile:SiteKey"])" data-theme="light"></div>
                     </div>
                     
                     <button type="submit" class="btn btn-primary btn-login">Ingresar</button>
@@ -94,12 +86,5 @@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Content/Plugins/sweetalert2/sweetalert2.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#btnRefreshCaptcha").click(function () {
-                $("#imgCaptcha").attr("src", "@Url.Action("GetCaptchaImage", "Login")?" + new Date().getTime());
-            });
-        });
-    </script>
 </body>
 </html>

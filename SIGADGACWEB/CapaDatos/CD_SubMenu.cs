@@ -1,4 +1,4 @@
-﻿using CapaModelo;
+using CapaModelo;
 using IBM.Data.DB2.iSeries;
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace CapaDatos
         /// </summary>
         /// <param name="codigoUsuario"></param>
         /// <returns></returns>
-        public List<tbSubMenu> GetSubMenuPorCodigo(string codigoUsuario, string codigoMenu)
+        public List<tbSubMenu> GetSubMenuPorCodigo(string codigoUsuario, string codigoMenu, iDB2Connection conexionExistente = null)
         {
             List<tbSubMenu> listarSubMenu = new List<tbSubMenu>();
             StringBuilder sb = new StringBuilder();
@@ -50,16 +50,83 @@ namespace CapaDatos
             sb.Append(" INNER JOIN SUBAR7 ON(MENCO1 = SUBC10 AND MENCO2 = SUBC11 AND MENCO3 = SUBC12 AND MENCO4 = SUBC13 AND MENCOD = SUBC14)");
             sb.Append(" WHERE USUCOD = '" + codigoUsuario.ToUpper() + "' AND SUBC14 = '" + codigoMenu + "' AND SUBES4 = 1");
             query = sb.ToString();
-            iDB2Command cmd;
-            try
+
+            if (conexionExistente != null)
             {
-
-
-                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                EjecutarConsultaSubMenu(conexionExistente, query, listarSubMenu);
+            }
+            else
+            {
+                try
                 {
-                    cmd = new iDB2Command(query, oConexion);
-                    oConexion.Open();
-                    iDB2DataReader dr = cmd.ExecuteReader();
+                    using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                    {
+                        oConexion.Open();
+                        EjecutarConsultaSubMenu(oConexion, query, listarSubMenu);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    listarSubMenu = null;
+                    throw ex;
+                }
+            }
+            return listarSubMenu;
+        }
+
+        /// <summary>
+        /// Metodo optimizado: obtiene todos los submenus del usuario en una sola consulta
+        /// </summary>
+        /// <param name="codigoUsuario"></param>
+        /// <param name="conexionExistente"></param>
+        /// <returns></returns>
+        public List<tbSubMenu> GetSubMenuPorUsuario(string codigoUsuario, iDB2Connection conexionExistente = null)
+        {
+            List<tbSubMenu> listarSubMenu = new List<tbSubMenu>();
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("SELECT ifnull(rtrim(ltrim(SUBC10)), '') AS CodigoSubsistema, ifnull(rtrim(ltrim(SUBC11)), '') AS CodigoGestion, ifnull(rtrim(ltrim(SUBC12)), '') AS CodigoModulo, ifnull(rtrim(ltrim(SUBC13)), '') AS CodigoRol,");
+            sb.Append(" ifnull(rtrim(ltrim(SUBC14)), '') AS CodigoMenu, ifnull(SUBID1, 0) AS IdSubMenu, ifnull(rtrim(ltrim(SUBNO1)), '') AS Nombre, ifnull(rtrim(ltrim(SUBC09)), '') AS Controlador,");
+            sb.Append(" ifnull(rtrim(ltrim(SUBVI1)), '') AS Vista, ifnull(SUBES4, 0) AS Estado, ifnull(rtrim(ltrim(SUBU03)), '') AS UsuarioCreado, ifnull(rtrim(ltrim(SUBF03)), '') AS FechaCreado,");
+            sb.Append(" ifnull(rtrim(ltrim(SUBH03)), '') AS HoraCreado, ifnull(rtrim(ltrim(SUBU04)), '') AS UsuarioModificado, ifnull(rtrim(ltrim(SUBF04)), '') AS FechaModificado, ifnull(rtrim(ltrim(SUBH04)), '') AS HoraModificado,");            
+            sb.Append(" ifnull(rtrim(ltrim(SUBSER)), '') as Servidor, ifnull(rtrim(ltrim(SUBURL)), '') as ReporteUrl ");
+            sb.Append(" FROM USUARC ");
+            sb.Append(" INNER JOIN ROLAR2 ON(USUCO1 = ROLCO2 AND USUCO2 = ROLCO3 AND USUCO3 = ROLCO4 AND USUCO4 = ROLCO1)");
+            sb.Append(" INNER JOIN MENAR1 ON(MENCO1 = ROLCO2 AND MENCO2 = ROLCO3 AND MENCO3 = ROLCO4 AND MENCO4 = ROLCO1)");
+            sb.Append(" INNER JOIN SUBAR7 ON(MENCO1 = SUBC10 AND MENCO2 = SUBC11 AND MENCO3 = SUBC12 AND MENCO4 = SUBC13 AND MENCOD = SUBC14)");
+            sb.Append(" WHERE USUCOD = '" + codigoUsuario.ToUpper() + "' AND SUBES4 = 1");
+
+            string query = sb.ToString();
+
+            if (conexionExistente != null)
+            {
+                EjecutarConsultaSubMenu(conexionExistente, query, listarSubMenu);
+            }
+            else
+            {
+                try
+                {
+                    using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                    {
+                        oConexion.Open();
+                        EjecutarConsultaSubMenu(oConexion, query, listarSubMenu);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    listarSubMenu = null;
+                    throw ex;
+                }
+            }
+            return listarSubMenu;
+        }
+
+        private void EjecutarConsultaSubMenu(iDB2Connection conexion, string query, List<tbSubMenu> listarSubMenu)
+        {
+            using (iDB2Command cmd = new iDB2Command(query, conexion))
+            {
+                using (iDB2DataReader dr = cmd.ExecuteReader())
+                {
                     while (dr.Read())
                     {
                         tbSubMenu oSubMenu = new tbSubMenu();
@@ -85,14 +152,7 @@ namespace CapaDatos
                     }
                     dr.Close();
                 }
-
             }
-            catch (Exception ex)
-            {
-                listarSubMenu = null;
-                throw ex;
-            }
-            return listarSubMenu;
         }
     }
 }

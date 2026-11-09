@@ -86,5 +86,16 @@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Content/Plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#loginForm').on('submit', function () {
+                var btn = $(this).find('.btn-login');
+                btn.prop('disabled', true).text('Ingresando...');
+                setTimeout(function () {
+                    btn.prop('disabled', false).text('Ingresar');
+                }, 10000);
+            });
+        });
+    </script>
 </body>
 </html>

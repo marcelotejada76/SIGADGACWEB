@@ -1,0 +1,487 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Manual de Usuario - Sistema Integrado de Gestión SIGADGACWEB</title>
+<!--[if gte mso 9]>
+<xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page {
+    size: letter;
+    margin: 2.5cm 2.5cm 2.5cm 2.5cm;
+    mso-header-margin: 1.25cm;
+    mso-footer-margin: 1.25cm;
+    mso-footer: f1;
+}
+div.WordSection1 {
+    page: WordSection1;
+}
+body {
+    font-family: 'Calibri', 'Arial', sans-serif;
+    font-size: 11.5pt;
+    line-height: 1.4;
+    color: #2d3748;
+}
+h1, h2, h3, h4 {
+    font-family: 'Calibri Light', 'Arial', sans-serif;
+    font-weight: bold;
+    color: #1a365d;
+}
+h1 {
+    font-size: 21pt;
+    border-bottom: 2.5px solid #2b6cb0;
+    padding-bottom: 4px;
+    margin-top: 24pt;
+    margin-bottom: 12pt;
+    page-break-before: always;
+}
+h1.no-break {
+    page-break-before: avoid;
+}
+h2 {
+    font-size: 16pt;
+    color: #2b6cb0;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 3px;
+    margin-top: 18pt;
+    margin-bottom: 8pt;
+}
+h3 {
+    font-size: 13pt;
+    color: #2d3748;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+}
+p {
+    margin: 0 0 9pt 0;
+    text-align: justify;
+}
+.cover {
+    text-align: center;
+    padding-top: 50pt;
+    padding-bottom: 80pt;
+}
+.cover-institution {
+    font-size: 17pt;
+    font-weight: bold;
+    color: #1a365d;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 5pt;
+}
+.cover-subinstitution {
+    font-size: 12pt;
+    color: #4a5568;
+    text-transform: uppercase;
+    margin-bottom: 40pt;
+}
+.cover-title {
+    font-size: 27pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 15pt;
+    line-height: 1.2;
+}
+.cover-subtitle {
+    font-size: 14pt;
+    color: #3182ce;
+    margin-bottom: 50pt;
+    font-style: italic;
+}
+.cover-box {
+    margin: 0 auto;
+    width: 82%;
+    border-top: 2.5px solid #2b6cb0;
+    border-bottom: 2.5px solid #2b6cb0;
+    padding: 16pt;
+    text-align: left;
+    background-color: #f7fafc;
+}
+.cover-box table {
+    width: 100%;
+    font-size: 10.5pt;
+}
+.cover-box td {
+    padding: 3.5pt 6pt;
+}
+table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10pt;
+    margin-bottom: 14pt;
+    font-size: 10.5pt;
+}
+table.data-table th {
+    background-color: #2b6cb0;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: left;
+    padding: 7pt 9pt;
+    border: 1px solid #cbd5e0;
+}
+table.data-table td {
+    padding: 6pt 9pt;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+}
+table.data-table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+.step-card {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e0;
+    border-left: 5px solid #3182ce;
+    border-radius: 6px;
+    padding: 12pt 14pt;
+    margin: 12pt 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.step-number {
+    display: inline-block;
+    background-color: #3182ce;
+    color: white;
+    font-weight: bold;
+    font-size: 10pt;
+    padding: 2pt 8pt;
+    border-radius: 12px;
+    margin-bottom: 6pt;
+}
+.step-title {
+    font-size: 12pt;
+    font-weight: bold;
+    color: #1a365d;
+    margin-bottom: 5pt;
+}
+.alert-box {
+    background-color: #ebf8ff;
+    border: 1px solid #bee3f8;
+    border-left: 5px solid #3182ce;
+    border-radius: 6px;
+    padding: 10pt 12pt;
+    margin: 12pt 0;
+}
+.alert-box-warning {
+    background-color: #fffaf0;
+    border: 1px solid #feebc8;
+    border-left: 5px solid #dd6b20;
+}
+.alert-box-success {
+    background-color: #f0fff4;
+    border: 1px solid #c6f6d5;
+    border-left: 5px solid #38a169;
+}
+.alert-title {
+    font-weight: bold;
+    font-size: 11pt;
+    margin-bottom: 4pt;
+}
+.alert-title-info { color: #2b6cb0; }
+.alert-title-warning { color: #c05621; }
+.alert-title-success { color: #276749; }
+.ui-mockup {
+    border: 2px dashed #cbd5e0;
+    background-color: #f8fafc;
+    padding: 15pt;
+    border-radius: 8px;
+    text-align: center;
+    margin: 14pt 0;
+}
+.btn-futuristic-preview {
+    display: inline-block;
+    background-color: #121820;
+    color: #00f2ff;
+    border: 1px solid #00f2ff;
+    border-radius: 6px;
+    padding: 8pt 24pt;
+    font-family: 'Consolas', monospace;
+    font-size: 11pt;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+ul, ol {
+    margin: 0 0 10pt 20pt;
+    padding: 0;
+}
+li {
+    margin-bottom: 5pt;
+}
+</style>
+</head>
+<body>
+<div class="WordSection1">
+
+<!-- ================= PORTADA ================= -->
+<div class="cover">
+    <div class="cover-institution">Dirección General de Aviación Civil</div>
+    <div class="cover-subinstitution">Dirección de Tecnologías de la Información y Comunicación</div>
+    <div style="height: 30pt;"></div>
+    <div class="cover-title">MANUAL DE USUARIO</div>
+    <div class="cover-subtitle">Sistema Integrado de Gestión (SIGADGACWEB)<br>Guía Operativa y Módulo de Actualización de Matrículas, Ciudades y Clientes</div>
+    
+    <div style="height: 40pt;"></div>
+    <div class="cover-box">
+        <table>
+            <tr>
+                <td style="width: 35%; font-weight: bold; color: #1a365d;">Sistema:</td>
+                <td>Sistema Integrado de Gestión Web (SIGADGACWEB)</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Módulo Operativo:</td>
+                <td>Actualización de Matrículas, Ciudades y Clientes</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Público Objetivo:</td>
+                <td>Funcionarios Operativos, Personal de Registro Aeronáutico, Analistas y Administradores</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Versión del Manual:</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Fecha de Publicación:</td>
+                <td>Noviembre 2026</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Entorno:</td>
+                <td>Producción Institucional DGAC</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- ================= CONTROL DE VERSIONES ================= -->
+<h1 class="no-break">Control de Versiones del Documento</h1>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 15%;">Versión</th>
+            <th style="width: 20%;">Fecha</th>
+            <th style="width: 40%;">Descripción</th>
+            <th style="width: 25%;">Elaborado por</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1.0</td>
+            <td>06/11/2026</td>
+            <td>Emisión de la primera versión del manual de usuario para el sistema SIGADGACWEB y la operación paso a paso del módulo de sincronización hacia el Sistema de Autorizaciones.</td>
+            <td>Equipo TIC - DGAC</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ================= CAPÍTULO 1 ================= -->
+<h1>1. Introducción al Sistema SIGADGACWEB</h1>
+
+<h2>1.1. ¿Qué es el SIGADGACWEB?</h2>
+<p>El <strong>Sistema Integrado de Gestión de la Dirección General de Aviación Civil (SIGADGACWEB)</strong> es la plataforma web institucional desarrollada para administrar, controlar y monitorear de manera centralizada la información aeronáutica, administrativa y comercial de la institución.</p>
+<p>A través de este sistema, los funcionarios y departamentos autorizados pueden gestionar registros de aeronaves, operadores de compañías de aviación, clientes de facturación, afectaciones presupuestarias y coordinar los procesos de autorización de vuelos y operaciones aeronáuticas.</p>
+
+<h2>1.2. Objetivo de este Manual</h2>
+<p>Esta guía proporciona las instrucciones detalladas para el correcto uso del aplicativo, permitiendo al usuario familiarizarse con la navegación y operar de forma segura y autónoma el módulo de <strong>Actualización de Matrículas, Ciudades y Clientes</strong>, asegurando que la información transaccional se replique correctamente hacia el nuevo Sistema de Autorizaciones.</p>
+
+<!-- ================= CAPÍTULO 2 ================= -->
+<h1>2. Requisitos de Acceso y Navegación</h1>
+
+<h2>2.1. Requisitos de Hardware y Software</h2>
+<p>Para acceder al aplicativo se requiere una computadora de oficina conectada a la red institucional o VPN de la DGAC con las siguientes características mínimas:</p>
+<ul>
+    <li><strong>Navegador Web:</strong> Google Chrome (versión 90 o superior), Microsoft Edge (versión 90 o superior) o Mozilla Firefox actualizado.</li>
+    <li><strong>Resolución de Pantalla:</strong> Mínima de 1366 x 768 píxeles (Recomendada 1920 x 1080 píxeles).</li>
+    <li><strong>Conectividad:</strong> Enlace estable con la intranet corporativa de la DGAC.</li>
+</ul>
+
+<h2>2.2. Ingreso al Sistema (Inicio de Sesión)</h2>
+<p>Para iniciar sus actividades en el aplicativo, siga los siguientes pasos:</p>
+<ol>
+    <li>Abra su navegador web de preferencia e ingrese la dirección URL del portal SIGADGACWEB provista por la Dirección de TIC.</li>
+    <li>En la pantalla de bienvenida, digite su <strong>Nombre de Usuario</strong> institucional y su <strong>Contraseña</strong> personal.</li>
+    <li>Si la pantalla cuenta con verificación de seguridad (Cloudflare / Captcha), complete la validación correspondiente.</li>
+    <li>Haga clic en el botón <strong>"Iniciar Sesión"</strong> o <strong>"Ingresar"</strong>.</li>
+</ol>
+
+<div class="alert-box alert-box-warning">
+    <div class="alert-title alert-title-warning">Importante - Caducidad de Sesión:</div>
+    Por políticas de seguridad de la información de la DGAC, su sesión se cerrará automáticamente si transcurre un período prolongado de inactividad. Si esto sucede, el sistema le solicitará identificarse nuevamente.
+</div>
+
+<!-- ================= CAPÍTULO 3 ================= -->
+<h1>3. Estructura General del Menú Institucional</h1>
+<p>Una vez autenticado en el sistema, visualizará la barra superior y el menú lateral de opciones, organizado de acuerdo con el perfil y permisos asignados a su cuenta de usuario:</p>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 30%;">Sección / Menú</th>
+            <th style="width: 70%;">Función Principal</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Inicio / Dashboard</strong></td>
+            <td>Resumen general de novedades, accesos directos y notificaciones de interés institucional.</td>
+        </tr>
+        <tr>
+            <td><strong>Gestión Aeronáutica</strong></td>
+            <td>Consulta y mantenimiento de fichas técnicas de aeronaves, matrículas y compañías operadoras.</td>
+        </tr>
+        <tr>
+            <td><strong>Actualización de Datos</strong></td>
+            <td>Módulo especializado de sincronización masiva de aeronaves, clientes y ciudades hacia el Sistema de Autorizaciones en Power9.</td>
+        </tr>
+        <tr>
+            <td><strong>Módulos Financieros y Reportes</strong></td>
+            <td>Emisión de reportes de recaudación, depósitos de compañías y afectación presupuestaria.</td>
+        </tr>
+        <tr>
+            <td><strong>Cerrar Sesión</strong></td>
+            <td>Salida segura de la aplicación web.</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ================= CAPÍTULO 4 ================= -->
+<h1>4. Módulo: Actualización de Matrículas, Ciudades y Clientes</h1>
+
+<h2>4.1. Propósito e Importancia del Módulo</h2>
+<p>El módulo <strong>Actualización de Matrículas, Ciudades y Clientes</strong> es una herramienta crítica para la continuidad operativa. Se encarga de trasladar automáticamente todas las novedades registradas durante la jornada (nuevas matrículas de aeronaves creadas, modificaciones de peso o configuración técnica, compañías aéreas actualizadas, clientes de facturación y nuevas ciudades) desde la base de datos de gestión hacia el servidor central <strong>IBM Power9</strong> que alimenta el <em>Nuevo Sistema de Autorizaciones</em>.</p>
+
+<h2>4.2. Descripción de la Pantalla de Trabajo</h2>
+<p>Al acceder a la opción <strong>Actualización de datos</strong>, se presentará una pantalla clara y despejada con tres elementos primordiales:</p>
+
+<div class="ui-mockup">
+    <div style="font-size: 16pt; font-weight: bold; color: #333; margin-bottom: 12pt; text-transform: uppercase;">
+        Actualización de Matrículas, Ciudades y Clientes
+    </div>
+    
+    <div style="background-color: #ffffff; border-left: 4px solid #0d6efd; border: 1px solid #e0e0e0; border-radius: 6px; padding: 12pt; text-align: left; margin: 10pt auto; width: 90%;">
+        <strong style="color: #0d6efd;">Aviso Importante:</strong><br>
+        <span style="color: #4a5568; font-size: 10pt;">
+            Al continuar con el proceso de actualización de datos del sistema integrado al nuevo sistema de autorizaciones, por favor una vez terminado el proceso debe revisar en el sistema de autorizaciones si se realizó la actualización correcta.
+        </span>
+    </div>
+
+    <div style="margin-top: 15pt;">
+        <span class="btn-futuristic-preview">&#9881; PROCESAR</span>
+    </div>
+</div>
+
+<ol>
+    <li><strong>Título Principal:</strong> Identifica claramente el módulo activo en la plataforma.</li>
+    <li><strong>Tarjeta de Aviso Importante:</strong> Recordatorio normativo que instruye al funcionario a efectuar una validación cruzada en el Sistema de Autorizaciones una vez concluida la sincronización.</li>
+    <li><strong>Botón PROCESAR:</strong> Botón de alta visibilidad en estilo futurista con borde cian que pone en marcha la rutina de comunicación intersistemas.</li>
+</ol>
+
+<!-- ================= CAPÍTULO 5 ================= -->
+<h1>5. Guía Paso a Paso para la Ejecución del Proceso</h1>
+
+<p>Para ejecutar correctamente la actualización sin riesgo de inconsistencias o duplicidad, siga minuciosamente estos pasos:</p>
+
+<div class="step-card">
+    <span class="step-number">PASO 1</span>
+    <div class="step-title">Ingreso a la Opción del Módulo</div>
+    <p>En el menú lateral de navegación de SIGADGACWEB, localice la sección <strong>Actualización de datos</strong> y dé clic sobre ella. El sistema cargará el formulario principal de sincronización.</p>
+</div>
+
+<div class="step-card">
+    <span class="step-number">PASO 2</span>
+    <div class="step-title">Lectura del Aviso de Seguridad Operativa</div>
+    <p>Lea con detenimiento la tarjeta de alerta. Tenga presente que el proceso transferirá los datos al servidor central y requerirá verificación posterior.</p>
+</div>
+
+<div class="step-card">
+    <span class="step-number">PASO 3</span>
+    <div class="step-title">Pulsar el Botón "PROCESAR"</div>
+    <p>Dé un único clic en el botón <strong>PROCESAR</strong>. Inmediatamente el sistema bloqueará la pantalla y presentará una ventana emergente animada con el texto <em>"Procesando... Por favor espere mientras se realiza la actualización de datos"</em>.</p>
+</div>
+
+<div class="alert-box alert-box-warning">
+    <div class="alert-title alert-title-warning">Atención durante el procesamiento:</div>
+    <strong>No cierre la ventana del navegador</strong>, no recargue la página (F5) ni haga clic atrás mientras el mensaje "Procesando..." esté en pantalla. El sistema está comunicándose con el servidor IBM Power9 y la interrupción abrupta de la conexión podría dejar tareas a medio ejecutar.
+</div>
+
+<div class="step-card">
+    <span class="step-number">PASO 4</span>
+    <div class="step-title">Lectura del Resultado Emitido por el Sistema</div>
+    <p>Al finalizar la ejecución, la ventana de espera se cerrará automáticamente y el sistema mostrará uno de los siguientes estados:</p>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 25%;">Ventana / Icono</th>
+            <th style="width: 35%;">Mensaje Mostrado</th>
+            <th style="width: 40%;">Significado y Acción Requerida</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="color: #2f855a; font-weight: bold;">&#10004; ÉXITO<br>(Icono Verde)</td>
+            <td><em>"¡Éxito! El proceso de actualización de datos finalizó correctamente."</em></td>
+            <td>Todos los registros fueron transferidos y los procedimientos de base de datos se ejecutaron satisfactoriamente. Puede continuar con sus tareas normales.</td>
+        </tr>
+        <tr>
+            <td style="color: #c05621; font-weight: bold;">&#9888; ATENCIÓN<br>(Icono Ámbar)</td>
+            <td><em>"No se pudo completar el proceso de actualización."</em> o mensaje explicativo devuelto.</td>
+            <td>El sistema no detectó datos nuevos para enviar o alguna validación previa no se cumplió. Revise que la información registrada esté completa.</td>
+        </tr>
+        <tr>
+            <td style="color: #e53e3e; font-weight: bold;">&#10008; ERROR<br>(Icono Rojo)</td>
+            <td><em>"Error de Conexión: Ocurrió un error al procesar la solicitud en el servidor."</em></td>
+            <td>Ocurrió una falla de comunicación de red con el servidor IBM Power9 o caducó su sesión. Comuníquese con la Mesa de Ayuda de TIC si persiste.</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ================= CAPÍTULO 6 ================= -->
+<h1>6. Verificación Posterior en el Sistema de Autorizaciones</h1>
+
+<p>Tal como lo señala el aviso de la aplicación, el paso final indispensable es la comprobación cruzada en el <strong>Sistema de Autorizaciones</strong>:</p>
+
+<ol>
+    <li>Abra en una nueva pestaña o aplicación el <strong>Sistema de Autorizaciones</strong>.</li>
+    <li>Consulte la entidad o registro que motivó la actualización (por ejemplo, la matrícula de la aeronave recién ingresada o la compañía actualizada).</li>
+    <li>Corrobore que el estado, el propietario, las especificaciones de peso (MTOW) y los datos generales concuerden exactamente con lo reportado en SIGADGACWEB.</li>
+    <li>En caso de observar cualquier discrepancia o si la matrícula no figura en el catálogo de autorizaciones, reporte inmediatamente el número de matrícula al Administrador de Base de Datos para su revisión.</li>
+</ol>
+
+<!-- ================= CAPÍTULO 7 ================= -->
+<h1>7. Preguntas Frecuentes y Soporte al Usuario</h1>
+
+<h2>7.1. Preguntas Frecuentes (FAQ)</h2>
+
+<p><strong>¿Con qué frecuencia debo presionar el botón "PROCESAR"?</strong><br>
+El proceso se puede ejecutar cada vez que se ingrese una nueva aeronave, compañía o cliente que requiera operar de forma inmediata en el Sistema de Autorizaciones, o al finalizar el turno operativo de registro de datos.</p>
+
+<p><strong>¿Qué debo hacer si aparece el mensaje "La sesión ha caducado"?</strong><br>
+Por seguridad, si deja el sistema abierto sin actividad, la sesión se cierra. Debe presionar "Aceptar", volver a la pantalla de Login, ingresar su usuario y contraseña, y reintentar el proceso.</p>
+
+<p><strong>¿Si presiono el botón dos veces por error, se duplican las matrículas?</strong><br>
+No. La base de datos central en IBM Power9 cuenta con controles y procedimientos almacenados (<code>PA_ACTUALIZAMAT</code>) que reconocen la clave única de matrícula y empresa, actualizando el registro existente en lugar de duplicarlo.</p>
+
+<h2>7.2. Mesa de Ayuda y Soporte Técnico Institucional</h2>
+<p>Si experimenta fallas recurrentes de conexión o mensajes de error no especificados, comuníquese con el equipo de soporte técnico indicando los siguientes datos:</p>
+<ul>
+    <li><strong>Unidad Responsable:</strong> Dirección de Tecnologías de la Información y Comunicación (DTIC) - DGAC.</li>
+    <li><strong>Canal de Atención:</strong> Mesa de Ayuda / Sistema de Tickets Institucional.</li>
+    <li><strong>Datos a reportar:</strong> Nombre del usuario, hora del intento, captura del mensaje de error en pantalla y matrícula o registro que intentaba sincronizar.</li>
+</ul>
+
+<div style="height: 30pt;"></div>
+<p style="text-align: center; color: #718096; font-size: 9.5pt;">
+    — Fin del Manual de Usuario SIGADGACWEB —<br>
+    Dirección General de Aviación Civil del Ecuador - Noviembre 2026
+</p>
+
+</div>
+</body>
+</html>
+

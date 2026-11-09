@@ -1,0 +1,695 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Manual Técnico - Sistema Integrado de Gestión SIGADGACWEB</title>
+<!--[if gte mso 9]>
+<xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page {
+    size: letter;
+    margin: 2.2cm 2.2cm 2.2cm 2.2cm;
+    mso-header-margin: 1.25cm;
+    mso-footer-margin: 1.25cm;
+    mso-footer: f1;
+}
+div.WordSection1 {
+    page: WordSection1;
+}
+body {
+    font-family: 'Calibri', 'Arial', sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.35;
+    color: #2b2b2b;
+}
+h1, h2, h3, h4 {
+    font-family: 'Calibri Light', 'Arial', sans-serif;
+    font-weight: bold;
+    color: #1a365d;
+}
+h1 {
+    font-size: 18pt;
+    border-bottom: 2px solid #0056b3;
+    padding-bottom: 4px;
+    margin-top: 22pt;
+    margin-bottom: 10pt;
+    page-break-before: always;
+}
+h1.no-break {
+    page-break-before: avoid;
+}
+h2 {
+    font-size: 14pt;
+    color: #0b4f8a;
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 3px;
+    margin-top: 16pt;
+    margin-bottom: 7pt;
+}
+h3 {
+    font-size: 12pt;
+    color: #2c5282;
+    margin-top: 12pt;
+    margin-bottom: 5pt;
+}
+p {
+    margin: 0 0 7pt 0;
+    text-align: justify;
+}
+.cover {
+    text-align: center;
+    padding-top: 50pt;
+    padding-bottom: 80pt;
+}
+.cover-institution {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #1a365d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5pt;
+}
+.cover-subinstitution {
+    font-size: 12pt;
+    color: #4a5568;
+    text-transform: uppercase;
+    margin-bottom: 35pt;
+}
+.cover-title {
+    font-size: 25pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 12pt;
+    line-height: 1.2;
+}
+.cover-subtitle {
+    font-size: 13.5pt;
+    color: #2b6cb0;
+    margin-bottom: 40pt;
+    font-style: italic;
+}
+.cover-box {
+    margin: 0 auto;
+    width: 85%;
+    border-top: 2px solid #0056b3;
+    border-bottom: 2px solid #0056b3;
+    padding: 14pt;
+    text-align: left;
+    background-color: #f7fafc;
+}
+.cover-box table {
+    width: 100%;
+    font-size: 9.5pt;
+}
+.cover-box td {
+    padding: 3pt 5pt;
+}
+table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8pt;
+    margin-bottom: 12pt;
+    font-size: 9.5pt;
+}
+table.data-table th {
+    background-color: #1a365d;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: left;
+    padding: 5pt 7pt;
+    border: 1px solid #cbd5e0;
+}
+table.data-table td {
+    padding: 4.5pt 7pt;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+}
+table.data-table tr:nth-child(even) {
+    background-color: #f7fafc;
+}
+.callout {
+    background-color: #ebf8ff;
+    border-left: 4px solid #3182ce;
+    padding: 8pt 10pt;
+    margin: 8pt 0;
+    border-radius: 4px;
+}
+.callout-title {
+    font-weight: bold;
+    color: #2b6cb0;
+    margin-bottom: 3pt;
+}
+.callout-warning {
+    background-color: #fffaf0;
+    border-left: 4px solid #dd6b20;
+}
+.callout-warning .callout-title {
+    color: #c05621;
+}
+code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 9pt;
+    background-color: #edf2f7;
+    padding: 1pt 3pt;
+    border-radius: 3px;
+    color: #805ad5;
+}
+pre {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 8.5pt;
+    background-color: #1a202c;
+    color: #edf2f7;
+    padding: 9pt;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 6pt 0 10pt 0;
+    line-height: 1.25;
+}
+pre.sql-box {
+    background-color: #0f172a;
+    border-left: 4px solid #38bdf8;
+    color: #e2e8f0;
+}
+ul, ol {
+    margin: 0 0 8pt 16pt;
+    padding: 0;
+}
+li {
+    margin-bottom: 3pt;
+}
+.badge-tech {
+    display: inline-block;
+    padding: 1.5pt 5pt;
+    font-size: 8pt;
+    font-weight: bold;
+    border-radius: 3px;
+    color: #fff;
+    background-color: #0f766e;
+    margin-right: 4pt;
+}
+.badge-p550 { background-color: #b45309; }
+.badge-db2 { background-color: #1d4ed8; }
+</style>
+</head>
+<body>
+<div class="WordSection1">
+
+<!-- ================= PORTADA ================= -->
+<div class="cover">
+    <div class="cover-institution">Dirección General de Aviación Civil</div>
+    <div class="cover-subinstitution">Dirección de Tecnologías de la Información y Comunicación</div>
+    <div style="height: 25pt;"></div>
+    <div class="cover-title">MANUAL TÉCNICO DE SISTEMA</div>
+    <div class="cover-subtitle">Sistema Integrado de Gestión (SIGADGACWEB)<br>Arquitectura, Modelo RBAC, Catálogo Exhaustivo de Consultas SQL y Sincronización DB2 / Power9</div>
+    
+    <div style="height: 35pt;"></div>
+    <div class="cover-box">
+        <table>
+            <tr>
+                <td style="width: 35%; font-weight: bold; color: #1a365d;">Sistema / Aplicativo:</td>
+                <td>SIGADGACWEB (Sistema Integrado de Gestión DGAC)</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Módulos Documentados:</td>
+                <td>Arquitectura General, Seguridad RBAC, ActualizaMatrClienCiud y Catálogo SQL</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Plataforma y Framework:</td>
+                <td>ASP.NET MVC 5 - .NET Framework 4.5 / C#</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Bases de Datos Involucradas:</td>
+                <td>ODBC Servidor P550 / IBM DB2 iSeries (Power9 - Colección DGACDATPRO)</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Versión del Documento:</td>
+                <td>2.0 (Edición Completa con Consultas SQL)</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Fecha de Emisión:</td>
+                <td>Noviembre 2026</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Clasificación:</td>
+                <td>Documento Técnico Institucional - Confidencial</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- ================= CONTROL DE VERSIONES ================= -->
+<h1 class="no-break">Control de Versiones y Aprobaciones</h1>
+<p>El presente documento registra las especificaciones de arquitectura, flujo de datos, seguridad por roles (RBAC), procedimientos almacenados y el catálogo completo de sentencias SQL ejecutadas en <strong>SIGADGACWEB</strong>.</p>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 10%;">Versión</th>
+            <th style="width: 15%;">Fecha</th>
+            <th style="width: 45%;">Descripción del Cambio</th>
+            <th style="width: 30%;">Responsable</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1.0</td>
+            <td>06/11/2026</td>
+            <td>Elaboración inicial del Manual Técnico. Documentación global de arquitectura, controladores y capa de datos.</td>
+            <td>Equipo de Desarrollo TI - DGAC</td>
+        </tr>
+        <tr>
+            <td>1.1</td>
+            <td>06/11/2026</td>
+            <td>Inclusión de la arquitectura de seguridad, modelo RBAC de usuarios, menús y submenús dinámicos (USUARC, ROLAR2, MENAR1, SUBAR7).</td>
+            <td>Equipo de Desarrollo TI - DGAC</td>
+        </tr>
+        <tr>
+            <td>2.0</td>
+            <td>06/11/2026</td>
+            <td><strong>Inclusión exhaustiva de todas las consultas SQL</strong>: Consultas de extracción en P550, inserciones en tablas temporales DB2 Power9 (AERAR3, OIDAR5, OIDA10, OIDAR4), Stored Procedures y consultas del motor de permisos.</td>
+            <td>Equipo de Desarrollo TI - DGAC</td>
+        </tr>
+    </tbody>
+</table>
+
+<div style="height: 12pt;"></div>
+<h3>Firmas de Responsabilidad</h3>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 33%;">Elaborado por:</th>
+            <th style="width: 33%;">Revisado por:</th>
+            <th style="width: 34%;">Aprobado por:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="height: 55pt;">
+            <td><br><br>__________________________<br><strong>Ingeniería de Software</strong><br>Desarrollador / Analista TIC</td>
+            <td><br><br>__________________________<br><strong>Líder Técnico de Desarrollo</strong><br>Gestión de Arquitectura TIC</td>
+            <td><br><br>__________________________<br><strong>Director de TIC</strong><br>Dirección General de Aviación Civil</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ================= CAPÍTULO 1 ================= -->
+<h1>1. Introducción y Arquitectura del Sistema</h1>
+
+<h2>1.1. Propósito y Alcance</h2>
+<p>El sistema <strong>SIGADGACWEB</strong> centraliza la operativa técnica, comercial y de seguridad operacional de la Dirección General de Aviación Civil del Ecuador. Como parte fundamental de la modernización institucional, el sistema actúa como el motor transaccional de extracción y homologación diaria hacia el <strong>Nuevo Sistema de Autorizaciones</strong> montado sobre tecnología <strong>IBM Power9 (DB2 iSeries / AS400)</strong>.</p>
+
+<h2>1.2. Arquitectura en Capas y Patrones de Diseño</h2>
+<ul>
+    <li><strong>Capa de Presentación (<code>SistemaIntegradoGestion</code>):</strong> ASP.NET MVC 5, vistas Razor, peticiones asíncronas vía AJAX con control modal en <em>SweetAlert2</em>.</li>
+    <li><strong>Capa de Lógica y Datos (<code>CapaDatos</code>):</strong> Implementación del patrón <strong>Singleton</strong> (<code>CD_ActualizaMatClienCiud.Instancia</code>, <code>CD_Menu.Instancia</code>, <code>CD_Usuario.Instancia</code>), persistencia ADO.NET heterogénea con <code>System.Data.Odbc</code> para P550 y <code>IBM.Data.DB2.iSeries</code> para Power9.</li>
+    <li><strong>Capa de Modelos (<code>CapaModelo</code>):</strong> Clases POCO, DTOs (<code>DatosGlobales</code>, <code>tbUsuario</code>, <code>tbMenu</code>, <code>tbSubMenu</code>) que desacoplan la persistencia de las vistas.</li>
+</ul>
+
+<!-- ================= CAPÍTULO 2 ================= -->
+<h1>2. Modelo de Seguridad y Control de Acceso (RBAC)</h1>
+<p>El sistema implementa una matriz de permisos almacenada en tablas centrales de IBM DB2 iSeries. A continuación se detallan las consultas SQL exactas que construyen el árbol de menús y autentican al funcionario:</p>
+
+<h2>2.1. Consulta de Autenticación y Perfil de Usuario</h2>
+<p><span class="badge-tech badge-db2">Motor: IBM DB2 iSeries</span> <strong>Clase:</strong> <code>CapaDatos.CD_Usuario.cs</code> | <strong>Método:</strong> <code>GetUsuarioPorCodigo()</code></p>
+<pre class="sql-box">
+SELECT 
+    ifnull(rtrim(ltrim(USUCOD)), '') AS CodigoUsuario, 
+    ifnull(rtrim(ltrim(USUNOM)), '') AS NombresUsuario, 
+    ifnull(rtrim(ltrim(USUAPE)), '') AS ApellidosUsuario, 
+    ifnull(rtrim(ltrim(USUTIP)), '') AS TipoIdentificacion,
+    ifnull(rtrim(ltrim(USUCED)), '') AS CedulaUsuario, 
+    ifnull(rtrim(ltrim(USUCOR)), '') AS CorreoUsuario, 
+    ifnull(rtrim(ltrim(USUCLA)), '') AS ClaveUsuario, 
+    ifnull(rtrim(ltrim(USUEST)), '') AS EstadoActividad, 
+    ifnull(rtrim(ltrim(USUTI1)), '') AS TipoAplicacion,
+    ifnull(rtrim(ltrim(USUIDE)), '') AS IdentificacionTributaria, 
+    ifnull(rtrim(ltrim(USUNUM)), '') AS NumeroRuc, 
+    ifnull(rtrim(ltrim(USUUSU)), '') AS UsuarioCreacion, 
+    ifnull(rtrim(ltrim(USUFEC)), '') AS FechaCreacion, 
+    ifnull(rtrim(ltrim(USUHOR)), '') AS HoraCreacion, 
+    ifnull(rtrim(ltrim(USUDIS)), '') AS DispositivoCreacion, 
+    ifnull(rtrim(ltrim(USUUS1)), '') AS UsuarioModificacion, 
+    ifnull(rtrim(ltrim(USUFE1)), '') AS FechaModificacion, 
+    ifnull(rtrim(ltrim(USUHO1)), '') AS HoraModificacion, 
+    ifnull(rtrim(ltrim(USUDI1)), '') AS DispositivoModificacion, 
+    ifnull(rtrim(ltrim(USUCO1)), '') AS CodigoSubsistema, 
+    ifnull(rtrim(ltrim(USUCO2)), '') AS CodigoGestion, 
+    ifnull(rtrim(ltrim(USUCO3)), '') AS CodigoModulo, 
+    ifnull(rtrim(ltrim(USUCO4)), '') AS CodigoRol, 
+    ifnull(rtrim(ltrim(USUCO9)), '') AS CodigoCiudad, 
+    ifnull(rtrim(ltrim(USUCO6)), '') AS CodigoDependencia, 
+    ifnull(rtrim(ltrim(DIRDES)), rtrim(ltrim(SUBDES))) AS DescripcionSubSistema,
+    ifnull(rtrim(ltrim(USUNO1)), '') AS NOMBRECORTO, 
+    ifnull(rtrim(ltrim(USUCAR)), '') AS CARGO, 
+    ifnull(rtrim(ltrim(USUOID)), '') AS CentroContable
+FROM USUARC 
+LEFT JOIN SUBAR2 ON (USUCO1 = SUBCOD) 
+LEFT JOIN USUAR1 ON (USUCO8 = USUCOD) 
+LEFT JOIN DIRARC ON (USUCO1 = DIRCO3)  
+WHERE USUCOD = '{codigoUsuario.ToUpper()}';
+</pre>
+
+<h2>2.2. Consulta de Menús Asignados por Rol</h2>
+<p><span class="badge-tech badge-db2">Motor: IBM DB2 iSeries</span> <strong>Clase:</strong> <code>CapaDatos.CD_Menu.cs</code> | <strong>Método:</strong> <code>GetMenuPorCodigo()</code></p>
+<pre class="sql-box">
+SELECT 
+    ifnull(rtrim(ltrim(MENCO1)), '') AS CodigoSubsistema, 
+    ifnull(rtrim(ltrim(MENCO2)), '') AS CodigoGestion, 
+    ifnull(rtrim(ltrim(MENCO3)), '') AS CodigoModulo, 
+    ifnull(rtrim(ltrim(MENCO4)), '') AS CodigoRol,
+    ifnull(rtrim(ltrim(MENCOD)), '') AS CodigoMenu, 
+    ifnull(rtrim(ltrim(MENDE1)), '') AS DescripcionMenu, 
+    ifnull(rtrim(ltrim(MENTIP)), '') AS TipoOpcionMenu, 
+    ifnull(rtrim(ltrim(MENEST)), '') AS EstadoMenu,
+    ifnull(rtrim(ltrim(MENUS2)), '') AS UsuarioCreacion, 
+    ifnull(rtrim(ltrim(MENFE2)), '') AS FechaCreacion, 
+    ifnull(rtrim(ltrim(MENHO2)), '') AS HoraCreacion, 
+    ifnull(rtrim(ltrim(MENDIS)), '') AS DispositivoCreacion,
+    ifnull(rtrim(ltrim(MENUS3)), '') AS UsuarioModificacion, 
+    ifnull(rtrim(ltrim(MENFE3)), '') AS FechaModificacion, 
+    ifnull(rtrim(ltrim(MENHO3)), '') AS HoraModificacion,
+    ifnull(rtrim(ltrim(MENDI1)), '') AS DispositivoModificacion, 
+    ifnull(rtrim(ltrim(MENAU1)), '') AS codigoServidorReport, 
+    ifnull((SELECT rtrim(ltrim(VALDES)) 
+            FROM DGACSYS.TXDGAC 
+            WHERE VALDDS = 'MENAU1' AND VALVAL = MENAU1), '') AS DescripcionServidorReport 
+FROM USUARC 
+INNER JOIN ROLAR2 ON (USUCO1 = ROLCO2 AND USUCO2 = ROLCO3 AND USUCO3 = ROLCO4 AND USUCO4 = ROLCO1)
+INNER JOIN MENAR1 ON (MENCO1 = ROLCO2 AND MENCO2 = ROLCO3 AND MENCO3 = ROLCO4 AND MENCO4 = ROLCO1)
+WHERE USUCOD = '{codigoUsuario.ToUpper()}'
+  AND (SELECT COUNT(*) 
+       FROM SUBAR7 
+       WHERE MENCO1 = SUBC10 AND MENCO2 = SUBC11 AND MENCO3 = SUBC12 AND MENCO4 = SUBC13 AND MENCOD = SUBC14) > 0;
+</pre>
+
+<h2>2.3. Consulta de Submenús y Enrutamiento MVC</h2>
+<p><span class="badge-tech badge-db2">Motor: IBM DB2 iSeries</span> <strong>Clase:</strong> <code>CapaDatos.CD_SubMenu.cs</code> | <strong>Método:</strong> <code>GetSubMenuPorCodigo()</code></p>
+<pre class="sql-box">
+SELECT 
+    ifnull(rtrim(ltrim(SUBC10)), '') AS CodigoSubsistema, 
+    ifnull(rtrim(ltrim(SUBC11)), '') AS CodigoGestion, 
+    ifnull(rtrim(ltrim(SUBC12)), '') AS CodigoModulo, 
+    ifnull(rtrim(ltrim(SUBC13)), '') AS CodigoRol,
+    ifnull(rtrim(ltrim(SUBC14)), '') AS CodigoMenu, 
+    ifnull(SUBID1, 0) AS IdSubMenu, 
+    ifnull(rtrim(ltrim(SUBNO1)), '') AS Nombre, 
+    ifnull(rtrim(ltrim(SUBC09)), '') AS Controlador,
+    ifnull(rtrim(ltrim(SUBVI1)), '') AS Vista, 
+    ifnull(SUBES4, 0) AS Estado, 
+    ifnull(rtrim(ltrim(SUBU03)), '') AS UsuarioCreado, 
+    ifnull(rtrim(ltrim(SUBF03)), '') AS FechaCreado,
+    ifnull(rtrim(ltrim(SUBH03)), '') AS HoraCreado, 
+    ifnull(rtrim(ltrim(SUBU04)), '') AS UsuarioModificado, 
+    ifnull(rtrim(ltrim(SUBF04)), '') AS FechaModificado, 
+    ifnull(rtrim(ltrim(SUBH04)), '') AS HoraModificado,            
+    ifnull(rtrim(ltrim(SUBSER)), '') AS Servidor, 
+    ifnull(rtrim(ltrim(SUBURL)), '') AS ReporteUrl 
+FROM USUARC 
+INNER JOIN ROLAR2 ON (USUCO1 = ROLCO2 AND USUCO2 = ROLCO3 AND USUCO3 = ROLCO4 AND USUCO4 = ROLCO1)
+INNER JOIN MENAR1 ON (MENCO1 = ROLCO2 AND MENCO2 = ROLCO3 AND MENCO3 = ROLCO4 AND MENCO4 = ROLCO1)
+INNER JOIN SUBAR7 ON (MENCO1 = SUBC10 AND MENCO2 = SUBC11 AND MENCO3 = SUBC12 AND MENCO4 = SUBC13 AND MENCOD = SUBC14)
+WHERE USUCOD = '{codigoUsuario.ToUpper()}' AND SUBC14 = '{codigoMenu}';
+</pre>
+
+<!-- ================= CAPÍTULO 3 ================= -->
+<h1>3. Catálogo de Consultas de Extracción (Servidor P550)</h1>
+<p>El servidor operativo P550 alberga el registro aeronáutico diario. Las siguientes consultas extraen las novedades generadas en la fecha en curso mediante el driver ODBC:</p>
+
+<h2>3.1. Extracción de Aeronaves Nuevas del Día</h2>
+<p><span class="badge-tech badge-p550">Motor: Servidor P550 (ODBC)</span> <strong>Clase:</strong> <code>CapaDatos.TablasRecuperadas.cs</code> | <strong>Método:</strong> <code>Aeronave()</code></p>
+<pre class="sql-box">
+SELECT 
+    AE.OID AS OIDCIA, AE.MATRICULA, AE.MTOW, AE.REGION, AE.APROBADO, AE.NUMEROSERIE, 
+    AE.DESTINADOAUSO, AE.HORASTOTALT, AE.ESTADO, AE.HORASTOTALAR, AE.HORASTOTALR, 
+    AE.HORASTOTALAT, AE.CICLOSTOTAL, AE.ANIOFABRICACION, AE.CICLOSTOTALA, AE.PESOMAXATERRIZAJE, 
+    AE.ESPECIFICACION, AE.PESOMAXESTRUCTURAL, AE.CONDVUELO, AE.NUMPASAJEROS, AE.NUMPERSEXTRAS, 
+    AE.PESOVACIOKG, AE.AUTONOMIA, AE.CATEGORIA, AE.NUMTRIPULANTES, AE.NIBRAS, 
+    AE.CAPGALCOMBUSTIBLE, AE.GLIDESLOPE, AE.PILOTOAUTOMATICO, AE.VHF, AE.HF, AE.ADF, 
+    AE.VOR, AE.BCN, AE.RADAR, AE.DME, AE.ESELVA, AE.ELT, AE.BOTIQUIN, AE.EMAR, 
+    AE.EXTINGUIDOR, AE.EOXIGENO, AE.SENIALES, AE.FECHAINGPAIS, AE.FECHAULTINSPECCION, 
+    AE.ULTIMOPAIS, AE.LUGARINSPECCION, AE.GALONES_HORA, AE.EXCEPCIONES, AE.FECHAULTPB, 
+    AE.FECHAFINPB, AE.BASEOPERACION, AE.SISALTIMETRICO, AE.TRANSPONDER, AE.BRUJULA, 
+    AE.PITOT, AE.TIEMPOTOTAL, AE.REG, AE.NUMEROREGISTRO, AE.FECHAREGISTRO, 
+    AE.CATEGORIAAERONAVE, AE.FECHAEXPEDICION, AE.TIPOMATRICULA, AE.ESTADOMATRICULA, 
+    AE.LIMITANTEOPERA, AE.FECHACANCELACION, AE.REMRELOJ, AE.NACIONALIDAD_MATRICULA, 
+    AE.ULTPROPIETARIO, AE.DESCANCELACION, AE.INSCRIPMATRIEXT, AE.ARRENDADO, 
+    AE.FECHAVALIDO, AE.OBSERVACION, AE.GRAVAMEN, AE.AVALUO, AE.USUARIOCREA, 
+    AE.FECHACREA, AE.USUARIOMODIFICA, AE.FECHAMODIFICA,
+    MODELO.MODELO, CIA.CODIGO_OACI, CIA.OID, MARCA.NOMBRE 
+FROM AERONAVECOMPANIA AS AE 
+LEFT JOIN COMPANIA AS CIA ON CIA.OID = OIDCOMPANIA 
+LEFT JOIN AERONAVE AS MODELO ON MODELO.OID = OIDAERONAVE 
+LEFT JOIN MARCA AS MARCA ON MARCA.OID = MODELO.OIDMARCA  
+WHERE (AE.ESTADO IS NULL OR AE.ESTADO <> 5) 
+  AND CAST(ae.FECHACREA AS date) = '{DateTime.Now:yyyy-MM-dd}';
+</pre>
+
+<h2>3.2. Extracción de Aeronaves Modificadas del Día</h2>
+<p><span class="badge-tech badge-p550">Motor: Servidor P550 (ODBC)</span> <strong>Clase:</strong> <code>CapaDatos.TablasRecuperadas.cs</code> | <strong>Método:</strong> <code>AeronaveModifica()</code></p>
+<pre class="sql-box">
+SELECT 
+    AE.OID AS OIDCIA, AE.MATRICULA, AE.MTOW, AE.REGION, AE.APROBADO, AE.NUMEROSERIE, 
+    AE.DESTINADOAUSO, AE.HORASTOTALT, AE.ESTADO, AE.HORASTOTALAR, AE.HORASTOTALR, 
+    AE.HORASTOTALAT, AE.CICLOSTOTAL, AE.ANIOFABRICACION, AE.CICLOSTOTALA, AE.PESOMAXATERRIZAJE, 
+    AE.ESPECIFICACION, AE.PESOMAXESTRUCTURAL, AE.CONDVUELO, AE.NUMPASAJEROS, AE.NUMPERSEXTRAS, 
+    AE.PESOVACIOKG, AE.AUTONOMIA, AE.CATEGORIA, AE.NUMTRIPULANTES, AE.NIBRAS, 
+    AE.CAPGALCOMBUSTIBLE, AE.GLIDESLOPE, AE.PILOTOAUTOMATICO, AE.VHF, AE.HF, AE.ADF, 
+    AE.VOR, AE.BCN, AE.RADAR, AE.DME, AE.ESELVA, AE.ELT, AE.BOTIQUIN, AE.EMAR, 
+    AE.EXTINGUIDOR, AE.EOXIGENO, AE.SENIALES, AE.FECHAINGPAIS, AE.FECHAULTINSPECCION, 
+    AE.ULTIMOPAIS, AE.LUGARINSPECCION, AE.GALONES_HORA, AE.EXCEPCIONES, AE.FECHAULTPB, 
+    AE.FECHAFINPB, AE.BASEOPERACION, AE.SISALTIMETRICO, AE.TRANSPONDER, AE.BRUJULA, 
+    AE.PITOT, AE.TIEMPOTOTAL, AE.REG, AE.NUMEROREGISTRO, AE.FECHAREGISTRO, 
+    AE.CATEGORIAAERONAVE, AE.FECHAEXPEDICION, AE.TIPOMATRICULA, AE.ESTADOMATRICULA, 
+    AE.LIMITANTEOPERA, AE.FECHACANCELACION, AE.REMRELOJ, AE.NACIONALIDAD_MATRICULA, 
+    AE.ULTPROPIETARIO, AE.DESCANCELACION, AE.INSCRIPMATRIEXT, AE.ARRENDADO, 
+    AE.FECHAVALIDO, AE.OBSERVACION, AE.GRAVAMEN, AE.AVALUO, AE.USUARIOCREA, 
+    AE.FECHACREA, AE.USUARIOMODIFICA, AE.FECHAMODIFICA,
+    MODELO.MODELO, CIA.CODIGO_OACI, CIA.OID, MARCA.NOMBRE 
+FROM AERONAVECOMPANIA AS AE 
+LEFT JOIN COMPANIA AS CIA ON CIA.OID = OIDCOMPANIA 
+LEFT JOIN AERONAVE AS MODELO ON MODELO.OID = OIDAERONAVE 
+LEFT JOIN MARCA AS MARCA ON MARCA.OID = MODELO.OIDMARCA  
+WHERE (AE.ESTADO IS NULL OR AE.ESTADO <> 5) 
+  AND CAST(ae.FECHAMODIFICA AS date) = '{DateTime.Now:yyyy-MM-dd}';
+</pre>
+
+<h2>3.3. Extracción de Compañías Creadas y Modificadas</h2>
+<p><span class="badge-tech badge-p550">Motor: Servidor P550 (ODBC)</span> <strong>Clase:</strong> <code>CapaDatos.TablasRecuperadas.cs</code> | <strong>Métodos:</strong> <code>Compañia()</code> y <code>CompañiaModificada()</code></p>
+<pre class="sql-box">
+-- Compañías Creadas en el día:
+SELECT * FROM COMPANIA 
+WHERE CAST(FECHACREA AS date) = '{DateTime.Now:yyyy-MM-dd}';
+
+-- Compañías Modificadas en el día:
+SELECT * FROM COMPANIA 
+WHERE CAST(FECHAMODIFICA AS date) = '{DateTime.Now:yyyy-MM-dd}';
+</pre>
+<p><em>Nota técnica: En memoria de aplicación se aplica el filtro de depuración <code>NOMBRE.Contains("ANTERIOR") == false</code> para descartar registros históricos o duplicados obsoletos.</em></p>
+
+<h2>3.4. Extracción de Clientes de Facturación</h2>
+<p><span class="badge-tech badge-p550">Motor: Servidor P550 (ODBC)</span> <strong>Clase:</strong> <code>CapaDatos.TablasRecuperadas.cs</code> | <strong>Métodos:</strong> <code>ClienteFacturas()</code> y <code>ClienteFacturasModificado()</code></p>
+<pre class="sql-box">
+-- Clientes Creados o Modificados:
+SELECT * FROM CLIENTEFR3  
+WHERE NOMBRE NOT LIKE ('%(ANTERIOR)%')  
+  AND (CAST(FECHACREA AS date) = '{DateTime.Now:yyyy-MM-dd}' 
+       OR CAST(FECHAMODIFICA AS date) = '{DateTime.Now:yyyy-MM-dd}');
+
+-- Clientes Modificados específicamente:
+SELECT * FROM CLIENTEFR3  
+WHERE NOMBRE NOT LIKE ('%(ANTERIOR)%')  
+  AND CAST(FECHAMODIFICA AS date) = '{DateTime.Now:yyyy-MM-dd}';
+</pre>
+
+<h2>3.5. Extracción de Catálogo de Ciudades</h2>
+<p><span class="badge-tech badge-p550">Motor: Servidor P550 (ODBC)</span> <strong>Clase:</strong> <code>CapaDatos.TablasRecuperadas.cs</code> | <strong>Método:</strong> <code>CiudadCreada()</code></p>
+<pre class="sql-box">
+SELECT * FROM CIUDAD  
+WHERE (CAST(FECHACREA AS date) = '{DateTime.Now:yyyy-MM-dd}' 
+       OR CAST(FECHAMODIFICA AS date) = '{DateTime.Now:yyyy-MM-dd}');
+</pre>
+
+<h2>3.6. Actualización Inversa en P550 desde Modificaciones en Power9</h2>
+<p><span class="badge-tech badge-p550">Motor: Servidor P550 (ODBC)</span> <strong>Clase:</strong> <code>CapaDatos.TablasRecuperadas.cs</code> | <strong>Método:</strong> <code>ActualizaAeronaveP9()</code></p>
+<pre class="sql-box">
+UPDATE AERONAVECOMPANIA 
+SET PESOMAXESTRUCTURAL = {mensaje.PESOMAXIMO}, 
+    ANIOFABRICACION    = {mensaje.ANIOFABRICACION},
+    NUMPASAJEROS       = {mensaje.NUMPASAJEROS}, 
+    PESOVACIOKG        = {mensaje.PESOVACIOKG}, 
+    USUARIOMODIFICA    = '{mensaje.USUARIOMODIFICA}'
+WHERE OID = {mensaje.OIDAERONAVE};
+</pre>
+
+<!-- ================= CAPÍTULO 4 ================= -->
+<h1>4. Catálogo de Consultas e Inserciones en IBM Power9 (DB2)</h1>
+<p>El pipeline ETL transfiere los lotes de datos validados hacia las tablas temporales en la colección <code>DGACDATPRO</code> de IBM DB2 iSeries. Previo a cada carga se ejecuta el truncado o eliminación de la tabla temporal correspondiente:</p>
+
+<h2>4.1. Vaciado de Tablas Temporales</h2>
+<p><span class="badge-tech badge-db2">Motor: IBM DB2 iSeries</span> <strong>Clase:</strong> <code>CapaDatos.ValidaDuplicados.cs</code> | <strong>Método:</strong> <code>EliminaTemporal(tabla)</code></p>
+<pre class="sql-box">
+DELETE FROM AERAR3; -- Limpia temporal de Aeronaves
+DELETE FROM OIDAR5; -- Limpia temporal de Compañías
+DELETE FROM OIDA10; -- Limpia temporal de Clientes Facturación
+DELETE FROM OIDAR4; -- Limpia temporal de Ciudades
+</pre>
+
+<h2>4.2. Inserción Masiva en Temporal de Aeronaves (<code>AERAR3</code>)</h2>
+<p><span class="badge-tech badge-db2">Motor: IBM DB2 iSeries</span> <strong>Clase:</strong> <code>CapaDatos.InsertarPower9.cs</code> | <strong>Método:</strong> <code>insertar_transaccionAeronave()</code></p>
+<pre class="sql-box">
+INSERT INTO AERAR3(
+    AERCO2, AERMA2, AERPE4, AERRE6, AERAP1, AERNU6, AERDE2, AERH01, AERES2, AERH02,
+    AERH03, AERH04, AERCI2, AERAN1, AERCI3, AERPE5, AERES3, AERPE6, AERCO7, AERNU7,
+    AERNU8, AERPE7, AERAU1, AERCA3, AERNU9, AERN01, AERCA4, AERGL1, AERPI2, AERVH1,
+    AERHF1, AERAD1, AERVO1, AERBC1, AERRA1, AERDM1, AERES4, AEREL1, AERBO1, AEREM1,
+    AEREX1, AEREO1, AERSE1, AERF06, AERF07, AERUL2, AERLU1, AERGA1, AEREX2, AERF08,
+    AERF09, AERBA1, AERSI1, AERTR1, AERBR1, AERPI3, AERTI2, AERRE7, AERN02, AERF10,
+    AERCA5, AERF11, AERTI3, AERES5, AERLI1, AERF12, AERRE8, AERNA1, AERUL3, AERDE3,
+    AERIN1, AERAR4, AERF13, AEROB1, AERGR1, AERAV1, AERUS6, AERF14, AERUS7, AERF15,
+    AERMO1, AERFA1, AERMA3, AEROI3, AEROI4
+) VALUES (
+    '{CODIGOOACI}', '{MATRICULA}', {PESOMAXESTRUCTURAL}, {REGION}, {APROBADO}, 
+    '{NUMEROSERIE}', {DESTINADOAUSO}, {HORASTOTALAT}, {ESTADO}, {HORASTOTALAR},
+    {HORASTOTALR}, {HORASTOTALT}, {CICLOSTOTAL}, '{ANIOFABRICACION}', {CICLOSTOTALA}, 
+    {PESOMAXATERRIZAJE}, '{ESPECIFICACION}', {PESOMAXESTRUCTURAL}, '{CONDVUELO}', 
+    {NUMPASAJEROS}, {NUMPERSEXTRAS}, {PESOVACIOKG}, '{AUTONOMIA}', {CATEGORIA}, 
+    {NUMTRIPULANTES}, {NIBRAS}, {CAPGALCOMBUSTIBLE}, '{GLIDESLOPE}', '{PILOTOAUTOMATICO}', 
+    '{VHF}', '{HF}', '{ADF}', '{VOR}', '{BCN}', '{RADAR}', '{DME}', '{ESELVA}', '{ELT}', 
+    '{BOTIQUIN}', '{EMAR}', '{EXTINGUIDOR}', '{EOXIGENO}', '{SENIALES}', '{FECHAINGPAIS}', 
+    '{FECHAULTINSPECCION}', '{ULTIMOPAIS}', '{LUGARINSPECCION}', {GALONES_HORA}, 
+    '{EXCEPCIONES}', '{FECHAULTPB}', '{FECHAFINPB}', '{BASEOPERACION}', '{SISALTIMETRICO}', 
+    '{TRANSPONDER}', '{BRUJULA}', '{PITOT}', {TIEMPOTOTAL}, {REG}, '{NUMEROREGISTRO}', 
+    '{FECHAREGISTRO}', '{CATEGORIAAERONAVE}', '{FECHAEXPEDICION}', '{TIPOMATRICULA}', 
+    '{ESTADOMATRICULA}', {LIMITANTEOPERA}, '{FECHACANCELACION}', {REMRELOJ}, 
+    '{NACIONALIDAD_MATRICULA}', '{ULTPROPIETARIO}', '{DESCANCELACION}', '{INSCRIPMATRIEXT}', 
+    '{ARRENDADO}', '{FECHAVALIDO}', '{OBSERVACION}', '{GRAVAMEN}', {AVALUO}, 
+    '{USUARIOCREA}', '{FECHACREA}', '{USUARIOMODIFICA}', '{FECHAMODIFICA}', 
+    '{MODELO}', '{NOMBRE}', '{MATRICULAINDRA}', {OIDCIA}, {OIDAERONAVE}
+);
+</pre>
+
+<h2>4.3. Inserción Masiva en Temporal de Compañías (<code>OIDAR5</code>)</h2>
+<p><span class="badge-tech badge-db2">Motor: IBM DB2 iSeries</span> <strong>Clase:</strong> <code>CapaDatos.InsertarPower9.cs</code> | <strong>Método:</strong> <code>insertar_Compania()</code></p>
+<pre class="sql-box">
+INSERT INTO OIDAR5(
+    OIDO11, OIDO12, OIDO13, OIDSIG, OIDCO7, OIDNO4, OIDDIR, OIDREP, OIDDI1, OIDTEL,
+    OIDO14, OIDRE6, OIDTE1, OIDFAX, OIDEMA, OIDCUP, OIDCAR, OIDLIS, OIDVIG, OIDCA1,
+    OIDDIA, OIDRE7, OIDO15, OIDCUE, OIDCA2, OIDCOP, OIDNU1, OIDIVA, OIDRET, OIDRE8,
+    OIDNAC, OIDTI1, OIDTI2, OIDU01, OIDF02, OIDU02, OIDF03, OIDO16, OIDPR1, OIDO17,
+    OIDEM1, OIDFA3, OIDDI2, OIDTE2, OIDFA4, OIDO18, OIDRUC, OIDAFT, OIDNO5, OIDOB3, OIDCO8
+) VALUES (
+    {OID}, {OIDPAIS}, {OIDCIUDAD}, '{SIGLAS_IATA}', '{CODIGO_OACI}', '{NOMBRE}', 
+    '{DIRECCION}', '{REPRESENTANTELEGAL}', '{DIRECCREPRELEGAL}', '{TELEFREPRELEGAL}', 
+    {OIDCIUDADREPLEGAL}, '{REPRESENTANTETECNI}', '{TELEFONO}', '{FAX}', '{EMAIL}', 
+    {CUPO}, '{CARGOREPRESENLEGAL}', {LISTAPRECIOS}, '{VIGENCIACOA}', '{CARGOREPRESENTECNI}', 
+    {DIASCREDITO}, '{REPRESENTANTEPERMI}', {OIDCTACONT}, '{CUENTACONTABLE}', 
+    '{CARGOREPRESENPERMI}', {COPIAS}, {NUMEROPAGOS}, {IVA}, {RETENCIONIVA}, 
+    {RETENCIONFUENTE}, '{NACIONAL_EXTRANJER}', '{TIPOOBJETO}', '{TIPOCOMPANIA}', 
+    '{USUARIOCREA}', '{FECHACREA}', '{USUARIOMODIFICA}', '{FECHAMODIFICA}', 
+    {OIDZONA}, '{PROPIETARIO}', {OIDCTACONTANT}, '{EMAILREPRELEGAL}', '{FAXREPRELEGAL}', 
+    '{DIRECREPRETECNI}', '{TELFREPRETECNI}', '{FAXREPRETECNI}', {OIDCIUDADREPTECNI}, 
+    '{RUC}', '{AFTN}', '{NOMBRECOMERCIAL}', '{OBSERVACION}', '{CODEMPRESA}'
+);
+</pre>
+
+<h2>4.4. Inserción Masiva en Temporal de Clientes de Facturación (<code>OIDA10</code>)</h2>
+<p><span class="badge-tech badge-db2">Motor: IBM DB2 iSeries</span> <strong>Clase:</strong> <code>CapaDatos.InsertarPower9.cs</code> | <strong>Método:</strong> <code>insertar_ClienteFactura()</code></p>
+<pre class="sql-box">
+INSERT INTO OIDA10(OIDCL1, OIDN02, OIDDI5, OIDTE4, OIDTA1, OIDNI1)
+VALUES (
+    '{CEDULA_RUC}', 
+    '{NOMBRECLIENTE}', 
+    '{DIRECCION}', 
+    '{TELEFONO}', 
+    '{TABLA}', 
+    '{NIVEL}'
+);
+</pre>
+
+<h2>4.5. Inserción Masiva en Temporal de Ciudades (<code>OIDAR4</code>)</h2>
+<p><span class="badge-tech badge-db2">Motor: IBM DB2 iSeries</span> <strong>Clase:</strong> <code>CapaDatos.InsertarPower9.cs</code> | <strong>Método:</strong> <code>insertar_Ciudad()</code></p>
+<pre class="sql-box">
+INSERT INTO OIDAR4(
+    OIDO08, OIDO09, OIDO10, OIDCO4, OIDNO3, 
+    OIDUS8, OIDFE9, OIDUS9, OIDF01, OIDCO5, OIDCO6
+) VALUES (
+    {OID}, 
+    {OIDREGION}, 
+    {OIDPROVINCIA}, 
+    '{CODIGO}', 
+    '{NOMBRE}', 
+    '{USUARIOCREA}', 
+    '{FECHACREA}', 
+    '{USUARIOMODIFICA}', 
+    '{FECHAMODIFICA}', 
+    '{CODIGOIATA}', 
+    '{CODIGOOACI}'
+);
+</pre>
+
+<!-- ================= CAPÍTULO 5 ================= -->
+<h1>5. Procedimientos Almacenados Transaccionales (Stored Procedures)</h1>
+<p>Una vez completada la inyección en las tablas intermedias, el sistema orquesta la ejecución atómica de los siguientes procedimientos almacenados en la colección de producción <code>DGACDATPRO</code>:</p>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 25%;">Procedimiento Almacenado</th>
+            <th style="width: 20%;">Tabla Intermedia Origen</th>
+            <th style="width: 25%;">Tablas Destino en DB2</th>
+            <th style="width: 30%;">Efecto Transaccional</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>CALL PA_ACTUALIZAMAT</code></td>
+            <td><code>AERAR3</code></td>
+            <td><code>AERAR1</code> (Maestro Aeronaves)</td>
+            <td>Compara matrículas existentes; actualiza estados, MTOW y configuraciones técnicas o inserta nuevos registros aeronáuticos homologados.</td>
+        </tr>
+        <tr>
+            <td><code>CALL PA_ACTUALIZACIAAV</code></td>
+            <td><code>OIDAR5</code> y <code>OIDAR4</code></td>
+            <td><code>OIDAR1</code> (Compañías), Catálogo Ciudades</td>
+            <td>Sincroniza operadoras aéreas, códigos OACI/IATA, representantes legales y valida pertenencia territorial con el padrón de ciudades.</td>
+        </tr>
+        <tr>
+            <td><code>CALL PA_ACTUALIZAEMPRESA</code></td>
+            <td><code>OIDA10</code></td>
+            <td>Padrón Maestro Clientes / Recaudación</td>
+            <td>Consolida cédulas, RUCs y nombres de razón social hacia el módulo de facturación y cobros de autorizaciones.</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="callout">
+    <div class="callout-title">Parámetros de Ejecución ADO.NET:</div>
+    <code>cm.CommandType = CommandType.StoredProcedure;</code><br>
+    <code>cm.CommandTimeout = 0; // Sin límite de tiempo por volumen de datos</code>
+</div>
+
+<!-- ================= CAPÍTULO 6 ================= -->
+<h1>6. Resumen de Flujo de Datos y Conclusiones Técnicas</h1>
+<ol>
+    <li><strong>Extracción selectiva:</strong> Se filtran exclusivamente las altas y modificaciones generadas en el día en curso en el servidor operativo P550.</li>
+    <li><strong>Saneamiento de cadenas:</strong> Los métodos en <code>TablasRecuperadas.cs</code> y <code>ValidaCampos.cs</code> eliminan caracteres especiales conflictivos (<code>@,;'-.%</code>) y recortan los anchos fijos de columna antes de serializar el SQL.</li>
+    <li><strong>Aislamiento temporal:</strong> Se emplean las tablas intermedias <code>AERAR3</code>, <code>OIDAR5</code>, <code>OIDA10</code> y <code>OIDAR4</code> como zona de amortiguamiento (Staging Zone), garantizando que las tablas maestras de producción no sufran bloqueos de fila durante la transferencia.</li>
+    <li><strong>Consolidación por Stored Procedures:</strong> Los procedimientos en DB2 iSeries garantizan la consistencia referencial y aplican las reglas de negocio nativas del sistema de autorizaciones.</li>
+</ol>
+
+<div style="height: 30pt;"></div>
+<p style="text-align: center; color: #718096; font-size: 9pt;">
+    — Fin del Manual Técnico SIGADGACWEB (Versión 2.0) —<br>
+    Dirección General de Aviación Civil del Ecuador - Dirección de TIC
+</p>
+
+</div>
+</body>
+</html>

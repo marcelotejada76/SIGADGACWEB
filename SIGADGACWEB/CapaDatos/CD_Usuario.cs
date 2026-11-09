@@ -34,8 +34,9 @@ namespace CapaDatos
         /// Metodo obtiene el usuario
         /// </summary>
         /// <param name="codigoUsuario"></param>
+        /// <param name="conexionExistente">Conexión DB2 opcional ya abierta para reutilizar</param>
         /// <returns></returns>
-        public tbUsuario GetUsuarioPorCodigo(string codigoUsuario)
+        public tbUsuario GetUsuarioPorCodigo(string codigoUsuario, iDB2Connection conexionExistente = null)
         {
             tbUsuario oUsuario = null;
             StringBuilder sb = new StringBuilder();
@@ -51,61 +52,112 @@ namespace CapaDatos
             sb.Append(" FROM USUARC LEFT JOIN SUBAR2 ON (USUCO1 = SUBCOD) LEFT JOIN USUAR1 ON(USUCO8 = USUCOD) LEFT JOIN DIRARC ON(USUCO1 = DIRCO3)  WHERE USUCOD = '" + codigoUsuario.ToUpper() + "'");
 
             query = sb.ToString();
-            iDB2Command cmd;
+
+            Action<iDB2Connection> ejecutarConsulta = (conn) =>
+            {
+                using (iDB2Command cmd = new iDB2Command(query, conn))
+                {
+                    using (iDB2DataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            oUsuario = new tbUsuario();
+                            oUsuario.CodigoUsuario = dr["CodigoUsuario"].ToString();
+                            oUsuario.NombresUsuario = dr["NombresUsuario"].ToString();
+                            oUsuario.ApellidosUsuario = dr["ApellidosUsuario"].ToString();
+                            oUsuario.TipoIdentificacion = dr["TipoIdentificacion"].ToString();
+                            oUsuario.CedulaUsuario = dr["CedulaUsuario"].ToString();
+                            oUsuario.CorreoUsuario = dr["CorreoUsuario"].ToString();
+                            oUsuario.ClaveUsuario = dr["ClaveUsuario"].ToString();
+                            oUsuario.EstadoActividad = dr["EstadoActividad"].ToString();
+                            oUsuario.TipoAplicacion = dr["TipoAplicacion"].ToString();
+                            oUsuario.IdentificacionTributaria = dr["IdentificacionTributaria"].ToString();
+                            oUsuario.NumeroRuc = dr["NumeroRuc"].ToString();
+                            oUsuario.UsuarioCreacion = dr["UsuarioCreacion"].ToString();
+                            oUsuario.FechaCreacion = dr["FechaCreacion"].ToString();
+                            oUsuario.HoraCreacion = dr["HoraCreacion"].ToString();
+                            oUsuario.DispositivoCreacion = dr["DispositivoCreacion"].ToString();
+                            oUsuario.UsuarioModificacion = dr["UsuarioModificacion"].ToString();
+                            oUsuario.FechaModificacion = dr["FechaModificacion"].ToString();
+                            oUsuario.HoraModificacion = dr["HoraModificacion"].ToString();
+                            oUsuario.DispositivoModificacion = dr["DispositivoModificacion"].ToString();
+                            oUsuario.CodigoSubsistema = dr["CodigoSubsistema"].ToString();
+                            oUsuario.CodigoGestion = dr["CodigoGestion"].ToString();
+                            oUsuario.CodigoModulo = dr["CodigoModulo"].ToString();
+                            oUsuario.CodigoRol = dr["CodigoRol"].ToString();
+                            oUsuario.CodigoCiudad = dr["CodigoCiudad"].ToString();
+                            oUsuario.CodigoDependencia = dr["CodigoDependencia"].ToString();
+                            oUsuario.DescripcionSubSistema = dr["DescripcionSubSistema"].ToString();
+                            oUsuario.NombreCorto = dr["NombreCorto"].ToString();
+                            oUsuario.Cargo = dr["Cargo"].ToString();
+                            oUsuario.CentroContable = dr["CentroContable"].ToString();
+                        }
+                        dr.Close();
+                    }
+                }
+            };
+
+            if (conexionExistente != null)
+            {
+                ejecutarConsulta(conexionExistente);
+            }
+            else
+            {
+                try
+                {
+                    using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                    {
+                        oConexion.Open();
+                        ejecutarConsulta(oConexion);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    oUsuario = null;
+                    throw ex;
+                }
+            }
+
+            return oUsuario;
+        }
+
+        /// <summary>
+        /// Metodo optimizado para inicio de sesion: obtiene el usuario y sus menus/submenus en una sola conexion a DB2
+        /// </summary>
+        /// <param name="codigoUsuario"></param>
+        /// <param name="usuario"></param>
+        /// <param name="menus"></param>
+        /// <returns>True si el usuario existe, false en caso contrario</returns>
+        public bool ObtenerDatosInicioSesion(string codigoUsuario, out tbUsuario usuario, out List<tbMenu> menus)
+        {
+            usuario = null;
+            menus = null;
+
             try
             {
-
-
                 using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
                 {
-                    cmd = new iDB2Command(query, oConexion);
                     oConexion.Open();
-                    iDB2DataReader dr = cmd.ExecuteReader();
-                    while (dr.Read())
+
+                    // 1. Obtener datos del usuario
+                    usuario = GetUsuarioPorCodigo(codigoUsuario, oConexion);
+
+                    if (usuario == null)
                     {
-                        oUsuario = new tbUsuario();
-                        oUsuario.CodigoUsuario = dr["CodigoUsuario"].ToString();
-                        oUsuario.NombresUsuario = dr["NombresUsuario"].ToString();
-                        oUsuario.ApellidosUsuario = dr["ApellidosUsuario"].ToString();
-                        oUsuario.TipoIdentificacion = dr["TipoIdentificacion"].ToString();
-                        oUsuario.CedulaUsuario = dr["CedulaUsuario"].ToString();
-                        oUsuario.CorreoUsuario = dr["CorreoUsuario"].ToString();
-                        oUsuario.ClaveUsuario = dr["ClaveUsuario"].ToString();
-                        oUsuario.EstadoActividad = dr["EstadoActividad"].ToString();
-                        oUsuario.TipoAplicacion = dr["TipoAplicacion"].ToString();
-                        oUsuario.IdentificacionTributaria = dr["IdentificacionTributaria"].ToString();
-                        oUsuario.NumeroRuc = dr["NumeroRuc"].ToString();
-                        oUsuario.UsuarioCreacion = dr["UsuarioCreacion"].ToString();
-                        oUsuario.FechaCreacion = dr["FechaCreacion"].ToString();
-                        oUsuario.HoraCreacion = dr["HoraCreacion"].ToString();
-                        oUsuario.DispositivoCreacion = dr["DispositivoCreacion"].ToString();
-                        oUsuario.UsuarioModificacion = dr["UsuarioModificacion"].ToString();
-                        oUsuario.FechaModificacion = dr["FechaModificacion"].ToString();
-                        oUsuario.HoraModificacion = dr["HoraModificacion"].ToString();
-                        oUsuario.DispositivoModificacion = dr["DispositivoModificacion"].ToString();
-                        oUsuario.CodigoSubsistema = dr["CodigoSubsistema"].ToString();
-                        oUsuario.CodigoGestion = dr["CodigoGestion"].ToString();
-                        oUsuario.CodigoModulo = dr["CodigoModulo"].ToString();
-                        oUsuario.CodigoRol = dr["CodigoRol"].ToString();
-                        oUsuario.CodigoCiudad = dr["CodigoCiudad"].ToString();
-                        oUsuario.CodigoDependencia = dr["CodigoDependencia"].ToString();
-                        oUsuario.DescripcionSubSistema = dr["DescripcionSubSistema"].ToString();
-                        oUsuario.NombreCorto = dr["NombreCorto"].ToString();
-                        oUsuario.Cargo = dr["Cargo"].ToString();
-                        oUsuario.CentroContable = dr["CentroContable"].ToString();
-
-                        // oUsuario.oMenu = CD_Menu.Instancia.GetMenuPorCodigo(oUsuario.CodigoUsuario);
+                        return false;
                     }
-                    dr.Close();
-                }
 
+                    // 2. Obtener menus y submenus con la misma conexion abierta
+                    menus = CD_Menu.Instancia.GetMenuPorCodigo(codigoUsuario, oConexion);
+                    return true;
+                }
             }
             catch (Exception ex)
             {
-                oUsuario = null;
+                usuario = null;
+                menus = null;
                 throw ex;
             }
-            return oUsuario;
         }
 
         /// <summary>

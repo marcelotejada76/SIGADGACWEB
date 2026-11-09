@@ -369,6 +369,9 @@ namespace DepositosCompanias.Controllers
 
                 using (var client = new WebClient())
                 {
+                    // Deshabilitar proxy del sistema para evitar retrasos de detección de red/WPAD en Windows/.NET
+                    client.Proxy = null;
+
                     var values = new System.Collections.Specialized.NameValueCollection();
                     values["secret"] = secretKey;
                     values["response"] = token;

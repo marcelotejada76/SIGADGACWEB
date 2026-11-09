@@ -1,4 +1,4 @@
-﻿using CapaModelo;
+using CapaModelo;
 using IBM.Data.DB2.iSeries;
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace CapaDatos
         /// </summary>
         /// <param name="codigoUsuario"></param>
         /// <returns></returns>
-        public List<tbMenu> GetMenuPorCodigo(string codigoUsuario)
+        public List<tbMenu> GetMenuPorCodigo(string codigoUsuario, iDB2Connection conexionExistente = null)
         {
             List<tbMenu> listarMenu = new List<tbMenu>();           
             StringBuilder sb = new StringBuilder();
@@ -50,52 +50,81 @@ namespace CapaDatos
             sb.Append(" WHERE USUCOD = '" + codigoUsuario.ToUpper() + "'");
             sb.Append(" AND (SELECT COUNT(*) FROM SUBAR7 WHERE MENCO1 = SUBC10 AND MENCO2 = SUBC11 AND MENCO3 = SUBC12 AND MENCO4 = SUBC13 AND MENCOD = SUBC14) > 0");
             query = sb.ToString();
-            iDB2Command cmd;
-            try
+
+            Action<iDB2Connection> cargarMenuYSubMenu = (conn) =>
             {
-
-
-                using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                using (iDB2Command cmd = new iDB2Command(query, conn))
                 {
-                    cmd = new iDB2Command(query, oConexion);
-                    oConexion.Open();
-                    iDB2DataReader dr = cmd.ExecuteReader();
-                    while (dr.Read())
+                    using (iDB2DataReader dr = cmd.ExecuteReader())
                     {
-                        tbMenu oMenu = new tbMenu();
-                        oMenu.CodigoSubsistema = dr["CodigoSubsistema"].ToString();
-                        oMenu.CodigoGestion = dr["CodigoGestion"].ToString();
-                        oMenu.CodigoModulo = dr["CodigoModulo"].ToString();
-                        oMenu.CodigoRol = dr["CodigoRol"].ToString();
-                        oMenu.CodigoMenu = dr["CodigoMenu"].ToString();
-                        oMenu.DescripcionMenu = dr["DescripcionMenu"].ToString();
-                        oMenu.TipoOpcionMenu = dr["TipoOpcionMenu"].ToString();
-                        oMenu.EstadoMenu = dr["EstadoMenu"].ToString();
-                        oMenu.UsuarioCreacion = dr["UsuarioCreacion"].ToString();
-                        oMenu.FechaCreacion = dr["FechaCreacion"].ToString();
-                        oMenu.HoraCreacion = dr["HoraCreacion"].ToString();
-                        oMenu.DispositivoCreacion = dr["DispositivoCreacion"].ToString();
-                        oMenu.UsuarioModificacion = dr["UsuarioModificacion"].ToString();
-                        oMenu.FechaModificacion = dr["FechaModificacion"].ToString();
-                        oMenu.HoraModificacion = dr["HoraModificacion"].ToString();
-                        oMenu.DispositivoModificacion = dr["DispositivoModificacion"].ToString();  
-                        oMenu.codigoServidorReport = dr["codigoServidorReport"].ToString();
-                        oMenu.DescripcionServidorReport = dr["DescripcionServidorReport"].ToString();
-                        listarMenu.Add(oMenu);
-                    }
-                    dr.Close();
-                    foreach (var item in listarMenu)
-                    {
-                        item.oSubMenu = CD_SubMenu.Instancia.GetSubMenuPorCodigo(codigoUsuario, item.CodigoMenu);
+                        while (dr.Read())
+                        {
+                            tbMenu oMenu = new tbMenu();
+                            oMenu.CodigoSubsistema = dr["CodigoSubsistema"].ToString();
+                            oMenu.CodigoGestion = dr["CodigoGestion"].ToString();
+                            oMenu.CodigoModulo = dr["CodigoModulo"].ToString();
+                            oMenu.CodigoRol = dr["CodigoRol"].ToString();
+                            oMenu.CodigoMenu = dr["CodigoMenu"].ToString();
+                            oMenu.DescripcionMenu = dr["DescripcionMenu"].ToString();
+                            oMenu.TipoOpcionMenu = dr["TipoOpcionMenu"].ToString();
+                            oMenu.EstadoMenu = dr["EstadoMenu"].ToString();
+                            oMenu.UsuarioCreacion = dr["UsuarioCreacion"].ToString();
+                            oMenu.FechaCreacion = dr["FechaCreacion"].ToString();
+                            oMenu.HoraCreacion = dr["HoraCreacion"].ToString();
+                            oMenu.DispositivoCreacion = dr["DispositivoCreacion"].ToString();
+                            oMenu.UsuarioModificacion = dr["UsuarioModificacion"].ToString();
+                            oMenu.FechaModificacion = dr["FechaModificacion"].ToString();
+                            oMenu.HoraModificacion = dr["HoraModificacion"].ToString();
+                            oMenu.DispositivoModificacion = dr["DispositivoModificacion"].ToString();  
+                            oMenu.codigoServidorReport = dr["codigoServidorReport"].ToString();
+                            oMenu.DescripcionServidorReport = dr["DescripcionServidorReport"].ToString();
+                            listarMenu.Add(oMenu);
+                        }
+                        dr.Close();
                     }
                 }
 
-            }
-            catch (Exception ex)
+                // Carga optimizada: todos los submenus se obtienen en una sola consulta reutilizando la misma conexion abierta
+                List<tbSubMenu> todosSubMenus = CD_SubMenu.Instancia.GetSubMenuPorUsuario(codigoUsuario, conn);
+                var subMenusAgrupados = (todosSubMenus ?? new List<tbSubMenu>())
+                    .GroupBy(s => s.CodigoMenu)
+                    .ToDictionary(g => g.Key, g => g.ToList());
+
+                foreach (var item in listarMenu)
+                {
+                    List<tbSubMenu> subs;
+                    if (subMenusAgrupados.TryGetValue(item.CodigoMenu, out subs))
+                    {
+                        item.oSubMenu = subs;
+                    }
+                    else
+                    {
+                        item.oSubMenu = new List<tbSubMenu>();
+                    }
+                }
+            };
+
+            if (conexionExistente != null)
             {
-                listarMenu = null;
-                throw ex;
+                cargarMenuYSubMenu(conexionExistente);
             }
+            else
+            {
+                try
+                {
+                    using (iDB2Connection oConexion = new iDB2Connection(ConexionDB2.CadenaConexion))
+                    {
+                        oConexion.Open();
+                        cargarMenuYSubMenu(oConexion);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    listarMenu = null;
+                    throw ex;
+                }
+            }
+
             return listarMenu;
         }
 

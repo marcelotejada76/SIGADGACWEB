@@ -72,14 +72,15 @@ namespace SistemaIntegradoGestion.Controllers
 
                 if (estado == "200")
                 {
-                    if (CD_Usuario.Instancia.GetUsuarioExistePorCodigo(login.Usuario))
+                    CapaModelo.tbUsuario ousuario;
+                    List<CapaModelo.tbMenu> oMenu;
+
+                    if (CD_Usuario.Instancia.ObtenerDatosInicioSesion(login.Usuario, out ousuario, out oMenu))
                     {
-                        var ousuario = CD_Usuario.Instancia.GetUsuarioPorCodigo(login.Usuario);
-                        var oMenu = CD_Menu.Instancia.GetMenuPorCodigo(login.Usuario);
                         Session["Usuario"] = ousuario;
                         Session["MenuMaster"] = oMenu;
-                        Session["name"] = ousuario.NombresUsuario + " " + ousuario.ApellidosUsuario;
-                        Session["correo"] = ousuario.CorreoUsuario.Trim();
+                        Session["name"] = (ousuario.NombresUsuario + " " + ousuario.ApellidosUsuario).Trim();
+                        Session["correo"] = !string.IsNullOrEmpty(ousuario.CorreoUsuario) ? ousuario.CorreoUsuario.Trim() : string.Empty;
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -125,6 +126,9 @@ namespace SistemaIntegradoGestion.Controllers
 
                 using (var client = new WebClient())
                 {
+                    // Deshabilitar proxy del sistema para evitar retrasos de detección de red/WPAD en Windows/.NET
+                    client.Proxy = null;
+
                     var values = new System.Collections.Specialized.NameValueCollection();
                     values["secret"] = secretKey;
                     values["response"] = token;

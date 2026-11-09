@@ -1,0 +1,536 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Manual del Proyecto - Sistema Integrado de Gestión (SIGADGACWEB)</title>
+<!--[if gte mso 9]>
+<xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page {
+    size: letter;
+    margin: 2.2cm 2.2cm 2.2cm 2.2cm;
+    mso-header-margin: 1.25cm;
+    mso-footer-margin: 1.25cm;
+    mso-footer: f1;
+}
+div.WordSection1 {
+    page: WordSection1;
+}
+body {
+    font-family: 'Calibri', 'Arial', sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.35;
+    color: #2b2b2b;
+}
+h1, h2, h3, h4 {
+    font-family: 'Calibri Light', 'Arial', sans-serif;
+    font-weight: bold;
+    color: #1a365d;
+}
+h1 {
+    font-size: 19pt;
+    border-bottom: 2.5px solid #0056b3;
+    padding-bottom: 4px;
+    margin-top: 22pt;
+    margin-bottom: 10pt;
+    page-break-before: always;
+}
+h1.no-break {
+    page-break-before: avoid;
+}
+h2 {
+    font-size: 14pt;
+    color: #0b4f8a;
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 3px;
+    margin-top: 16pt;
+    margin-bottom: 7pt;
+}
+h3 {
+    font-size: 12pt;
+    color: #2c5282;
+    margin-top: 12pt;
+    margin-bottom: 5pt;
+}
+p {
+    margin: 0 0 7pt 0;
+    text-align: justify;
+}
+.cover {
+    text-align: center;
+    padding-top: 45pt;
+    padding-bottom: 70pt;
+}
+.cover-institution {
+    font-size: 16.5pt;
+    font-weight: bold;
+    color: #1a365d;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 5pt;
+}
+.cover-subinstitution {
+    font-size: 12pt;
+    color: #4a5568;
+    text-transform: uppercase;
+    margin-bottom: 30pt;
+}
+.cover-title {
+    font-size: 26pt;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 12pt;
+    line-height: 1.2;
+}
+.cover-subtitle {
+    font-size: 14pt;
+    color: #2b6cb0;
+    margin-bottom: 35pt;
+    font-style: italic;
+}
+.cover-box {
+    margin: 0 auto;
+    width: 86%;
+    border-top: 2.5px solid #0056b3;
+    border-bottom: 2.5px solid #0056b3;
+    padding: 14pt;
+    text-align: left;
+    background-color: #f7fafc;
+}
+.cover-box table {
+    width: 100%;
+    font-size: 9.5pt;
+}
+.cover-box td {
+    padding: 3pt 5pt;
+}
+table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8pt;
+    margin-bottom: 12pt;
+    font-size: 9.5pt;
+}
+table.data-table th {
+    background-color: #1a365d;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: left;
+    padding: 5.5pt 7.5pt;
+    border: 1px solid #cbd5e0;
+}
+table.data-table td {
+    padding: 4.5pt 7.5pt;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+}
+table.data-table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+.callout {
+    background-color: #ebf8ff;
+    border-left: 4.5px solid #3182ce;
+    padding: 9pt 11pt;
+    margin: 9pt 0;
+    border-radius: 4px;
+}
+.callout-title {
+    font-weight: bold;
+    color: #2b6cb0;
+    margin-bottom: 3pt;
+}
+.callout-warning {
+    background-color: #fffaf0;
+    border-left: 4.5px solid #dd6b20;
+}
+.callout-warning .callout-title {
+    color: #c05621;
+}
+code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 9pt;
+    background-color: #edf2f7;
+    padding: 1pt 3pt;
+    border-radius: 3px;
+    color: #805ad5;
+}
+pre {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 8.5pt;
+    background-color: #1a202c;
+    color: #edf2f7;
+    padding: 9pt;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 6pt 0 10pt 0;
+    line-height: 1.25;
+}
+ul, ol {
+    margin: 0 0 8pt 16pt;
+    padding: 0;
+}
+li {
+    margin-bottom: 3.5pt;
+}
+.badge-mod {
+    display: inline-block;
+    padding: 2pt 6pt;
+    font-size: 8pt;
+    font-weight: bold;
+    border-radius: 3px;
+    color: #fff;
+    background-color: #1e3a8a;
+}
+</style>
+</head>
+<body>
+<div class="WordSection1">
+
+<!-- ================= PORTADA ================= -->
+<div class="cover">
+    <div class="cover-institution">Dirección General de Aviación Civil</div>
+    <div class="cover-subinstitution">Dirección de Tecnologías de la Información y Comunicación</div>
+    <div style="height: 20pt;"></div>
+    <div class="cover-title">MANUAL DEL PROYECTO</div>
+    <div class="cover-subtitle">Sistema Integrado de Gestión (SIGADGACWEB)<br>Ficha Técnica, Arquitectura de Solución, Catálogo de Módulos y Guía Maestra</div>
+    
+    <div style="height: 30pt;"></div>
+    <div class="cover-box">
+        <table>
+            <tr>
+                <td style="width: 32%; font-weight: bold; color: #1a365d;">Nombre del Proyecto:</td>
+                <td><strong>SIGADGACWEB</strong> - Sistema Integrado de Gestión Web</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Entidad Propietaria:</td>
+                <td>Dirección General de Aviación Civil del Ecuador (DGAC)</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Estructura de la Solución:</td>
+                <td>Solución Visual Studio (.sln) multi-proyecto (4 proyectos)</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Proyectos Componentes:</td>
+                <td>SistemaIntegradoGestion, CapaDatos, CapaModelo, DepositosCompanias</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Stack de Desarrollo:</td>
+                <td>C# .NET 4.5, ASP.NET MVC 5, Razor, AdminLTE, Bootstrap, DB2 iSeries, ODBC P550</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Versión del Documento:</td>
+                <td>1.0 (Manual Maestro del Proyecto)</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Fecha de Emisión:</td>
+                <td>Noviembre 2026</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; color: #1a365d;">Estado del Proyecto:</td>
+                <td>En Producción y Mantenimiento Evolutivo</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- ================= CONTROL DE VERSIONES ================= -->
+<h1 class="no-break">Control de Versiones y Aprobaciones del Proyecto</h1>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 10%;">Versión</th>
+            <th style="width: 15%;">Fecha</th>
+            <th style="width: 45%;">Descripción del Documento</th>
+            <th style="width: 30%;">Responsable</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1.0</td>
+            <td>06/11/2026</td>
+            <td>Emisión del Manual Maestro del Proyecto SIGADGACWEB. Documentación de estructura de proyectos, catálogo de 9 módulos funcionales, flujo tecnológico e integración institucional.</td>
+            <td>Equipo de Desarrollo DTIC - DGAC</td>
+        </tr>
+    </tbody>
+</table>
+
+<div style="height: 15pt;"></div>
+<h3>Firmas de Aprobación Institucional</h3>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 33%;">Líder de Proyecto:</th>
+            <th style="width: 33%;">Arquitecto de Software:</th>
+            <th style="width: 34%;">Director de Tecnologías (DTIC):</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="height: 55pt;">
+            <td><br><br>__________________________<br><strong>Gestión de Proyectos TIC</strong><br>Dirección General de Aviación Civil</td>
+            <td><br><br>__________________________<br><strong>Ingeniería y Desarrollo</strong><br>Dirección General de Aviación Civil</td>
+            <td><br><br>__________________________<br><strong>Dirección de TIC</strong><br>Dirección General de Aviación Civil</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ================= CAPÍTULO 1 ================= -->
+<h1>1. Resumen Ejecutivo y Ficha Técnica del Proyecto</h1>
+
+<h2>1.1. Justificación y Objetivos Institucionales</h2>
+<p>El <strong>Sistema Integrado de Gestión Web (SIGADGACWEB)</strong> es la plataforma tecnológica central de la Dirección General de Aviación Civil (DGAC) encargada de unificar los procesos operativos, regulatorios, financieros y de control del espacio aéreo nacional.</p>
+<p>El proyecto surge de la necesidad de:</p>
+<ol>
+    <li><strong>Centralizar las operaciones aeronáuticas:</strong> Integrar en una única plataforma web la gestión de aeronaves, matrículas, control de tránsito aéreo (ATC), sobrevuelos, manifiestos de carga/pasajeros y red de mensajería aeronáutica AFTN.</li>
+    <li><strong>Asegurar la recaudación y control financiero:</strong> Administrar los depósitos de compañías aéreas, liquidación de tasas por servicios aeroportuarios, afectaciones presupuestarias POA y procesos coactivos.</li>
+    <li><strong>Garantizar la interoperabilidad intersistemas:</strong> Conectar las bases de datos operativas de campo con el servidor de misión crítica <strong>IBM Power9 (DB2 iSeries / AS400)</strong> donde reside el nuevo <em>Sistema de Autorizaciones</em>.</li>
+</ol>
+
+<h2>1.2. Ficha Técnica General</h2>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 30%;">Parámetro</th>
+            <th style="width: 70%;">Detalle Técnico Institucional</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Nombre de la Solución</strong></td>
+            <td><code>SIGADGACWEB.sln</code> (Microsoft Visual Studio Solution Format 12.00)</td>
+        </tr>
+        <tr>
+            <td><strong>Lenguaje y Framework</strong></td>
+            <td>C# 6.0, Microsoft .NET Framework 4.5</td>
+        </tr>
+        <tr>
+            <td><strong>Patrón de Arquitectura</strong></td>
+            <td>N-Tier / N-Capas (Presentación MVC, Capa de Datos con Singleton, Modelos POCO)</td>
+        </tr>
+        <tr>
+            <td><strong>Servidores de Base de Datos</strong></td>
+            <td>
+                1. <strong>IBM Power9:</strong> DB2 for iSeries (Esquemas <code>DGACDATPRO</code> y <code>DGACSYS</code>).<br>
+                2. <strong>Servidor P550:</strong> Base relacional operativa conectada mediante controlador ODBC.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Servidor Web (Hosting)</strong></td>
+            <td>Microsoft Internet Information Services (IIS 8.5 / 10.0) en Windows Server</td>
+        </tr>
+        <tr>
+            <td><strong>Seguridad Perimetral</strong></td>
+            <td>Cloudflare Turnstile (Anti-Bot), Autenticación RBAC dinámica DB2, Sesiones en memoria.</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ================= CAPÍTULO 2 ================= -->
+<h1>2. Estructura de la Solución de Software</h1>
+<p>La solución Visual Studio está dividida modularmente en 4 proyectos que segregan el código según su responsabilidad de software:</p>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 25%;">Proyecto</th>
+            <th style="width: 20%;">Tipo de Proyecto</th>
+            <th style="width: 55%;">Responsabilidad y Componentes Clave</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>SistemaIntegradoGestion</strong></td>
+            <td>ASP.NET Web Application (MVC 5)</td>
+            <td>Es el portal web institucional accesible por los usuarios. Aloja todos los controladores (Controllers), vistas Razor (.cshtml), assets visuales (AdminLTE, Bootstrap, scripts JS), filtros de sesión y configuración en <code>Web.config</code>.</td>
+        </tr>
+        <tr>
+            <td><strong>CapaDatos</strong></td>
+            <td>Class Library (.NET Framework)</td>
+            <td>Implementa el acceso a datos. Contiene los Data Access Objects (DAOs) bajo el patrón <strong>Singleton</strong> (<code>CD_Usuario</code>, <code>CD_Menu</code>, <code>CD_SubMenu</code>, <code>CD_ActualizaMatClienCiud</code>), gestión de conexiones DB2 (<code>ConexionDB2</code>) y ODBC (<code>ConexionP550</code>), y pipelines ETL (<code>TablasRecuperadas</code>, <code>InsertarPower9</code>, <code>ValidaDuplicados</code>).</td>
+        </tr>
+        <tr>
+            <td><strong>CapaModelo</strong></td>
+            <td>Class Library (.NET Framework)</td>
+            <td>Contiene las entidades de negocio POCO y DTOs (Data Transfer Objects) como <code>tbUsuario</code>, <code>tbMenu</code>, <code>tbSubMenu</code>, <code>tbMatriculas</code>, transportando los datos entre capas sin dependencias de base de datos.</td>
+        </tr>
+        <tr>
+            <td><strong>DepositosCompanias</strong></td>
+            <td>ASP.NET Web Application / Módulo</td>
+            <td>Módulo especializado en la gestión financiera, control de depósitos bancarios, pagos y recaudaciones de compañías aéreas comerciales y operadores privados.</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ================= CAPÍTULO 3 ================= -->
+<h1>3. Catálogo de Módulos Funcionales de SIGADGACWEB</h1>
+<p>A través de la inspección de controladores y vistas de la solución, se identifican 9 subsistemas o módulos funcionales principales:</p>
+
+<h2>3.1. Módulo 1: Seguridad, Usuarios y Menú Dinámico (RBAC)</h2>
+<p><span class="badge-mod">Controladores: Login, Home, ActualizacionContraseña</span></p>
+<ul>
+    <li><strong>Autenticación y Captcha:</strong> Validación de credenciales contra la tabla DB2 <code>USUARC</code> protegida con token Cloudflare Turnstile.</li>
+    <li><strong>Generación Dinámica de Menús:</strong> El menú lateral no está estático; se consulta en tiempo real mediante las tablas <code>USUARC -> ROLAR2 -> MENAR1 -> SUBAR7</code>, mapeando el controlador y vista autorizada según el rol del usuario.</li>
+    <li><strong>Auditoría de Acceso:</strong> Registro de fecha, hora, dispositivo y usuario de modificación.</li>
+</ul>
+
+<h2>3.2. Módulo 2: Planificación y Modificación POA (Presupuesto)</h2>
+<p><span class="badge-mod">Controlador: ModificacionPoaController</span></p>
+<ul>
+    <li><strong>Solicitudes POA:</strong> Registro de solicitudes de modificación del Plan Operativo Anual de la DGAC.</li>
+    <li><strong>Afectación Presupuestaria:</strong> Clasificación de solicitudes con asignación de recursos vs. sin afectación presupuestaria.</li>
+    <li><strong>Documentos Habilitantes:</strong> Carga de justificativos técnicos y memorandos digitalizados.</li>
+    <li><strong>Flujo de Aprobación:</strong> Bandeja de revisión, verificación presupuestaria y aprobación por directores de área.</li>
+</ul>
+
+<h2>3.3. Módulo 3: Gestión Aeronáutica, Matrículas y Componentes</h2>
+<p><span class="badge-mod">Controladores: ActualizacionMatriculas, AeronaveComponente, CertificadoAeronavegabilidad</span></p>
+<ul>
+    <li><strong>Registro de Matrículas:</strong> Consulta detallada de fichas técnicas de aeronaves (MTOW, horas de vuelo, ciclos, fabricante, modelo, fecha de expedición).</li>
+    <li><strong>Partes y Componentes:</strong> Control de componentes críticos y motores asociados a cada aeronave.</li>
+    <li><strong>Certificados de Aeronavegabilidad:</strong> Seguimiento y emisión de certificados de aptitud de vuelo.</li>
+</ul>
+
+<h2>3.4. Módulo 4: Operaciones de Vuelo, Control ATC y Auditoría Radar</h2>
+<p><span class="badge-mod">Controladores: ControlAtc, ControlAtcDiario, HistoricoControlAtc, TotalesRecord, LogUsuarioAircon</span></p>
+<ul>
+    <li><strong>Bitácora Diaria ATC:</strong> Registro y supervisión de las operaciones conducidas por los Controladores de Tránsito Aéreo.</li>
+    <li><strong>Histórico y Estadísticas:</strong> Consolidación de totales de sobrevuelos, despegues y aterrizajes.</li>
+    <li><strong>Auditoría Aircon:</strong> Trazabilidad y logs de operadores en la consola de radar y gestión del espacio aéreo Aircon.</li>
+</ul>
+
+<h2>3.5. Módulo 5: Tráfico Aéreo, Sobrevuelos y Red AFTN</h2>
+<p><span class="badge-mod">Controladores: Sobrevuelo, MigracionSobrevuelos, MigracionVuelosNacIn, DescargaArchivosAftn, DescargaArchivosHistorical</span></p>
+<ul>
+    <li><strong>Autorizaciones de Sobrevuelo:</strong> Control de vuelos internacionales que cruzan la FIR Guayaquil / espacio aéreo ecuatoriano.</li>
+    <li><strong>Migración de Vuelos:</strong> Pipelines de homologación de movimientos de vuelos nacionales e internacionales.</li>
+    <li><strong>Mensajería AFTN:</strong> Descarga y procesamiento de telegramas aeronáuticos normalizados (FPL, ARR, DEP, CNL).</li>
+</ul>
+
+<h2>3.6. Módulo 6: Manifiestos de Carga y Pasajeros</h2>
+<p><span class="badge-mod">Controladores: CargaManifiesto, ManifiestoPax</span></p>
+<ul>
+    <li><strong>Carga y Descarga de Manifiestos:</strong> Carga masiva de manifiestos de vuelo en formatos digitales.</li>
+    <li><strong>Manifiesto de Pasajeros (PAX):</strong> Auditoría del volumen de pasajeros transportados para fines de tasas aeroportuarias.</li>
+</ul>
+
+<h2>3.7. Módulo 7: Recaudaciones, Depósitos y Coactivas</h2>
+<p><span class="badge-mod">Controladores: Depositos, DepositosVista, Charter, ActualizaDeudor, LiquidacionCoactivas, BasesCoactivas, PlanIncentivo</span></p>
+<ul>
+    <li><strong>Depósitos de Clientes:</strong> Carga y consulta de comprobantes de depósito bancario de aerolíneas.</li>
+    <li><strong>Vuelos Chárter:</strong> Flujo de aprobación financiera previa a la autorización de vuelo chárter comercial o privado.</li>
+    <li><strong>Gestión Coactiva:</strong> Determinación de bases coactivas, liquidación de deudas vencidas y convenios de pago.</li>
+    <li><strong>Planes de Incentivo:</strong> Monitoreo de descuentos e incentivos comerciales a aerolíneas de fomento.</li>
+</ul>
+
+<h2>3.8. Módulo 8: Repositorio Documental Técnico y Normativo</h2>
+<p><span class="badge-mod">Controladores: DocumentosDsna, DocumentosDescarga*, DocumentosIfpds, ControlDocumentosCns</span></p>
+<ul>
+    <li><strong>Documentos DSNA:</strong> Repositorio oficial de la Dirección de Servicios de Navegación Aérea con visor PDF integrado.</li>
+    <li><strong>Biblioteca Operacional:</strong> Clasificación de Cartas Aeronáuticas, Manuales de Procedimientos, Formularios y Documentos de Seguridad Operacional.</li>
+    <li><strong>Expedientes IFPDS y CNS:</strong> Expedientes individuales de procedimientos de vuelo por instrumentos y equipos CNS.</li>
+</ul>
+
+<h2>3.9. Módulo 9: Interoperabilidad y Sincronización DB2 Power9</h2>
+<p><span class="badge-mod">Controlador: ActualizaMatrClienCiudController</span></p>
+<ul>
+    <li><strong>Sincronización P550 ➔ Power9:</strong> Extracción de novedades de aeronaves, compañías, clientes y ciudades hacia la base de datos de autorizaciones en IBM DB2.</li>
+    <li><strong>Ejecución de Stored Procedures:</strong> Invocación transaccional de <code>PA_ACTUALIZAMAT</code>, <code>PA_ACTUALIZACIAAV</code> y <code>PA_ACTUALIZAEMPRESA</code> con <code>CommandTimeout = 0</code>.</li>
+</ul>
+
+<!-- ================= CAPÍTULO 4 ================= -->
+<h1>4. Pila Tecnológica y Dependencias de Librerías</h1>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th style="width: 25%;">Librería / Framework</th>
+            <th style="width: 20%;">Versión</th>
+            <th style="width: 55%;">Uso en la Solución</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>IBM.Data.DB2.iSeries</strong></td>
+            <td>12.0.0.0</td>
+            <td>Controlador nativo de ADO.NET para la comunicación directa con IBM Power9 / AS400.</td>
+        </tr>
+        <tr>
+            <td><strong>Microsoft.ReportViewer</strong></td>
+            <td>11.0 / 14.0</td>
+            <td>Motor de renderizado de reportes corporativos SSRS (SQL Server Reporting Services).</td>
+        </tr>
+        <tr>
+            <td><strong>DocumentFormat.OpenXml</strong></td>
+            <td>2.8.0.0</td>
+            <td>Generación y manipulación nativa de archivos Microsoft Word y Excel.</td>
+        </tr>
+        <tr>
+            <td><strong>EPPlus</strong></td>
+            <td>6.1.1.0</td>
+            <td>Exportación masiva de datos y reportería en hojas de cálculo Excel (.xlsx).</td>
+        </tr>
+        <tr>
+            <td><strong>iTextSharp</strong></td>
+            <td>5.5.9.0</td>
+            <td>Generación dinámica, sellado y visualización de documentos oficiales PDF.</td>
+        </tr>
+        <tr>
+            <td><strong>SweetAlert2</strong></td>
+            <td>Última</td>
+            <td>Diálogos modales animados y feedback asíncrono para el usuario final.</td>
+        </tr>
+        <tr>
+            <td><strong>AdminLTE</strong></td>
+            <td>3.x</td>
+            <td>Plantilla base de diseño responsive para paneles administrativos corporativos.</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ================= CAPÍTULO 5 ================= -->
+<h1>5. Guía de Instalación, Configuración y Despliegue</h1>
+
+<h2>5.1. Requisitos para el Entorno de Desarrollo</h2>
+<ul>
+    <li><strong>IDE:</strong> Microsoft Visual Studio 2017, 2019 o 2022 (con soporte para desarrollo web ASP.NET y .NET 4.5).</li>
+    <li><strong>IBM iSeries Access:</strong> Paquete <em>IBM i Access Client Solutions (ACS)</em> instalado para registrar la DLL <code>IBM.Data.DB2.iSeries</code> en el Global Assembly Cache (GAC).</li>
+    <li><strong>ODBC Driver:</strong> Configuración del Administrador de Orígenes de Datos ODBC de Windows (32 y 64 bits) con el DSN institucional hacia el servidor P550.</li>
+</ul>
+
+<h2>5.2. Parámetros de Configuración en <code>Web.config</code></h2>
+<p>El archivo <code>Web.config</code> del proyecto <code>SistemaIntegradoGestion</code> requiere los siguientes parámetros institucionales:</p>
+<pre>
+&lt;appSettings&gt;
+  &lt;add key="webpages:Version" value="3.0.0.0" /&gt;
+  &lt;add key="SSRSRReportsUrl" value="http://win-sqlserv-01/ReportServer/" /&gt;
+  &lt;add key="ReportViewerURL" value="Reporte/ReportViewer.aspx" /&gt;
+  &lt;add key="CloudflareTurnstile:SiteKey" value="0x4AAAAAAFX6O0uRB3ulkhYK" /&gt;
+  &lt;add key="CloudflareTurnstile:SecretKey" value="0x4AAAAAAFX6O4lo-bvUAlARW7ROdYGp-3M" /&gt;
+&lt;/appSettings&gt;
+</pre>
+
+<h2>5.3. Publicación y Despliegue en Servidor de Producción (IIS)</h2>
+<ol>
+    <li>Crear un <strong>Application Pool</strong> en IIS con .NET CLR Version: <code>v4.0.30319</code> y Managed Pipeline Mode: <code>Integrated</code>.</li>
+    <li>Habilitar la compatibilidad con aplicaciones de 32 bits si los drivers ODBC heredados lo requieren (<code>Enable 32-Bit Applications = True</code>).</li>
+    <li>Verificar conectividad por firewall desde el servidor web IIS hacia la IP <code>190.152.8.185</code> (puertos DB2 446 y 8470-8476).</li>
+    <li>Desplegar el artefacto compilado y validar el inicio de sesión institucional.</li>
+</ol>
+
+<div style="height: 35pt;"></div>
+<p style="text-align: center; color: #718096; font-size: 9pt;">
+    — Fin del Manual del Proyecto SIGADGACWEB —<br>
+    Dirección General de Aviación Civil del Ecuador - Dirección de TIC
+</p>
+
+</div>
+</body>
+</html>
+

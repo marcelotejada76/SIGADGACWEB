@@ -179,6 +179,7 @@
     <Compile Include="Controllers\CambioUsuarioOperaciones.cs" />
     <Compile Include="Controllers\DescargaArchivosAftnController.cs" />
     <Compile Include="Controllers\DescargaArchivosHistoricalController.cs" />
+    <Compile Include="Controllers\AutorizacionesSobrevueloController.cs" />
     <Compile Include="Controllers\PlanIncentivoController.cs" />
     <Compile Include="Controllers\BasesCoactivasController.cs" />
     <Compile Include="Controllers\LiquidacionCoactivasController.cs" />
